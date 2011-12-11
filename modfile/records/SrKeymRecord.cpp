@@ -17,19 +17,13 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrKeymRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrKeymRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KSIZ, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KWDA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -38,10 +32,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrItem1Record Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrKeymRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrKeymRecord, CSrItem1Record)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -68,7 +62,7 @@ CSrKeymRecord::CSrKeymRecord ()
  *=========================================================================*/
 void CSrKeymRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrItem1Record::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrKeymRecord::Destroy()
@@ -82,11 +76,7 @@ void CSrKeymRecord::Destroy (void)
  *=========================================================================*/
 void CSrKeymRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	CSrItem1Record::InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrKeymRecord::InitializeNew()
@@ -100,33 +90,13 @@ void CSrKeymRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrKeymRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
-	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
+	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
 		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KSIZ)
-	{
-		m_pKsizData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
-	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
 		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KWDA)
-	{
-		m_pKwdaData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_YNAM)
 	{
@@ -144,10 +114,9 @@ void CSrKeymRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pVmadData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrItem1Record::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -163,20 +132,10 @@ void CSrKeymRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrKeymRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
+	if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pKsizData == pSubrecord)
-		m_pKsizData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
-	else if (m_pKwdaData == pSubrecord)
-		m_pKwdaData = NULL;
 	else if (m_pYnamData == pSubrecord)
 		m_pYnamData = NULL;
 	else if (m_pZnamData == pSubrecord)
@@ -185,9 +144,8 @@ void CSrKeymRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pDataData = NULL;
 	else if (m_pVmadData == pSubrecord)
 		m_pVmadData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrItem1Record::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

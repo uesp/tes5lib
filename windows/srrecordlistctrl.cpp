@@ -588,12 +588,12 @@ static srreclistcolinit_t s_KeymListInit[] = {
 	{ SR_FIELD_EDITORID,  150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,	  5,	LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,	  50,	LVCFMT_CENTER },
-	{ SR_FIELD_ITEMNAME,  150,	LVCFMT_LEFT },
-	{ SR_FIELD_VALUE,	  60,	LVCFMT_CENTER },
-	{ SR_FIELD_WEIGHT,	  60,	LVCFMT_CENTER },
-	{ SR_FIELD_SCRIPT,	  80,	LVCFMT_CENTER },
+	//{ SR_FIELD_ITEMNAME,  150,	LVCFMT_LEFT },
+	//{ SR_FIELD_VALUE,	  60,	LVCFMT_CENTER },
+	//{ SR_FIELD_WEIGHT,	  60,	LVCFMT_CENTER },
+	//{ SR_FIELD_SCRIPT,	  80,	LVCFMT_CENTER },
 	{ SR_FIELD_MODEL,	  60,	LVCFMT_CENTER },
-	{ SR_FIELD_ICON,	  60,	LVCFMT_CENTER },
+	//{ SR_FIELD_ICON,	  60,	LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
@@ -875,6 +875,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_IPDS, s_IpdsListInit, &CSrIpdsRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MGEF, s_MgefListInit, &CSrMgefRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_KYWD, s_KywdListInit, &CSrKywdRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }
