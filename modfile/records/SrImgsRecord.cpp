@@ -17,14 +17,12 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrImgsRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrImgsRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_HNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ENAM, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -33,10 +31,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrImgsRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrImgsRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -63,7 +61,7 @@ CSrImgsRecord::CSrImgsRecord ()
  *=========================================================================*/
 void CSrImgsRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrImgsRecord::Destroy()
@@ -77,11 +75,7 @@ void CSrImgsRecord::Destroy (void)
  *=========================================================================*/
 void CSrImgsRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	CSrIdRecord::InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrImgsRecord::InitializeNew()
@@ -95,11 +89,7 @@ void CSrImgsRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrImgsRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_HNAM)
+	if (pSubrecord->GetRecordType() == SR_NAME_HNAM)
 	{
 		m_pHnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -119,10 +109,9 @@ void CSrImgsRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pEnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -138,9 +127,7 @@ void CSrImgsRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrImgsRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pHnamData == pSubrecord)
+	if (m_pHnamData == pSubrecord)
 		m_pHnamData = NULL;
 	else if (m_pCnamData == pSubrecord)
 		m_pCnamData = NULL;
@@ -150,9 +137,8 @@ void CSrImgsRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pTnamData = NULL;
 	else if (m_pEnamData == pSubrecord)
 		m_pEnamData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

@@ -503,6 +503,62 @@ static srreclistcolinit_t s_GrasListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
+static srreclistcolinit_t s_HazdListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_HdptListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_IdleListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_IdlmListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_ImadListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_ImgsListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_InfoListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
 static srreclistcolinit_t s_IngrListInit[] = {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
@@ -510,7 +566,23 @@ static srreclistcolinit_t s_IngrListInit[] = {
 	{ SR_FIELD_FULLNAME,	100,	LVCFMT_LEFT },
 	{ SR_FIELD_MODEL,		60,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
- };
+};
+
+static srreclistcolinit_t s_IpctListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_IpdsListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
 
 static srreclistcolinit_t s_KeymListInit[] = {
 	{ SR_FIELD_EDITORID,  150,	LVCFMT_LEFT },
@@ -791,7 +863,16 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_GLOB, s_GlobListInit, &CSrGlobRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_GMST, s_GmstListInit, &CSrGmstRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_GRAS, s_GrasListInit, &CSrGrasRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_HAZD, s_HazdListInit, &CSrHazdRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_HDPT, s_HdptListInit, &CSrHdptRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_IDLE, s_IdleListInit, &CSrIdleRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_IDLM, s_IdlmListInit, &CSrIdlmRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_IMAD, s_ImadListInit, &CSrImadRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_IMGS, s_ImgsListInit, &CSrImgsRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_INFO, s_InfoListInit, &CSrInfoRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_INGR, s_IngrListInit, &CSrIngrRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_IPCT, s_IpctListInit, &CSrIpctRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_IPDS, s_IpdsListInit, &CSrIpdsRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MGEF, s_MgefListInit, &CSrMgefRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_KYWD, s_KywdListInit, &CSrKywdRecord::s_FieldMap, SR_FIELD_EDITORID },
