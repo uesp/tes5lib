@@ -17,14 +17,12 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrLtexRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrLtexRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_HNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_GNAM, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -33,10 +31,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrLtexRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrLtexRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -63,7 +61,7 @@ CSrLtexRecord::CSrLtexRecord ()
  *=========================================================================*/
 void CSrLtexRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrLtexRecord::Destroy()
@@ -77,11 +75,7 @@ void CSrLtexRecord::Destroy (void)
  *=========================================================================*/
 void CSrLtexRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	CSrIdRecord::InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrLtexRecord::InitializeNew()
@@ -95,11 +89,7 @@ void CSrLtexRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrLtexRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
+	if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
 	{
 		m_pTnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -119,10 +109,9 @@ void CSrLtexRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pGnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -138,9 +127,7 @@ void CSrLtexRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrLtexRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pTnamData == pSubrecord)
+	if (m_pTnamData == pSubrecord)
 		m_pTnamData = NULL;
 	else if (m_pMnamData == pSubrecord)
 		m_pMnamData = NULL;
@@ -150,9 +137,8 @@ void CSrLtexRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pSnamData = NULL;
 	else if (m_pGnamData == pSubrecord)
 		m_pGnamData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

@@ -17,15 +17,13 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrLvliRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrLvliRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LLCT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLO, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLG, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -34,10 +32,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrLvliRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrLvliRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -64,7 +62,7 @@ CSrLvliRecord::CSrLvliRecord ()
  *=========================================================================*/
 void CSrLvliRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrLvliRecord::Destroy()
@@ -78,11 +76,7 @@ void CSrLvliRecord::Destroy (void)
  *=========================================================================*/
 void CSrLvliRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	CSrIdRecord::InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrLvliRecord::InitializeNew()
@@ -99,10 +93,6 @@ void CSrLvliRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
 		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LVLD)
 	{
@@ -124,10 +114,9 @@ void CSrLvliRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pLvlgData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -145,8 +134,6 @@ void CSrLvliRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
 	else if (m_pLvldData == pSubrecord)
 		m_pLvldData = NULL;
 	else if (m_pLvlfData == pSubrecord)
@@ -157,9 +144,8 @@ void CSrLvliRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pLvloData = NULL;
 	else if (m_pLvlgData == pSubrecord)
 		m_pLvlgData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
