@@ -112,7 +112,7 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
 
 	  if (pWeapon != NULL)
 	  {
-		  if (!m_Material.CompareNoCase(pWeapon->GetWeaponMaterial())) return (false);
+		  if (m_Material.CompareNoCase(pWeapon->GetWeaponMaterial())) return (false);
 	  }
     //if (pItem1 == NULL) return (false);
 
@@ -125,7 +125,7 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
   if (IsMaskWeaponType()) {
     pWeapon = SrCastClass(CSrWeapRecord, pRecord);
     if (pWeapon == NULL) return (false);
-	if (!m_WeaponType.CompareNoCase(pWeapon->GetWeaponType())) return (false);
+	if (m_WeaponType.CompareNoCase(pWeapon->GetWeaponType())) return (false);
    }
 
 	/* Do the armor types match? */
