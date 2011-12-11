@@ -71,9 +71,7 @@ CSrItem1Record::CSrItem1Record ()
 void CSrItem1Record::Destroy (void) 
 {
   m_pItemName = NULL;
-  m_pModel    = NULL;
-  m_pIcon     = NULL;
-
+  
   CSrIdKeyRecord::Destroy();
 }
 /*===========================================================================

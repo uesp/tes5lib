@@ -604,7 +604,25 @@ static srreclistcolinit_t s_KywdListInit[] =
 	{ SR_FIELD_FLAGS,			50,		LVCFMT_CENTER },
 	{ SR_FIELD_CNAM,		    50,		LVCFMT_CENTER },	
 	{ SR_FIELD_NONE, 0, 0 }
- };
+};
+
+static srreclistcolinit_t s_LcrtListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	   150,		LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		 	 5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,			50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+static srreclistcolinit_t s_LctnListInit[] = 
+{
+	{ SR_FIELD_EDITORID,		150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		 	5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,			50,		LVCFMT_CENTER },
+	{ SR_FIELD_FULLNAME,		120,	LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
 
 static srreclistcolinit_t s_LighListInit[] = {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
@@ -801,8 +819,6 @@ static srreclistcolinit_t s_WeapListInit[] = {
 
 static srreclistinfoinit_t s_ListInit[] = 
 {
-	//{ &SR_NAME_INGR, s_IngrListInit, &CSrIngrRecord::s_FieldMap, SR_FIELD_EDITORID },
-	//{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_LIGH, s_LighListInit, &CSrLighRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_LVSP, s_LvspListInit, &CSrLvspRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_LVLC, s_LvlcListInit, &CSrLvlcRecord::s_FieldMap, SR_FIELD_EDITORID },
@@ -873,6 +889,8 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_INGR, s_IngrListInit, &CSrIngrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_IPCT, s_IpctListInit, &CSrIpctRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_IPDS, s_IpdsListInit, &CSrIpdsRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_LCRT, s_LcrtListInit, &CSrLcrtRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_LCTN, s_LctnListInit, &CSrLctnRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MGEF, s_MgefListInit, &CSrMgefRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
