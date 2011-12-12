@@ -90,7 +90,7 @@ const SSCHAR* CSrWeapRecord::GetWeaponMaterial (void)
 {
 	CSrKywdRecord* pKeyword;
 
-	if (m_pParent == NULL || m_pKeywords == NULL) return "Unknown";
+	if (m_pParent == NULL || m_pKeywords == NULL) return "";
 
 	pKeyword = m_pParent->FindKeyword(m_pKeywords->GetFormIDArray(), "WeapMaterial");
 	if (pKeyword == NULL) return "";
@@ -110,7 +110,7 @@ const SSCHAR* CSrWeapRecord::GetWeaponType (void)
 {
 	CSrKywdRecord* pKeyword;
 
-	if (m_pParent == NULL || m_pKeywords == NULL) return "Unknown";
+	if (m_pParent == NULL || m_pKeywords == NULL) return "";
 
 	pKeyword = m_pParent->FindKeyword(m_pKeywords->GetFormIDArray(), "WeapType");
 	if (pKeyword == NULL) return "";
@@ -310,6 +310,7 @@ END_SRSETFIELD()
 
 BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldType)
   CSrIdRecord* pIdRecord = NULL;
+  CSString Buffer("WeapType");
 
   if (m_pParent != NULL) 
   {
@@ -320,16 +321,17 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldType)
       return (true);
     }
 
-    pIdRecord = m_pParent->FindEditorID(pString);
-    if (pIdRecord == NULL) return AddSrGeneralError("The keyword '%s' does not exist!", pString);
-    if (pIdRecord->GetRecordType() != SR_NAME_KYWD) return AddSrGeneralError("The record '%s' is not a keyword (%4.4s)!", pString, pIdRecord->GetRecordType().Name);
-	if (strnicmp(pIdRecord->GetEditorID(), "WeapType", 8) != 0) return AddSrGeneralError("The keyword '%s' is not a weapon type!", pString);
+	Buffer += pString;
+    pIdRecord = m_pParent->FindEditorID(Buffer);
+    if (pIdRecord == NULL) return AddSrGeneralError("The keyword '%s' does not exist!", Buffer);
+    if (pIdRecord->GetRecordType() != SR_NAME_KYWD) return AddSrGeneralError("The record '%s' is not a keyword (%4.4s)!", Buffer, pIdRecord->GetRecordType().Name);
+	//if (strnicmp(pIdRecord->GetEditorID(), "WeapType", 8) != 0) return AddSrGeneralError("The keyword '%s' is not a weapon type!", Buffer);
 
     SetWeaponType(pIdRecord->GetFormID());
   }
   else
   {
-    return AddSrGeneralError("Unable to find the formID for the keyword '%s'!", pString);
+    return AddSrGeneralError("Unable to find the formID for the keyword 'WeapType%s'!", Buffer);
   }
 
 END_SRSETFIELD()
@@ -337,6 +339,7 @@ END_SRSETFIELD()
 
 BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldMaterial)
   CSrIdRecord* pIdRecord = NULL;
+  CSString Buffer("WeapMaterial");
 
   if (m_pParent != NULL) 
   {
@@ -347,16 +350,18 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldMaterial)
       return (true);
     }
 
-    pIdRecord = m_pParent->FindEditorID(pString);
-    if (pIdRecord == NULL) return AddSrGeneralError("The keyword '%s' does not exist!", pString);
-    if (pIdRecord->GetRecordType() != SR_NAME_KYWD) return AddSrGeneralError("The record '%s' is not a keyword (%4.4s)!", pString, pIdRecord->GetRecordType().Name);
-	if (strnicmp(pIdRecord->GetEditorID(), "WeapMaterial", 12) != 0) return AddSrGeneralError("The keyword '%s' is not a weapon material!", pString);
+	Buffer += pString;
+
+    pIdRecord = m_pParent->FindEditorID(Buffer);
+    if (pIdRecord == NULL) return AddSrGeneralError("The keyword '%s' does not exist!", Buffer);
+    if (pIdRecord->GetRecordType() != SR_NAME_KYWD) return AddSrGeneralError("The record '%s' is not a keyword (%4.4s)!", Buffer, pIdRecord->GetRecordType().Name);
+	//if (strnicmp(pIdRecord->GetEditorID(), "WeapMaterial", 12) != 0) return AddSrGeneralError("The keyword '%s' is not a weapon material!", Buffer);
 
     SetWeaponMaterial(pIdRecord->GetFormID());
   }
   else
   {
-    return AddSrGeneralError("Unable to find the formID for the keyword '%s'!", pString);
+    return AddSrGeneralError("Unable to find the formID for the keyword 'WeapMaterial%s'!", pString);
   }
 
 END_SRSETFIELD()

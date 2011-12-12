@@ -916,6 +916,9 @@ bool CSrRecord::ImportCsvRow (srcsvinfo_t& CsvInfo, CCsvRow& Row) {
       pString->RemoveCharsToMatch(isalnum);
     }
 
+		/* Never import the record FormID */
+	if (pColInfo->FieldID == SR_FIELD_FORMID) continue;
+
     Result = SetField(pColInfo->FieldID, pString->c_str());
     if (!Result) AddSrGeneralError("Error setting field %s value '%s', row %d, column %d!", pColInfo->pValue->c_str(), pString->c_str(), CsvInfo.CurrentLine, pColInfo->ColIndex);
   }
