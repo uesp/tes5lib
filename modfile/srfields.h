@@ -233,6 +233,7 @@
   #define SR_FIELD_COMPCOUNT			171
   #define SR_FIELD_COMPFORMID			172
   #define SR_FIELD_COMPITEMNAME			173
+  #define SR_FIELD_EQUIPSLOT			174
 
 /*===========================================================================
  *		End of Field Types

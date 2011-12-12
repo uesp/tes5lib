@@ -21,6 +21,7 @@
 BEGIN_SRSUBRECCREATE(CSrWeapRecord, CSrItem2Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrWeapDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -39,6 +40,7 @@ BEGIN_SRFIELDMAP(CSrWeapRecord, CSrItem2Record)
 	ADD_SRFIELDALL("Type",			SR_FIELD_TYPE,			0, CSrWeapRecord, FieldType)
 	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrWeapRecord, FieldMaterial)
 	ADD_SRFIELDALL("VNAM",			SR_FIELD_VNAM,			0, CSrWeapRecord, FieldVNAM)
+	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrWeapRecord, FieldEquipSlot)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -52,8 +54,9 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrWeapRecord::CSrWeapRecord () 
 {
-  m_pWeaponData   = NULL;
-  m_pVNAM         = NULL;
+	m_pEquipSlot	= NULL;
+	m_pWeaponData   = NULL;
+	m_pVNAM         = NULL;
 }
 /*===========================================================================
  *		End of Class CSrWeapRecord Constructor
@@ -67,10 +70,11 @@ CSrWeapRecord::CSrWeapRecord ()
  *=========================================================================*/
 void CSrWeapRecord::Destroy (void) 
 {
-  m_pWeaponData   = NULL;
-  m_pVNAM         = NULL;
+	m_pEquipSlot	= NULL;
+	m_pWeaponData   = NULL;
+	m_pVNAM         = NULL;
 
-  CSrItem2Record::Destroy();
+	CSrItem2Record::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrWeapRecord::Destroy()
@@ -133,6 +137,9 @@ void CSrWeapRecord::InitializeNew (void)
 
   AddNewSubrecord(SR_NAME_DATA);
   if (m_pWeaponData != NULL) m_pWeaponData->InitializeNew();
+
+  AddNewSubrecord(SR_NAME_ETYP);
+  if (m_pEquipSlot != NULL) m_pEquipSlot->InitializeNew();
     
 }
 /*===========================================================================
@@ -156,6 +163,10 @@ void CSrWeapRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
   {
     m_pVNAM = SrCastClass(CSrDwordSubrecord, pSubrecord);
   }
+  else if (pSubrecord->GetRecordType() == SR_NAME_ETYP) 
+  {
+    m_pEquipSlot = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
   else
     CSrItem2Record::OnAddSubrecord(pSubrecord);
 
@@ -177,6 +188,8 @@ void CSrWeapRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
     m_pWeaponData = NULL;
   else if (m_pVNAM == pSubrecord)
     m_pVNAM = NULL;
+  else if (m_pEquipSlot == pSubrecord)
+    m_pEquipSlot = NULL;
   else
     CSrItem2Record::OnDeleteSubrecord(pSubrecord);
 
@@ -184,6 +197,44 @@ void CSrWeapRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
 /*===========================================================================
  *		End of Class Event CSrWeapRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+void CSrWeapRecord::SetEquipSlotID (const srformid_t FormID)
+{
+	if (m_pEquipSlot == NULL)
+	{
+		AddNewSubrecord(SR_NAME_ETYP);
+		if (m_pEquipSlot == NULL) return;
+		m_pEquipSlot->InitializeNew();
+	}
+
+	m_pEquipSlot->SetValue(FormID);
+
+}
+
+
+void CSrWeapRecord::SetEquipSlot (const char* pEditorID)
+{
+	if (pEditorID == NULL || *pEditorID == 0)
+	{
+		SetEquipSlotID(0);
+	}
+	else if (m_pParent)
+	{
+		CSrIdRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+
+		if (pRecord == NULL)
+			SetEquipSlotID(0);
+		else
+			SetEquipSlotID(pRecord->GetFormID());
+	}
+}
+
+
+const SSCHAR* CSrWeapRecord::GetEquipSlot (void) 
+{ 
+	return m_pEquipSlot && m_pParent ? m_pParent->GetEditorID(m_pEquipSlot->GetValue()) : ""; 
+}
 
 
 /*===========================================================================
@@ -197,6 +248,7 @@ DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldDamage,       String.Format("%d", (int)
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldType,         String = GetWeaponType())
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldMaterial,     String = GetWeaponMaterial())
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldVNAM,         String.Format("%u", GetVNAM()))
+DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldEquipSlot,    String = GetEquipSlot())
 /*===========================================================================
  *		End of CSrWeapRecord Get Field Methods
  *=========================================================================*/
@@ -213,6 +265,7 @@ DEFINE_SRCOMPFIELDDWORD(CSrWeapRecord,  CompareFieldVNAM,		  GetVNAM)
 DEFINE_SRCOMPFIELDINT(CSrWeapRecord,    CompareFieldDamage,		  GetDamage)
 DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldType,		  GetWeaponType)
 DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldMaterial,	  GetWeaponMaterial)
+DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldEquipSlot,	  GetEquipSlot)
 /*===========================================================================
  *		End of CSrWeapRecord Compare Field Methods
  *=========================================================================*/
@@ -306,6 +359,11 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldMaterial)
     return AddSrGeneralError("Unable to find the formID for the keyword '%s'!", pString);
   }
 
+END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldEquipSlot)
+	SetEquipSlot(pString);
 END_SRSETFIELD()
 /*===========================================================================
  *		End of CSrWeapRecord Set Field Methods

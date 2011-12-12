@@ -40,6 +40,7 @@ class CSrWeapRecord : public CSrItem2Record
 protected:
   CSrWeapDataSubrecord*		m_pWeaponData;
   CSrDwordSubrecord*		m_pVNAM;
+  CSrFormidSubrecord*		m_pEquipSlot;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -58,6 +59,8 @@ public:
   static CSrRecord* Create (void) { return new CSrWeapRecord; }
 
 	/* Get class members */
+  srformid_t    GetEquipSlotID    (void) { return m_pEquipSlot ? m_pEquipSlot->GetValue() : 0; }
+  const SSCHAR* GetEquipSlot      (void);
   srweapdata_t* GetWeaponData	  (void) { return (m_pWeaponData   ? &m_pWeaponData->GetWeaponData() : NULL); }
   float         GetWeight		  (void) { return (m_pWeaponData   ?  m_pWeaponData->GetWeight()     : 0.0f); }
   dword         GetValue		  (void) { return (m_pWeaponData   ?  m_pWeaponData->GetValue()      : 0); }
@@ -80,6 +83,8 @@ public:
   void SetVNAM   (const dword Value) { if (m_pVNAM != NULL) m_pVNAM->SetValue(Value); }
   void SetWeaponType     (const srformid_t FormID);
   void SetWeaponMaterial (const srformid_t FormID);
+  void SetEquipSlotID    (const srformid_t FormID);
+  void SetEquipSlot      (const char* pEditorID);
   	 
 
 	/* Begin field method definitions */
@@ -89,6 +94,7 @@ public:
   DECLARE_SRFIELD(FieldType)
   DECLARE_SRFIELD(FieldMaterial)
   DECLARE_SRFIELD(FieldVNAM)
+  DECLARE_SRFIELD(FieldEquipSlot)
 
 };
 /*===========================================================================

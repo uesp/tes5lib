@@ -204,6 +204,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_COMPITEMNAME,			"CompItemName")
 	ADD_STRINGVALUE( SR_FIELD_COMPCOUNT,			"CompCount")
 	ADD_STRINGVALUE( SR_FIELD_COMPFORMID,			"CompFormID")
+	ADD_STRINGVALUE( SR_FIELD_EQUIPSLOT,			"EquipSlot")	
 
 END_STRINGVALUE()
 /*===========================================================================
