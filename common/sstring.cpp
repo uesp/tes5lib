@@ -1580,17 +1580,18 @@ int SafeStringCompare (const SSCHAR* pString1, const SSCHAR* pString2, const boo
 
 /*===========================================================================
  *
- * Function - CSStringArray SplitString (Buffer, SplitChar);
+ * Function - int SplitString (SplitStrings, Buffer, SplitChar);
  *
  *=========================================================================*/
-CSStringArray SplitString(const CSString& Buffer, const char SplitChar)
+ int SplitString(CSStringArray& SplitStrings, const CSString& Buffer, const char SplitChar)
 {
-	CSStringArray SplitStrings;
-	CSString*     pNewString;
-	int StartIndex = 0;
-	int EndIndex;
+	CSString*	pNewString;
+	int			StartIndex = 0;
+	int			EndIndex;
+	int			Count = 0;
 
-	if (Buffer.IsEmpty()) return SplitStrings;
+	SplitStrings.Empty();
+	if (Buffer.IsEmpty()) return 0;
 
 	do {
 		EndIndex = Buffer.FindChar(SplitChar, StartIndex);
@@ -1601,9 +1602,10 @@ CSStringArray SplitString(const CSString& Buffer, const char SplitChar)
 		SplitStrings.Add(pNewString);
 
 		StartIndex = EndIndex + 1;
+		++Count;
 	} while (StartIndex < Buffer.GetLength()); 
 
-	return SplitStrings;
+	return Count;
 }
 /*===========================================================================
  *		End of Function SplitString()

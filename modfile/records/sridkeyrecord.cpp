@@ -172,10 +172,18 @@ void CSrIdKeyRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrIdKeyRecord::SetKeywords (const CSString Buffer)
 {
-	CSStringArray Strings(SplitString(Buffer, ','));
+	CSStringArray Strings;
 	CSrRecord*    pRecord;
 
-	if (m_pParent == NULL || m_pKeywords == NULL) return;
+	if (m_pParent == NULL) return;
+	SplitString(Strings, Buffer, ',');
+		
+	if (m_pKeywords == NULL) 
+	{
+		AddNewSubrecord(SR_NAME_KWDA);
+		if (m_pKeywords == NULL) return;
+		m_pKeywords->InitializeNew();
+	}
 
 	m_pKeywords->GetFormIDArray().Empty();
 
