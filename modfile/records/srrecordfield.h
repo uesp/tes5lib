@@ -83,6 +83,13 @@
 		if (pRecord1 == NULL) return (1); \
 		return (int)( ( ((float)this->Function()) - ((float)pRecord1->Function()) )  * Digits); }
 
+#define DEFINE_SRCOMPFIELDFLOAT1(Class, Name, FuncValue, Digits) \
+	int Class::Name (CSrRecord* pRecord, long Reserved) { \
+		if (pRecord == NULL) return (1); \
+		Class* pRecord1 = SrCastClass(Class, pRecord); \
+		if (pRecord1 == NULL) return (1); \
+		return (int)( ( ((float)this->FuncValue) - ((float)pRecord1->FuncValue) )  * Digits); }
+
   #define DEFINE_SRCOMPFIELDFLOAT1(Class, Name, FuncValue, Digits) \
 	int Class::Name (CSrRecord* pRecord, long Reserved) { \
 		if (pRecord == NULL) return (1); \
@@ -163,6 +170,52 @@
   #define ADD_SRFIELDALL(Name, ID, Flags, Class, AllSuffix) { Name, ID, Flags, (FNSRGETRECORDFIELD) &Class::Get##AllSuffix, (FNSRSETRECORDFIELD) &Class::Set##AllSuffix,  (FNSRCOMPRECORDFIELD) &Class::Compare##AllSuffix },
 
   #define END_SRFIELDMAP() { NULL, SR_FIELD_NONE, 0, NULL, NULL } };
+
+
+  #define DECLARE_SRFIELD_CONDITION(Class) dword GetConditionCount (void) { return CountSubrecords(SR_NAME_CTDA); } \
+			bool GetFieldConditionCount     (CSString& String, long Reserved = 0) { String.Format("%u", GetConditionCount()); return true; } \
+			int  CompareFieldConditionCount (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					dword Value1 = (dword) this->GetConditionCount(); \
+					dword Value2 = (dword) pRecord1->GetConditionCount(); \
+					if (Value1 == Value2) return (0); \
+					if (Value1 > Value2)  return (1); \
+					return (-1); } \
+			bool SetFieldConditionCount     (const SSCHAR* pString, long Reserved = 0) { return false; }
+
+
+	#define DECLARE_SRFIELD_FULLNAME(Class)	const char* GetItemName (void) const { return m_pItemName ? m_pItemName->GetString().c_str() : ""; } \
+			void SetItemName (const SSCHAR* pString) { \
+					if (m_pItemName == NULL) { \
+						AddNewSubrecord(SR_NAME_FULL); \
+						if (m_pItemName == NULL) return; \
+						m_pItemName->InitializeNew(); } \
+					m_pItemName->SetString(pString); } \
+			bool GetFieldItemName     (CSString& String, long Reserved = 0) { String = GetItemName(); return true; } \
+			int  CompareFieldItemName (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					return SafeStringCompare(GetItemName(), pRecord1->GetItemName(), false); } \
+			bool SetFieldItemName     (const SSCHAR* pString, long Reserved = 0) { SetItemName(pString); return true; }
+
+	#define DECLARE_SRFIELD_DESCRIPTION(Class, SRName)	const char* GetDescription (void) const { return m_pDescription ? m_pDescription->GetString().c_str() : ""; } \
+			void SetDescription (const SSCHAR* pString) { \
+					if (m_pDescription == NULL) { \
+						AddNewSubrecord(SRName); \
+						if (m_pDescription == NULL) return; \
+						m_pDescription->InitializeNew(); } \
+					m_pDescription->SetString(pString); } \
+			bool GetFieldDescription     (CSString& String, long Reserved = 0) { String = GetDescription(); return true; } \
+			int  CompareFieldDescription (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					return SafeStringCompare(GetDescription(), pRecord1->GetDescription(), false); } \
+			bool SetFieldDescription (const SSCHAR* pString, long Reserved = 0) { SetDescription(pString); return true; }
+
 
 /*===========================================================================
  *		End of Definitions

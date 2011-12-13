@@ -450,6 +450,9 @@
   #define SRCLASS_CSrByteSubrecord			1015
   #define SRCLASS_CSrGmstDataSubrecord		1016
   #define SRCLASS_CSrCntoSubrecord			1017
+  #define SRCLASS_CSrEnitSubrecord			1018
+  #define SRCLASS_CSrEfitSubrecord			1019
+
   
 /*===========================================================================
  *		End of Class Type Definitions

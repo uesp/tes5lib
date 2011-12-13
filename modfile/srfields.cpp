@@ -209,6 +209,10 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_CASTINGDELAY,			"CastingDelay")	
 	ADD_STRINGVALUE( SR_FIELD_BASECOST,				"BaseCost")	
 	ADD_STRINGVALUE( SR_FIELD_MAGICFLAGS,			"MagicFlags")	
+	ADD_STRINGVALUE( SR_FIELD_BASEENCHANT,			"BaseEnchant")	
+	ADD_STRINGVALUE( SR_FIELD_ITEMTYPES,			"ItemTypes")	
+	ADD_STRINGVALUE( SR_FIELD_ENCHANTCOST,			"EnchantCost")	
+
 
 END_STRINGVALUE()
 /*===========================================================================

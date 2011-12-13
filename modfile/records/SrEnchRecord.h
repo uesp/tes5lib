@@ -16,7 +16,11 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srctdasubrecord.h"
+	#include "../subrecords/srenitsubrecord.h"
+	#include "../subrecords/srefitsubrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -35,13 +39,9 @@ class CSrEnchRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEfidData;
-	CSrSubrecord*		m_pObndData;
-	CSrSubrecord*		m_pCis2Data;
-	CSrSubrecord*		m_pFullData;
-	CSrSubrecord*		m_pCtdaData;
-	CSrSubrecord*		m_pEfitData;
-	CSrSubrecord*		m_pEnitData;
+	CSrSubrecord*			m_pBounds;
+	CSrLStringSubrecord*	m_pItemName;
+	CSrEnitSubrecord*		m_pEffectData;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -51,27 +51,43 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
+		/* Class Constructors/Destructors */
   CSrEnchRecord();
   virtual void Destroy (void);
 
     	/* Return a new instance of the class */
   static CSrRecord* Create (void) { return new CSrEnchRecord; }
 
-	/* Get class members */
+		/* Get class members */
+  srenitdata_t& GetEnchantData (void) { return m_pEffectData ? m_pEffectData->GetEnchantData() : s_NullEffectData; }
+
+  dword		  GetEffectCount (void) { return CountSubrecords(SR_NAME_EFIT); }
+  const char* GetBaseEnchant (void);
+  const char* GetItemTypes   (void);
+  void        SetBaseEnchant (const char* pString);
+  void        SetItemTypes   (const char* pString);
   
 
-	/* Initialize a new record */
+		/* Initialize a new record */
   void InitializeNew (void);
 
-	/* Called to alert record of a new subrecord being added */
+		/* Called to alert record of a new subrecord being added */
   virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
+		/* Begin field method definitions */
+	DECLARE_SRFIELD(FieldBaseEnchant)
+	DECLARE_SRFIELD(FieldUserData)
+	DECLARE_SRFIELD(FieldItemTypes)
+	DECLARE_SRFIELD(FieldEffectCount)
+	DECLARE_SRFIELD(FieldEnchantCost)
+	DECLARE_SRFIELD(FieldCharge)
+	DECLARE_SRFIELD_CONDITION(CSrEnchRecord);
+	DECLARE_SRFIELD_FULLNAME(CSrEnchRecord);
 
 
+	static srenitdata_t	s_NullEffectData;
 };
 /*===========================================================================
  *		End of Class CSrEnchRecord Definition

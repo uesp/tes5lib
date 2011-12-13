@@ -178,7 +178,6 @@ void CSrCobjRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
  *
  *=========================================================================*/
 DEFINE_SRGETFIELD(CSrCobjRecord::GetFieldComponentCount,	String.Format("%u", GetComponentCount()))
-DEFINE_SRGETFIELD(CSrCobjRecord::GetFieldConditionCount,	String.Format("%u", GetConditionCount()))
 DEFINE_SRGETFIELD(CSrCobjRecord::GetFieldResultCount,		String.Format("%u",(dword)GetResultCount()))
 DEFINE_SRGETFIELD(CSrCobjRecord::GetFieldResultItem,		String = GetResultItem())
 DEFINE_SRGETFIELD(CSrCobjRecord::GetFieldStation,			String = GetStation())
@@ -193,7 +192,6 @@ DEFINE_SRGETFIELD(CSrCobjRecord::GetFieldStation,			String = GetStation())
  *
  *=========================================================================*/
 DEFINE_SRCOMPFIELDDWORD(CSrCobjRecord,  CompareFieldComponentCount,		GetComponentCount)
-DEFINE_SRCOMPFIELDDWORD(CSrCobjRecord,  CompareFieldConditionCount,		GetConditionCount)
 DEFINE_SRCOMPFIELDDWORD(CSrCobjRecord,  CompareFieldResultCount,		GetResultCount)
 DEFINE_SRCOMPFIELDSTRING(CSrCobjRecord, CompareFieldResultItem,			GetResultItem)
 DEFINE_SRCOMPFIELDSTRING(CSrCobjRecord, CompareFieldStation,			GetStation)
@@ -209,11 +207,6 @@ DEFINE_SRCOMPFIELDSTRING(CSrCobjRecord, CompareFieldStation,			GetStation)
  *=========================================================================*/
 BEGIN_SRSETFIELD(CSrCobjRecord::SetFieldComponentCount)
 	AddSrGeneralError("Cannot set the recipe component count directly!");
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrCobjRecord::SetFieldConditionCount)
-	AddSrGeneralError("Cannot set the recipe condition count directly!");
 END_SRSETFIELD()
 
 

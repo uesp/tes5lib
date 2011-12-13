@@ -61,7 +61,6 @@ public:
 
 		/* Get class members */
   dword       GetComponentCount (void) { return m_pComponentCount	? m_pComponentCount->GetValue() : 0; }
-  dword       GetConditionCount (void) { return this->CountSubrecords(SR_NAME_CTDA); }
   word        GetResultCount    (void) { return m_pResultQnt		? m_pResultQnt->GetValue() : 0; }
   srformid_t  GetStationID      (void) { return m_pStation			? m_pStation->GetValue() : 0; }
   srformid_t  GetResultItemID   (void) { return m_pItemResult		? m_pItemResult->GetValue() : 0; }
@@ -82,10 +81,11 @@ public:
 
 		/* Begin field method definitions */
   DECLARE_SRFIELD(FieldComponentCount)
-  DECLARE_SRFIELD(FieldConditionCount)
   DECLARE_SRFIELD(FieldResultCount)
   DECLARE_SRFIELD(FieldStation)
   DECLARE_SRFIELD(FieldResultItem)
+
+  DECLARE_SRFIELD_CONDITION(CSrCobjRecord)
 
 };
 /*===========================================================================

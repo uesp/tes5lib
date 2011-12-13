@@ -238,6 +238,9 @@
   #define SR_FIELD_CASTINGDELAY			176
   #define SR_FIELD_BASECOST				177
   #define SR_FIELD_MAGICFLAGS			178
+  #define SR_FIELD_BASEENCHANT			179
+  #define SR_FIELD_ITEMTYPES			180
+  #define SR_FIELD_ENCHANTCOST			181
 
 /*===========================================================================
  *		End of Field Types
