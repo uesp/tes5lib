@@ -65,12 +65,30 @@
 		if (Value1 > Value2)  return (1); \
 		return (-1); }
 
+   #define DEFINE_SRCOMPFIELDDWORD1(Class, Name, FuncValue) \
+	int Class::Name (CSrRecord* pRecord, long Reserved) { \
+		if (pRecord == NULL) return (1); \
+		Class* pRecord1 = SrCastClass(Class, pRecord); \
+		if (pRecord1 == NULL) return (1); \
+		dword Value1 = (dword) this->FuncValue; \
+		dword Value2 = (dword) pRecord1->FuncValue; \
+		if (Value1 == Value2) return (0); \
+		if (Value1 > Value2)  return (1); \
+		return (-1); }
+
   #define DEFINE_SRCOMPFIELDFLOAT(Class, Name, Function, Digits) \
 	int Class::Name (CSrRecord* pRecord, long Reserved) { \
 		if (pRecord == NULL) return (1); \
 		Class* pRecord1 = SrCastClass(Class, pRecord); \
 		if (pRecord1 == NULL) return (1); \
 		return (int)( ( ((float)this->Function()) - ((float)pRecord1->Function()) )  * Digits); }
+
+  #define DEFINE_SRCOMPFIELDFLOAT1(Class, Name, FuncValue, Digits) \
+	int Class::Name (CSrRecord* pRecord, long Reserved) { \
+		if (pRecord == NULL) return (1); \
+		Class* pRecord1 = SrCastClass(Class, pRecord); \
+		if (pRecord1 == NULL) return (1); \
+		return (int)( ( ((float)this->FuncValue) - ((float)pRecord1->FuncValue) )  * Digits); }
 
   #define DEFINE_SRCOMPFIELDSTRING(Class, Name, Function) \
 	int Class::Name (CSrRecord* pRecord, long Reserved) { \

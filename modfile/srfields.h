@@ -234,6 +234,10 @@
   #define SR_FIELD_COMPFORMID			172
   #define SR_FIELD_COMPITEMNAME			173
   #define SR_FIELD_EQUIPSLOT			174
+  #define SR_FIELD_SKILLLEVEL			175
+  #define SR_FIELD_CASTINGDELAY			176
+  #define SR_FIELD_BASECOST				177
+  #define SR_FIELD_MAGICFLAGS			178
 
 /*===========================================================================
  *		End of Field Types

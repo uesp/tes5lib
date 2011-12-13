@@ -97,6 +97,11 @@ public:
   DECLARE_SRFIELD(FieldSchool)
   DECLARE_SRFIELD(FieldEffectType)
   DECLARE_SRFIELD(FieldConditionCount)
+  DECLARE_SRFIELD(FieldSkillLevel)
+  DECLARE_SRFIELD(FieldCastingDelay)
+  DECLARE_SRFIELD(FieldUserData)
+  DECLARE_SRFIELD(FieldMagicFlags)
+  DECLARE_SRFIELD(FieldBaseCost)
   
 };
 /*===========================================================================
