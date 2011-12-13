@@ -57,7 +57,7 @@
   #define SR_RLACTIVATE_DEFAULT SR_RLACTIVATE_RECORD
 
 	/* Number of subrecords in the custom data structure */
-  #define SR_RLMAX_SUBRECORDS 4
+  #define SR_RLMAX_SUBRECORDS 10
 
 	/* Macro to get data from list compare function parameters */
   #define SRRL_SORTFUNC_GETPARAMS(Param1, Param2, Param3) srreclistsort_t* pSortData = (srreclistsort_t *) Param3; \
@@ -128,7 +128,7 @@
 	}
 
 	void SetTitle (const TCHAR* pString) { strnncpy(Title, pString, 62); }
-   };
+  };
 
 	/* Holds information on a single list configuration */
   struct srreclistinfo_t 
@@ -142,7 +142,7 @@
 
 	srreclistcolumn_t	Columns[SR_RECLIST_MAXCOLS];
 	dword				NumColumns;
-   };
+  };
 
 	/* Used to initialize column data for a list */
   struct srreclistcolinit_t
@@ -151,7 +151,7 @@
 	int				Width;
 	int				Format;
 	PFNLVCOMPARE	CompareFunc;
-   };
+  };
 
 	/* Used to initialize a list configuration */
   struct srreclistinfoinit_t 
@@ -160,22 +160,24 @@
 	srreclistcolinit_t*		pInit;
 	const srrecfieldmap_t*  pFieldMap;
 	srrecfieldid_t			SortField;
-   };
+  };
 
 	/* Holds item information in a custom list */
-  struct srrlcustomdata_t {
-	CSrRecord*	pRecord;
+  struct srrlcustomdata_t 
+  {
+	CSrRecord*		pRecord;
 	CSrSubrecord*	pSubrecords[SR_RLMAX_SUBRECORDS];
-	int		UserData;
-   };
+	int				UserData;
+  };
 
 	/* Used when sorting the list */
-  struct srreclistsort_t {
+  struct srreclistsort_t 
+  {
 	int		SubItem;
 	int		ListType;
 	srrecfieldid_t	FieldID;
 	bool		Reverse;
-   };
+  };
 
 	/* An array of list information pointers */
   typedef CSrPtrArray<srreclistinfo_t>     CSrRecListInfoArray;
@@ -183,12 +185,14 @@
   typedef CSrRefPtrArray<srrlcustomdata_t> CSrRLRefCustomDataArray;
 
 	/* Color options for a specific type of record in the list */
-  struct obreclistcolor_t {
+  struct srreclistcolor_t 
+  {
 	bool		Enable;
 	COLORREF	Color;
 	int		Order;
 
-	obreclistcolor_t() {
+	srreclistcolor_t() 
+	{
 		Enable = true;
 		Color  = RGB(255,255,255);
 		Order  = 1;
@@ -196,17 +200,19 @@
   };
 
 	/* List control options */
-  struct srreclistoptions_t {
+  struct srreclistoptions_t 
+  {
 	bool			EnableColors;
 	bool			SaveState;
 
-	obreclistcolor_t	ActiveColor;
-	obreclistcolor_t	DeletedColor;
-	obreclistcolor_t	IgnoredColor;
-	obreclistcolor_t	DangerousColor;
-	obreclistcolor_t	QuestColor;
+	srreclistcolor_t	ActiveColor;
+	srreclistcolor_t	DeletedColor;
+	srreclistcolor_t	IgnoredColor;
+	srreclistcolor_t	DangerousColor;
+	srreclistcolor_t	QuestColor;
 
-	srreclistoptions_t() {
+	srreclistoptions_t() 
+	{
 		EnableColors = true;
 		SaveState    = true;
 
@@ -232,8 +238,8 @@
 	/* Used to test drop targets */
   struct srrldroprecords_t 
   {
-	NMHDR			 Notify;
-	CSrRefRecordArray*	 pRecords;
+	NMHDR					 Notify;
+	CSrRefRecordArray*		 pRecords;
 	CSrRLRefCustomDataArray* pCustomDatas;
   };
   
