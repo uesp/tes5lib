@@ -91,7 +91,7 @@ void CSrTes4Record::AddMaster (const SSCHAR* pMaster, const int64 Size)
   CSrSubrecord*        pSubrecord;
   CSrStringSubrecord*  pMast;
   CSrInt64Subrecord*   pData;
-  
+
 	/* Set the master filename */
   pSubrecord = AddNewSubrecord(SR_NAME_MAST);
   pSubrecord->InitializeNew();
@@ -137,8 +137,8 @@ void CSrTes4Record::DeleteMasters (void)
 void CSrTes4Record::InitializeNew (void)
 {
   CSrRecord::InitializeNew();
-
-  m_Header.Version = 0x0f;
+  
+  m_Header.Version = 40;
   m_Header.Flags2  = 1;
 
   AddNewSubrecord(SR_NAME_HEDR);

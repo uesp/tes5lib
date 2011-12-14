@@ -973,6 +973,7 @@ void CSrRecord::InitializeNew (void) {
   m_Header.Flags1 = 0;
   m_Header.Flags2 = 0;
   m_Header.FormID = 0;
+  m_Header.Version = 40;		/* Most records have a version of 40 in Skyrim */
 
 }
 /*===========================================================================
