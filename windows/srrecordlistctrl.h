@@ -167,6 +167,7 @@
   {
 	CSrRecord*		pRecord;
 	CSrSubrecord*	pSubrecords[SR_RLMAX_SUBRECORDS];
+	int				UserCount;
 	int				UserData;
   };
 

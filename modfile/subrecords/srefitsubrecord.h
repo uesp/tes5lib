@@ -133,64 +133,6 @@ public:
  *=========================================================================*/
 
 
-/*===========================================================================
- *
- * Class CSrEfitSubrecord Method - int CompareFields (Result, FieldID, pSubrecord);
- *
- *=========================================================================*/
-inline bool CSrEfitSubrecord::CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord) {
-  CSrEfitSubrecord* pEfit = SrCastClass(CSrEfitSubrecord, pSubrecord);
-
-  if (pEfit != NULL) {
-
-    switch (FieldID) {
-      case SR_FIELD_MAGNITUDE:
-  		Result = (int) ((GetMagnitude() -  pEfit->GetMagnitude())*100.0f);
-		return (true);
-      case SR_FIELD_DURATION:
-        Result = (int)GetDuration() -  (int)pEfit->GetDuration();
-		return (true);
-      case SR_FIELD_AREA:
-        Result = (int)GetArea() -  (int)pEfit->GetArea();
-		return (true);
-     }
-
-   }
-   
-	/* No match */
-  return CSrSubrecord::CompareFields(Result, FieldID, pSubrecord);
-}
-/*===========================================================================
- *		End of Class Method CSrEfitSubrecord::CompareFields()
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Class CSrEfitSubrecord Method - bool GetField (Buffer, FieldID);
- *
- *=========================================================================*/
-inline bool CSrEfitSubrecord::GetField (CSString& Buffer, const int FieldID) {
-  
-  switch (FieldID) {
-    case SR_FIELD_MAGNITUDE:
-        Buffer.Format("%u", GetMagnitude());
-		return (true);
-    case SR_FIELD_DURATION:
-        Buffer.Format("%u", GetDuration());
-		return (true);
-    case SR_FIELD_AREA:
-        Buffer.Format("%u", GetArea());
-		return (true);
-   }
-
-  return CSrSubrecord::GetField(Buffer, FieldID);
- }
-/*===========================================================================
- *		End of Class Method CSrEfitSubrecord::GetField()
- *=========================================================================*/
-
-
 #endif
 /*===========================================================================
  *		End of File Srefitsubrecord.H
