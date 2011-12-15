@@ -79,6 +79,8 @@ public:
   void SetResultItemID  (const srformid_t Value) { if (m_pItemResult) m_pItemResult->SetValue(Value); }
   void SetStationID     (const srformid_t Value) { if (m_pStation)    m_pStation->SetValue(Value); }
 
+  void UpdateComponentCount (void);
+
 		/* Begin field method definitions */
   DECLARE_SRFIELD(FieldComponentCount)
   DECLARE_SRFIELD(FieldResultCount)

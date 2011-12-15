@@ -172,6 +172,19 @@ void CSrCobjRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
  *=========================================================================*/
 
 
+void CSrCobjRecord::UpdateComponentCount (void)
+{
+	if (m_pComponentCount == NULL)
+	{
+		AddNewSubrecord(SR_NAME_COCT);
+		if (m_pComponentCount == NULL) return;
+		m_pComponentCount->InitializeNew();
+	}
+
+	m_pComponentCount->SetValue(CountSubrecords(SR_NAME_CNTO));
+}
+
+
 /*===========================================================================
  *
  * Begin CSrCobjRecord Get Field Methods
