@@ -426,33 +426,33 @@
 	#define SRCLASS_CSrWthrRecord    319
 
   
-  #define SRCLASS_CSrGroup			501
-  #define SRCLASS_CSrTypeGroup		502
-  #define SRCLASS_CSrFormIDGroup	503
-  #define SRCLASS_CSrBlockGroup		504
-  #define SRCLASS_CSrGridGroup		505
+	#define SRCLASS_CSrGroup			501
+	#define SRCLASS_CSrTypeGroup		502
+	#define SRCLASS_CSrFormIDGroup		503
+	#define SRCLASS_CSrBlockGroup		504
+	#define SRCLASS_CSrGridGroup		505
 
-  #define SRCLASS_CSrSubrecord				1000
-  #define SRCLASS_CSrDataSubrecord			1001
-  #define SRCLASS_CSrDwordSubrecord			1002
-  #define SRCLASS_CSrFloatSubrecord			1003
-  #define SRCLASS_CSrInt64Subrecord			1004
-  #define SRCLASS_CSrLongSubrecord			1005
-  #define SRCLASS_CSrWordSubrecord			1006
-  #define SRCLASS_CSrFormidSubrecord		1007
-  #define SRCLASS_CSrStringSubrecord		1008
-  #define SRCLASS_CSrHedrSubrecord			1009
-  #define SRCLASS_CSrWeapDataSubrecord		1010
-  #define SRCLASS_CSrFormidArraySubrecord	1011
-  #define SRCLASS_CSrLStringSubrecord		1012
-  #define SRCLASS_CSrMgefDataSubrecord		1013
-  #define SRCLASS_CSrCtdaSubrecord			1014
-  #define SRCLASS_CSrByteSubrecord			1015
-  #define SRCLASS_CSrGmstDataSubrecord		1016
-  #define SRCLASS_CSrCntoSubrecord			1017
-  #define SRCLASS_CSrEnitSubrecord			1018
-  #define SRCLASS_CSrEfitSubrecord			1019
-
+	#define SRCLASS_CSrSubrecord				1000
+	#define SRCLASS_CSrDataSubrecord			1001
+	#define SRCLASS_CSrDwordSubrecord			1002
+	#define SRCLASS_CSrFloatSubrecord			1003
+	#define SRCLASS_CSrInt64Subrecord			1004
+	#define SRCLASS_CSrLongSubrecord			1005
+	#define SRCLASS_CSrWordSubrecord			1006
+	#define SRCLASS_CSrFormidSubrecord			1007
+	#define SRCLASS_CSrStringSubrecord			1008
+	#define SRCLASS_CSrHedrSubrecord			1009
+	#define SRCLASS_CSrWeapDataSubrecord		1010
+	#define SRCLASS_CSrFormidArraySubrecord		1011
+	#define SRCLASS_CSrLStringSubrecord			1012
+	#define SRCLASS_CSrMgefDataSubrecord		1013
+	#define SRCLASS_CSrCtdaSubrecord			1014
+	#define SRCLASS_CSrByteSubrecord			1015
+	#define SRCLASS_CSrGmstDataSubrecord		1016
+	#define SRCLASS_CSrCntoSubrecord			1017
+	#define SRCLASS_CSrEnitSubrecord			1018
+	#define SRCLASS_CSrEfitSubrecord			1019
+	#define SRCLASS_CSrSpitSubrecord			1020
   
 /*===========================================================================
  *		End of Class Type Definitions

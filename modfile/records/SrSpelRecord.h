@@ -16,7 +16,12 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srformidsubrecord.h"
+	#include "../subrecords/srspitsubrecord.h"
+    #include "../subrecords/srlstringsubrecord.h"
+	#include "../subrecords/srefitsubrecord.h"
+	#include "../subrecords/srctdasubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,26 +32,21 @@
  * Begin Class CSrSpelRecord Definition
  *
  *=========================================================================*/
-class CSrSpelRecord : public CSrRecord 
+class CSrSpelRecord : public CSrIdRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrSpelRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrSpelRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEdidData;
-	CSrSubrecord*		m_pEfidData;
-	CSrSubrecord*		m_pEtypData;
-	CSrSubrecord*		m_pObndData;
-	CSrSubrecord*		m_pFullData;
-	CSrSubrecord*		m_pDescData;
-	CSrSubrecord*		m_pSpitData;
-	CSrSubrecord*		m_pEfitData;
-	CSrSubrecord*		m_pMdobData;
-	CSrSubrecord*		m_pCtdaData;
-	CSrSubrecord*		m_pCis2Data;
+	CSrFormidSubrecord*		m_pEquipmentSlot;
+	CSrSubrecord*			m_pBoundsData;
+	CSrLStringSubrecord*	m_pItemName;
+	CSrLStringSubrecord*	m_pDescription;
+	CSrSpitSubrecord*		m_pSpellData;
 
+	static srspitdata_t	s_NullSpellData;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -64,6 +64,17 @@ public:
   static CSrRecord* Create (void) { return new CSrSpelRecord; }
 
 	/* Get class members */
+  srspitdata_t& GetSpellData (void) { return m_pSpellData ? m_pSpellData->GetSpellData() : s_NullSpellData; }
+  const char* GetPerk (void);
+  srformid_t  GetEquipSlotID (void) { return m_pEquipmentSlot ? m_pEquipmentSlot->GetValue() : 0; }
+  const char* GetEquipSlot (void);
+  bool IsAutoCalc (void) { return m_pSpellData ? m_pSpellData->IsAutoCalc() : false; }
+
+  dword GetEffectCount (void) { return CountSubrecords(SR_NAME_EFID); }
+
+  void SetPerk      (const char* pEditorID);
+  void SetEquipSlot (const char* pEditorID);
+  void SetEquipSlot (const srformid_t FormID);
   
 
 	/* Initialize a new record */
@@ -74,9 +85,23 @@ public:
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
+		/* Begin field method definitions */
+  DECLARE_SRFIELD(FieldPerkID)
+  DECLARE_SRFIELD(FieldPerk)
+  DECLARE_SRFIELD(FieldEquipSlotID)
+  DECLARE_SRFIELD(FieldEquipSlot)
+  DECLARE_SRFIELD(FieldSpellType)
+  DECLARE_SRFIELD(FieldSpellFlags)
+  DECLARE_SRFIELD(FieldCastAnim)
+  DECLARE_SRFIELD(FieldCastTime)
+  DECLARE_SRFIELD(FieldCastType)
+  DECLARE_SRFIELD(FieldAutoCalc)
+  DECLARE_SRFIELD(FieldCost)
+  DECLARE_SRFIELD(FieldUserData)
+  DECLARE_SRFIELD(FieldEffectCount)
 
-
+  DECLARE_SRFIELD_FULLNAME(CSrSpelRecord);
+  DECLARE_SRFIELD_DESCRIPTION(CSrSpelRecord, SR_NAME_DESC);
 };
 /*===========================================================================
  *		End of Class CSrSpelRecord Definition

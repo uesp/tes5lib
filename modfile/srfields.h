@@ -241,6 +241,14 @@
   #define SR_FIELD_BASEENCHANT			179
   #define SR_FIELD_ITEMTYPES			180
   #define SR_FIELD_ENCHANTCOST			181
+  #define SR_FIELD_PERK					182
+  #define SR_FIELD_SPELLFLAGS			183
+  #define SR_FIELD_SPELLTYPE			184
+  #define SR_FIELD_CASTTIME				185
+  #define SR_FIELD_CASTANIM				186
+  #define SR_FIELD_CASTTYPE				187
+  #define SR_FIELD_PERKID				188
+  #define SR_FIELD_EQUIPSLOTID			189
 
 /*===========================================================================
  *		End of Field Types
