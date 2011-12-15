@@ -174,7 +174,7 @@ void CSrItem2Record::SetEnchantment (const srformid_t FormID)
 
   if (m_pEnchantment == NULL) 
   {
-     AddNewSubrecord(SR_NAME_ENAM);
+     AddNewSubrecord(SR_NAME_EITM);
      if (m_pEnchantment == NULL) return;
      m_pEnchantment->InitializeNew();
   }
