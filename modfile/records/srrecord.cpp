@@ -295,7 +295,8 @@ dword CSrRecord::ChangeEditorID (const SSCHAR* pNewID, const SSCHAR* pOldID) {
  * Copy the contents of the given record.
  *
  *=========================================================================*/
-bool CSrRecord::Copy (CSrRecord* pRecord) {
+bool CSrRecord::Copy (CSrRecord* pRecord) 
+{
   CSrSubrecord* pSubrecord;
   CSrSubrecord* pNewSubrecord;
   dword         Index;
@@ -311,12 +312,15 @@ bool CSrRecord::Copy (CSrRecord* pRecord) {
   m_UserData     = pRecord->GetUserData();
 
 	/* Copy the record header, except for the record type and size */
-  m_Header.Flags1 = pRecord->GetHeader().Flags1;
-  m_Header.Flags2 = pRecord->GetHeader().Flags2;
-  m_Header.FormID = pRecord->GetHeader().FormID;
+  m_Header.Flags1  = pRecord->GetHeader().Flags1;
+  m_Header.Flags2  = pRecord->GetHeader().Flags2;
+  m_Header.FormID  = pRecord->GetHeader().FormID;
+  m_Header.Unknown = pRecord->GetHeader().Unknown;
+  m_Header.Version = pRecord->GetHeader().Version;
 
 	/* Copy all subrecords */
-  for (Index = 0; Index < pRecord->GetNumSubrecords(); ++Index) {
+  for (Index = 0; Index < pRecord->GetNumSubrecords(); ++Index) 
+  {
     pSubrecord = pRecord->GetSubrecord(Index);
 
     pNewSubrecord = AddNewSubrecord(pSubrecord->GetRecordType());
