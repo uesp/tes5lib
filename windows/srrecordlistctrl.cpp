@@ -1047,9 +1047,9 @@ CSrRecordListCtrl::CSrRecordListCtrl() {
   m_ListName = "DefaultList";
 
   //m_WantKeys	    = true;
-
-  m_hGoodDropCursor = NULL;
-  m_hBadDropCursor  = LoadCursor(NULL, MAKEINTRESOURCE(IDC_NO));
+  
+  m_hGoodDropCursor = LoadCursor(::AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_GOODDROP_CURSOR));
+  m_hBadDropCursor  = LoadCursor(::AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_NODROP_CURSOR));
 }
 /*===========================================================================
  *		End of Class CSrRecordListCtrl Constructor
@@ -2436,7 +2436,7 @@ void CSrRecordListCtrl::OnBeginDrag (NMHDR* pNMHDR, LRESULT* pResult) {
   DragPoint.y  = Offset;
     
 	/* Set the drag cursors */
-  m_hGoodDropCursor = GetCursor();
+  //m_hGoodDropCursor = GetCursor();
   SetCursor(m_hBadDropCursor);
 
   if (m_pDragImage != NULL) delete m_pDragImage;
