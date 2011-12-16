@@ -737,6 +737,17 @@ static srreclistcolinit_t s_NpcListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
+
+static srreclistcolinit_t s_PerkListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_ITEMNAME,	150,	LVCFMT_CENTER },
+	{ SR_FIELD_NONE,		0,		0 }
+};
+
+
 static srreclistcolinit_t s_ScptListInit[] = {
 	{ SR_FIELD_EDITORID,	140,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,	5,	LVCFMT_LEFT },
@@ -919,6 +930,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_KYWD, s_KywdListInit, &CSrKywdRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_PERK, s_PerkListInit, &CSrPerkRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }
  };

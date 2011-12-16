@@ -51,6 +51,7 @@ BEGIN_STRINGVALUE(s_SrMagicTypes)
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_NONE,		"None")
 END_STRINGVALUE()
 
+
 BEGIN_STRINGVALUE(s_SrConditionOperators)
 	ADD_STRINGVALUE( SR_CONDOP_EQUAL,			"==")
 	ADD_STRINGVALUE( SR_CONDOP_NOTEQUAL,		"!=")
@@ -58,6 +59,32 @@ BEGIN_STRINGVALUE(s_SrConditionOperators)
 	ADD_STRINGVALUE( SR_CONDOP_GREATEREQUAL,	">=")
 	ADD_STRINGVALUE( SR_CONDOP_LESS,			"<")
 	ADD_STRINGVALUE( SR_CONDOP_LESSEQUAL,		"<=")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrSpellTypes)
+	ADD_STRINGVALUE( SR_SPELL_TYPE_SPELL,		"Spell")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_DISEASE,		"Disease")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_POWER,		"Destruction")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_LESSERPOWER,	"Lesser Power")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_ABILITY,		"Ability")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_POISON,		"Poison")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_VOICE,		"Voice")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrSpellCastAnims)
+	ADD_STRINGVALUE( SR_SPELL_CASTANIM_NONE,		"None")
+	ADD_STRINGVALUE( SR_SPELL_CASTANIM_PROJECTILE,	"Projectile")
+	ADD_STRINGVALUE( SR_SPELL_CASTANIM_SUSTAINED,	"Sustained")
+END_STRINGVALUE()
+
+BEGIN_STRINGVALUE(s_SrSpellCastTypes)
+	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_0,		"CastType0")
+	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_1,		"CastType1")
+	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_2,		"CastType2")
+	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_3,		"CastType3")
+	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_4,		"CastType4")
 END_STRINGVALUE()
 
 
@@ -75,9 +102,17 @@ const SSCHAR* GetSrMagicSchoolString		(const int Value) { return s_SrMagicSchool
 const SSCHAR* GetSrMagicTypeString			(const int Value) { return s_SrMagicTypesMap.FindValue(Value); }
 const SSCHAR* GetSrConditionOperatorString	(const int Value) { return s_SrConditionOperatorsMap.FindValue(Value); }
 
+const SSCHAR* GetSrSpellTypeString		(const int Value) { return s_SrSpellTypesMap.FindValue(Value); }
+const SSCHAR* GetSrSpellCastTypeString	(const int Value) { return s_SrSpellCastTypesMap.FindValue(Value); }
+const SSCHAR* GetSrSpellCastAnimString	(const int Value) { return s_SrSpellCastAnimsMap.FindValue(Value); }
+
 bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString) { return s_SrMagicSchoolsMap.FindString(Value, pString); }
 bool GetSrMagicTypeValue			(int& Value, const SSCHAR* pString) { return s_SrMagicTypesMap.FindString(Value, pString); }
 bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString) { return s_SrConditionOperatorsMap.FindString(Value, pString); }
+
+bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString) { return s_SrSpellTypesMap.FindString(Value, pString); }
+bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastTypesMap.FindString(Value, pString); }
+bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastAnimsMap.FindString(Value, pString); }
 /*===========================================================================
  *		End of String Table Lookup Functions
  *=========================================================================*/

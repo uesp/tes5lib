@@ -531,6 +531,31 @@
   extern const stringvalue_t s_SrConditionOperators[];
 
 
+			/* Spell Types */
+	#define SR_SPELL_TYPE_SPELL			0
+	#define SR_SPELL_TYPE_DISEASE		1
+    #define SR_SPELL_TYPE_POWER			2
+    #define SR_SPELL_TYPE_LESSERPOWER	3
+    #define SR_SPELL_TYPE_ABILITY		4
+    #define SR_SPELL_TYPE_POISON		5
+    #define SR_SPELL_TYPE_VOICE			11
+
+			/* Spell Casting Animations */
+	#define SR_SPELL_CASTANIM_NONE			0
+	#define SR_SPELL_CASTANIM_PROJECTILE	1
+	#define SR_SPELL_CASTANIM_SUSTAINED		2
+
+			/* Spell Casting Types */
+	#define SR_SPELL_CASTTYPE_0		0
+	#define SR_SPELL_CASTTYPE_1		1
+	#define SR_SPELL_CASTTYPE_2		2
+	#define SR_SPELL_CASTTYPE_3		3
+	#define SR_SPELL_CASTTYPE_4		4
+	
+    extern const stringvalue_t s_SrSpellTypes[];
+	extern const stringvalue_t s_SrSpellCastAnims[];
+	extern const stringvalue_t s_SrSpellCastTypes[];
+
 /*===========================================================================
  *		End of Type Definitions
  *=========================================================================*/
@@ -545,9 +570,17 @@
 	const SSCHAR* GetSrMagicTypeString			(const int Value);
 	const SSCHAR* GetSrConditionOperatorString	(const int Value);
 
+	const SSCHAR* GetSrSpellTypeString		(const int Value);
+	const SSCHAR* GetSrSpellCastTypeString	(const int Value);
+	const SSCHAR* GetSrSpellCastAnimString	(const int Value);
+
 	bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString);
 	bool GetSrMagicTypeValue			(int& Value, const SSCHAR* pString);
 	bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString);
+
+	bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString);
+	bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString);
+	bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString);
 /*===========================================================================
  *		End of Type Lookup Function Definitions
  *=========================================================================*/

@@ -17,13 +17,12 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrPerkRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrPerkRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EPFT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PRKC, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EPF2, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PRKE, CSrDataSubrecord::Create)
@@ -33,7 +32,6 @@ BEGIN_SRSUBRECCREATE(CSrPerkRecord, CSrRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EPF3, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -42,10 +40,11 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrPerkRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrPerkRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemName",	SR_FIELD_ITEMNAME,	0, CSrPerkRecord, FieldItemName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -59,6 +58,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrPerkRecord::CSrPerkRecord () 
 {
+	m_pItemName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrPerkRecord Constructor
@@ -72,7 +72,7 @@ CSrPerkRecord::CSrPerkRecord ()
  *=========================================================================*/
 void CSrPerkRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrPerkRecord::Destroy()
@@ -86,11 +86,10 @@ void CSrPerkRecord::Destroy (void)
  *=========================================================================*/
 void CSrPerkRecord::InitializeNew (void) 
 {
+	CSrIdRecord::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	AddNewSubrecord(SR_NAME_FULL);
+	if (m_pItemName != NULL) m_pItemName->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrPerkRecord::InitializeNew()
@@ -104,11 +103,7 @@ void CSrPerkRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EPFT)
+	if (pSubrecord->GetRecordType() == SR_NAME_EPFT)
 	{
 		m_pEpftData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -126,7 +121,7 @@ void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_CTDA)
 	{
@@ -164,10 +159,9 @@ void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pEpf3Data = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -183,9 +177,7 @@ void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrPerkRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pEpftData == pSubrecord)
+	if (m_pEpftData == pSubrecord)
 		m_pEpftData = NULL;
 	else if (m_pPrkcData == pSubrecord)
 		m_pPrkcData = NULL;
@@ -193,8 +185,8 @@ void CSrPerkRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pDescData = NULL;
 	else if (m_pEpf2Data == pSubrecord)
 		m_pEpf2Data = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pCtdaData == pSubrecord)
 		m_pCtdaData = NULL;
 	else if (m_pDataData == pSubrecord)
@@ -213,9 +205,8 @@ void CSrPerkRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pVmadData = NULL;
 	else if (m_pEpf3Data == pSubrecord)
 		m_pEpf3Data = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

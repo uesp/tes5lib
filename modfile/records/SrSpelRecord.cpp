@@ -29,7 +29,7 @@ BEGIN_SRSUBRECCREATE(CSrSpelRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SPIT, CSrSpitSubrecord::Create)	
-	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS2, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
@@ -51,7 +51,6 @@ BEGIN_SRFIELDMAP(CSrSpelRecord, CSrIdRecord)
 	ADD_SRFIELDALL("PerkID",		SR_FIELD_PERKID,		0, CSrSpelRecord, FieldPerkID)
 	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrSpelRecord, FieldEquipSlot)
 	ADD_SRFIELDALL("EquipSlotID",	SR_FIELD_EQUIPSLOTID,	0, CSrSpelRecord, FieldEquipSlotID)
-	ADD_SRFIELDALL("Perk",			SR_FIELD_PERK,			0, CSrSpelRecord, FieldPerk)
 	ADD_SRFIELDALL("SpellFlags",	SR_FIELD_SPELLFLAGS,	0, CSrSpelRecord, FieldSpellFlags)
 	ADD_SRFIELDALL("SpellType",		SR_FIELD_SPELLTYPE,		0, CSrSpelRecord, FieldSpellType)
 	ADD_SRFIELDALL("CastTime",		SR_FIELD_CASTTIME,		0, CSrSpelRecord, FieldCastTime)
@@ -59,8 +58,8 @@ BEGIN_SRFIELDMAP(CSrSpelRecord, CSrIdRecord)
 	ADD_SRFIELDALL("CastType",		SR_FIELD_CASTTYPE,		0, CSrSpelRecord, FieldCastType)
 	ADD_SRFIELDALL("AutoCalc",		SR_FIELD_AUTOCALC,		0, CSrSpelRecord, FieldAutoCalc)
 	ADD_SRFIELDALL("Cost",			SR_FIELD_COST,			0, CSrSpelRecord, FieldCost)
-	ADD_SRFIELDALL("UserData",		SR_FIELD_USERDATA,		0, CSrSpelRecord, FieldUserData)
-
+	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrSpelRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrSpelRecord, FieldUnknown2)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -245,6 +244,7 @@ void CSrSpelRecord::SetEquipSlot (const srformid_t FormID)
 	}
 
 	m_pEquipmentSlot->SetValue(FormID);
+	
 }
 
 
@@ -257,15 +257,16 @@ DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldPerkID,		String.Format("0x%08X", GetSpe
 DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldPerk,			String = GetPerk())
 DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldEquipSlotID,	String.Format("0x%08X", GetEquipSlotID()))
 DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldEquipSlot,		String = GetEquipSlot())
-DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldSpellType,		String.Format("%d", GetSpellData().SpellType))
-DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldSpellFlags,	String.Format("%04X", GetSpellData().Flags))
-DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldCastAnim,		String.Format("%d", GetSpellData().CastAnim))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldSpellType,		String = GetSrSpellTypeString(GetSpellData().SpellType))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldSpellFlags,	String.Format("0x%04X", GetSpellData().Flags))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldCastAnim,		String = GetSrSpellCastAnimString(GetSpellData().CastAnim))
 DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldCastTime,		String.Format("%g", GetSpellData().CastTime))
-DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldCastType,		String.Format("%d", GetSpellData().CastType))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldCastType,		String = GetSrSpellCastTypeString(GetSpellData().CastType))
 DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldCost,			String.Format("%d", GetSpellData().BaseCost))
-DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldAutoCalc,		String.Format("%d", IsAutoCalc()))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldAutoCalc,		String = BooleanToString(IsAutoCalc()))
 DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldEffectCount,	String.Format("%u", GetEffectCount()))
-DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldUserData,		String.Format("%g", GetSpellData().Unknown2))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldUnknown1,		String.Format("%g", GetSpellData().Unknown1))
+DEFINE_SRGETFIELD(CSrSpelRecord::GetFieldUnknown2,		String.Format("%g", GetSpellData().Unknown2))
 /*===========================================================================
  *		End of CSrSpelRecord Get Field Methods
  *=========================================================================*/
@@ -288,7 +289,8 @@ DEFINE_SRCOMPFIELDDWORD1(CSrSpelRecord,  CompareFieldCastType,		GetSpellData().C
 DEFINE_SRCOMPFIELDDWORD1(CSrSpelRecord,  CompareFieldCost,			GetSpellData().BaseCost)
 DEFINE_SRCOMPFIELDDWORD1(CSrSpelRecord,  CompareFieldAutoCalc,		IsAutoCalc())
 DEFINE_SRCOMPFIELDDWORD1(CSrSpelRecord,  CompareFieldEffectCount,	GetEffectCount())
-DEFINE_SRCOMPFIELDFLOAT1(CSrSpelRecord,  CompareFieldUserData,		GetSpellData().Unknown2, 100.0f)
+DEFINE_SRCOMPFIELDFLOAT1(CSrSpelRecord,  CompareFieldUnknown1,		GetSpellData().Unknown1, 100.0f)
+DEFINE_SRCOMPFIELDFLOAT1(CSrSpelRecord,  CompareFieldUnknown2,		GetSpellData().Unknown2, 100.0f)
 /*===========================================================================
  *		End of CSrSpelRecord Compare Field Methods
  *=========================================================================*/
@@ -308,17 +310,15 @@ END_SRSETFIELD()
 
 
 BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldCastType)
-  dword Value;
-
-  if (!SrFieldConvertDword(pString, Value)) return (false);
+  int Value;
+  if (!GetSrSpellCastTypeValue(Value, pString)) return false;
   GetSpellData().CastType = Value;
 END_SRSETFIELD()
 
 
 BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldCastAnim)
-  dword Value;
-
-  if (!SrFieldConvertDword(pString, Value)) return (false);
+  int Value;
+  if (!GetSrSpellCastAnimValue(Value, pString)) return false;
   GetSpellData().CastAnim = Value;
 END_SRSETFIELD()
 
@@ -340,9 +340,8 @@ END_SRSETFIELD()
 
 
 BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldSpellType)
-  dword Value;
-
-  if (!SrFieldConvertDword(pString, Value)) return (false);
+  int Value;
+  if (!GetSrSpellTypeValue(Value, pString)) return false;
   GetSpellData().SpellType = Value;
 END_SRSETFIELD()
 
@@ -381,8 +380,21 @@ BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldEquipSlot)
 END_SRSETFIELD()
 
 
-BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldUserData)
+BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldUnknown1)
+	float Value;
+
+	if (!SrFieldConvertFloat(pString, Value)) return (false);
+	GetSpellData().Unknown1 = Value;
 END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldUnknown2)
+	float Value;
+
+	if (!SrFieldConvertFloat(pString, Value)) return (false);
+	GetSpellData().Unknown2 = Value;
+END_SRSETFIELD()
+
 
 BEGIN_SRSETFIELD(CSrSpelRecord::SetFieldEffectCount)
 END_SRSETFIELD()

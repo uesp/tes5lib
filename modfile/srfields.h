@@ -249,6 +249,11 @@
   #define SR_FIELD_CASTTYPE				187
   #define SR_FIELD_PERKID				188
   #define SR_FIELD_EQUIPSLOTID			189
+  #define SR_FIELD_UNKNOWN1				190
+  #define SR_FIELD_UNKNOWN2				191
+  #define SR_FIELD_UNKNOWN3				192
+  #define SR_FIELD_UNKNOWN4				193
+  #define SR_FIELD_UNKNOWN5				194
 
 /*===========================================================================
  *		End of Field Types

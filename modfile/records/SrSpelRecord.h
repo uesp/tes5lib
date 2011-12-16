@@ -97,7 +97,8 @@ public:
   DECLARE_SRFIELD(FieldCastType)
   DECLARE_SRFIELD(FieldAutoCalc)
   DECLARE_SRFIELD(FieldCost)
-  DECLARE_SRFIELD(FieldUserData)
+  DECLARE_SRFIELD(FieldUnknown1)
+  DECLARE_SRFIELD(FieldUnknown2)
   DECLARE_SRFIELD(FieldEffectCount)
 
   DECLARE_SRFIELD_FULLNAME(CSrSpelRecord);

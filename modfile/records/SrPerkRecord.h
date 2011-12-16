@@ -16,7 +16,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+  #include "sridrecord.h"
+  #include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,30 +28,28 @@
  * Begin Class CSrPerkRecord Definition
  *
  *=========================================================================*/
-class CSrPerkRecord : public CSrRecord 
+class CSrPerkRecord : public CSrIdRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrPerkRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrPerkRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEdidData;
-	CSrSubrecord*		m_pEpftData;
-	CSrSubrecord*		m_pPrkcData;
-	CSrSubrecord*		m_pDescData;
-	CSrSubrecord*		m_pEpf2Data;
-	CSrSubrecord*		m_pFullData;
-	CSrSubrecord*		m_pCtdaData;
-	CSrSubrecord*		m_pDataData;
-	CSrSubrecord*		m_pPrkeData;
-	CSrSubrecord*		m_pPrkfData;
-	CSrSubrecord*		m_pEpfdData;
-	CSrSubrecord*		m_pCis2Data;
-	CSrSubrecord*		m_pNnamData;
-	CSrSubrecord*		m_pVmadData;
-	CSrSubrecord*		m_pEpf3Data;
-
+	CSrSubrecord*			m_pEpftData;
+	CSrSubrecord*			m_pPrkcData;
+	CSrSubrecord*			m_pDescData;
+	CSrSubrecord*			m_pEpf2Data;
+	CSrLStringSubrecord*	m_pItemName;
+	CSrSubrecord*			m_pCtdaData;
+	CSrSubrecord*			m_pDataData;
+	CSrSubrecord*			m_pPrkeData;
+	CSrSubrecord*			m_pPrkfData;
+	CSrSubrecord*			m_pEpfdData;
+	CSrSubrecord*			m_pCis2Data;
+	CSrSubrecord*			m_pNnamData;
+	CSrSubrecord*			m_pVmadData;
+	CSrSubrecord*			m_pEpf3Data;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -80,6 +79,7 @@ public:
 
   /* Begin field method definitions */
 
+  DECLARE_SRFIELD_FULLNAME(CSrPerkRecord)
 
 };
 /*===========================================================================
