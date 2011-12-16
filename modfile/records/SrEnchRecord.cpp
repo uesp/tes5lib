@@ -48,7 +48,11 @@ BEGIN_SRFIELDMAP(CSrEnchRecord, CSrIdRecord)
 	ADD_SRFIELDALL("ItemTypes",			SR_FIELD_ITEMTYPES,			0, CSrEnchRecord, FieldItemTypes)
 	ADD_SRFIELDALL("EnchantCost",		SR_FIELD_ENCHANTCOST,		0, CSrEnchRecord, FieldEnchantCost)
 	ADD_SRFIELDALL("ChargeAmount",		SR_FIELD_CHARGE,			0, CSrEnchRecord, FieldCharge)
-	//ADD_SRFIELDALL("UserData",			SR_FIELD_USERDATA,			0, CSrEnchRecord, FieldUserData)
+	ADD_SRFIELDALL("TypeA",				SR_FIELD_TYPEA,				0, CSrEnchRecord, FieldTypeA)
+	ADD_SRFIELDALL("TypeB",				SR_FIELD_TYPEB,				0, CSrEnchRecord, FieldTypeB)
+	ADD_SRFIELDALL("TypeC",				SR_FIELD_TYPEC,				0, CSrEnchRecord, FieldTypeC)
+	ADD_SRFIELDALL("TypeD",				SR_FIELD_TYPED,				0, CSrEnchRecord, FieldTypeD)
+	ADD_SRFIELDALL("StaffMod",			SR_FIELD_STAFFMOD,			0, CSrEnchRecord, FieldStaffMod)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -219,9 +223,13 @@ void CSrEnchRecord::SetItemTypes (const char* pString)
 DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldBaseEnchant,        String = GetBaseEnchant())
 DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldItemTypes,          String = GetItemTypes())
 DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldEffectCount,        String.Format("%u", GetEffectCount()))
-DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldUserData,           String.Format("%d", GetEnchantData().Type3))
 DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldEnchantCost,        String.Format("%u", GetEnchantData().EnchantCost))
 DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldCharge,             String.Format("%u", GetEnchantData().ChargeAmount))
+DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldStaffMod,           String.Format("%g", GetEnchantData().StaffMod))
+DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldTypeA,              String = GetSrEnchantTypeAString(GetEnchantData().TypeA))
+DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldTypeB,              String = GetSrEnchantTypeBString(GetEnchantData().TypeB))
+DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldTypeC,              String = GetSrEnchantTypeCString(GetEnchantData().TypeC))
+DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldTypeD,              String = GetSrEnchantTypeDString(GetEnchantData().TypeD))
 /*===========================================================================
  *		End of CSrEnchRecord Get Field Methods
  *=========================================================================*/
@@ -232,12 +240,16 @@ DEFINE_SRGETFIELD(CSrEnchRecord::GetFieldCharge,             String.Format("%u",
  * Begin CSrEnchRecord Compare Field Methods
  *
  *=========================================================================*/
-DEFINE_SRCOMPFIELDSTRING(CSrEnchRecord, CompareFieldBaseEnchant,	 GetBaseEnchant)
+DEFINE_SRCOMPFIELDSTRING(CSrEnchRecord, CompareFieldBaseEnchant,	GetBaseEnchant)
 DEFINE_SRCOMPFIELDSTRING(CSrEnchRecord, CompareFieldItemTypes,		GetItemTypes)
 DEFINE_SRCOMPFIELDDWORD(CSrEnchRecord,  CompareFieldEffectCount,	GetEffectCount)
-DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldUserData,		GetEnchantData().Type3)
 DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldEnchantCost,	GetEnchantData().EnchantCost)
 DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldCharge,			GetEnchantData().ChargeAmount)
+DEFINE_SRCOMPFIELDFLOAT1(CSrEnchRecord, CompareFieldStaffMod,		GetEnchantData().StaffMod, 100.0f)
+DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldTypeA,			GetEnchantData().TypeA)
+DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldTypeB,			GetEnchantData().TypeB)
+DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldTypeC,			GetEnchantData().TypeC)
+DEFINE_SRCOMPFIELDDWORD1(CSrEnchRecord, CompareFieldTypeD,			GetEnchantData().TypeD)
 /*===========================================================================
  *		End of CSrEnchRecord Compare Field Methods
  *=========================================================================*/
@@ -279,6 +291,46 @@ BEGIN_SRSETFIELD(CSrEnchRecord::SetFieldCharge)
 
 	if (!SrFieldConvertDword(pString, Value)) return false;
 	GetEnchantData().ChargeAmount = Value;
+END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrEnchRecord::SetFieldTypeA)
+	int Value;
+
+	if (!GetSrEnchantTypeAValue(Value, pString)) return false;
+	GetEnchantData().TypeA = Value;
+END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrEnchRecord::SetFieldTypeB)
+	int Value;
+
+	if (!GetSrEnchantTypeBValue(Value, pString)) return false;
+	GetEnchantData().TypeB = Value;
+END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrEnchRecord::SetFieldTypeC)
+	int Value;
+
+	if (!GetSrEnchantTypeCValue(Value, pString)) return false;
+	GetEnchantData().TypeC = Value;
+END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrEnchRecord::SetFieldTypeD)
+	int Value;
+
+	if (!GetSrEnchantTypeDValue(Value, pString)) return false;
+	GetEnchantData().TypeD = Value;
+END_SRSETFIELD()
+
+
+BEGIN_SRSETFIELD(CSrEnchRecord::SetFieldStaffMod)
+	float Value;
+
+	if (!SrFieldConvertFloat(pString, Value)) return false;
+	GetEnchantData().StaffMod = Value;
 END_SRSETFIELD()
 /*===========================================================================
  *		End of CSrEnchRecord Set Field Methods

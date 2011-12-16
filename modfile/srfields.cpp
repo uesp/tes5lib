@@ -228,6 +228,12 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_UNKNOWN4,			"Unknown4")	
 	ADD_STRINGVALUE( SR_FIELD_UNKNOWN5,			"Unknown5")	
 
+	ADD_STRINGVALUE( SR_FIELD_TYPEA,			"TypeA")
+	ADD_STRINGVALUE( SR_FIELD_TYPEB,			"TypeB")
+	ADD_STRINGVALUE( SR_FIELD_TYPEC,			"TypeC")
+	ADD_STRINGVALUE( SR_FIELD_TYPED,			"TypeD")
+	ADD_STRINGVALUE( SR_FIELD_STAFFMOD,			"StaffMod")
+
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings

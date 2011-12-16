@@ -49,15 +49,15 @@
 	/* ENIT data structure */
   struct srenitdata_t 
   {
-	dword ChargeAmount;
-	dword Type1;
-	dword Type2;
-	dword EnchantCost;
-	dword Type3;
-	dword Type4;
-	float StaffMod;
-	srformid_t BaseEnchID;
-	srformid_t ItemTypesID;
+	dword		ChargeAmount;
+	dword		TypeA;
+	dword		TypeB;
+	dword		EnchantCost;
+	dword		TypeC;
+	dword		TypeD;
+	float		StaffMod;
+	srformid_t	BaseEnchID;
+	srformid_t	ItemTypesID;
   };
 
 #pragma pack(pop)
@@ -123,10 +123,10 @@ public:
 	/* Get class members */
   srenitdata_t& GetEnchantData	(void) { return (m_Data); }
   virtual byte*	GetData			(void) { return (byte *)(&m_Data); }
-  dword			GetType			(void) { return (m_Data.Type1); }
+  dword			GetType			(void) { return (m_Data.TypeA); }
   dword			GetCharge		(void) { return (m_Data.ChargeAmount); }
   dword			GetCost			(void) { return (m_Data.EnchantCost); }
-  bool          IsAutoCalc		(void) { return !CheckFlagBits(m_Data.Type1, SR_ENCHFLAG_MANUALCALC); }
+  bool          IsAutoCalc		(void) { return !CheckFlagBits(m_Data.TypeA, SR_ENCHFLAG_MANUALCALC); }
 
   	/* Get a string representation of a subrecord field */
   bool GetField (CSString& Buffer, const int FieldID);
@@ -135,8 +135,8 @@ public:
   void InitializeNew (void);
 
 	/* Set class members */
-  void SetAutoCalc (const bool  Flag)  { FlipFlagBits(m_Data.Type1,  SR_ENCHFLAG_MANUALCALC, !Flag); }
-  void SetType     (const dword Value) { m_Data.Type1        = Value; }
+  void SetAutoCalc (const bool  Flag)  { FlipFlagBits(m_Data.TypeA,  SR_ENCHFLAG_MANUALCALC, !Flag); }
+  void SetType     (const dword Value) { m_Data.TypeA        = Value; }
   void SetCharge   (const dword Value) { m_Data.ChargeAmount = Value; }
   void SetCost     (const dword Value) { m_Data.EnchantCost  = Value; }
 

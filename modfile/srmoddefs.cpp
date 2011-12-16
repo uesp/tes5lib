@@ -79,6 +79,7 @@ BEGIN_STRINGVALUE(s_SrSpellCastAnims)
 	ADD_STRINGVALUE( SR_SPELL_CASTANIM_SUSTAINED,	"Sustained")
 END_STRINGVALUE()
 
+
 BEGIN_STRINGVALUE(s_SrSpellCastTypes)
 	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_0,		"CastType0")
 	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_1,		"CastType1")
@@ -87,6 +88,34 @@ BEGIN_STRINGVALUE(s_SrSpellCastTypes)
 	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_4,		"CastType4")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrEnchantTypeA)
+	ADD_STRINGVALUE( 0,		"0")
+	ADD_STRINGVALUE( 1,		"1")
+	ADD_STRINGVALUE( 4,		"4")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrEnchantTypeB)
+	ADD_STRINGVALUE( 0,		"0")
+	ADD_STRINGVALUE( 1,		"1")
+	ADD_STRINGVALUE( 2,		"2")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrEnchantTypeC)
+	ADD_STRINGVALUE( 0,		"0")
+	ADD_STRINGVALUE( 1,		"1")
+	ADD_STRINGVALUE( 2,		"2")
+	ADD_STRINGVALUE( 3,		"3")
+	ADD_STRINGVALUE( 4,		"4")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrEnchantTypeD)
+	ADD_STRINGVALUE( 6,		"6")
+	ADD_STRINGVALUE( 12,	"12")
+END_STRINGVALUE()
 
 /*===========================================================================
  *		End of Constant String Tables
@@ -106,6 +135,11 @@ const SSCHAR* GetSrSpellTypeString		(const int Value) { return s_SrSpellTypesMap
 const SSCHAR* GetSrSpellCastTypeString	(const int Value) { return s_SrSpellCastTypesMap.FindValue(Value); }
 const SSCHAR* GetSrSpellCastAnimString	(const int Value) { return s_SrSpellCastAnimsMap.FindValue(Value); }
 
+const SSCHAR* GetSrEnchantTypeAString	(const int Value) { return s_SrEnchantTypeAMap.FindValue(Value); }
+const SSCHAR* GetSrEnchantTypeBString	(const int Value) { return s_SrEnchantTypeBMap.FindValue(Value); }
+const SSCHAR* GetSrEnchantTypeCString	(const int Value) { return s_SrEnchantTypeCMap.FindValue(Value); }
+const SSCHAR* GetSrEnchantTypeDString	(const int Value) { return s_SrEnchantTypeDMap.FindValue(Value); }
+
 bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString) { return s_SrMagicSchoolsMap.FindString(Value, pString); }
 bool GetSrMagicTypeValue			(int& Value, const SSCHAR* pString) { return s_SrMagicTypesMap.FindString(Value, pString); }
 bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString) { return s_SrConditionOperatorsMap.FindString(Value, pString); }
@@ -113,6 +147,11 @@ bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString) { return s_
 bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString) { return s_SrSpellTypesMap.FindString(Value, pString); }
 bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastTypesMap.FindString(Value, pString); }
 bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastAnimsMap.FindString(Value, pString); }
+
+bool GetSrEnchantTypeAValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeAMap.FindString(Value, pString); }
+bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeBMap.FindString(Value, pString); }
+bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeCMap.FindString(Value, pString); }
+bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeDMap.FindString(Value, pString); }
 /*===========================================================================
  *		End of String Table Lookup Functions
  *=========================================================================*/

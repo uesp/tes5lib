@@ -254,6 +254,11 @@
   #define SR_FIELD_UNKNOWN3				192
   #define SR_FIELD_UNKNOWN4				193
   #define SR_FIELD_UNKNOWN5				194
+  #define SR_FIELD_TYPEA				195
+  #define SR_FIELD_TYPEB				196
+  #define SR_FIELD_TYPEC				197
+  #define SR_FIELD_TYPED				198
+  #define SR_FIELD_STAFFMOD				199
 
 /*===========================================================================
  *		End of Field Types

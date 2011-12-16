@@ -530,7 +530,6 @@
   extern const stringvalue_t s_SrMagicTypes[];
   extern const stringvalue_t s_SrConditionOperators[];
 
-
 			/* Spell Types */
 	#define SR_SPELL_TYPE_SPELL			0
 	#define SR_SPELL_TYPE_DISEASE		1
@@ -555,6 +554,11 @@
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
 	extern const stringvalue_t s_SrSpellCastTypes[];
+
+	extern const stringvalue_t s_SrEnchantTypeA[];
+	extern const stringvalue_t s_SrEnchantTypeB[];
+	extern const stringvalue_t s_SrEnchantTypeC[];
+	extern const stringvalue_t s_SrEnchantTypeD[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -581,6 +585,16 @@
 	bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString);
 	bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString);
 	bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrEnchantTypeAString	(const int Value);
+	const SSCHAR* GetSrEnchantTypeBString	(const int Value);
+	const SSCHAR* GetSrEnchantTypeCString	(const int Value);
+	const SSCHAR* GetSrEnchantTypeDString	(const int Value);
+
+	bool GetSrEnchantTypeAValue	(int& Value, const SSCHAR* pString);
+	bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString);
+	bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString);
+	bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString);
 /*===========================================================================
  *		End of Type Lookup Function Definitions
  *=========================================================================*/
