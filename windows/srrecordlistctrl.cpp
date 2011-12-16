@@ -2430,7 +2430,6 @@ void CSrRecordListCtrl::OnBeginDrag (NMHDR* pNMHDR, LRESULT* pResult) {
 	/* Ignore if nothing to drag */
   if (m_DragRecords.GetSize() == 0 && m_DragCustomData.GetSize() == 0) return;
 
-
 	/* Setup the dragging members */
   m_DragIndex  = pNMListView->iItem;
   DragPoint.x  = Offset;
@@ -2440,9 +2439,12 @@ void CSrRecordListCtrl::OnBeginDrag (NMHDR* pNMHDR, LRESULT* pResult) {
   m_hGoodDropCursor = GetCursor();
   SetCursor(m_hBadDropCursor);
 
+  if (m_pDragImage != NULL) delete m_pDragImage;
+
 	/* Create the image for dragging */
   m_pDragImage = CreateDragImage(m_DragIndex, &DragPoint);
   if (m_pDragImage == NULL) return;   
+  
   m_IsDragging    = true;
   m_LastDropValid = false;
   m_pLastDropWnd  = NULL;
@@ -2450,7 +2452,7 @@ void CSrRecordListCtrl::OnBeginDrag (NMHDR* pNMHDR, LRESULT* pResult) {
 	/* Change the cursor to the drag image
 	  (still must perform DragMove() in OnMouseMove() to show it moving) */
   m_pDragImage->BeginDrag(0, CPoint(Offset, Offset));
-  m_pDragImage->DragEnter(GetDesktopWindow(), pNMListView->ptAction);
+  m_pDragImage->DragEnter(NULL, pNMListView->ptAction);
 
 	/* Cause this control to capture all the mouse messages */
   SetCapture();  
