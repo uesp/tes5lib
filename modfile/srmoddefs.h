@@ -600,6 +600,10 @@
  *=========================================================================*/
 
 
+	bool SrIsRecipeResult    (const srrectype_t Type);
+	bool SrIsRecipeComponent (const srrectype_t Type);
+	
+
 /*===========================================================================
  *
  * Begin External Definitions
