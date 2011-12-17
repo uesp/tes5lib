@@ -17,13 +17,11 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrSounRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrSounRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SDSC, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -32,10 +30,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrSounRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrSounRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -62,7 +60,7 @@ CSrSounRecord::CSrSounRecord ()
  *=========================================================================*/
 void CSrSounRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrSounRecord::Destroy()
@@ -76,11 +74,7 @@ void CSrSounRecord::Destroy (void)
  *=========================================================================*/
 void CSrSounRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	CSrIdRecord::InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrSounRecord::InitializeNew()
@@ -102,10 +96,6 @@ void CSrSounRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SDSC)
 	{
 		m_pSdscData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -114,10 +104,9 @@ void CSrSounRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pSnddData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -137,15 +126,12 @@ void CSrSounRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pFnamData = NULL;
 	else if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
 	else if (m_pSdscData == pSubrecord)
 		m_pSdscData = NULL;
 	else if (m_pSnddData == pSubrecord)
 		m_pSnddData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

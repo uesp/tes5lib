@@ -17,20 +17,18 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrProjRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrProjRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DEST, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DSTD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM2, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DSTF, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -39,10 +37,11 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrProjRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrProjRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrProjRecord, FieldItemName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -56,6 +55,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrProjRecord::CSrProjRecord () 
 {
+	m_pItemName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrProjRecord Constructor
@@ -69,7 +69,9 @@ CSrProjRecord::CSrProjRecord ()
  *=========================================================================*/
 void CSrProjRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pItemName = NULL;
+
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrProjRecord::Destroy()
@@ -83,11 +85,7 @@ void CSrProjRecord::Destroy (void)
  *=========================================================================*/
 void CSrProjRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
-
+	CSrIdRecord::InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrProjRecord::InitializeNew()
@@ -113,10 +111,6 @@ void CSrProjRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM1)
 	{
 		m_pNam1Data = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -135,7 +129,7 @@ void CSrProjRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DSTD)
 	{
@@ -149,10 +143,9 @@ void CSrProjRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pDstfData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -174,8 +167,6 @@ void CSrProjRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pModlData = NULL;
 	else if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
 	else if (m_pNam1Data == pSubrecord)
 		m_pNam1Data = NULL;
 	else if (m_pModtData == pSubrecord)
@@ -184,17 +175,16 @@ void CSrProjRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pDataData = NULL;
 	else if (m_pDestData == pSubrecord)
 		m_pDestData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pDstdData == pSubrecord)
 		m_pDstdData = NULL;
 	else if (m_pNam2Data == pSubrecord)
 		m_pNam2Data = NULL;
 	else if (m_pDstfData == pSubrecord)
 		m_pDstfData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

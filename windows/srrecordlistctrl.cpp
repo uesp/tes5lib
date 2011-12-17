@@ -728,7 +728,7 @@ static srreclistcolinit_t s_MiscListInit[] = {
  };
 
 static srreclistcolinit_t s_NpcListInit[] = {
-	{ SR_FIELD_EDITORID,	100,	LVCFMT_LEFT },
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
 	{ SR_FIELD_FULLNAME,	120,	LVCFMT_CENTER },
@@ -738,6 +738,16 @@ static srreclistcolinit_t s_NpcListInit[] = {
 
 
 static srreclistcolinit_t s_PerkListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_ITEMNAME,	150,	LVCFMT_CENTER },
+	{ SR_FIELD_NONE,		0,		0 }
+};
+
+
+static srreclistcolinit_t s_ProjListInit[] = 
 {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
@@ -787,31 +797,32 @@ static srreclistcolinit_t s_SlgmListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
-static srreclistcolinit_t s_SounListInit[] = {
-	{ SR_FIELD_EDITORID,	     100,	LVCFMT_LEFT },
-	{ SR_FIELD_FORMID,   	       5,	LVCFMT_LEFT },
-	{ SR_FIELD_FLAGS,	      50,	LVCFMT_CENTER },
-	{ SR_FIELD_SOUNDFILE,	     100,	LVCFMT_CENTER },
-	{ SR_FIELD_MINATTENUATION,    60,	LVCFMT_CENTER },
-	{ SR_FIELD_MAXATTENUATION,    60,	LVCFMT_CENTER },
-	{ SR_FIELD_STATICATTENUATION, 60,	LVCFMT_CENTER },
-	{ SR_FIELD_FREQADJUSTMENT,    60,	LVCFMT_CENTER },
-	{ SR_FIELD_STARTTIME,         60,	LVCFMT_CENTER },
-	{ SR_FIELD_STOPTIME,          60,	LVCFMT_CENTER },
-	{ SR_FIELD_RANDOMPLAY,        60,	LVCFMT_CENTER },
-	{ SR_FIELD_RANDOMLOCATION,    60,	LVCFMT_CENTER },
-	{ SR_FIELD_RANDOMFREQSHIFT,   60,	LVCFMT_CENTER },
-	{ SR_FIELD_LOOP,              60,	LVCFMT_CENTER },
-	{ SR_FIELD_MENUSOUND,         60,	LVCFMT_CENTER },
-	{ SR_FIELD_2DSOUND,           60,	LVCFMT_CENTER },
-	{ SR_FIELD_360LFE,            60,	LVCFMT_CENTER },
-	{ SR_FIELD_IGNOREENVIRONMENT, 60,	LVCFMT_CENTER },
-	
+static srreclistcolinit_t s_SounListInit[] = 
+{
+	{ SR_FIELD_EDITORID,			150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,   			5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,				50,		LVCFMT_CENTER },
+	//{ SR_FIELD_SOUNDFILE,			100,	LVCFMT_CENTER },
+	//{ SR_FIELD_MINATTENUATION,    60,	LVCFMT_CENTER },
+	//{ SR_FIELD_MAXATTENUATION,    60,	LVCFMT_CENTER },
+	//{ SR_FIELD_STATICATTENUATION, 60,	LVCFMT_CENTER },
+	//{ SR_FIELD_FREQADJUSTMENT,    60,	LVCFMT_CENTER },
+	//{ SR_FIELD_STARTTIME,         60,	LVCFMT_CENTER },
+	//{ SR_FIELD_STOPTIME,          60,	LVCFMT_CENTER },
+	//{ SR_FIELD_RANDOMPLAY,        60,	LVCFMT_CENTER },
+	//{ SR_FIELD_RANDOMLOCATION,    60,	LVCFMT_CENTER },
+	//{ SR_FIELD_RANDOMFREQSHIFT,   60,	LVCFMT_CENTER },
+	//{ SR_FIELD_LOOP,              60,	LVCFMT_CENTER },
+	//{ SR_FIELD_MENUSOUND,         60,	LVCFMT_CENTER },
+	//{ SR_FIELD_2DSOUND,           60,	LVCFMT_CENTER },
+	//{ SR_FIELD_360LFE,            60,	LVCFMT_CENTER },
+	//{ SR_FIELD_IGNOREENVIRONMENT, 60,	LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
- };
+};
 
-static srreclistcolinit_t s_SpelListInit[] = {
-	{ SR_FIELD_EDITORID,	100,	LVCFMT_LEFT },
+static srreclistcolinit_t s_SpelListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
 	{ SR_FIELD_ITEMNAME,	140,	LVCFMT_CENTER },
@@ -819,7 +830,7 @@ static srreclistcolinit_t s_SpelListInit[] = {
 	{ SR_FIELD_COST,		60,		LVCFMT_CENTER },
 	{ SR_FIELD_AUTOCALC,	60,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
- };
+};
 
 static srreclistcolinit_t s_StatListInit[] = {
 	{ SR_FIELD_EDITORID,	100,	LVCFMT_LEFT },
@@ -829,7 +840,8 @@ static srreclistcolinit_t s_StatListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
-static srreclistcolinit_t s_WeapListInit[] = {
+static srreclistcolinit_t s_WeapListInit[] = 
+{
 	{ SR_FIELD_EDITORID,	   100,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		 	 5,	LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,			50,	LVCFMT_CENTER },
@@ -845,7 +857,7 @@ static srreclistcolinit_t s_WeapListInit[] = {
 	{ SR_FIELD_VNAM,			60,	LVCFMT_CENTER },
 	{ SR_FIELD_MODEL,			60,	LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
- };
+};
 
 
 static srreclistinfoinit_t s_ListInit[] = 
@@ -855,7 +867,6 @@ static srreclistinfoinit_t s_ListInit[] =
 	//{ &SR_NAME_SCPT, s_ScptListInit, &CSrScptRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_SGST, s_SgstListInit, &CSrSgstRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_SLGM, s_SlgmListInit, &CSrSlgmRecord::s_FieldMap, SR_FIELD_EDITORID },
-	//{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_STAT, s_StatListInit, &CSrStatRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_AACT, s_AactListInit, &CSrAactRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACHR, s_AchrListInit, &CSrAchrRecord::s_FieldMap, SR_FIELD_EDITORID },
@@ -930,6 +941,8 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_KYWD, s_KywdListInit, &CSrKywdRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PERK, s_PerkListInit, &CSrPerkRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }
  };

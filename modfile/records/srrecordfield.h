@@ -200,6 +200,7 @@
 					if (pRecord1 == NULL) return (1); \
 					return SafeStringCompare(GetItemName(), pRecord1->GetItemName(), false); } \
 			bool SetFieldItemName     (const SSCHAR* pString, long Reserved = 0) { SetItemName(pString); return true; }
+	#define DECLARE_SRFIELD_ITEMNAME(Class) DECLARE_SRFIELD_FULLNAME(Class)
 
 	#define DECLARE_SRFIELD_DESCRIPTION(Class, SRName)	const char* GetDescription (void) const { return m_pDescription ? m_pDescription->GetString().c_str() : ""; } \
 			void SetDescription (const SSCHAR* pString) { \
