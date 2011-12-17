@@ -1595,7 +1595,7 @@ int SafeStringCompare (const SSCHAR* pString1, const SSCHAR* pString2, const boo
 
 	do {
 		EndIndex = Buffer.FindChar(SplitChar, StartIndex);
-		if (EndIndex < 0) EndIndex = Buffer.GetLength() - 1;
+		if (EndIndex < 0) EndIndex = Buffer.GetLength();
 
 		pNewString = new CSString(Buffer.Mid(StartIndex, EndIndex-StartIndex));
 		pNewString->Trim();

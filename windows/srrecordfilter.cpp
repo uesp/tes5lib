@@ -23,8 +23,8 @@ CSrRecordFilter::CSrRecordFilter () {
 
   m_FilterMask   = 0;
   m_Flags        = 0;
-  m_BipedCompare = SR_RECFILTER_BIPED_EQUAL;
-  m_BipedParts   = 0;
+  m_BodyCompare  = SR_RECFILTER_BODY_EQUAL;
+  m_BodyParts    = 0;
   m_ArmorType    = 0;
   m_UserData     = 0;
   m_EnchantType  = 0;
@@ -57,8 +57,8 @@ void CSrRecordFilter::Destroy (void) {
   m_RecordType   = SR_NAME_NULL;
   m_FilterMask   = 0;
   m_Flags        = 0;
-  m_BipedCompare = SR_RECFILTER_BIPED_EQUAL;
-  m_BipedParts   = 0;
+  m_BodyCompare  = SR_RECFILTER_BODY_EQUAL;
+  m_BodyParts    = 0;
   m_ArmorType    = 0;
   m_UserData     = 0;
   m_EnchantType  = 0;
@@ -82,12 +82,12 @@ void CSrRecordFilter::Destroy (void) {
 bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
   //CSrItem1Record* pItem1;
   CSrWeapRecord*  pWeapon;
-  //CSrArmoRecord*  pArmor;
+  CSrArmoRecord*  pArmor;
   //CSrClotRecord*  pClothing;
   //CSrScptRecord*  pScript;
   //CSrEnchRecord*  pEnchant;
   //CSrSpelRecord*  pSpell;
-//  dword		  BipedFlags;
+  dword			BodyFlags;
   bool			Result;
 
 	/* Ignore invalid input */
@@ -164,35 +164,38 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
    }
    
    	/* Do the biped parts match? */
-  if (IsMaskBipedParts()) {
-    //if (pRecord->GetRecordType() == SR_NAME_ARMO) {
-      //pArmor = SrCastClass(CSrArmoRecord, pRecord);
-      //if (pArmor == NULL) return (false);
-      //BipedFlags = pArmor->GetBipedFlags();
-     //}
+  if (IsMaskBodyParts()) {
+    if (pRecord->GetRecordType() == SR_NAME_ARMO) 
+	{
+      pArmor = SrCastClass(CSrArmoRecord, pRecord);
+      if (pArmor == NULL) return (false);
+      BodyFlags = pArmor->GetBodyFlags();
+    }
     //else if (pRecord->GetRecordType() == SR_NAME_CLOT) {
 //      pClothing = SrCastClass(CSrClotRecord, pRecord);
       //if (pClothing == NULL) return (false);
-      //BipedFlags = pClothing->GetBipedFlags();
+      //BodyFlags = pClothing->GetBodyFlags();
      //}
-    //else {
-//      return (false);
-     //}
+    else 
+	{
+      return (false);
+    }
 
-    //switch (m_BipedCompare) {
-//      case SR_RECFILTER_BIPED_AND:
-		//if ((BipedFlags & m_BipedParts) != m_BipedParts) return (false);
-		//break;
-      //case SR_RECFILTER_BIPED_OR:
-//		if ((BipedFlags & m_BipedParts) == 0) return (false);
-		//break;
-      //case SR_RECFILTER_BIPED_EQUAL:
-      //default:
-//		if (BipedFlags != m_BipedParts) return (false);
-//		break;
-     //}
+    switch (m_BodyCompare) 
+	{
+      case SR_RECFILTER_BODY_AND:
+		if ((BodyFlags & m_BodyParts) != m_BodyParts) return (false);
+		break;
+      case SR_RECFILTER_BODY_OR:
+		if ((BodyFlags & m_BodyParts) == 0) return (false);
+		break;
+      case SR_RECFILTER_BODY_EQUAL:
+      default:
+		if (BodyFlags != m_BodyParts) return (false);
+		break;
+    }
 
-   }
+  }
 
 	/* Check all field filters */
   Result = CheckFieldRecord(pRecord);
@@ -200,7 +203,7 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
 
 	/* Record matches all filter criteria */
   return (true);
- }
+}
 /*===========================================================================
  *		End of Class Method CSrRecordFilter::CheckRecord()
  *=========================================================================*/
@@ -434,28 +437,24 @@ bool CSrRecordFilter::SetParameter (const SSCHAR* pVariable, const SSCHAR* pValu
     m_WeaponType = pValue;
     m_FilterMask |= SR_RECFILTER_MASK_WEAPONTYPE;
   }
-  else if (stricmp(pVariable, "BipedParts") == 0) {
-/*
-    m_BipedParts = ParseObBipedFlagString(pValue);
-    m_FilterMask |= SR_RECFILTER_MASK_BIPEDPARTS;
-	*/
-   }
-  else if (stricmp(pVariable, "BipedCompare") == 0) {
-	  /*
-    if (stricmp(pValue, "AND") == 0) {
-      m_BipedCompare = SR_RECFILTER_BIPED_AND;
-     }
-    else if (stricmp(pValue, "OR") == 0) {
-      m_BipedCompare = SR_RECFILTER_BIPED_OR;
-     }
-    else if (stricmp(pValue, "Equal") == 0) {
-      m_BipedCompare = SR_RECFILTER_BIPED_EQUAL;
-     }
-    else {
-      AddSrGeneralError("Invalid biped compare type '%s'!", pValue);
-     }
-	 */
-   }
+  else if (stricmp(pVariable, "BodyParts") == 0) 
+  {
+     GetSrBodyPartFlagValue(m_BodyParts, pValue);
+     m_FilterMask |= SR_RECFILTER_MASK_BODYPARTS;
+  }
+  else if (stricmp(pVariable, "BodyCompare") == 0) 
+  {
+
+    if (stricmp(pValue, "AND") == 0)
+      m_BodyCompare = SR_RECFILTER_BODY_AND;
+    else if (stricmp(pValue, "OR") == 0)
+      m_BodyCompare = SR_RECFILTER_BODY_OR;
+    else if (stricmp(pValue, "Equal") == 0)
+      m_BodyCompare = SR_RECFILTER_BODY_EQUAL;
+    else
+      AddSrGeneralError("Invalid body compare type '%s'!", pValue);
+
+  }
   else if (stricmp(pVariable, "Field") == 0 || stricmp(pVariable, "FieldExact") == 0) {
     AddFieldFilter(pValue, SR_RECFILTER_FIELDFLAG_EXACT);
   }
@@ -476,10 +475,10 @@ bool CSrRecordFilter::SetParameter (const SSCHAR* pVariable, const SSCHAR* pValu
   }
   else {
     AddSrGeneralError("Unknown filter variable '%s'!", pVariable);
-   }
+  }
 
   return (true);
- }
+}
 /*===========================================================================
  *		End of Class Method CSrRecordFilter::SetParameter()
  *=========================================================================*/

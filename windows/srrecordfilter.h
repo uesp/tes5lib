@@ -30,7 +30,7 @@
 
 	/* Record filter masks */
   #define SR_RECFILTER_MASK_RECORDTYPE	1
-  #define SR_RECFILTER_MASK_BIPEDPARTS	2
+  #define SR_RECFILTER_MASK_BODYPARTS	2
   #define SR_RECFILTER_MASK_WEAPONTYPE	4
   #define SR_RECFILTER_MASK_ARMORTYPE	8
   #define SR_RECFILTER_MASK_MATERIAL	16
@@ -45,9 +45,9 @@
   #define SR_RECFILTER_FLAG_EMPTY	1
   
   	/* Biped comparison types */
-  #define SR_RECFILTER_BIPED_EQUAL	0	/* Flags must be identical */
-  #define SR_RECFILTER_BIPED_AND	1	/* All filter flags must match */
-  #define SR_RECFILTER_BIPED_OR		2	/* Any filter flags must match */
+  #define SR_RECFILTER_BODY_EQUAL	0	/* Flags must be identical */
+  #define SR_RECFILTER_BODY_AND		1	/* All filter flags must match */
+  #define SR_RECFILTER_BODY_OR		2	/* Any filter flags must match */
 
 	/* Field filter flags */
   #define SR_RECFILTER_FIELDFLAG_EXACT		1	/* Exact match required */
@@ -104,19 +104,19 @@ protected:
 
   dword				m_FilterMask;
   srrectype_t		m_RecordType;
-  CSString		m_Material;
-  CSString		m_NameFilter;
-  dword			m_BipedParts;
-  dword			m_BipedCompare;
-  CSString		m_WeaponType;
-  CSString		m_MaterialType;
-  int			m_ScriptType;
-  int			m_EnchantType;
-  int			m_SpellType;
-  int			m_SpellLevel;
-  dword			m_ArmorType;
+  CSString			m_Material;
+  CSString			m_NameFilter;
+  dword				m_BodyParts;
+  dword				m_BodyCompare;
+  CSString			m_WeaponType;
+  CSString			m_MaterialType;
+  int				m_ScriptType;
+  int				m_EnchantType;
+  int				m_SpellType;
+  int				m_SpellLevel;
+  dword				m_ArmorType;
 
-  dword			m_UserData;
+  dword				m_UserData;
 
   CSrFieldFilterArray	m_FieldFilters;
 
@@ -166,7 +166,7 @@ public:
   bool IsMaskItemName    (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_ITEMNAME); }
   bool IsMaskWeaponType  (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_WEAPONTYPE); }
   bool IsMaskArmorType   (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_ARMORTYPE); }
-  bool IsMaskBipedParts  (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_BIPEDPARTS); }
+  bool IsMaskBodyParts   (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_BODYPARTS); }
   bool IsMaskScriptType  (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_SCRIPTTYPE); }
   bool IsMaskEnchantType (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_ENCHANTTYPE); }
   bool IsMaskSpellType   (void) { return CheckFlagBits(m_FilterMask, SR_RECFILTER_MASK_SPELLTYPE); }

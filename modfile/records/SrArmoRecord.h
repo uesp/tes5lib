@@ -91,6 +91,7 @@ public:
   bool IsPlayable (void) { return !CheckFlagBits(GetBodtData().Flags, SR_BODT_FLAG_NONPLAYABLE); }  
   const char* GetBodyParts (void) { m_BodyPartsString = GetSrBodyPartFlagString(GetBodtData().BodyParts); return m_BodyPartsString.c_str(); }
   const char* GetArmorType (void) { return GetSrArmorTypeString(GetBodtData().ArmorType); }
+  dword GetBodyFlags (void) { return GetBodtData().BodyParts; }
 
 		/* Initialize a new record */
   void InitializeNew (void);
