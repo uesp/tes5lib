@@ -1669,3 +1669,42 @@ END_SRSETFIELD()
 /*===========================================================================
  *		End of CSrRecord Set Field Methods
  *=========================================================================*/
+
+
+const char* CSrRecord::GetEditorID (CSrFormidSubrecord* pSubrecord)
+{
+	if (m_pParent  == NULL) return NULL;
+	if (pSubrecord == NULL) return NULL;
+	return m_pParent->GetEditorID(pSubrecord->GetValue());
+}
+
+
+const char* CSrRecord::GetEditorID (const srformid_t FormID)
+{
+	if (m_pParent  == NULL) return NULL;
+	if (FormID     ==    0) return NULL;
+	return m_pParent->GetEditorID(FormID);
+}
+
+
+void CSrRecord::SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const srformid_t FormID, const srrectype_t Type)
+{
+
+	if (pSubrecord == NULL)
+	{
+		CSrSubrecord* pNewSubrecord = AddNewSubrecord(Type);
+		pSubrecord = SrCastClassNull(CSrFormidSubrecord, pNewSubrecord);
+		if (pSubrecord == NULL) return;
+		pSubrecord->InitializeNew();
+	}
+
+	pSubrecord->SetValue(FormID);
+}
+
+
+void CSrRecord::SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const char* pEditorID, const srrectype_t Type)
+{
+	if (m_pParent == NULL) return;
+	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+	if (pRecord != NULL) SetSubrecordFormID(pSubrecord, pRecord->GetFormID(), Type);
+}

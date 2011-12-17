@@ -64,11 +64,7 @@ public:
   srammodata_t& GetAmmoData (void) { return m_pAmmoData ? m_pAmmoData->GetAmmoData() : s_NullAmmoData; }
 
 		/* Get class members */  
-  const char* GetPickupSound   (void);
-  const char* GetDropSound     (void);
   const char* GetProjectile    (void);
-  srformid_t  GetPickupSoundID (void) { return m_pPickupSound ? m_pPickupSound->GetValue() : 0; }
-  srformid_t  GetDropSoundID   (void) { return m_pDropSound   ? m_pDropSound->GetValue()   : 0; }
   srformid_t  GetProjectileID  (void) { return m_pAmmoData    ? m_pAmmoData->GetAmmoData().ProjectileID : 0; }
   bool		  GetIgnoreResist  (void) { return CheckFlagBits(GetAmmoData().Flags, SR_AMMOFLAG_IGNORERESIST); }
   bool		  GetVanishes      (void) { return CheckFlagBits(GetAmmoData().Flags, SR_AMMOFLAG_VANISHES); }
@@ -82,10 +78,6 @@ public:
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
   void SetProjectileID  (const srformid_t FormID);
-  void SetPickupSoundID (const srformid_t FormID);
-  void SetDropSoundID   (const srformid_t FormID);
-  void SetPickupSound   (const char* pEditorID);
-  void SetDropSound     (const char* pEditorID);
   void SetProjectile    (const char* pEditorID);
   void SetIgnoreResist  (const bool Flag) { FlipFlagBits(GetAmmoData().Flags, SR_AMMOFLAG_IGNORERESIST, Flag); }
   void SetVanishes      (const bool Flag) { FlipFlagBits(GetAmmoData().Flags, SR_AMMOFLAG_VANISHES, Flag); }
@@ -100,6 +92,9 @@ public:
   DECLARE_SRFIELD_EDITORID(CSrAmmoRecord, PickupSound, GetPickupSound, SetPickupSound)
   DECLARE_SRFIELD_EDITORID(CSrAmmoRecord, DropSound,   GetDropSound,   SetDropSound)
   DECLARE_SRFIELD_EDITORID(CSrAmmoRecord, Projectile,  GetProjectile,  SetProjectile)
+
+  DECLARE_SRMETHOD_FORMID(PickupSound, m_pPickupSound, SR_NAME_YNAM)
+  DECLARE_SRMETHOD_FORMID(DropSound,   m_pDropSound,   SR_NAME_ZNAM)
 
 };
 /*===========================================================================

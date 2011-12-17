@@ -146,7 +146,13 @@ public:
 	return NULL;
   }
 
-  virtual CSString* FindLocalString (const srlstringid_t ID) = 0;
+	virtual CSString* FindLocalString (const srlstringid_t ID) = 0;
+
+	const char* GetEditorID (CSrFormidSubrecord* pSubrecord)
+	{
+		if (pSubrecord == NULL) return NULL;
+		return GetEditorID(pSubrecord->GetValue());
+	}
 
 	/* Get the editorID from a formID */
   virtual bool          GetEditorID (CSString& Buffer, const srformid_t FormID) = 0;

@@ -311,6 +311,15 @@
 								SetFunction(pString); return true; } 
 
 
+	#define DECLARE_SRMETHOD_FORMID(Name, Member, Type) const char* Get##Name (void) { \
+							return CSrRecord::GetEditorID(Member); } \
+						srformid_t  Get##Name##ID (void) { \
+								return Member ? Member->GetValue() : SR_FORMID_NULL; } \
+						void Set##Name##ID (const srformid_t FormID) { \
+							SetSubrecordFormID(Member, FormID, Type); } \
+						void Set##Name (const char* pEditorID) { \
+							SetSubrecordFormID(Member, pEditorID, Type); }
+
 
 /*===========================================================================
  *		End of Definitions

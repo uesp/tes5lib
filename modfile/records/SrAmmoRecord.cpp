@@ -184,25 +184,7 @@ void CSrAmmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 const char* CSrAmmoRecord::GetProjectile (void)
 {
-	if (m_pParent == NULL) return NULL;
-	if (m_pAmmoData == NULL) return NULL;
-	return m_pParent->GetEditorID(m_pAmmoData->GetAmmoData().ProjectileID);
-}
-
-
-const char* CSrAmmoRecord::GetPickupSound (void)
-{
-	if (m_pParent == NULL) return NULL;
-	if (m_pPickupSound == NULL) return NULL;
-	return m_pParent->GetEditorID(m_pPickupSound->GetValue());
-}
-
-
-const char* CSrAmmoRecord::GetDropSound (void)
-{
-	if (m_pParent == NULL) return NULL;
-	if (m_pDropSound == NULL) return NULL;
-	return m_pParent->GetEditorID(m_pDropSound->GetValue());
+	return m_pAmmoData ? CSrRecord::GetEditorID(m_pAmmoData->GetAmmoData().ProjectileID) : NULL;
 }
 
 
@@ -214,31 +196,8 @@ void CSrAmmoRecord::SetProjectileID (const srformid_t FormID)
 		if (m_pAmmoData == NULL) return;
 		m_pAmmoData->InitializeNew();
 	}
+
 	m_pAmmoData->GetAmmoData().ProjectileID = FormID;
-}
-
-
-void CSrAmmoRecord::SetPickupSoundID (const srformid_t FormID)
-{
-	if (m_pPickupSound == NULL)
-	{
-		AddNewSubrecord(SR_NAME_YNAM);
-		if (m_pPickupSound == NULL) return;
-		m_pPickupSound->InitializeNew();
-	}
-	m_pPickupSound->SetValue(FormID);
-}
-
-
-void CSrAmmoRecord::SetDropSoundID (const srformid_t FormID)
-{
-	if (m_pDropSound == NULL)
-	{
-		AddNewSubrecord(SR_NAME_ZNAM);
-		if (m_pDropSound == NULL) return;
-		m_pDropSound->InitializeNew();
-	}
-	m_pDropSound->SetValue(FormID);
 }
 
 
@@ -247,22 +206,6 @@ void CSrAmmoRecord::SetProjectile (const char* pEditorID)
 	if (m_pParent == NULL) return;
 	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
 	if (pRecord != NULL) SetProjectileID(pRecord->GetFormID());
-}
-
-
-void CSrAmmoRecord::SetPickupSound (const char* pEditorID)
-{
-	if (m_pParent == NULL) return;
-	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
-	if (pRecord != NULL) SetPickupSoundID(pRecord->GetFormID());
-}
-
-
-void CSrAmmoRecord::SetDropSound (const char* pEditorID)
-{
-	if (m_pParent == NULL) return;
-	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
-	if (pRecord != NULL) SetDropSoundID(pRecord->GetFormID());
 }
 
 

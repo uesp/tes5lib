@@ -40,10 +40,10 @@
  *=========================================================================*/
 
 	/* Invalid/NULL form ID definition */
-  #define SR_FORMID_NULL 0
+  #define SR_FORMID_NULL ((srformid_t) 0)
 
   	/* Maximum allowed form id */
-  #define MAX_SRFORMID	0x00ffffff
+  #define MAX_SRFORMID	((srformid_t) 0x00ffffff)
   #define SR_FORMID_MAX MAX_SRFORMID
 
 	/* Get a modindex from a formid */
