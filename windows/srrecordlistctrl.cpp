@@ -696,6 +696,16 @@ static srreclistcolinit_t s_LvspListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
+
+static srreclistcolinit_t s_MattListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+
 static srreclistcolinit_t s_MgefListInit[] = {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
@@ -743,6 +753,15 @@ static srreclistcolinit_t s_ProjListInit[] =
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
 	{ SR_FIELD_ITEMNAME,	150,	LVCFMT_CENTER },
 	{ SR_FIELD_NONE,		0,		0 }
+};
+
+
+static srreclistcolinit_t s_RaceListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
 };
 
 
@@ -915,6 +934,8 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_INGR, s_IngrListInit, &CSrIngrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_IPCT, s_IpctListInit, &CSrIpctRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_IPDS, s_IpdsListInit, &CSrIpdsRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_KYWD, s_KywdListInit, &CSrKywdRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_LCRT, s_LcrtListInit, &CSrLcrtRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_LCTN, s_LctnListInit, &CSrLctnRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_LGTM, s_LgtmListInit, &CSrLgtmRecord::s_FieldMap, SR_FIELD_EDITORID },
@@ -924,14 +945,14 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_LVLI, s_LvliListInit, &CSrLvliRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_LVLN, s_LvlnListInit, &CSrLvlnRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_LVSP, s_LvspListInit, &CSrLvspRecord::s_FieldMap, SR_FIELD_EDITORID },	
-	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_MGEF, s_MgefListInit, &CSrMgefRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
-	{ &SR_NAME_KEYM, s_KeymListInit, &CSrKeymRecord::s_FieldMap, SR_FIELD_EDITORID },
-	{ &SR_NAME_KYWD, s_KywdListInit, &CSrKywdRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_MATT, s_MattListInit, &CSrMattRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PERK, s_PerkListInit, &CSrPerkRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_RACE, s_RaceListInit, &CSrRaceRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }
  };

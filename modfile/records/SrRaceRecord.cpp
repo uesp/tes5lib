@@ -17,20 +17,18 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrRaceRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrRaceRecord, CSrIdKeyRecord)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
+
 	DEFINE_SRSUBRECCREATE(SR_NAME_TINT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FTSF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINP, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KSIZ, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINP, CSrDataSubrecord::Create)	
 	DEFINE_SRSUBRECCREATE(SR_NAME_INDX, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_WNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_RPRM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KWDA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_HCLF, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ANAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrDataSubrecord::Create)
@@ -85,7 +83,6 @@ BEGIN_SRSUBRECCREATE(CSrRaceRecord, CSrRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FTSM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DFTM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -94,10 +91,12 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdKeyRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrRaceRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrRaceRecord, CSrIdKeyRecord)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrRaceRecord, FieldItemName)
+	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrRaceRecord, FieldDescription)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -111,6 +110,8 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrRaceRecord::CSrRaceRecord () 
 {
+	m_pItemName = NULL;
+	m_pDescription = NULL;
 }
 /*===========================================================================
  *		End of Class CSrRaceRecord Constructor
@@ -124,7 +125,10 @@ CSrRaceRecord::CSrRaceRecord ()
  *=========================================================================*/
 void CSrRaceRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pItemName = NULL;
+	m_pDescription = NULL;
+
+	CSrIdKeyRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrRaceRecord::Destroy()
@@ -138,11 +142,13 @@ void CSrRaceRecord::Destroy (void)
  *=========================================================================*/
 void CSrRaceRecord::InitializeNew (void) 
 {
+	CSrIdKeyRecord::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	AddNewSubrecord(SR_NAME_FULL);
+	if (m_pItemName != NULL) m_pItemName->InitializeNew();
 
-
+	AddNewSubrecord(SR_NAME_DESC);
+	if (m_pDescription != NULL) m_pDescription->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrRaceRecord::InitializeNew()
@@ -156,11 +162,7 @@ void CSrRaceRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TINT)
+	if (pSubrecord->GetRecordType() == SR_NAME_TINT)
 	{
 		m_pTintData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -176,13 +178,9 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pTinpData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KSIZ)
-	{
-		m_pKsizData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
-		m_pDescData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_INDX)
 	{
@@ -190,7 +188,7 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_WNAM)
 	{
@@ -203,10 +201,6 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	else if (pSubrecord->GetRecordType() == SR_NAME_RPRM)
 	{
 		m_pRprmData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KWDA)
-	{
-		m_pKwdaData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_HCLF)
 	{
@@ -424,10 +418,9 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pRnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdKeyRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -443,9 +436,7 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrRaceRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pTintData == pSubrecord)
+	if (m_pTintData == pSubrecord)
 		m_pTintData = NULL;
 	else if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
@@ -453,22 +444,18 @@ void CSrRaceRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pFtsfData = NULL;
 	else if (m_pTinpData == pSubrecord)
 		m_pTinpData = NULL;
-	else if (m_pKsizData == pSubrecord)
-		m_pKsizData = NULL;
-	else if (m_pDescData == pSubrecord)
-		m_pDescData = NULL;
+	else if (m_pDescription == pSubrecord)
+		m_pDescription = NULL;
 	else if (m_pIndxData == pSubrecord)
 		m_pIndxData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pWnamData == pSubrecord)
 		m_pWnamData = NULL;
 	else if (m_pDataData == pSubrecord)
 		m_pDataData = NULL;
 	else if (m_pRprmData == pSubrecord)
 		m_pRprmData = NULL;
-	else if (m_pKwdaData == pSubrecord)
-		m_pKwdaData = NULL;
 	else if (m_pHclfData == pSubrecord)
 		m_pHclfData = NULL;
 	else if (m_pAnamData == pSubrecord)
@@ -577,9 +564,8 @@ void CSrRaceRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pDftmData = NULL;
 	else if (m_pRnamData == pSubrecord)
 		m_pRnamData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdKeyRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

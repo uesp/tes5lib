@@ -16,7 +16,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+	#include "sridkeyrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,27 +28,25 @@
  * Begin Class CSrRaceRecord Definition
  *
  *=========================================================================*/
-class CSrRaceRecord : public CSrRecord 
+class CSrRaceRecord : public CSrIdKeyRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrRaceRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrRaceRecord, CSrIdKeyRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEdidData;
 	CSrSubrecord*		m_pTintData;
 	CSrSubrecord*		m_pFnamData;
 	CSrSubrecord*		m_pFtsfData;
 	CSrSubrecord*		m_pTinpData;
-	CSrSubrecord*		m_pKsizData;
-	CSrSubrecord*		m_pDescData;
+	CSrLStringSubrecord*	m_pDescription;
+	CSrLStringSubrecord*	m_pItemName;
 	CSrSubrecord*		m_pIndxData;
 	CSrSubrecord*		m_pFullData;
 	CSrSubrecord*		m_pWnamData;
 	CSrSubrecord*		m_pDataData;
 	CSrSubrecord*		m_pRprmData;
-	CSrSubrecord*		m_pKwdaData;
 	CSrSubrecord*		m_pHclfData;
 	CSrSubrecord*		m_pAnamData;
 	CSrSubrecord*		m_pBodtData;
@@ -130,9 +129,10 @@ public:
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
+		/* Begin field method definitions */
 
-
+	DECLARE_SRFIELD_DESCRIPTION(CSrRaceRecord, SR_NAME_DESC)
+	DECLARE_SRFIELD_ITEMNAME(CSrRaceRecord)
 };
 /*===========================================================================
  *		End of Class CSrRaceRecord Definition
