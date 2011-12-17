@@ -453,6 +453,7 @@
 	#define SRCLASS_CSrEnitSubrecord			1018
 	#define SRCLASS_CSrEfitSubrecord			1019
 	#define SRCLASS_CSrSpitSubrecord			1020
+	#define SRCLASS_CSrAmmoDataSubrecord		1021
   
 /*===========================================================================
  *		End of Class Type Definitions

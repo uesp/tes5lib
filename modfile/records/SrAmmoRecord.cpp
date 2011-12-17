@@ -10,6 +10,10 @@
 
 	/* Include Files */
 #include "srAmmorecord.h"
+#include "../srrecordhandler.h"
+
+
+srammodata_t CSrAmmoRecord::s_NullAmmoData;
 
 
 /*===========================================================================
@@ -19,10 +23,10 @@
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrAmmoRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrAmmoDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
@@ -36,6 +40,14 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrAmmoRecord, CSrItem1Record)
+	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrAmmoRecord, FieldDescription)
+	ADD_SRFIELDALL("Projectile",	SR_FIELD_PROJECTILE,	0, CSrAmmoRecord, FieldProjectile)
+	ADD_SRFIELDALL("Damage",		SR_FIELD_DAMAGE,		0, CSrAmmoRecord, FieldDamage)
+	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrAmmoRecord, FieldValue)
+	ADD_SRFIELDALL("PickupSound",	SR_FIELD_PICKUPSOUND,	0, CSrAmmoRecord, FieldPickupSound)
+	ADD_SRFIELDALL("DropSound",		SR_FIELD_DROPSOUND,		0, CSrAmmoRecord, FieldDropSound)
+	ADD_SRFIELDALL("IgnoreResist",	SR_FIELD_IGNORERESIST,	0, CSrAmmoRecord, FieldIgnoreResist)
+	ADD_SRFIELDALL("Vanish",		SR_FIELD_VANISH,		0, CSrAmmoRecord, FieldVanish)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -49,6 +61,11 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrAmmoRecord::CSrAmmoRecord () 
 {
+	m_pDescription = NULL;
+	m_pBoundsData  = NULL;
+	m_pDropSound   = NULL;
+	m_pPickupSound = NULL;
+	m_pAmmoData    = NULL;
 }
 /*===========================================================================
  *		End of Class CSrAmmoRecord Constructor
@@ -62,6 +79,12 @@ CSrAmmoRecord::CSrAmmoRecord ()
  *=========================================================================*/
 void CSrAmmoRecord::Destroy (void) 
 {
+	m_pDescription = NULL;
+	m_pBoundsData  = NULL;
+	m_pDropSound   = NULL;
+	m_pPickupSound = NULL;
+	m_pAmmoData    = NULL;
+
 	CSrItem1Record::Destroy();
 }
 /*===========================================================================
@@ -77,6 +100,12 @@ void CSrAmmoRecord::Destroy (void)
 void CSrAmmoRecord::InitializeNew (void) 
 {
 	CSrItem1Record::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DESC);
+	if (m_pDescription != NULL) m_pDescription->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pAmmoData != NULL) m_pAmmoData->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrAmmoRecord::InitializeNew()
@@ -92,23 +121,23 @@ void CSrAmmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
-		m_pDescData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pAmmoData = SrCastClass(CSrAmmoDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_YNAM)
 	{
-		m_pYnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pPickupSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ZNAM)
 	{
-		m_pZnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDropSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
@@ -132,16 +161,16 @@ void CSrAmmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrAmmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pDescData == pSubrecord)
-		m_pDescData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
-	else if (m_pYnamData == pSubrecord)
-		m_pYnamData = NULL;
-	else if (m_pZnamData == pSubrecord)
-		m_pZnamData = NULL;
+	if (m_pBoundsData == pSubrecord)
+		m_pBoundsData = NULL;
+	else if (m_pDescription == pSubrecord)
+		m_pDescription = NULL;
+	else if (m_pAmmoData == pSubrecord)
+		m_pAmmoData = NULL;
+	else if (m_pPickupSound == pSubrecord)
+		m_pPickupSound = NULL;
+	else if (m_pDropSound == pSubrecord)
+		m_pDropSound = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
 	else
@@ -151,6 +180,90 @@ void CSrAmmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of Class Event CSrAmmoRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+const char* CSrAmmoRecord::GetProjectile (void)
+{
+	if (m_pParent == NULL) return NULL;
+	if (m_pAmmoData == NULL) return NULL;
+	return m_pParent->GetEditorID(m_pAmmoData->GetAmmoData().ProjectileID);
+}
+
+
+const char* CSrAmmoRecord::GetPickupSound (void)
+{
+	if (m_pParent == NULL) return NULL;
+	if (m_pPickupSound == NULL) return NULL;
+	return m_pParent->GetEditorID(m_pPickupSound->GetValue());
+}
+
+
+const char* CSrAmmoRecord::GetDropSound (void)
+{
+	if (m_pParent == NULL) return NULL;
+	if (m_pDropSound == NULL) return NULL;
+	return m_pParent->GetEditorID(m_pDropSound->GetValue());
+}
+
+
+void CSrAmmoRecord::SetProjectileID (const srformid_t FormID)
+{
+	if (m_pAmmoData == NULL)
+	{
+		AddNewSubrecord(SR_NAME_DATA);
+		if (m_pAmmoData == NULL) return;
+		m_pAmmoData->InitializeNew();
+	}
+	m_pAmmoData->GetAmmoData().ProjectileID = FormID;
+}
+
+
+void CSrAmmoRecord::SetPickupSoundID (const srformid_t FormID)
+{
+	if (m_pPickupSound == NULL)
+	{
+		AddNewSubrecord(SR_NAME_YNAM);
+		if (m_pPickupSound == NULL) return;
+		m_pPickupSound->InitializeNew();
+	}
+	m_pPickupSound->SetValue(FormID);
+}
+
+
+void CSrAmmoRecord::SetDropSoundID (const srformid_t FormID)
+{
+	if (m_pDropSound == NULL)
+	{
+		AddNewSubrecord(SR_NAME_ZNAM);
+		if (m_pDropSound == NULL) return;
+		m_pDropSound->InitializeNew();
+	}
+	m_pDropSound->SetValue(FormID);
+}
+
+
+void CSrAmmoRecord::SetProjectile (const char* pEditorID)
+{
+	if (m_pParent == NULL) return;
+	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+	if (pRecord != NULL) SetProjectileID(pRecord->GetFormID());
+}
+
+
+void CSrAmmoRecord::SetPickupSound (const char* pEditorID)
+{
+	if (m_pParent == NULL) return;
+	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+	if (pRecord != NULL) SetPickupSoundID(pRecord->GetFormID());
+}
+
+
+void CSrAmmoRecord::SetDropSound (const char* pEditorID)
+{
+	if (m_pParent == NULL) return;
+	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+	if (pRecord != NULL) SetDropSoundID(pRecord->GetFormID());
+}
 
 
 /*===========================================================================

@@ -259,6 +259,10 @@
   #define SR_FIELD_TYPEC				197
   #define SR_FIELD_TYPED				198
   #define SR_FIELD_STAFFMOD				199
+  #define SR_FIELD_PICKUPSOUND			200
+  #define SR_FIELD_DROPSOUND			201
+  #define SR_FIELD_VANISH				202
+  #define SR_FIELD_PROJECTILE			203
 
 /*===========================================================================
  *		End of Field Types

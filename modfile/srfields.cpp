@@ -234,6 +234,11 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_TYPED,			"TypeD")
 	ADD_STRINGVALUE( SR_FIELD_STAFFMOD,			"StaffMod")
 
+	ADD_STRINGVALUE( SR_FIELD_PICKUPSOUND,		"PickupSound")
+	ADD_STRINGVALUE( SR_FIELD_DROPSOUND,		"DropSound")
+	ADD_STRINGVALUE( SR_FIELD_VANISH,			"Vanish")
+	ADD_STRINGVALUE( SR_FIELD_PROJECTILE,		"Projectile")	
+	
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings
