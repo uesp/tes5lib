@@ -242,8 +242,8 @@ public:
   bool ExportCsv    (srcsvinfo_t& CsvInfo);
   bool ImportCsvRow (srcsvinfo_t& CsvInfo, CCsvRow& Row);
 
-  const char* GetEditorID (CSrFormidSubrecord* pSubrecord);
-  const char* GetEditorID (const srformid_t FormID);
+  const char* GetEditorIDHelper (CSrFormidSubrecord* pSubrecord);
+  const char* GetEditorIDHelper (const srformid_t FormID);
   void SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const srformid_t FormID, const srrectype_t Type);
   void SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const char*   pEditorID, const srrectype_t Type);
 

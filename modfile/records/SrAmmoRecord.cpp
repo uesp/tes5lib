@@ -184,7 +184,7 @@ void CSrAmmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 const char* CSrAmmoRecord::GetProjectile (void)
 {
-	return m_pAmmoData ? CSrRecord::GetEditorID(m_pAmmoData->GetAmmoData().ProjectileID) : NULL;
+	return m_pAmmoData ? CSrRecord::GetEditorIDHelper(m_pAmmoData->GetAmmoData().ProjectileID) : NULL;
 }
 
 

@@ -456,6 +456,8 @@
 	#define SRCLASS_CSrAmmoDataSubrecord		1021
 	#define SRCLASS_CSrArmoDataSubrecord		1022
 	#define SRCLASS_CSrBodtSubrecord			1023
+	#define SRCLASS_CSrAlchDataSubrecord		1024
+	#define SRCLASS_CSrEnitAlchSubrecord		1025
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -580,6 +582,12 @@
     #define SR_ARMORTYPE_NONE  0
     #define SR_ARMORTYPE_LIGHT 1
     #define SR_ARMORTYPE_HEAVY 2
+
+    #define SR_POTIONTYPE_0			0x00000000
+    #define SR_POTIONTYPE_1			0x00000001
+    #define SR_POTIONTYPE_2			0x00000002
+    #define SR_POTIONTYPE_FOOD		0x00000003
+	#define SR_POTIONTYPE_HARMFUL	0x00020000
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -592,6 +600,8 @@
 
 	extern const stringvalue_t s_SrBodyParts[];
 	extern const stringvalue_t s_SrArmorTypes[];
+
+	extern const stringvalue_t s_SrPotionTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -635,6 +645,8 @@
 	bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrArmorTypeString		(const int Value);
 	bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrPotionTypeString		(const int Value);
+	bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

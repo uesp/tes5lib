@@ -270,6 +270,7 @@
   #define SR_FIELD_IMPACTDATA			208
   #define SR_FIELD_ANAM					209
   #define SR_FIELD_ARMMODEL				210
+  #define SR_FIELD_USESOUND				211 
 
 /*===========================================================================
  *		End of Field Types

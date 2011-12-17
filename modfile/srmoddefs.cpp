@@ -142,10 +142,20 @@ BEGIN_STRINGVALUE(s_SrBodyParts)
 	ADD_STRINGVALUE( SR_BODYPARTS_UNKNOWN2			,	"0x80000000")
 END_STRINGVALUE()
 
+
 BEGIN_STRINGVALUE(s_SrArmorTypes)
 	ADD_STRINGVALUE( SR_ARMORTYPE_NONE,		"None")
 	ADD_STRINGVALUE( SR_ARMORTYPE_LIGHT,	"Light")
 	ADD_STRINGVALUE( SR_ARMORTYPE_HEAVY,	"Heavy")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPotionTypes)
+	ADD_STRINGVALUE( SR_POTIONTYPE_0,		"0x0000")
+	ADD_STRINGVALUE( SR_POTIONTYPE_1,		"0x0001")
+	ADD_STRINGVALUE( SR_POTIONTYPE_2,		"0x0002")
+	ADD_STRINGVALUE( SR_POTIONTYPE_FOOD,	"Food")
+	ADD_STRINGVALUE( SR_POTIONTYPE_HARMFUL,	"Harmful")
 END_STRINGVALUE()
 
 
@@ -174,6 +184,9 @@ const SSCHAR* GetSrEnchantTypeDString	(const int Value) { return s_SrEnchantType
 
 const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.FindValue(Value); }
 const SSCHAR* GetSrArmorTypeString		(const int Value) { return s_SrArmorTypesMap.FindValue(Value); }
+
+const SSCHAR* GetSrPotionTypeString		(const int Value) { return s_SrPotionTypesMap.FindValue(Value); }
+
 
 CSString GetSrBodyPartFlagString	(const dword Value) 
 { 
@@ -207,6 +220,8 @@ bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString) { return s_SrEnc
 
 bool GetSrBodyPartValue	 (int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }
 bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString) { return s_SrArmorTypesMap.FindString(Value, pString); }
+
+bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString) { return s_SrPotionTypesMap.FindString(Value, pString); }
 
 
 bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString) 

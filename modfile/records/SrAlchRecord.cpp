@@ -10,6 +10,11 @@
 
 	/* Include Files */
 #include "srAlchrecord.h"
+#include "../srrecordhandler.h"
+
+
+sralchdata_t     CSrAlchRecord::s_NullAlchData;
+srenitalchdata_t CSrAlchRecord::s_NullAlchEnitData;
 
 
 /*===========================================================================
@@ -18,15 +23,15 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrAlchRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ENIT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ENIT, CSrEnitAlchSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrEfitSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrAlchDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
@@ -40,6 +45,13 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrAlchRecord, CSrItem1Record)
+	ADD_SRFIELDALL("Weight",			SR_FIELD_WEIGHT,			0, CSrAlchRecord, FieldWeight)
+	ADD_SRFIELDALL("PickupSound",		SR_FIELD_PICKUPSOUND,		0, CSrAlchRecord, FieldPickupSound)
+	ADD_SRFIELDALL("DropSound",			SR_FIELD_DROPSOUND,			0, CSrAlchRecord, FieldDropSound)
+	ADD_SRFIELDALL("EffectCount",		SR_FIELD_EFFECTCOUNT,		0, CSrAlchRecord, FieldEffectCount)
+	ADD_SRFIELDALL("Value",				SR_FIELD_VALUE,				0, CSrAlchRecord, FieldValue)
+	ADD_SRFIELDALL("Type",				SR_FIELD_TYPE,				0, CSrAlchRecord, FieldType)
+	ADD_SRFIELDALL("UseSound",			SR_FIELD_USESOUND,			0, CSrAlchRecord, FieldUseSound)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -53,6 +65,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrAlchRecord::CSrAlchRecord () 
 {
+	m_pBoundsData = NULL;
+	m_pModtData = NULL;
+	m_pEnitData = NULL;
+	m_pAlchData = NULL;
+	m_pPickupSound = NULL;
+	m_pDropSound = NULL;
+	m_pModsData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrAlchRecord Constructor
@@ -66,6 +85,14 @@ CSrAlchRecord::CSrAlchRecord ()
  *=========================================================================*/
 void CSrAlchRecord::Destroy (void) 
 {
+	m_pBoundsData = NULL;
+	m_pModtData = NULL;
+	m_pEnitData = NULL;
+	m_pAlchData = NULL;
+	m_pPickupSound = NULL;
+	m_pDropSound = NULL;
+	m_pModsData = NULL;
+
 	CSrItem1Record::Destroy();
 }
 /*===========================================================================
@@ -81,6 +108,12 @@ void CSrAlchRecord::Destroy (void)
 void CSrAlchRecord::InitializeNew (void) 
 {
 	CSrItem1Record::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pAlchData != NULL) m_pAlchData->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_ENIT);
+	if (m_pEnitData != NULL) m_pEnitData->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrAlchRecord::InitializeNew()
@@ -94,13 +127,9 @@ void CSrAlchRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrAlchRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EFID)
+	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
-		m_pEfidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
@@ -108,27 +137,19 @@ void CSrAlchRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ENIT)
 	{
-		m_pEnitData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EFIT)
-	{
-		m_pEfitData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pEnitData = SrCastClass(CSrEnitAlchSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_CTDA)
-	{
-		m_pCtdaData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pAlchData = SrCastClass(CSrAlchDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_YNAM)
 	{
-		m_pYnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pPickupSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ZNAM)
 	{
-		m_pZnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDropSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODS)
 	{
@@ -152,24 +173,18 @@ void CSrAlchRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrAlchRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEfidData == pSubrecord)
-		m_pEfidData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
+	if (m_pBoundsData == pSubrecord)
+		m_pBoundsData = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
 	else if (m_pEnitData == pSubrecord)
 		m_pEnitData = NULL;
-	else if (m_pEfitData == pSubrecord)
-		m_pEfitData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
-	else if (m_pCtdaData == pSubrecord)
-		m_pCtdaData = NULL;
-	else if (m_pYnamData == pSubrecord)
-		m_pYnamData = NULL;
-	else if (m_pZnamData == pSubrecord)
-		m_pZnamData = NULL;
+	else if (m_pAlchData == pSubrecord)
+		m_pAlchData = NULL;
+	else if (m_pPickupSound == pSubrecord)
+		m_pPickupSound = NULL;
+	else if (m_pDropSound == pSubrecord)
+		m_pDropSound = NULL;
 	else if (m_pModsData == pSubrecord)
 		m_pModsData = NULL;
 	else
@@ -180,6 +195,16 @@ void CSrAlchRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *		End of Class Event CSrAlchRecord::OnDeleteSubrecord()
  *=========================================================================*/
 
+
+void CSrAlchRecord::SetUseSound (const char* pString)
+{
+	if (m_pParent == NULL) return;
+
+	CSrIdRecord* pRecord = m_pParent->FindEditorID(pString);
+	if (pRecord == NULL) return;
+
+	GetEnitData().UseSoundID = pRecord->GetFormID();
+}
 
 /*===========================================================================
  *

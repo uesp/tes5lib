@@ -1670,7 +1670,7 @@ END_SRSETFIELD()
  *=========================================================================*/
 
 
-const char* CSrRecord::GetEditorID (CSrFormidSubrecord* pSubrecord)
+const char* CSrRecord::GetEditorIDHelper (CSrFormidSubrecord* pSubrecord)
 {
 	if (m_pParent  == NULL) return NULL;
 	if (pSubrecord == NULL) return NULL;
@@ -1678,7 +1678,7 @@ const char* CSrRecord::GetEditorID (CSrFormidSubrecord* pSubrecord)
 }
 
 
-const char* CSrRecord::GetEditorID (const srformid_t FormID)
+const char* CSrRecord::GetEditorIDHelper (const srformid_t FormID)
 {
 	if (m_pParent  == NULL) return NULL;
 	if (FormID     ==    0) return NULL;

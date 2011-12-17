@@ -244,7 +244,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_IMPACTDATA,		"ImpactData")
 	ADD_STRINGVALUE( SR_FIELD_ANAM,				"ANAM")	
 	ADD_STRINGVALUE( SR_FIELD_ARMMODEL,			"ArmModel")	
-	
+	ADD_STRINGVALUE( SR_FIELD_USESOUND,			"UseSound")		
 	
 END_STRINGVALUE()
 /*===========================================================================
