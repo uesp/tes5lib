@@ -972,13 +972,12 @@ bool CSrRecord::InitializeFieldMap (CSrRecFieldIDMap& s_FieldIDMap) {
  * defined and properly initialized. 
  *
  *=========================================================================*/
-void CSrRecord::InitializeNew (void) {
-
-  m_Header.Flags1 = 0;
-  m_Header.Flags2 = 0;
-  m_Header.FormID = 0;
-  m_Header.Version = 40;		/* Most records have a version of 40 in Skyrim */
-
+void CSrRecord::InitializeNew (void) 
+{
+	m_Header.Flags1 = 0;
+	m_Header.Flags2 = 0;
+	m_Header.FormID = 0;
+	m_Header.Version = SR_RECORD_DEFAULTVERSION;
 }
 /*===========================================================================
  *		End of Class Method CSrRecord::InitializeNew()

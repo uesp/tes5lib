@@ -117,6 +117,31 @@ BEGIN_STRINGVALUE(s_SrEnchantTypeD)
 	ADD_STRINGVALUE( 12,	"12")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrBodyParts)
+	ADD_STRINGVALUE( SR_BODYPARTS_SKIN				,	"Skin")
+	ADD_STRINGVALUE( SR_BODYPARTS_HEAD				,	"Head")
+	ADD_STRINGVALUE( SR_BODYPARTS_CHEST				,	"Chest")
+	ADD_STRINGVALUE( SR_BODYPARTS_HANDS				,	"Hands")
+	ADD_STRINGVALUE( SR_BODYPARTS_BEARD				,	"Beard")
+	ADD_STRINGVALUE( SR_BODYPARTS_AMULET			,	"Amulet")
+	ADD_STRINGVALUE( SR_BODYPARTS_RING				,	"Ring")
+	ADD_STRINGVALUE( SR_BODYPARTS_FEET				,	"Feet")
+	ADD_STRINGVALUE( SR_BODYPARTS_UNKNOWN1			,	"0x00000100")
+	ADD_STRINGVALUE( SR_BODYPARTS_SHIELD			,	"Shield")
+	ADD_STRINGVALUE( SR_BODYPARTS_ANIMALSKIN		,	"AnimalSkin")
+	ADD_STRINGVALUE( SR_BODYPARTS_UNDERSKIN			,	"UnderSkin")
+	ADD_STRINGVALUE( SR_BODYPARTS_CROWN				,	"Crown")
+	ADD_STRINGVALUE( SR_BODYPARTS_FACE				,	"Face")
+	ADD_STRINGVALUE( SR_BODYPARTS_DRAGONHEAD		,	"DragonHead")
+	ADD_STRINGVALUE( SR_BODYPARTS_DRAGONLWING		,	"DragonLeftWing")
+	ADD_STRINGVALUE( SR_BODYPARTS_DRAGONRWING		,	"DragonRightWing")
+	ADD_STRINGVALUE( SR_BODYPARTS_DRAGONBODY		,	"DragonBody")
+	ADD_STRINGVALUE( SR_BODYPARTS_UNKNOWN3			,	"0x00100000")
+	ADD_STRINGVALUE( SR_BODYPARTS_UNKNOWN4			,	"0x00300000")
+	ADD_STRINGVALUE( SR_BODYPARTS_UNKNOWN2			,	"0x80000000")
+END_STRINGVALUE()
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -140,6 +165,26 @@ const SSCHAR* GetSrEnchantTypeBString	(const int Value) { return s_SrEnchantType
 const SSCHAR* GetSrEnchantTypeCString	(const int Value) { return s_SrEnchantTypeCMap.FindValue(Value); }
 const SSCHAR* GetSrEnchantTypeDString	(const int Value) { return s_SrEnchantTypeDMap.FindValue(Value); }
 
+const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.FindValue(Value); }
+
+
+CSString GetSrBodyPartFlagString	(const dword Value) 
+{ 
+	CSString Buffer;
+
+	for (dword i = 0; s_SrBodyParts[i].pString != NULL; ++i)
+	{
+		if (s_SrBodyParts[i].Value & Value)
+		{
+			Buffer += s_SrBodyParts[i].pString;
+			Buffer += " ";
+		}
+	}
+
+	return Buffer;
+}
+
+
 bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString) { return s_SrMagicSchoolsMap.FindString(Value, pString); }
 bool GetSrMagicTypeValue			(int& Value, const SSCHAR* pString) { return s_SrMagicTypesMap.FindString(Value, pString); }
 bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString) { return s_SrConditionOperatorsMap.FindString(Value, pString); }
@@ -152,6 +197,27 @@ bool GetSrEnchantTypeAValue	(int& Value, const SSCHAR* pString) { return s_SrEnc
 bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeBMap.FindString(Value, pString); }
 bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeCMap.FindString(Value, pString); }
 bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeDMap.FindString(Value, pString); }
+
+bool GetSrBodyPartValue	(int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }
+
+
+bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString) 
+{ 
+	CSString	  Source(pString);
+	CSStringArray SplitStrings;
+	int 		  Flag;
+
+	Value = 0;
+	SplitString(SplitStrings, Source, ' ');
+
+	for (dword i = 0; i < SplitStrings.GetSize(); ++i)
+	{
+		if (GetSrBodyPartValue(Flag, *SplitStrings[i])) Value |= Flag;
+	}
+
+	return true;
+}
+
 /*===========================================================================
  *		End of String Table Lookup Functions
  *=========================================================================*/

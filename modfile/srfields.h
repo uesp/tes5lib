@@ -263,6 +263,12 @@
   #define SR_FIELD_DROPSOUND			201
   #define SR_FIELD_VANISH				202
   #define SR_FIELD_PROJECTILE			203
+  #define SR_FIELD_RATING				204
+  #define SR_FIELD_BODYPARTS			205
+  #define SR_FIELD_RACE					206
+  #define SR_FIELD_BAMT					207
+  #define SR_FIELD_IMPACTDATA			208
+  #define SR_FIELD_ANAM					209
 
 /*===========================================================================
  *		End of Field Types

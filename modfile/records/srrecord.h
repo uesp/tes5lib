@@ -76,6 +76,9 @@
 
   #define END_SRSUBRECCREATE() { NULL, NULL } }; 
 
+		/* Most records have a version of 40 in Skyrim */
+  #define SR_RECORD_DEFAULTVERSION 40
+
 /*===========================================================================
  *		End of Definitions
  *=========================================================================*/

@@ -454,6 +454,8 @@
 	#define SRCLASS_CSrEfitSubrecord			1019
 	#define SRCLASS_CSrSpitSubrecord			1020
 	#define SRCLASS_CSrAmmoDataSubrecord		1021
+	#define SRCLASS_CSrArmoDataSubrecord		1022
+	#define SRCLASS_CSrBodtSubrecord			1023
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -551,6 +553,29 @@
 	#define SR_SPELL_CASTTYPE_2		2
 	#define SR_SPELL_CASTTYPE_3		3
 	#define SR_SPELL_CASTTYPE_4		4
+    
+			/* Body parts flags (not all values confirmed) */
+	#define SR_BODYPARTS_SKIN				0x00000001
+	#define SR_BODYPARTS_HEAD				0x00000002
+	#define SR_BODYPARTS_CHEST				0x00000004
+	#define SR_BODYPARTS_HANDS				0x00000008
+	#define SR_BODYPARTS_BEARD				0x00000010
+	#define SR_BODYPARTS_AMULET				0x00000020
+	#define SR_BODYPARTS_RING				0x00000040
+	#define SR_BODYPARTS_FEET				0x00000080
+	#define SR_BODYPARTS_UNKNOWN1			0x00000100
+	#define SR_BODYPARTS_SHIELD				0x00000200
+	#define SR_BODYPARTS_ANIMALSKIN			0x00000400
+	#define SR_BODYPARTS_UNDERSKIN			0x00000800
+	#define SR_BODYPARTS_CROWN				0x00001000
+	#define SR_BODYPARTS_FACE				0x00002000
+	#define SR_BODYPARTS_DRAGONHEAD			0x00004000
+	#define SR_BODYPARTS_DRAGONLWING		0x00008000
+	#define SR_BODYPARTS_DRAGONRWING		0x00010000
+	#define SR_BODYPARTS_DRAGONBODY			0x00020000
+	#define SR_BODYPARTS_UNKNOWN3			0x00100000
+	#define SR_BODYPARTS_UNKNOWN4			0x00300000
+	#define SR_BODYPARTS_UNKNOWN2			0x80000000
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -560,6 +585,8 @@
 	extern const stringvalue_t s_SrEnchantTypeB[];
 	extern const stringvalue_t s_SrEnchantTypeC[];
 	extern const stringvalue_t s_SrEnchantTypeD[];
+
+	extern const stringvalue_t s_SrBodyParts[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -596,6 +623,12 @@
 	bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString);
 	bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString);
 	bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrBodyPartString		(const int Value);
+	bool GetSrBodyPartValue	(int& Value, const SSCHAR* pString);
+	CSString GetSrBodyPartFlagString	(const dword Value);
+	bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString);
+
 /*===========================================================================
  *		End of Type Lookup Function Definitions
  *=========================================================================*/

@@ -218,6 +218,32 @@
 			bool SetFieldDescription (const SSCHAR* pString, long Reserved = 0) { SetDescription(pString); return true; }
 
 
+	#define DECLARE_SRFIELD_STRING(Class, Member, Name, Type)	const char* Get##Name (void) const { return Member ? Member->GetString().c_str() : ""; } \
+			void Set##Name (const SSCHAR* pString) { \
+					if (Member == NULL) { \
+						AddNewSubrecord(Type); \
+						if (Member == NULL) return; \
+						Member->InitializeNew(); } \
+					Member->SetString(pString); } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String = Get##Name(); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					return SafeStringCompare(Get##Name(), pRecord1->Get##Name(), false); } \
+					bool SetField##Name (const SSCHAR* pString, long Reserved = 0) { Set##Name(pString); return true; }
+
+	#define DECLARE_SRFIELD_METHOD(Class, Name, GetMethod, SetMethod)  \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String = GetMethod(); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					return SafeStringCompare(GetMethod(), pRecord1->GetMethod(), false); } \
+					bool SetField##Name (const SSCHAR* pString, long Reserved = 0) { SetMethod(pString); return true; }
+
+
+
 	#define DECLARE_SRFIELD_BOOL(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
 								String = BooleanToString(GetFunction()); return (true); } \
 							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
@@ -266,6 +292,23 @@
 								dword Value; \
 								if (!SrFieldConvertDword(pString, Value)) return (false); \
 								SetExpression = Value; return true; } 
+
+	#define DECLARE_SRFIELD_DWORDFLAG1(Class, Name, GetExpression, SetExpression) bool GetField##Name (CSString& String, long Reserved) {\
+								String.Format("0x%08X", GetExpression); return (true); } \
+							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+								if (pRecord == NULL) return (1); \
+								Class* pRecord1 = SrCastClass(Class, pRecord); \
+								if (pRecord1 == NULL) return (1); \
+								dword Value1 = (dword) this->GetExpression; \
+								dword Value2 = (dword) pRecord1->GetExpression; \
+								if (Value1 == Value2) return (0); \
+								if (Value1 > Value2)  return (1); \
+								return (-1); } \
+							bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+								dword Value; \
+								if (!SrFieldConvertDword(pString, Value)) return (false); \
+								SetExpression = Value; return true; } 
+
 
 	#define DECLARE_SRFIELD_FLOAT(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
 								String.Format("%g", GetFunction()); return (true); } \

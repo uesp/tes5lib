@@ -17,7 +17,9 @@
  *
  *=========================================================================*/
 	#include "sridkeyrecord.h"
+	#include "../subrecords/srarmodatasubrecord.h"
 	#include "../subrecords/srlstringsubrecord.h"
+	#include "../subrecords/srbodtsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -30,35 +32,43 @@
  *=========================================================================*/
 class CSrArmoRecord : public CSrIdKeyRecord 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrArmoRecord, CSrIdKeyRecord)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrArmoRecord, CSrIdKeyRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*		m_pMod4Data;
-	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pObndData;
-	CSrSubrecord*		m_pTnamData;
-	CSrSubrecord*		m_pMo4tData;
-	CSrSubrecord*		m_pBidsData;
-	CSrSubrecord*		m_pMod2Data;
-	CSrSubrecord*		m_pMo2tData;
-	CSrSubrecord*		m_pYnamData;
-	CSrSubrecord*		m_pBodtData;
-	CSrSubrecord*		m_pZnamData;
-	CSrSubrecord*		m_pRnamData;
-	CSrSubrecord*		m_pDescData;
-	CSrSubrecord*		m_pDataData;
-	CSrSubrecord*		m_pDnamData;
-	CSrSubrecord*		m_pEitmData;
-	CSrSubrecord*		m_pEtypData;
-	CSrSubrecord*		m_pBamtData;
-	CSrSubrecord*		m_pMo2sData;
-	CSrSubrecord*		m_pMo4sData;
-	CSrSubrecord*		m_pVmadData;
+	CSrLStringSubrecord*	m_pDescription;
 	CSrLStringSubrecord*	m_pItemName;
+	CSrFormidSubrecord*		m_pModel;
+	CSrSubrecord*			m_pBoundsData;
+	
+	CSrFormidSubrecord*		m_pImpactData;	
+	CSrBodtSubrecord*		m_pBodyData;
+	CSrArmoDataSubrecord*	m_pArmorData;
+	CSrDwordSubrecord*		m_pArmorRating;
+	CSrFormidSubrecord*		m_pEnchantment;
+	CSrFormidSubrecord*		m_pEquipmentSlot;
+	CSrFormidSubrecord*		m_pMaterial;
 
+	CSrFormidSubrecord*		m_pPickupSound;
+	CSrFormidSubrecord*		m_pDropSound;
+	CSrFormidSubrecord*		m_pRace;
+	CSrFormidSubrecord*		m_pTemplate;
+
+	CSrSubrecord*			m_pMo2sData;
+	CSrSubrecord*			m_pMo4sData;
+	CSrSubrecord*			m_pMod2Data;
+	CSrSubrecord*			m_pMo2tData;
+	CSrSubrecord*			m_pMo4tData;
+	CSrSubrecord*			m_pMod4Data;
+
+	CSrSubrecord*			m_pVmadData;
+
+	CSString				m_BodyPartsString;
+
+	static srarmordata_t s_NullArmorData;
+	static srbodtdata_t  s_NullBodtData;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -68,31 +78,62 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
+		/* Class Constructors/Destructors */
   CSrArmoRecord();
   virtual void Destroy (void);
 
     	/* Return a new instance of the class */
   static CSrRecord* Create (void) { return new CSrArmoRecord; }
 
-	/* Get class members */
-  const SSCHAR* GetItemName (void) { return (m_pItemName ? m_pItemName->GetString().c_str() : ""); }
-  virtual bool HasFullItemName (void) { return (true); }
-  
+  srarmordata_t& GetArmorData (void) { return m_pArmorData ? m_pArmorData->GetArmorData() : s_NullArmorData; }
+  srbodtdata_t&  GetBodtData  (void) { return m_pBodyData  ? m_pBodyData->GetBodtData()   : s_NullBodtData; }
+  dword GetArmorRating (void) { return m_pArmorRating ? m_pArmorRating->GetValue() : 0; }
+  bool IsPlayable (void) { return !CheckFlagBits(GetBodtData().Flags, SR_BODT_FLAG_NONPLAYABLE); }  
+  const char* GetBodyParts (void) { m_BodyPartsString = GetSrBodyPartFlagString(GetBodtData().BodyParts); return m_BodyPartsString.c_str(); }
 
-	/* Initialize a new record */
+		/* Initialize a new record */
   void InitializeNew (void);
 
-	/* Called to alert record of a new subrecord being added */
+		/* Called to alert record of a new subrecord being added */
   virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-  void SetItemName (const SSCHAR* pString);
+  void SetArmorRating (const dword Value);
+  void SetIsPlayable  (const bool Flag) { FlipFlagBits(GetBodtData().Flags, SR_BODT_FLAG_NONPLAYABLE, !Flag); }
+  void SetBodyParts  (const char* pString) { GetSrBodyPartFlagValue(GetBodtData().BodyParts, pString); }
 
 
-	/* Begin field method definitions */
-  DECLARE_SRFIELD(FieldItemName)
+  DECLARE_SRFIELD_DESCRIPTION(CSrArmoRecord, SR_NAME_DESC)
+  DECLARE_SRFIELD_ITEMNAME(CSrArmoRecord)
+  
+  DECLARE_SRFIELD_DWORD(CSrArmoRecord, Rating, GetArmorRating, SetArmorRating)
+  DECLARE_SRFIELD_DWORD1(CSrArmoRecord, Value, GetArmorData().Value, GetArmorData().Value)
+  DECLARE_SRFIELD_DWORD1(CSrArmoRecord, Type, GetBodtData().ArmorType, GetBodtData().ArmorType)
+  DECLARE_SRFIELD_FLOAT1(CSrArmoRecord, Weight, GetArmorData().Weight, GetArmorData().Weight)
+  DECLARE_SRFIELD_BOOL(CSrArmoRecord, Playable, IsPlayable, SetIsPlayable)
+  DECLARE_SRFIELD_METHOD(CSrArmoRecord, BodyParts, GetBodyParts, SetBodyParts)
+  
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Enchantment, GetEnchantment, SetEnchantment)
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, EquipmentSlot, GetEquipmentSlot, SetEquipmentSlot)
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Model, GetModel, SetModel)
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, PickupSound, GetPickupSound, SetPickupSound)
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, DropSound,   GetDropSound,   SetDropSound)
 
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, ImpactData, GetImpactData, SetImpactData)
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Material, GetMaterial, SetMaterial)
+  DECLARE_SRMETHOD_FORMID(ImpactData, m_pImpactData, SR_NAME_BIDS)
+  DECLARE_SRMETHOD_FORMID(Material, m_pMaterial, SR_NAME_BAMT)
+
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Race,   GetRace,   SetRace)
+  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Template,   GetTemplate,   SetTemplate)
+  DECLARE_SRMETHOD_FORMID(Race, m_pRace, SR_NAME_RNAM)
+  DECLARE_SRMETHOD_FORMID(Template, m_pTemplate, SR_NAME_TNAM)
+    
+  DECLARE_SRMETHOD_FORMID(Enchantment, m_pEnchantment, SR_NAME_EITM)
+  DECLARE_SRMETHOD_FORMID(EquipmentSlot,  m_pEquipmentSlot, SR_NAME_ETYP)
+  DECLARE_SRMETHOD_FORMID(Model, m_pModel, SR_NAME_MODL)
+  DECLARE_SRMETHOD_FORMID(PickupSound, m_pPickupSound, SR_NAME_YNAM)
+  DECLARE_SRMETHOD_FORMID(DropSound,   m_pDropSound,   SR_NAME_ZNAM)
 
 };
 /*===========================================================================

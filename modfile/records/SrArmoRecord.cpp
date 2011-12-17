@@ -12,33 +12,37 @@
 #include "srArmorecord.h"
 
 
+srarmordata_t CSrArmoRecord::s_NullArmorData;
+srbodtdata_t  CSrArmoRecord::s_NullBodtData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrArmoRecord, CSrIdKeyRecord)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrArmoDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MOD4, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BIDS, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrBodtSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_EITM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BAMT, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO4T, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_BIDS, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MOD2, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MO2T, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EITM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_BAMT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO2S, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO4S, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MOD4, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MOD2, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MO2T, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
@@ -52,7 +56,24 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrArmoRecord, CSrIdKeyRecord)
-	ADD_SRFIELDALL("Item Name", SR_FIELD_ITEMNAME, 0, CSrArmoRecord, FieldItemName)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrArmoRecord, FieldItemName)
+	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,			0, CSrArmoRecord, FieldModel)
+	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrArmoRecord, FieldDescription)
+	ADD_SRFIELDALL("Rating",		SR_FIELD_RATING,		0, CSrArmoRecord, FieldRating)
+	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrArmoRecord, FieldValue)
+	ADD_SRFIELDALL("Type",			SR_FIELD_TYPE,			0, CSrArmoRecord, FieldType)
+	ADD_SRFIELDALL("Weight",		SR_FIELD_WEIGHT,		0, CSrArmoRecord, FieldWeight)
+	ADD_SRFIELDALL("EquipmentSlot",	SR_FIELD_EQUIPSLOT,		0, CSrArmoRecord, FieldEquipmentSlot)
+	ADD_SRFIELDALL("Enchantment",	SR_FIELD_ENCHANTMENT,	0, CSrArmoRecord, FieldEnchantment)
+	ADD_SRFIELDALL("Playable",		SR_FIELD_PLAYABLE,		0, CSrArmoRecord, FieldPlayable)
+	ADD_SRFIELDALL("BodyParts",		SR_FIELD_BODYPARTS,		0, CSrArmoRecord, FieldBodyParts)
+	ADD_SRFIELDALL("PickupSound",	SR_FIELD_PICKUPSOUND,	0, CSrArmoRecord, FieldPickupSound)
+	ADD_SRFIELDALL("DropSound",		SR_FIELD_DROPSOUND,		0, CSrArmoRecord, FieldDropSound)
+	ADD_SRFIELDALL("Race",			SR_FIELD_RACE,			0, CSrArmoRecord, FieldRace)
+	ADD_SRFIELDALL("Template",		SR_FIELD_TEMPLATE,		0, CSrArmoRecord, FieldTemplate)
+	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrArmoRecord, FieldMaterial)
+	ADD_SRFIELDALL("ImpactData",	SR_FIELD_IMPACTDATA,	0, CSrArmoRecord, FieldImpactData)
+	//ADD_SRFIELDALL("UserData",		SR_FIELD_USERDATA,		0, CSrArmoRecord, FieldUserData)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -66,7 +87,28 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrArmoRecord::CSrArmoRecord () 
 {
-	 m_pItemName   = NULL;
+	m_pModel = NULL;
+	m_pItemName = NULL;
+	m_pDescription = NULL;
+	m_pBoundsData = NULL;	
+	m_pImpactData = NULL;	
+	m_pBodyData = NULL;
+	m_pArmorData = NULL;
+	m_pArmorRating = NULL;
+	m_pEnchantment = NULL;
+	m_pEquipmentSlot = NULL;
+	m_pMaterial = NULL;	
+	m_pPickupSound = NULL;
+	m_pDropSound = NULL;
+	m_pRace = NULL;
+	m_pTemplate = NULL;
+	m_pMo2sData = NULL;
+	m_pMo4sData = NULL;
+	m_pMod2Data = NULL;
+	m_pMo2tData = NULL;
+	m_pMo4tData = NULL;
+	m_pMod4Data = NULL;	
+	m_pVmadData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrArmoRecord Constructor
@@ -80,7 +122,28 @@ CSrArmoRecord::CSrArmoRecord ()
  *=========================================================================*/
 void CSrArmoRecord::Destroy (void) 
 {
-	m_pItemName   = NULL;
+	m_pModel = NULL;
+	m_pItemName = NULL;
+	m_pDescription = NULL;
+	m_pBoundsData = NULL;	
+	m_pImpactData = NULL;	
+	m_pBodyData = NULL;
+	m_pArmorData = NULL;
+	m_pArmorRating = NULL;
+	m_pEnchantment = NULL;
+	m_pEquipmentSlot = NULL;
+	m_pMaterial = NULL;	
+	m_pPickupSound = NULL;
+	m_pDropSound = NULL;
+	m_pRace = NULL;
+	m_pTemplate = NULL;
+	m_pMo2sData = NULL;
+	m_pMo4sData = NULL;
+	m_pMod2Data = NULL;
+	m_pMo2tData = NULL;
+	m_pMo4tData = NULL;
+	m_pMod4Data = NULL;	
+	m_pVmadData = NULL;
 	CSrIdKeyRecord::Destroy();
 }
 /*===========================================================================
@@ -99,6 +162,21 @@ void CSrArmoRecord::InitializeNew (void)
 
 	AddNewSubrecord(SR_NAME_FULL);
 	if (m_pItemName != NULL) m_pItemName->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_MODL);
+	if (m_pModel != NULL) m_pModel->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DESC);
+	if (m_pDescription != NULL) m_pDescription->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pArmorData != NULL) m_pArmorData->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DNAM);
+	if (m_pArmorRating != NULL) m_pArmorRating->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_BODT);
+	if (m_pBodyData != NULL) m_pBodyData->InitializeNew();
 
 }
 /*===========================================================================
@@ -121,13 +199,17 @@ void CSrArmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_MODL)
+	{
+		m_pModel = SrCastClass(CSrFormidSubrecord, pSubrecord);
+	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
 	{
-		m_pTnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pTemplate = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MO4T)
 	{
@@ -135,15 +217,11 @@ void CSrArmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_BIDS)
 	{
-		m_pBidsData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pImpactData = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MOD2)
 	{
 		m_pMod2Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODL)
-	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MO2T)
 	{
@@ -151,43 +229,43 @@ void CSrArmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_YNAM)
 	{
-		m_pYnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pPickupSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_BODT)
 	{
-		m_pBodtData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBodyData = SrCastClass(CSrBodtSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ZNAM)
 	{
-		m_pZnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDropSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_RNAM)
 	{
-		m_pRnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pRace = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
-		m_pDescData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pArmorData = SrCastClass(CSrArmoDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DNAM)
 	{
-		m_pDnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pArmorRating = SrCastClass(CSrDwordSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_EITM)
 	{
-		m_pEitmData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pEnchantment = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ETYP)
 	{
-		m_pEtypData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pEquipmentSlot = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_BAMT)
 	{
-		m_pBamtData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMaterial = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MO2S)
 	{
@@ -221,42 +299,42 @@ void CSrArmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pMod4Data == pSubrecord)
 		m_pMod4Data = NULL;
+	else if (m_pBoundsData == pSubrecord)
+		m_pBoundsData = NULL;
+	else if (m_pModel == pSubrecord)
+		m_pModel = NULL;
 	else if (m_pItemName == pSubrecord)
 		m_pItemName = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pTnamData == pSubrecord)
-		m_pTnamData = NULL;
+	else if (m_pTemplate == pSubrecord)
+		m_pTemplate = NULL;
 	else if (m_pMo4tData == pSubrecord)
 		m_pMo4tData = NULL;
-	else if (m_pBidsData == pSubrecord)
-		m_pBidsData = NULL;
+	else if (m_pImpactData == pSubrecord)
+		m_pImpactData = NULL;
 	else if (m_pMod2Data == pSubrecord)
 		m_pMod2Data = NULL;
 	else if (m_pMo2tData == pSubrecord)
 		m_pMo2tData = NULL;
-	else if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
-	else if (m_pYnamData == pSubrecord)
-		m_pYnamData = NULL;
-	else if (m_pBodtData == pSubrecord)
-		m_pBodtData = NULL;
-	else if (m_pZnamData == pSubrecord)
-		m_pZnamData = NULL;
-	else if (m_pRnamData == pSubrecord)
-		m_pRnamData = NULL;
-	else if (m_pDescData == pSubrecord)
-		m_pDescData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
-	else if (m_pDnamData == pSubrecord)
-		m_pDnamData = NULL;
-	else if (m_pEitmData == pSubrecord)
-		m_pEitmData = NULL;
-	else if (m_pEtypData == pSubrecord)
-		m_pEtypData = NULL;
-	else if (m_pBamtData == pSubrecord)
-		m_pBamtData = NULL;
+	else if (m_pPickupSound == pSubrecord)
+		m_pPickupSound = NULL;
+	else if (m_pBodyData == pSubrecord)
+		m_pBodyData = NULL;
+	else if (m_pDropSound == pSubrecord)
+		m_pDropSound = NULL;
+	else if (m_pRace == pSubrecord)
+		m_pRace = NULL;
+	else if (m_pDescription == pSubrecord)
+		m_pDescription = NULL;
+	else if (m_pArmorData == pSubrecord)
+		m_pArmorData = NULL;
+	else if (m_pArmorRating == pSubrecord)
+		m_pArmorRating = NULL;
+	else if (m_pEnchantment == pSubrecord)
+		m_pEnchantment = NULL;
+	else if (m_pEquipmentSlot == pSubrecord)
+		m_pEquipmentSlot = NULL;
+	else if (m_pMaterial == pSubrecord)
+		m_pMaterial = NULL;
 	else if (m_pMo2sData == pSubrecord)
 		m_pMo2sData = NULL;
 	else if (m_pMo4sData == pSubrecord)
@@ -272,34 +350,50 @@ void CSrArmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
-/*===========================================================================
- *
- * Class CSrArmoRecord Method - void SetItemName (pString);
- *
- *=========================================================================*/
-void CSrArmoRecord::SetItemName (const SSCHAR* pString) 
+void CSrArmoRecord::SetArmorRating (const dword Value)
 {
+	if (m_pArmorRating == NULL)
+	{
+		AddNewSubrecord(SR_NAME_DNAM);
+		if (m_pArmorRating == NULL) return;
+		m_pArmorRating->InitializeNew();
+	}
 
-  if (m_pItemName == NULL) 
-  {
-     AddNewSubrecord(SR_NAME_FULL);
-     if (m_pItemName == NULL) return;
-     m_pItemName->InitializeNew();
-  }
-
-  m_pItemName->SetString(pString);
+	m_pArmorRating->SetValue(Value);
 }
-/*===========================================================================
- *		End of Class Method CSrArmoRecord::SetItemName()
- *=========================================================================*/
 
+/*
+void CSrArmoRecord::SetBAMT (const dword Value)
+{
+	if (m_pMaterial == NULL)
+	{
+		AddNewSubrecord(SR_NAME_BAMT);
+		if (m_pMaterial == NULL) return;
+		m_pMaterial->InitializeNew();
+	}
+
+	m_pMaterial->SetValue(Value);
+}
+
+
+void CSrArmoRecord::SetBIDS (const dword Value)
+{
+	if (m_pImpactData == NULL)
+	{
+		AddNewSubrecord(SR_NAME_BIDS);
+		if (m_pImpactData == NULL) return;
+		m_pImpactData->InitializeNew();
+	}
+
+	m_pImpactData->SetValue(Value);
+}
+//*/
 
 /*===========================================================================
  *
  * Begin CSrArmoRecord Get Field Methods
  *
  *=========================================================================*/
-DEFINE_SRGETFIELD(CSrArmoRecord::GetFieldItemName, String.Format("%s", GetItemName()))
 /*===========================================================================
  *		End of CSrArmoRecord Get Field Methods
  *=========================================================================*/
@@ -310,7 +404,6 @@ DEFINE_SRGETFIELD(CSrArmoRecord::GetFieldItemName, String.Format("%s", GetItemNa
  * Begin CSrArmoRecord Compare Field Methods
  *
  *=========================================================================*/
-DEFINE_SRCOMPFIELDSTRING(CSrArmoRecord, CompareFieldItemName, GetItemName)
 /*===========================================================================
  *		End of CSrArmoRecord Compare Field Methods
  *=========================================================================*/
@@ -321,9 +414,6 @@ DEFINE_SRCOMPFIELDSTRING(CSrArmoRecord, CompareFieldItemName, GetItemName)
  * Begin CSrArmoRecord Set Field Methods
  *
  *=========================================================================*/
-BEGIN_SRSETFIELD(CSrArmoRecord::SetFieldItemName)
-  SetItemName(pString);
-END_SRSETFIELD()
 /*===========================================================================
  *		End of CSrArmoRecord Set Field Methods
  *=========================================================================*/
