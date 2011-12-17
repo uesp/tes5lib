@@ -49,7 +49,7 @@
   {
 		dword	BodyParts;
 		dword	Flags;
-		dword	ArmorType;
+		int  	ArmorType;
   };
 
 #pragma pack(pop)

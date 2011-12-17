@@ -90,6 +90,7 @@ public:
   dword GetArmorRating (void) { return m_pArmorRating ? m_pArmorRating->GetValue() : 0; }
   bool IsPlayable (void) { return !CheckFlagBits(GetBodtData().Flags, SR_BODT_FLAG_NONPLAYABLE); }  
   const char* GetBodyParts (void) { m_BodyPartsString = GetSrBodyPartFlagString(GetBodtData().BodyParts); return m_BodyPartsString.c_str(); }
+  const char* GetArmorType (void) { return GetSrArmorTypeString(GetBodtData().ArmorType); }
 
 		/* Initialize a new record */
   void InitializeNew (void);
@@ -100,15 +101,16 @@ public:
 
   void SetArmorRating (const dword Value);
   void SetIsPlayable  (const bool Flag) { FlipFlagBits(GetBodtData().Flags, SR_BODT_FLAG_NONPLAYABLE, !Flag); }
-  void SetBodyParts  (const char* pString) { GetSrBodyPartFlagValue(GetBodtData().BodyParts, pString); }
+  void SetBodyParts   (const char* pString) { GetSrBodyPartFlagValue(GetBodtData().BodyParts, pString); }
+  void SetArmorType   (const char* pString) { GetSrArmorTypeValue(GetBodtData().ArmorType, pString); }
 
 
   DECLARE_SRFIELD_DESCRIPTION(CSrArmoRecord, SR_NAME_DESC)
   DECLARE_SRFIELD_ITEMNAME(CSrArmoRecord)
   
+  DECLARE_SRFIELD_METHOD(CSrArmoRecord, Type, GetArmorType, SetArmorType)
   DECLARE_SRFIELD_DWORD(CSrArmoRecord, Rating, GetArmorRating, SetArmorRating)
   DECLARE_SRFIELD_DWORD1(CSrArmoRecord, Value, GetArmorData().Value, GetArmorData().Value)
-  DECLARE_SRFIELD_DWORD1(CSrArmoRecord, Type, GetBodtData().ArmorType, GetBodtData().ArmorType)
   DECLARE_SRFIELD_FLOAT1(CSrArmoRecord, Weight, GetArmorData().Weight, GetArmorData().Weight)
   DECLARE_SRFIELD_BOOL(CSrArmoRecord, Playable, IsPlayable, SetIsPlayable)
   DECLARE_SRFIELD_METHOD(CSrArmoRecord, BodyParts, GetBodyParts, SetBodyParts)

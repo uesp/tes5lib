@@ -142,6 +142,13 @@ BEGIN_STRINGVALUE(s_SrBodyParts)
 	ADD_STRINGVALUE( SR_BODYPARTS_UNKNOWN2			,	"0x80000000")
 END_STRINGVALUE()
 
+BEGIN_STRINGVALUE(s_SrArmorTypes)
+	ADD_STRINGVALUE( SR_ARMORTYPE_NONE,		"None")
+	ADD_STRINGVALUE( SR_ARMORTYPE_LIGHT,	"Light")
+	ADD_STRINGVALUE( SR_ARMORTYPE_HEAVY,	"Heavy")
+END_STRINGVALUE()
+
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -166,7 +173,7 @@ const SSCHAR* GetSrEnchantTypeCString	(const int Value) { return s_SrEnchantType
 const SSCHAR* GetSrEnchantTypeDString	(const int Value) { return s_SrEnchantTypeDMap.FindValue(Value); }
 
 const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.FindValue(Value); }
-
+const SSCHAR* GetSrArmorTypeString		(const int Value) { return s_SrArmorTypesMap.FindValue(Value); }
 
 CSString GetSrBodyPartFlagString	(const dword Value) 
 { 
@@ -198,7 +205,8 @@ bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString) { return s_SrEnc
 bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeCMap.FindString(Value, pString); }
 bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeDMap.FindString(Value, pString); }
 
-bool GetSrBodyPartValue	(int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }
+bool GetSrBodyPartValue	 (int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }
+bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString) { return s_SrArmorTypesMap.FindString(Value, pString); }
 
 
 bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString) 

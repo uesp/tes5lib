@@ -57,7 +57,7 @@ END_SRSUBRECCREATE()
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrArmoRecord, CSrIdKeyRecord)
 	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrArmoRecord, FieldItemName)
-	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,			0, CSrArmoRecord, FieldModel)
+	ADD_SRFIELDALL("Model",			SR_FIELD_ARMMODEL,		0, CSrArmoRecord, FieldModel)
 	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrArmoRecord, FieldDescription)
 	ADD_SRFIELDALL("Rating",		SR_FIELD_RATING,		0, CSrArmoRecord, FieldRating)
 	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrArmoRecord, FieldValue)

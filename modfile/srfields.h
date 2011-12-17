@@ -269,6 +269,7 @@
   #define SR_FIELD_BAMT					207
   #define SR_FIELD_IMPACTDATA			208
   #define SR_FIELD_ANAM					209
+  #define SR_FIELD_ARMMODEL				210
 
 /*===========================================================================
  *		End of Field Types

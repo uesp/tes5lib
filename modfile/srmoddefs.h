@@ -576,6 +576,10 @@
 	#define SR_BODYPARTS_UNKNOWN3			0x00100000
 	#define SR_BODYPARTS_UNKNOWN4			0x00300000
 	#define SR_BODYPARTS_UNKNOWN2			0x80000000
+
+    #define SR_ARMORTYPE_NONE  0
+    #define SR_ARMORTYPE_LIGHT 1
+    #define SR_ARMORTYPE_HEAVY 2
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -587,6 +591,7 @@
 	extern const stringvalue_t s_SrEnchantTypeD[];
 
 	extern const stringvalue_t s_SrBodyParts[];
+	extern const stringvalue_t s_SrArmorTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -628,6 +633,8 @@
 	bool GetSrBodyPartValue	(int& Value, const SSCHAR* pString);
 	CSString GetSrBodyPartFlagString	(const dword Value);
 	bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrArmorTypeString		(const int Value);
+	bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions
