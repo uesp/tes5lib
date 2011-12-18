@@ -75,7 +75,7 @@ public:
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-	DECLARE_SRFIELD_DWORDFLAG1(CSrIngrRecord, Unknown, GetEnitData().Unknown, GetEnitData().Unknown)
+	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, Unknown, GetEnitData().Unknown, GetEnitData().Unknown)
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, Value, GetIngrData().Value, GetIngrData().Value)
