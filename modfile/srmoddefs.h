@@ -551,6 +551,7 @@
 	#define SR_SPELL_CASTANIM_NONE			0
 	#define SR_SPELL_CASTANIM_PROJECTILE	1
 	#define SR_SPELL_CASTANIM_SUSTAINED		2
+    #define SR_SPELL_CASTANIM_3				3
 
 			/* Spell Casting Types */
 	#define SR_SPELL_CASTTYPE_0		0
