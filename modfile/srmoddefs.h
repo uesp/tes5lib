@@ -688,6 +688,8 @@
 	bool SrIsRecipeResult    (const srrectype_t Type);
 	bool SrIsRecipeComponent (const srrectype_t Type);
 	bool SrIsValidLvliRecord (const srrectype_t Type);
+	bool SrIsValidLvlnRecord (const srrectype_t Type);
+	bool SrIsValidLvspRecord (const srrectype_t Type);
 	
 
 /*===========================================================================

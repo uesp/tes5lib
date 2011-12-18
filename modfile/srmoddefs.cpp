@@ -638,10 +638,29 @@ bool SrIsValidLvliRecord (const srrectype_t Type)
 	if (Type == SR_NAME_ARMO) return true;
 	if (Type == SR_NAME_BOOK) return true;	
 	if (Type == SR_NAME_INGR) return true;
+	if (Type == SR_NAME_LVLI) return true;
 	if (Type == SR_NAME_KEYM) return true;
 	if (Type == SR_NAME_MISC) return true;
 	if (Type == SR_NAME_SCRL) return true;
 	if (Type == SR_NAME_WEAP) return true;
+
+	return false;
+}
+
+
+bool SrIsValidLvlnRecord (const srrectype_t Type)
+{
+	if (Type == SR_NAME_NPC_) return true;
+	if (Type == SR_NAME_LVLN) return true;
+
+	return false;
+}
+
+
+bool SrIsValidLvspRecord (const srrectype_t Type)
+{
+	if (Type == SR_NAME_LVSP) return true;
+	if (Type == SR_NAME_SPEL) return true;
 
 	return false;
 }

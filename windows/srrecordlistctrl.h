@@ -268,37 +268,37 @@ class CSrRecordListCtrl : public CListCtrl {
 
   /*---------- Begin Protected Class Members -------------------------*/
 protected:
-  CSrRecListInfoArray	m_ListInfos;
-  srreclistinfo_t*		m_pCurrentList;
-  CSrRecordFilter*		m_pCurrentFilter;
+  CSrRecListInfoArray		m_ListInfos;
+  srreclistinfo_t*			m_pCurrentList;
+  CSrRecordFilter*			m_pCurrentFilter;
 
-  bool			m_ActNormalList;
-  bool			m_EnableColors;
+  bool						m_ActNormalList;
+  bool						m_EnableColors;
 
   CSrRefRecordArray			m_DragRecords;
   CSrRLRefCustomDataArray	m_DragCustomData;
 
-  bool			m_EnableDrag;
-  int			m_DragType;
-  bool			m_AcceptDrop;
-  bool			m_IsDragging;
-  int			m_DragIndex;
-  HCURSOR		m_hBadDropCursor;
-  HCURSOR		m_hGoodDropCursor;
-  CImageList*	m_pDragImage;
-  int			m_DropIndex;
-  bool			m_LastDropValid;
-  bool			m_EnableSort;
-  CWnd*			m_pLastDropWnd;
+  bool						m_EnableDrag;
+  int						m_DragType;
+  bool						m_AcceptDrop;
+  bool						m_IsDragging;
+  int						m_DragIndex;
+  HCURSOR					m_hBadDropCursor;
+  HCURSOR					m_hGoodDropCursor;
+  CImageList*				m_pDragImage;
+  int						m_DropIndex;
+  bool						m_LastDropValid;
+  bool						m_EnableSort;
+  CWnd*						m_pLastDropWnd;
 
-  CSrRLCustomDataArray	m_CustomData;	
+  CSrRLCustomDataArray		m_CustomData;	
 
-  bool			m_AutoResize;
-  CRect			m_AutoResizeOffset;
+  bool						m_AutoResize;
+  CRect						m_AutoResizeOffset;
 
-  int			m_ActivateType;
+  int						m_ActivateType;
 
-  CSString		m_ListName;
+  CSString					m_ListName;
 
   static srreclistoptions_t m_Options;
 
@@ -320,8 +320,6 @@ protected:
 
   	/* Initialize column data with the given information */
   srreclistinfo_t* InitializeColumns (const srrectype_t& Type, srreclistcolinit_t* ListInit, const srrecfieldmap_t* pFieldMap, const dword Flags = 0, const srrecfieldid_t SortField = 0);
-
-	/* */ 
 
 	/* Update the texts in a column */
   void SetColumnTexts (const int ListIndex, CSrRecord* pRecord, CSrSubrecord* pSubrecords[]);
