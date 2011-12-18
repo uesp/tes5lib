@@ -463,6 +463,7 @@
 	#define SRCLASS_CSrScrlDataSubrecord		1028
 	#define SRCLASS_CSrBookDataSubrecord		1029
 	#define SRCLASS_CSrDnamSubrecord			1030
+	#define SRCLASS_CSrMiscDataSubrecord		1031
   
 /*===========================================================================
  *		End of Class Type Definitions

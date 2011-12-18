@@ -12,6 +12,9 @@
 #include "srMiscrecord.h"
 
 
+srmiscdata_t CSrMiscRecord::s_NullMiscData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
@@ -21,10 +24,10 @@ BEGIN_SRSUBRECCREATE(CSrMiscRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrMiscDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -37,6 +40,10 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrMiscRecord, CSrItem1Record)
+	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrMiscRecord, FieldValue)
+	ADD_SRFIELDALL("Weight",		SR_FIELD_WEIGHT,		0, CSrMiscRecord, FieldWeight)
+	ADD_SRFIELDALL("PickupSound",	SR_FIELD_PICKUPSOUND,	0, CSrMiscRecord, FieldPickupSound)
+	ADD_SRFIELDALL("DropSound",		SR_FIELD_DROPSOUND,		0, CSrMiscRecord, FieldDropSound)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -50,6 +57,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrMiscRecord::CSrMiscRecord () 
 {
+	m_pObndData = NULL;
+	m_pVmadData = NULL;
+	m_pModtData = NULL;
+	m_pMiscData = NULL;
+	m_pModsData = NULL;
+	m_pPickupSound = NULL;
+	m_pDropSound = NULL;
 }
 /*===========================================================================
  *		End of Class CSrMiscRecord Constructor
@@ -63,6 +77,14 @@ CSrMiscRecord::CSrMiscRecord ()
  *=========================================================================*/
 void CSrMiscRecord::Destroy (void) 
 {
+	m_pObndData = NULL;
+	m_pVmadData = NULL;
+	m_pModtData = NULL;
+	m_pMiscData = NULL;
+	m_pModsData = NULL;
+	m_pPickupSound = NULL;
+	m_pDropSound = NULL;
+
 	CSrItem1Record::Destroy();
 }
 /*===========================================================================
@@ -78,6 +100,9 @@ void CSrMiscRecord::Destroy (void)
 void CSrMiscRecord::InitializeNew (void) 
 {
 	CSrItem1Record::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pMiscData != NULL) m_pMiscData->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrMiscRecord::InitializeNew()
@@ -105,7 +130,7 @@ void CSrMiscRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMiscData = SrCastClass(CSrMiscDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODS)
 	{
@@ -113,11 +138,11 @@ void CSrMiscRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_YNAM)
 	{
-		m_pYnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pPickupSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ZNAM)
 	{
-		m_pZnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDropSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -143,14 +168,14 @@ void CSrMiscRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pVmadData = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
+	else if (m_pMiscData == pSubrecord)
+		m_pMiscData = NULL;
 	else if (m_pModsData == pSubrecord)
 		m_pModsData = NULL;
-	else if (m_pYnamData == pSubrecord)
-		m_pYnamData = NULL;
-	else if (m_pZnamData == pSubrecord)
-		m_pZnamData = NULL;
+	else if (m_pPickupSound == pSubrecord)
+		m_pPickupSound = NULL;
+	else if (m_pDropSound == pSubrecord)
+		m_pDropSound = NULL;
 	else
 		CSrItem1Record::OnDeleteSubrecord(pSubrecord);
 
