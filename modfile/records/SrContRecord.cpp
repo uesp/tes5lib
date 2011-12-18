@@ -12,21 +12,24 @@
 #include "srContrecord.h"
 
 
+srcontdata_t		CSrContRecord::s_NullContData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrContRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_CNTO, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_COCT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_QNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CNTO, CSrCntoSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_COCT, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrContDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_QNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_COED, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
@@ -42,6 +45,12 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrContRecord, CSrIdRecord)
+	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,			0, CSrContRecord, FieldModel)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrContRecord, FieldItemName)
+	ADD_SRFIELDALL("ItemCount",		SR_FIELD_ITEMCOUNT,		0, CSrContRecord, FieldItemCount)
+	ADD_SRFIELDALL("Type",			SR_FIELD_TYPE,			0, CSrContRecord, FieldType)
+	ADD_SRFIELDALL("OpenSound",		SR_FIELD_OPENSOUND,		0, CSrContRecord, FieldOpenSound)
+	ADD_SRFIELDALL("CloseSound",	SR_FIELD_CLOSESOUND,	0, CSrContRecord, FieldCloseSound)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -55,6 +64,17 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrContRecord::CSrContRecord () 
 {
+	m_pModel = NULL;
+	m_pObndData = NULL;
+	m_pOpenSound = NULL;
+	m_pItemName = NULL;
+	m_pModtData = NULL;
+	m_pItemCount = NULL;
+	m_pContData = NULL;
+	m_pCloseSound = NULL;
+	m_pCoedData = NULL;
+	m_pModsData = NULL;
+	m_pVmadData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrContRecord Constructor
@@ -68,6 +88,18 @@ CSrContRecord::CSrContRecord ()
  *=========================================================================*/
 void CSrContRecord::Destroy (void) 
 {
+	m_pModel = NULL;
+	m_pObndData = NULL;
+	m_pOpenSound = NULL;
+	m_pItemName = NULL;
+	m_pModtData = NULL;
+	m_pItemCount = NULL;
+	m_pContData = NULL;
+	m_pCloseSound = NULL;
+	m_pCoedData = NULL;
+	m_pModsData = NULL;
+	m_pVmadData = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -83,6 +115,18 @@ void CSrContRecord::Destroy (void)
 void CSrContRecord::InitializeNew (void) 
 {
 	CSrIdRecord::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_FULL);
+	if (m_pItemName != NULL) m_pItemName->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pContData != NULL) m_pContData->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_MODL);
+	if (m_pModel!= NULL) m_pModel->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_COCT);
+	if (m_pItemCount != NULL) m_pItemCount->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrContRecord::InitializeNew()
@@ -98,7 +142,7 @@ void CSrContRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
@@ -106,31 +150,27 @@ void CSrContRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SNAM)
 	{
-		m_pSnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pOpenSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
 		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_CNTO)
-	{
-		m_pCntoData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_COCT)
 	{
-		m_pCoctData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemCount = SrCastClass(CSrDwordSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pContData = SrCastClass(CSrContDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_QNAM)
 	{
-		m_pQnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pCloseSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_COED)
 	{
@@ -162,24 +202,22 @@ void CSrContRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrContRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
+	if (m_pModel == pSubrecord)
+		m_pModel = NULL;
 	else if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pSnamData == pSubrecord)
-		m_pSnamData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pOpenSound == pSubrecord)
+		m_pOpenSound = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
-	else if (m_pCntoData == pSubrecord)
-		m_pCntoData = NULL;
-	else if (m_pCoctData == pSubrecord)
-		m_pCoctData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
-	else if (m_pQnamData == pSubrecord)
-		m_pQnamData = NULL;
+	else if (m_pItemCount == pSubrecord)
+		m_pItemCount = NULL;
+	else if (m_pContData == pSubrecord)
+		m_pContData = NULL;
+	else if (m_pCloseSound == pSubrecord)
+		m_pCloseSound = NULL;
 	else if (m_pCoedData == pSubrecord)
 		m_pCoedData = NULL;
 	else if (m_pModsData == pSubrecord)
@@ -223,3 +261,5 @@ void CSrContRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of CSrContRecord Set Field Methods
  *=========================================================================*/
+
+

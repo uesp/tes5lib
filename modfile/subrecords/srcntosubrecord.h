@@ -41,8 +41,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { bool Result; Result = File.ReadDWord(m_FormID);  Result &= File.ReadDWord(m_Count); return Result; }
-  virtual bool WriteData (CSrFile& File) { bool Result; Result = File.WriteDWord(m_FormID); Result &= File.WriteDWord(m_Count); return Result; }
+  virtual bool ReadData  (CSrFile& File) { bool Result; if (m_RecordSize != 8) return false; Result = File.ReadDWord(m_FormID);  Result &= File.ReadDWord(m_Count); return Result; }
+  virtual bool WriteData (CSrFile& File) { bool Result; if (m_RecordSize != 8) return false; Result = File.WriteDWord(m_FormID); Result &= File.WriteDWord(m_Count); return Result; }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

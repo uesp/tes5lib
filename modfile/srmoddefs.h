@@ -466,6 +466,7 @@
 	#define SRCLASS_CSrMiscDataSubrecord		1031
 	#define SRCLASS_CSrLvloSubrecord			1032
 	#define SRCLASS_CSrLvlfSubrecord			1033
+	#define SRCLASS_CSrContDataSubrecord		1034
   
 /*===========================================================================
  *		End of Class Type Definitions
