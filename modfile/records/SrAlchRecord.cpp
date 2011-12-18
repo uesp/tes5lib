@@ -234,3 +234,4 @@ void CSrAlchRecord::SetUseSound (const char* pString)
 /*===========================================================================
  *		End of CSrAlchRecord Set Field Methods
  *=========================================================================*/
+
