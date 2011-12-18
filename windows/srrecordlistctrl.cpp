@@ -658,7 +658,8 @@ static srreclistcolinit_t s_LtexListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-static srreclistcolinit_t s_LvliListInit[] = {
+static srreclistcolinit_t s_LvliListInit[] = 
+{
 	{ SR_FIELD_EDITORID,	  150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		  5,	LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		  50,	LVCFMT_CENTER },
@@ -671,7 +672,8 @@ static srreclistcolinit_t s_LvliListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-static srreclistcolinit_t s_LvlnListInit[] = {
+static srreclistcolinit_t s_LvlnListInit[] = 
+{
 	{ SR_FIELD_EDITORID,	  150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		  5,	LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		  50,	LVCFMT_CENTER },
@@ -684,20 +686,18 @@ static srreclistcolinit_t s_LvlnListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-static srreclistcolinit_t s_LvspListInit[] = {
+static srreclistcolinit_t s_LvspListInit[] = 
+{
 	{ SR_FIELD_EDITORID,	 150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		 5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		 50,	LVCFMT_CENTER },
-	//{ SR_FIELD_CHANCENONE,	 60,	LVCFMT_CENTER },
-	//{ SR_FIELD_CALCULATEALL, 60,	LVCFMT_CENTER },
-	//{ SR_FIELD_CALCULATEEACH,60,	LVCFMT_CENTER },
-	//{ SR_FIELD_USEALLSPELLS, 60,	LVCFMT_CENTER },
-	//{ SR_FIELD_ITEMCOUNT,    80,	LVCFMT_CENTER },
-	//{ SR_FIELD_USERDATA,	 80,	LVCFMT_CENTER },
-	//{ SR_FIELD_ITEMLIST,	 200,	LVCFMT_LEFT },
+	{ SR_FIELD_CHANCENONE,	 60,	LVCFMT_CENTER },
+	{ SR_FIELD_CALCULATEALL, 60,	LVCFMT_CENTER },
+	{ SR_FIELD_CALCULATEEACH,60,	LVCFMT_CENTER },
+	{ SR_FIELD_USEALL,       60,	LVCFMT_CENTER },
+	{ SR_FIELD_ITEMCOUNT,    80,	LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
 };
-
 
 static srreclistcolinit_t s_MattListInit[] = 
 {
@@ -706,7 +706,6 @@ static srreclistcolinit_t s_MattListInit[] =
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
 };
-
 
 static srreclistcolinit_t s_MatoListInit[] = 
 {
@@ -717,8 +716,8 @@ static srreclistcolinit_t s_MatoListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-
-static srreclistcolinit_t s_MgefListInit[] = {
+static srreclistcolinit_t s_MgefListInit[] = 
+{
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
@@ -726,7 +725,7 @@ static srreclistcolinit_t s_MgefListInit[] = {
 	{ SR_FIELD_DESCRIPTION,	60,		LVCFMT_CENTER },
 	{ SR_FIELD_SCHOOL,		60,		LVCFMT_CENTER },
 	{ SR_FIELD_EFFECTTYPE,	60,		LVCFMT_CENTER },
-	{ SR_FIELD_NONE,		0,	0 }
+	{ SR_FIELD_NONE, 0,	0 }
  };
 
 static srreclistcolinit_t s_MiscListInit[] = {
