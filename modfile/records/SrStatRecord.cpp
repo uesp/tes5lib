@@ -10,6 +10,10 @@
 
 	/* Include Files */
 #include "srStatrecord.h"
+#include "../srrecordhandler.h"
+
+
+srdnamdata_t CSrStatRecord::s_NullDnamData;
 
 
 /*===========================================================================
@@ -17,15 +21,13 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrStatRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrStatRecord, CSrIdRecord)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDnamSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -34,10 +36,13 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrStatRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrStatRecord, CSrIdRecord)
+	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,		0, CSrStatRecord, FieldModel)
+	ADD_SRFIELDALL("Scale",			SR_FIELD_SCALE,		0, CSrStatRecord, FieldScale)
+	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,	0, CSrStatRecord, FieldMaterial)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -51,6 +56,12 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrStatRecord::CSrStatRecord () 
 {
+	m_pModlData = NULL;
+	m_pObndData = NULL;
+	m_pDnamData = NULL;
+	m_pModtData = NULL;
+	m_pMnamData = NULL;
+	m_pModsData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrStatRecord Constructor
@@ -64,7 +75,14 @@ CSrStatRecord::CSrStatRecord ()
  *=========================================================================*/
 void CSrStatRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pModlData = NULL;
+	m_pObndData = NULL;
+	m_pDnamData = NULL;
+	m_pModtData = NULL;
+	m_pMnamData = NULL;
+	m_pModsData = NULL;
+
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrStatRecord::Destroy()
@@ -78,10 +96,16 @@ void CSrStatRecord::Destroy (void)
  *=========================================================================*/
 void CSrStatRecord::InitializeNew (void) 
 {
+	CSrIdRecord::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	AddNewSubrecord(SR_NAME_MODL);
+	if (m_pModlData != NULL) m_pModlData->InitializeNew();
 
+	AddNewSubrecord(SR_NAME_OBND);
+	if (m_pObndData != NULL) m_pObndData->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DNAM);
+	if (m_pDnamData != NULL) m_pDnamData->InitializeNew();
 
 }
 /*===========================================================================
@@ -98,19 +122,15 @@ void CSrStatRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModlData = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
 		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DNAM)
 	{
-		m_pDnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDnamData = SrCastClass(CSrDnamSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
@@ -124,10 +144,9 @@ void CSrStatRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pModsData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -147,8 +166,6 @@ void CSrStatRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pModlData = NULL;
 	else if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
 	else if (m_pDnamData == pSubrecord)
 		m_pDnamData = NULL;
 	else if (m_pModtData == pSubrecord)
@@ -157,14 +174,33 @@ void CSrStatRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pMnamData = NULL;
 	else if (m_pModsData == pSubrecord)
 		m_pModsData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
  *		End of Class Event CSrStatRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+void CSrStatRecord::SetMaterial (const char* pString)
+{
+	if (m_pParent == NULL) return;
+
+	if (m_pDnamData == NULL)
+	{
+		AddNewSubrecord(SR_NAME_DNAM);
+		if (m_pDnamData == NULL) return;
+		m_pDnamData->InitializeNew();
+	}
+
+	CSrRecord* pRecord = m_pParent->FindEditorID(pString);
+
+	if (pRecord == NULL)
+		m_pDnamData->GetDnamData().MaterialID = 0;
+	else
+		m_pDnamData->GetDnamData().MaterialID = pRecord->GetFormID();
+}
 
 
 /*===========================================================================

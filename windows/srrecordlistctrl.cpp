@@ -873,10 +873,12 @@ static srreclistcolinit_t s_SpelListInit[] =
 };
 
 static srreclistcolinit_t s_StatListInit[] = {
-	{ SR_FIELD_EDITORID,	100,	LVCFMT_LEFT },
-	{ SR_FIELD_FORMID,	5,	LVCFMT_LEFT },
-	{ SR_FIELD_FLAGS,	50,	LVCFMT_CENTER },
-	{ SR_FIELD_MODEL,	60,	LVCFMT_CENTER },
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_SCALE,		60,		LVCFMT_CENTER },
+	{ SR_FIELD_MATERIAL,	60,		LVCFMT_CENTER },
+	{ SR_FIELD_MODEL,		60,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
@@ -907,7 +909,6 @@ static srreclistinfoinit_t s_ListInit[] =
 	//{ &SR_NAME_SCPT, s_ScptListInit, &CSrScptRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_SGST, s_SgstListInit, &CSrSgstRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_SLGM, s_SlgmListInit, &CSrSlgmRecord::s_FieldMap, SR_FIELD_EDITORID },
-	//{ &SR_NAME_STAT, s_StatListInit, &CSrStatRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_AACT, s_AactListInit, &CSrAactRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACHR, s_AchrListInit, &CSrAchrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACTI, s_ActiListInit, &CSrActiRecord::s_FieldMap, SR_FIELD_EDITORID },
@@ -987,6 +988,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_SNDR, s_SndrListInit, &CSrSndrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_STAT, s_StatListInit, &CSrStatRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }
  };
