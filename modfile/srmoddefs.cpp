@@ -160,6 +160,27 @@ BEGIN_STRINGVALUE(s_SrPotionTypes)
 END_STRINGVALUE()
 
 
+BEGIN_STRINGVALUE(s_SrSkillTypes)
+	ADD_STRINGVALUE(SR_SKILL_ONEHAND 	 ,		"OneHand")
+	ADD_STRINGVALUE(SR_SKILL_TWOHAND 	 ,		"TwoHand")
+	ADD_STRINGVALUE(SR_SKILL_MARKSMAN 	 ,		"Marksman")
+	ADD_STRINGVALUE(SR_SKILL_BLOCK 		 ,		"Block")
+	ADD_STRINGVALUE(SR_SKILL_SMITHING 	 ,		"Smithing")
+	ADD_STRINGVALUE(SR_SKILL_HEAVYARMOR  ,		"HeavyArmor")
+	ADD_STRINGVALUE(SR_SKILL_LIGHTARMOR  ,		"LightArmor")
+	ADD_STRINGVALUE(SR_SKILL_PICKPOCKET  ,		"Pickpocket")
+	ADD_STRINGVALUE(SR_SKILL_LOCKPICKING ,		"Lockpicking")
+	ADD_STRINGVALUE(SR_SKILL_SNEAK 		 ,		"Sneak")
+	ADD_STRINGVALUE(SR_SKILL_ALCHEMY 	 ,		"Alchemy")
+	ADD_STRINGVALUE(SR_SKILL_SPEECHCRAFT ,		"Speechcraft")
+	ADD_STRINGVALUE(SR_SKILL_ALTERATION  ,		"Alteration")
+	ADD_STRINGVALUE(SR_SKILL_CONJURATION ,		"Conjuration")
+	ADD_STRINGVALUE(SR_SKILL_DESTRUCTION ,		"Destruction")
+	ADD_STRINGVALUE(SR_SKILL_ILLUSION 	 ,		"Illusion")
+	ADD_STRINGVALUE(SR_SKILL_RESTORATION ,		"Restoration")
+	ADD_STRINGVALUE(SR_SKILL_ENCHANTING  ,		"Enchanting")
+END_STRINGVALUE()
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -187,6 +208,8 @@ const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.F
 const SSCHAR* GetSrArmorTypeString		(const int Value) { return s_SrArmorTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrPotionTypeString		(const int Value) { return s_SrPotionTypesMap.FindValue(Value); }
+
+const SSCHAR* GetSrSkillTypeString		(const int Value) { return s_SrSkillTypesMap.FindValue(Value); }
 
 
 CSString GetSrBodyPartFlagString	(const dword Value) 
@@ -223,6 +246,8 @@ bool GetSrBodyPartValue	 (int& Value, const SSCHAR* pString) { return s_SrBodyPa
 bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString) { return s_SrArmorTypesMap.FindString(Value, pString); }
 
 bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString) { return s_SrPotionTypesMap.FindString(Value, pString); }
+
+bool GetSrSkillTypeValue (int& Value, const SSCHAR* pString) { return s_SrSkillTypesMap.FindString(Value, pString); }
 
 
 bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString) 

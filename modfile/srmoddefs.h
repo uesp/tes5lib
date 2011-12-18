@@ -461,6 +461,7 @@
 	#define SRCLASS_CSrIngrEnitSubrecord		1026
 	#define SRCLASS_CSrIngrDataSubrecord		1027
 	#define SRCLASS_CSrScrlDataSubrecord		1028
+	#define SRCLASS_CSrBookDataSubrecord		1029
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -592,6 +593,25 @@
     #define SR_POTIONTYPE_2			0x00000002
     #define SR_POTIONTYPE_FOOD		0x00000003
 	#define SR_POTIONTYPE_HARMFUL	0x00020000
+
+	#define SR_SKILL_ONEHAND 		6 
+	#define SR_SKILL_TWOHAND 		7 
+	#define SR_SKILL_MARKSMAN 		8 
+	#define SR_SKILL_BLOCK 			9 
+	#define SR_SKILL_SMITHING 		10
+	#define SR_SKILL_HEAVYARMOR 	11
+	#define SR_SKILL_LIGHTARMOR 	12
+	#define SR_SKILL_PICKPOCKET 	13
+	#define SR_SKILL_LOCKPICKING	14
+	#define SR_SKILL_SNEAK 			15
+	#define SR_SKILL_ALCHEMY 		16
+	#define SR_SKILL_SPEECHCRAFT 	17
+	#define SR_SKILL_ALTERATION 	18
+	#define SR_SKILL_CONJURATION 	19
+	#define SR_SKILL_DESTRUCTION 	20
+	#define SR_SKILL_ILLUSION 		21
+	#define SR_SKILL_RESTORATION	22
+	#define SR_SKILL_ENCHANTING 	23
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -606,6 +626,8 @@
 	extern const stringvalue_t s_SrArmorTypes[];
 
 	extern const stringvalue_t s_SrPotionTypes[];
+	
+	extern const stringvalue_t s_SrSkillTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -651,6 +673,8 @@
 	bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrPotionTypeString		(const int Value);
 	bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrSkillTypeString		(const int Value);
+	bool GetSrSkillTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

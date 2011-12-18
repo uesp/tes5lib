@@ -273,6 +273,10 @@
   #define SR_FIELD_USESOUND				211
   #define SR_FIELD_POTIONFLAGS			212
   #define SR_FIELD_POTIONTYPE			213
+  #define SR_FIELD_STATIC				214
+  #define SR_FIELD_SPELLTOME			215
+  #define SR_FIELD_SKILLBOOK			216
+  #define SR_FIELD_SKILL				217
 
 /*===========================================================================
  *		End of Field Types
