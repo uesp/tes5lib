@@ -832,6 +832,16 @@ static srreclistcolinit_t s_SounListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
+
+static srreclistcolinit_t s_SndrListInit[] = 
+{
+	{ SR_FIELD_EDITORID,			150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,   			5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,				50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+
 static srreclistcolinit_t s_SpelListInit[] = 
 {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
@@ -955,7 +965,8 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_PERK, s_PerkListInit, &CSrPerkRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_RACE, s_RaceListInit, &CSrRaceRecord::s_FieldMap, SR_FIELD_EDITORID },
-	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SNDR, s_SndrListInit, &CSrSndrRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }
