@@ -217,6 +217,21 @@
 					return SafeStringCompare(GetDescription(), pRecord1->GetDescription(), false); } \
 			bool SetFieldDescription (const SSCHAR* pString, long Reserved = 0) { SetDescription(pString); return true; }
 
+	#define DECLARE_SRFIELD_MODEL(Class, Type)	const char* GetModel (void) const { return m_pModel ? m_pModel->GetString().c_str() : ""; } \
+			void SetModel (const SSCHAR* pString) { \
+					if (m_pModel == NULL) { \
+						AddNewSubrecord(Type); \
+						if (m_pModel == NULL) return; \
+						m_pModel->InitializeNew(); } \
+					m_pModel->SetString(pString); } \
+			bool GetFieldModel (CSString& String, long Reserved = 0) { String = GetModel(); return true; } \
+			int  CompareFieldModel (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					return SafeStringCompare(GetModel(), pRecord1->GetModel(), false); } \
+			bool SetFieldModel (const SSCHAR* pString, long Reserved = 0) { SetModel(pString); return true; }
+
 
 	#define DECLARE_SRFIELD_STRING(Class, Member, Name, Type)	const char* Get##Name (void) const { return Member ? Member->GetString().c_str() : ""; } \
 			void Set##Name (const SSCHAR* pString) { \

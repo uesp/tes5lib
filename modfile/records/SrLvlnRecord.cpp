@@ -2,14 +2,14 @@
  *
  * File:		SrLvlnRecord.CPP
  * Author:		Dave Humphrey (dave@uesp.net)
- * Created On:	5 December 2011
+ * Created On:	17 December 2011
  *
  * Description
  *
  *=========================================================================*/
 
 	/* Include Files */
-#include "srLvlnrecord.h"
+#include "srlvlnrecord.h"
 
 
 /*===========================================================================
@@ -19,13 +19,13 @@
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrLvlnRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_COED, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LVLD, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LLCT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LVLO, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LVLD, CSrByteSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrLvlfSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LLCT, CSrByteSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LVLO, CSrLvloSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -38,6 +38,12 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrLvlnRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ChanceNone",		SR_FIELD_CHANCENONE,		0, CSrLvlnRecord, FieldChanceNone)
+	ADD_SRFIELDALL("CalculateEach",		SR_FIELD_CALCULATEEACH,		0, CSrLvlnRecord, FieldCalculateEach)
+	ADD_SRFIELDALL("CalculateAll",		SR_FIELD_CALCULATEALL,		0, CSrLvlnRecord, FieldCalculateAll)
+	ADD_SRFIELDALL("UseAll",			SR_FIELD_USEALL,			0, CSrLvlnRecord, FieldUseAll)
+	ADD_SRFIELDALL("ItemCount",			SR_FIELD_ITEMCOUNT,			0, CSrLvlnRecord, FieldItemCount)
+	ADD_SRFIELDALL("Model",				SR_FIELD_MODEL,				0, CSrLvlnRecord, FieldModel)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -51,6 +57,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrLvlnRecord::CSrLvlnRecord () 
 {
+	m_pModel = NULL;
+	m_pCoedData = NULL;
+	m_pObndData = NULL;
+	m_pChanceNone = NULL;
+	m_pFlags = NULL;
+	m_pListCount = NULL;
+	m_pGlobal = NULL;
 }
 /*===========================================================================
  *		End of Class CSrLvlnRecord Constructor
@@ -64,11 +77,78 @@ CSrLvlnRecord::CSrLvlnRecord ()
  *=========================================================================*/
 void CSrLvlnRecord::Destroy (void) 
 {
+	m_pModel = NULL;
+	m_pCoedData = NULL;
+	m_pObndData = NULL;
+	m_pChanceNone = NULL;
+	m_pFlags = NULL;
+	m_pListCount = NULL;
+	m_pGlobal = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrLvlnRecord::Destroy()
  *=========================================================================*/
+
+
+CSrLvloSubrecord* CSrLvlnRecord::AddItem (const srformid_t FormID, const dword Level, const dword Count)
+{
+	if (GetListCount() > SR_LVLO_MAXCOUNT) return NULL;
+
+	CSrSubrecord* pSubrecord = AddNewSubrecord(SR_NAME_LVLO);
+	CSrLvloSubrecord* pNewLvlo = SrCastClassNull(CSrLvloSubrecord, pSubrecord);
+	if (pNewLvlo == NULL) return NULL;
+	pNewLvlo->InitializeNew();
+
+	pNewLvlo->GetListData().Count  = Count;
+	pNewLvlo->GetListData().Level  = Level;
+	pNewLvlo->GetListData().FormID = FormID;
+
+	SetListCount(GetListCount() + 1);
+	return pNewLvlo;
+}
+
+
+bool CSrLvlnRecord::DeleteItem (CSrLvloSubrecord* pItem)
+{
+	if (pItem == NULL) return false;
+	bool Result = m_Subrecords.Delete(pItem);
+
+	if (Result) 
+	{
+		if (GetListCount() > 0) 
+			SetListCount(GetListCount() - 1);
+		else
+			UpdateListCount();
+	}
+
+	return true;
+}
+
+
+CSrLvloSubrecord* CSrLvlnRecord::GetFirstItem (int& Position)
+{
+	Position = -1;
+	return GetNextItem(Position);	
+}
+
+
+CSrLvloSubrecord* CSrLvlnRecord::GetNextItem (int& Position)
+{
+	++Position;
+
+	for (; Position < (int)m_Subrecords.GetSize(); ++Position)
+	{
+		CSrSubrecord* pSubrecord = m_Subrecords[Position];
+		if (pSubrecord == NULL) continue;
+		if (pSubrecord->GetRecordType() != SR_NAME_LVLO) continue;
+		CSrLvloSubrecord* pLvlo = SrCastClass(CSrLvloSubrecord, pSubrecord);
+		if (pLvlo != NULL) return pLvlo;
+	}
+
+	return NULL;
+}
 
 
 /*===========================================================================
@@ -79,6 +159,15 @@ void CSrLvlnRecord::Destroy (void)
 void CSrLvlnRecord::InitializeNew (void) 
 {
 	CSrIdRecord::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_LVLD);
+	if (m_pChanceNone != NULL) m_pChanceNone->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_LVLF);
+	if (m_pFlags != NULL) m_pFlags->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_LLCT);
+	if (m_pListCount != NULL) m_pListCount->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrLvlnRecord::InitializeNew()
@@ -98,31 +187,27 @@ void CSrLvlnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODL)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
 		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
-	{
-		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LVLD)
 	{
-		m_pLvldData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pChanceNone = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LVLF)
 	{
-		m_pLvlfData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFlags = SrCastClass(CSrLvlfSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LLCT)
 	{
-		m_pLlctData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pListCount = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_LVLO)
+	else if (pSubrecord->GetRecordType() == SR_NAME_LVLG)
 	{
-		m_pLvloData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pGlobal = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -144,20 +229,18 @@ void CSrLvlnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pCoedData == pSubrecord)
 		m_pCoedData = NULL;
-	else if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
+	else if (m_pModel == pSubrecord)
+		m_pModel = NULL;
 	else if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pModtData == pSubrecord)
-		m_pModtData = NULL;
-	else if (m_pLvldData == pSubrecord)
-		m_pLvldData = NULL;
-	else if (m_pLvlfData == pSubrecord)
-		m_pLvlfData = NULL;
-	else if (m_pLlctData == pSubrecord)
-		m_pLlctData = NULL;
-	else if (m_pLvloData == pSubrecord)
-		m_pLvloData = NULL;
+	else if (m_pChanceNone == pSubrecord)
+		m_pChanceNone = NULL;
+	else if (m_pFlags == pSubrecord)
+		m_pFlags = NULL;
+	else if (m_pListCount == pSubrecord)
+		m_pListCount = NULL;
+	else if (m_pGlobal == pSubrecord)
+		m_pGlobal = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
@@ -165,6 +248,62 @@ void CSrLvlnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of Class Event CSrLvlnRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+void CSrLvlnRecord::SetListCount (const dword Value)
+{
+
+	if (m_pListCount == NULL)
+	{
+		AddNewSubrecord(SR_NAME_LLCT);
+		if (m_pListCount == NULL) return;
+		m_pListCount->InitializeNew();
+	}
+
+	if (Value > SR_LVLO_MAXCOUNT) return;
+	m_pListCount->SetValue((byte) Value);
+}
+
+
+void CSrLvlnRecord::SetChanceNone (const byte Value)
+{
+	if (m_pChanceNone == NULL)
+	{
+		AddNewSubrecord(SR_NAME_LVLD);
+		if (m_pChanceNone == NULL) return;
+		m_pChanceNone->InitializeNew();
+	}
+
+	m_pChanceNone->SetValue(Value);
+}
+
+
+void CSrLvlnRecord::UpdateListCount (void)
+{
+	dword Count = CountSubrecords(SR_NAME_LVLO);
+
+	if (Count > SR_LVLO_MAXCOUNT)
+	{
+		SystemLog.Printf("WARNING: Exceeded maximum of %d LVLO subrecords!", SR_LVLO_MAXCOUNT);
+		int Counter = 0;
+		
+		for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
+		{
+			if (m_Subrecords[i]->GetRecordType() != SR_NAME_LVLO) continue;
+			++Counter;
+
+			if (Counter > SR_LVLO_MAXCOUNT) 
+			{
+				m_Subrecords.Delete(i);
+				--i;
+			}
+		}
+
+		SetListCount(SR_LVLO_MAXCOUNT);
+	}
+
+	SetListCount(Count);
+}
 
 
 /*===========================================================================
@@ -195,3 +334,4 @@ void CSrLvlnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of CSrLvlnRecord Set Field Methods
  *=========================================================================*/
+
