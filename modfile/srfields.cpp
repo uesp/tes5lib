@@ -251,6 +251,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_SPELLTOME,		"SpellTome")
 	ADD_STRINGVALUE( SR_FIELD_SKILLBOOK,		"SkillBook")
 	ADD_STRINGVALUE( SR_FIELD_SKILL,			"Skill")
+	ADD_STRINGVALUE( SR_FIELD_SPELL,			"Spell")
 	
 END_STRINGVALUE()
 /*===========================================================================

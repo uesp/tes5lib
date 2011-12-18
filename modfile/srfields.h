@@ -277,6 +277,7 @@
   #define SR_FIELD_SPELLTOME			215
   #define SR_FIELD_SKILLBOOK			216
   #define SR_FIELD_SKILL				217
+  #define SR_FIELD_SPELL				218
 
 /*===========================================================================
  *		End of Field Types

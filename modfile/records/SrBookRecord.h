@@ -68,7 +68,8 @@ public:
 	bool IsBookSkill     (void) { return CheckFlagBits(GetBookData().Flags, SR_BOOKFLAG_SKILL); }
 	bool IsBookSpellTome (void) { return CheckFlagBits(GetBookData().Flags, SR_BOOKFLAG_SPELLTOME); }
 	bool IsBookScroll    (void) { return CheckFlagBits(GetBookData().Flags, SR_BOOKFLAG_SCROLL); }
-	const char* GetBookSkill (void) { return GetSrSkillTypeString(GetBookData().SkillID); }
+	const char* GetBookSkill (void) { return IsBookSkill() ? GetSrSkillTypeString(GetBookData().SkillID) : NULL; }
+	const char* GetBookSpell (void) { return IsBookSpellTome() ? CSrRecord::GetEditorIDHelper(GetBookData().SkillID) : NULL; }
 
 		/* Initialize a new record */
 	void InitializeNew (void);
@@ -80,8 +81,9 @@ public:
 	void SetBookSkill     (const bool Flag) { FlipFlagBits(GetBookData().Flags, SR_BOOKFLAG_SKILL, Flag); }
 	void SetBookSpellTome (const bool Flag) { FlipFlagBits(GetBookData().Flags, SR_BOOKFLAG_SPELLTOME, Flag); }
 	void SetBookScroll    (const bool Flag) { FlipFlagBits(GetBookData().Flags, SR_BOOKFLAG_SCROLL, Flag); }
-	void SetBookSkill	  (const char* pString) { GetSrSkillTypeValue(GetBookData().SkillID, pString); }
-
+	void SetBookSkill	  (const char* pString) { if (IsBookSkill()) GetSrSkillTypeValue(GetBookData().SkillID, pString); }
+	void SetBookSpell	  (const char* pString);
+	
 
 	DECLARE_SRFIELD_DESCRIPTION(CSrBookRecord, SR_NAME_DESC)
 	DECLARE_SRFIELD_DWORD1(CSrBookRecord, Value, GetBookData().Value, GetBookData().Value)
@@ -91,8 +93,10 @@ public:
 	DECLARE_SRFIELD_BOOL(CSrBookRecord, SkillBook, IsBookSkill, SetBookSkill)
 	DECLARE_SRFIELD_STRING(CSrBookRecord, m_pCnamData, CNam, SR_NAME_CNAM)
 	DECLARE_SRFIELD_METHOD(CSrBookRecord, Skill, GetBookSkill, SetBookSkill)
+		
+	DECLARE_SRFIELD_EDITORID(CSrBookRecord, Spell, GetBookSpell, SetBookSpell)
 
-	DECLARE_SRFIELD_EDITORID(CSrBookRecord, PickupSound,  GetPickupSound,  SetPickupSound)
+	DECLARE_SRFIELD_EDITORID(CSrBookRecord, PickupSound, GetPickupSound, SetPickupSound)
 	DECLARE_SRMETHOD_FORMID(PickupSound, m_pPickupSound, SR_NAME_YNAM)
 
 	DECLARE_SRFIELD_EDITORID(CSrBookRecord, Static,  GetStatic,  SetStatic)

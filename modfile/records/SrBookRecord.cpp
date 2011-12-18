@@ -10,6 +10,7 @@
 
 	/* Include Files */
 #include "srBookrecord.h"
+#include "../srrecordhandler.h"
 
 
 srbookdata_t CSrBookRecord::s_NullBookData;
@@ -51,6 +52,7 @@ BEGIN_SRFIELDMAP(CSrBookRecord, CSrItem1Record)
 	ADD_SRFIELDALL("SkillBook",		SR_FIELD_SKILLBOOK,		0, CSrBookRecord, FieldSkillBook)
 	ADD_SRFIELDALL("Skill",			SR_FIELD_SKILL,			0, CSrBookRecord, FieldSkill)
 	ADD_SRFIELDALL("Scroll",		SR_FIELD_SCROLL,		0, CSrBookRecord, FieldScroll)
+	ADD_SRFIELDALL("Spell",			SR_FIELD_SPELL,			0, CSrBookRecord, FieldSpell)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -203,6 +205,20 @@ void CSrBookRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *		End of Class Event CSrBookRecord::OnDeleteSubrecord()
  *=========================================================================*/
 
+
+void CSrBookRecord::SetBookSpell (const char* pString)
+{
+	if (!IsBookSpellTome()) return;
+
+	if (m_pParent == NULL) return;
+	CSrRecord* pRecord = m_pParent->FindEditorID(pString);
+
+	if (pRecord == NULL)
+		GetBookData().SkillID = 0;
+	else
+		GetBookData().SkillID = pRecord->GetFormID();
+
+}
 
 /*===========================================================================
  *
