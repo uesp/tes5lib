@@ -1,14 +1,14 @@
 /*===========================================================================
  *
- * File:		Srspitsubrecord.H
+ * File:		SrScrlatasubrecord.H
  * Author:		Dave Humphrey (dave@uesp.net)
- * Created On:	12 December 2011
+ * Created On:	17 December 2011
  *
  * Description
  *
  *=========================================================================*/
-#ifndef __SRSPITSUBRECORD_H
-#define __SRSPITSUBRECORD_H
+#ifndef __SRSCRLDATASUBRECORD_H
+#define __SRSCRLDATASUBRECORD_H
 
 
 /*===========================================================================
@@ -16,7 +16,7 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-	#include "srsubrecord.h"
+  #include "srsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -28,7 +28,7 @@
  *
  *=========================================================================*/
 
-	#define SRSPIT_SUBRECORD_SIZE	36
+	#define SR_SCRLDATA_SUBRECORD_SIZE	8
 
 /*===========================================================================
  *		End of Definitions
@@ -42,19 +42,11 @@
  *=========================================================================*/
 #pragma pack(push, 1)
 
-	struct srspitdata_t 
-	{
-		dword		BaseCost;
-		word		AutoCalc;
-		word		Flags;
-		dword		SpellType;
-		float		CastTime;
-		int			CastAnim;
-		int			CastType;
-		float		Unknown1;
-		float		Unknown2;
-		srformid_t	PerkID;
-	};
+  struct srscrldata_t 
+  {
+	dword   Value;
+	float	Weight;
+  };
 
 #pragma pack(pop)
 /*===========================================================================
@@ -64,82 +56,65 @@
 
 /*===========================================================================
  *
- * Begin Class CSrSpitSubrecord Definition
+ * Begin Class CSrScrlDataSubrecord Definition
  *
  * Description
  *
  *=========================================================================*/
-class CSrSpitSubrecord : public CSrSubrecord 
-{
-  DECLARE_SRCLASS(CSrSpitSubrecord, CSrSubrecord)
+class CSrScrlDataSubrecord : public CSrSubrecord {
+  DECLARE_SRCLASS(CSrScrlDataSubrecord, CSrSubrecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  srspitdata_t	m_Data;
+	srscrldata_t	m_Data;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { return File.Read(&m_Data,  m_RecordSize); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Data, m_RecordSize); }
+  virtual bool ReadData  (CSrFile& File) { if (m_RecordSize != SR_SCRLDATA_SUBRECORD_SIZE) return false; return File.Read(&m_Data,  SR_SCRLDATA_SUBRECORD_SIZE); }
+  virtual bool WriteData (CSrFile& File) { if (m_RecordSize != SR_SCRLDATA_SUBRECORD_SIZE) return false; return File.Write(&m_Data, SR_SCRLDATA_SUBRECORD_SIZE); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
 	/* Class Constructors/Destructors */
-  CSrSpitSubrecord();
-  //virtual ~CSrSpitSubrecord() { Destroy(); }
-  virtual void Destroy (void);
+  CSrScrlDataSubrecord() { }
+  virtual void Destroy (void) { CSrSubrecord::Destroy(); }
 
-	/* Compare two subrecord fields */
-  virtual bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
+ 	/* Copy the content from an existing subrecord */
+  virtual bool Copy (CSrSubrecord* pSubrecord) {
+	CSrScrlDataSubrecord* pSubrecord1 = SrCastClassNull(CSrScrlDataSubrecord, pSubrecord);
+	m_RecordSize = SR_SCRLDATA_SUBRECORD_SIZE;
 
-  	/* Copy the content from an existing subrecord */
-  virtual bool Copy (CSrSubrecord* pSubrecord) 
-  {
-	CSrSpitSubrecord* pSubrecord1 = SrCastClassNull(CSrSpitSubrecord, pSubrecord);
-	m_RecordSize = SRSPIT_SUBRECORD_SIZE;
-
-	if (pSubrecord1 != NULL) 
-	{
-	  m_Data = pSubrecord1->GetSpellData();
+	if (pSubrecord1 != NULL) {
+	  m_Data = pSubrecord1->GetScrlData();
 	}
-	else 
-	{
+	else {
 	  memset(&m_Data, 0, sizeof(m_Data));
 	}
 	return (true);
   }
 
   	/* Create a class instance */
-  static CSrSubrecord* Create (void) { return (new CSrSpitSubrecord); }
+  static CSrSubrecord* Create (void) { return (new CSrScrlDataSubrecord); }
 
 	/* Get class members */
-  srspitdata_t& GetSpellData	(void) { return (m_Data); }
-  virtual byte*	GetData			(void) { return (byte *)(&m_Data); }
-  bool          IsAutoCalc		(void) { return m_Data.AutoCalc == 0; }
-
-  	/* Get a string representation of a subrecord field */
-  bool GetField (CSString& Buffer, const int FieldID);
-  	
+  srscrldata_t&  GetScrlData (void) { return (m_Data); }
+  virtual byte*	 GetData     (void) { return (byte *)(&m_Data); }
+  
 	/* Initialize a new record */
-  void InitializeNew (void);
-
-	/* Set class members */
-  void SetAutoCalc (const bool  Flag)  { m_Data.AutoCalc = !Flag; }
-
+  void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_SCRLDATA_SUBRECORD_SIZE; }
+   
 };
 /*===========================================================================
- *		End of Class CSrSpitSubrecord Definition
+ *		End of Class CSrScrlDataSubrecord Definition
  *=========================================================================*/
-
-
 
 
 #endif
 /*===========================================================================
- *		End of File Srenitsubrecord.H
+ *		End of File SrScrlDatasubrecord.H
  *=========================================================================*/

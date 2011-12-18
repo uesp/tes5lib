@@ -771,6 +771,24 @@ static srreclistcolinit_t s_RaceListInit[] =
 };
 
 
+static srreclistcolinit_t s_ScrlListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_ITEMNAME,	140,	LVCFMT_CENTER },
+	{ SR_FIELD_VALUE,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_WEIGHT,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_COST,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_CASTTIME,	50,		LVCFMT_CENTER },
+	{ SR_FIELD_CASTTYPE,	50,		LVCFMT_CENTER },
+	{ SR_FIELD_CASTANIM,	50,		LVCFMT_CENTER },
+	{ SR_FIELD_EFFECTCOUNT,	50,		LVCFMT_CENTER },
+	{ SR_FIELD_EQUIPSLOT,	80,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+
 static srreclistcolinit_t s_ScptListInit[] = {
 	{ SR_FIELD_EDITORID,	140,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,	5,	LVCFMT_LEFT },
@@ -967,6 +985,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_PERK, s_PerkListInit, &CSrPerkRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_RACE, s_RaceListInit, &CSrRaceRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SCRL, s_ScrlListInit, &CSrScrlRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SNDR, s_SndrListInit, &CSrSndrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },

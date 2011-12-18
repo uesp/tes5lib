@@ -10,6 +10,11 @@
 
 	/* Include Files */
 #include "srScrlrecord.h"
+#include "../srrecordhandler.h"
+
+
+srscrldata_t CSrScrlRecord::s_NullScrollData;
+srspitdata_t CSrScrlRecord::s_NullSpitData;
 
 
 /*===========================================================================
@@ -17,23 +22,17 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrScrlRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrScrlRecord, CSrItem1Record)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SPIT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KSIZ, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KWDA, CSrDataSubrecord::Create)
-
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrScrlDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SPIT, CSrSpitSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrEfitSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -42,10 +41,20 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrItem1Record Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrScrlRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrScrlRecord, CSrItem1Record)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrScrlRecord, FieldItemName)
+	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrScrlRecord, FieldDescription)
+	ADD_SRFIELDALL("EffectCount",	SR_FIELD_EFFECTCOUNT,	0, CSrScrlRecord, FieldEffectCount)
+	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrScrlRecord, FieldEquipSlot)
+	ADD_SRFIELDALL("Weight",		SR_FIELD_WEIGHT,		0, CSrScrlRecord, FieldWeight)
+	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrScrlRecord, FieldValue)
+	ADD_SRFIELDALL("CastTime",		SR_FIELD_CASTTIME,		0, CSrScrlRecord, FieldCastTime)
+	ADD_SRFIELDALL("CastAnim",		SR_FIELD_CASTANIM,		0, CSrScrlRecord, FieldCastAnim)
+	ADD_SRFIELDALL("CastType",		SR_FIELD_CASTTYPE,		0, CSrScrlRecord, FieldCastType)
+	ADD_SRFIELDALL("Cost",			SR_FIELD_COST,			0, CSrScrlRecord, FieldCost)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -59,6 +68,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrScrlRecord::CSrScrlRecord () 
 {
+	m_pEquipmentSlot = NULL;
+	m_pBoundsData = NULL;
+	m_pDescription = NULL;
+	m_pMdobData = NULL;
+	m_pModtData = NULL;
+	m_pScrlData = NULL;
+	m_pSpitData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrScrlRecord Constructor
@@ -72,7 +88,15 @@ CSrScrlRecord::CSrScrlRecord ()
  *=========================================================================*/
 void CSrScrlRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pEquipmentSlot = NULL;
+	m_pBoundsData = NULL;
+	m_pDescription = NULL;
+	m_pMdobData = NULL;
+	m_pModtData = NULL;
+	m_pScrlData = NULL;
+	m_pSpitData = NULL;
+
+	CSrItem1Record::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrScrlRecord::Destroy()
@@ -86,10 +110,19 @@ void CSrScrlRecord::Destroy (void)
  *=========================================================================*/
 void CSrScrlRecord::InitializeNew (void) 
 {
+	CSrItem1Record::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pScrlData != NULL) m_pScrlData->InitializeNew();
 
+	AddNewSubrecord(SR_NAME_SPIT);
+	if (m_pSpitData != NULL) m_pSpitData->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DESC);
+	if (m_pDescription != NULL) m_pDescription->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_ETYP);
+	if (m_pEquipmentSlot != NULL) m_pEquipmentSlot->InitializeNew();
 
 }
 /*===========================================================================
@@ -104,33 +137,17 @@ void CSrScrlRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrScrlRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
+	if (pSubrecord->GetRecordType() == SR_NAME_ETYP)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_ETYP)
-	{
-		m_pEtypData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pEquipmentSlot = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EFID)
-	{
-		m_pEfidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
-		m_pDescData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
-	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MDOB)
 	{
@@ -142,32 +159,15 @@ void CSrScrlRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pScrlData = SrCastClass(CSrScrlDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SPIT)
 	{
-		m_pSpitData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pSpitData = SrCastClass(CSrSpitSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EFIT)
-	{
-		m_pEfitData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_CTDA)
-	{
-		m_pCtdaData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KSIZ)
-	{
-		m_pKsizData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KWDA)
-	{
-		m_pKwdaData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrItem1Record::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -183,39 +183,22 @@ void CSrScrlRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrScrlRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
-	else if (m_pEtypData == pSubrecord)
-		m_pEtypData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pEfidData == pSubrecord)
-		m_pEfidData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pDescData == pSubrecord)
-		m_pDescData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	if (m_pEquipmentSlot == pSubrecord)
+		m_pEquipmentSlot = NULL;
+	else if (m_pBoundsData == pSubrecord)
+		m_pBoundsData = NULL;
+	else if (m_pDescription == pSubrecord)
+		m_pDescription = NULL;
 	else if (m_pMdobData == pSubrecord)
 		m_pMdobData = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
+	else if (m_pScrlData == pSubrecord)
+		m_pScrlData = NULL;
 	else if (m_pSpitData == pSubrecord)
 		m_pSpitData = NULL;
-	else if (m_pEfitData == pSubrecord)
-		m_pEfitData = NULL;
-	else if (m_pCtdaData == pSubrecord)
-		m_pCtdaData = NULL;
-	else if (m_pKsizData == pSubrecord)
-		m_pKsizData = NULL;
-	else if (m_pKwdaData == pSubrecord)
-		m_pKwdaData = NULL;
-
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrItem1Record::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
