@@ -458,6 +458,8 @@
 	#define SRCLASS_CSrBodtSubrecord			1023
 	#define SRCLASS_CSrAlchDataSubrecord		1024
 	#define SRCLASS_CSrEnitAlchSubrecord		1025
+	#define SRCLASS_CSrIngrEnitSubrecord		1026
+	#define SRCLASS_CSrIngrDataSubrecord		1027
   
 /*===========================================================================
  *		End of Class Type Definitions
