@@ -86,6 +86,65 @@ void CSrLvliRecord::Destroy (void)
  *=========================================================================*/
 
 
+CSrLvloSubrecord* CSrLvliRecord::AddItem (const srformid_t FormID, const dword Level, const dword Count)
+{
+	if (GetItemCount() > SR_LVLI_MAXITEMCOUNT) return NULL;
+
+	CSrSubrecord* pSubrecord = AddNewSubrecord(SR_NAME_LVLO);
+	CSrLvloSubrecord* pNewLvlo = SrCastClassNull(CSrLvloSubrecord, pSubrecord);
+	if (pNewLvlo == NULL) return NULL;
+	pNewLvlo->InitializeNew();
+
+	pNewLvlo->GetListData().Count  = Count;
+	pNewLvlo->GetListData().Level  = Level;
+	pNewLvlo->GetListData().FormID = FormID;
+
+	SetItemCount(GetItemCount() + 1);
+	return pNewLvlo;
+}
+
+
+bool CSrLvliRecord::DeleteItem (CSrLvloSubrecord* pItem)
+{
+	if (pItem == NULL) return false;
+	bool Result = m_Subrecords.Delete(pItem);
+
+	if (Result) 
+	{
+		if (GetItemCount() > 0) 
+			SetItemCount(GetItemCount() - 1);
+		else
+			UpdateItemCount();
+	}
+
+	return true;
+}
+
+
+CSrLvloSubrecord* CSrLvliRecord::GetFirstItem (int& Position)
+{
+	Position = -1;
+	return GetNextItem(Position);	
+}
+
+
+CSrLvloSubrecord* CSrLvliRecord::GetNextItem (int& Position)
+{
+	++Position;
+
+	for (; Position < (int)m_Subrecords.GetSize(); ++Position)
+	{
+		CSrSubrecord* pSubrecord = m_Subrecords[Position];
+		if (pSubrecord == NULL) continue;
+		if (pSubrecord->GetRecordType() != SR_NAME_LVLO) continue;
+		CSrLvloSubrecord* pLvlo = SrCastClass(CSrLvloSubrecord, pSubrecord);
+		if (pLvlo != NULL) return pLvlo;
+	}
+
+	return NULL;
+}
+
+
 /*===========================================================================
  *
  * Class CSrLvliRecord Method - void InitializeNew (void);
@@ -173,6 +232,21 @@ void CSrLvliRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
+void CSrLvliRecord::SetItemCount (const dword Value)
+{
+
+	if (m_pItemCount == NULL)
+	{
+		AddNewSubrecord(SR_NAME_LLCT);
+		if (m_pItemCount == NULL) return;
+		m_pItemCount->InitializeNew();
+	}
+
+	if (Value > SR_LVLI_MAXITEMCOUNT) return;
+	m_pItemCount->SetValue((byte) Value);
+}
+
+
 void CSrLvliRecord::SetChanceNone (const byte Value)
 {
 	if (m_pChanceNone == NULL)
@@ -227,14 +301,6 @@ void CSrLvliRecord::SetUseAll (const bool Flag)
 
 void CSrLvliRecord::UpdateItemCount (void)
 {
-
-	if (m_pItemCount == NULL)
-	{
-		AddNewSubrecord(SR_NAME_LLCT);
-		if (m_pItemCount == NULL) return;
-		m_pItemCount->InitializeNew();
-	}
-
 	dword Count = CountSubrecords(SR_NAME_LVLO);
 
 	if (Count > SR_LVLI_MAXITEMCOUNT)
@@ -254,10 +320,10 @@ void CSrLvliRecord::UpdateItemCount (void)
 			}
 		}
 
-		m_pItemCount->SetValue(SR_LVLI_MAXITEMCOUNT);
+		SetItemCount(SR_LVLI_MAXITEMCOUNT);
 	}
 
-	m_pItemCount->SetValue((byte) Count);
+	SetItemCount(Count);
 }
 
 

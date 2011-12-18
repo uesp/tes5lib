@@ -629,3 +629,19 @@ bool SrIsRecipeResult (const srrectype_t Type)
 
 	return false;
 }
+
+
+bool SrIsValidLvliRecord (const srrectype_t Type)
+{
+	if (Type == SR_NAME_ALCH) return true;
+	if (Type == SR_NAME_AMMO) return true;
+	if (Type == SR_NAME_ARMO) return true;
+	if (Type == SR_NAME_BOOK) return true;	
+	if (Type == SR_NAME_INGR) return true;
+	if (Type == SR_NAME_KEYM) return true;
+	if (Type == SR_NAME_MISC) return true;
+	if (Type == SR_NAME_SCRL) return true;
+	if (Type == SR_NAME_WEAP) return true;
+
+	return false;
+}

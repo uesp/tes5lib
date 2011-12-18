@@ -132,7 +132,10 @@ public:
 	/* Get class members */
   srlvlodata_t&		GetListData	(void) { return (m_Data); }
   virtual byte*	    GetData		(void) { return (byte *)(&m_Data); }
- 	
+  dword				GetLevel	(void) { return m_Data.Level; }
+  srformid_t		GetFormID	(void) { return m_Data.FormID; }
+  dword				GetCount	(void) { return m_Data.Count; }
+   	
 	/* Initialize a new record */
   void InitializeNew (void)
   {
@@ -142,6 +145,9 @@ public:
   }
 
 	/* Set class members */
+  void SetCount  (const dword Value) { m_Data.Count = Value; }
+  void SetLevel  (const dword Value) { m_Data.Level = Value; }
+  void SetFormID (const dword Value) { m_Data.FormID = Value; }
   
 
 };

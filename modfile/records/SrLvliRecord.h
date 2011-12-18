@@ -28,7 +28,7 @@
 	#define SR_LVLIFLAG_CALCULATEALL	0x02
 	#define SR_LVLIFLAG_USEALL			0x04
 
-	#define SR_LVLI_MAXITEMCOUNT			255
+	#define SR_LVLI_MAXITEMCOUNT		255
 
 
 /*===========================================================================
@@ -54,6 +54,8 @@ protected:
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
+	void SetItemCount (const dword Value);
+
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
@@ -61,6 +63,9 @@ public:
 		/* Class Constructors/Destructors */
 	CSrLvliRecord();
 	virtual void Destroy (void);
+
+	CSrLvloSubrecord* AddItem    (const srformid_t FormID, const dword Level, const dword Count);
+	bool DeleteItem (CSrLvloSubrecord* pItem); 
 
     	/* Return a new instance of the class */
 	static CSrRecord* Create (void) { return new CSrLvliRecord; }
@@ -72,6 +77,9 @@ public:
 	bool  IsCalculateEach (void) { return CheckFlagBits(GetListFlags(), SR_LVLIFLAG_CALCULATEEACH); }
 	bool  IsCalculateAll  (void) { return CheckFlagBits(GetListFlags(), SR_LVLIFLAG_CALCULATEALL); }
 	bool  IsUseAll        (void) { return CheckFlagBits(GetListFlags(), SR_LVLIFLAG_USEALL); }  
+
+	CSrLvloSubrecord* GetFirstItem (int& Position);
+	CSrLvloSubrecord* GetNextItem  (int& Position);
 
 		/* Initialize a new record */
 	void InitializeNew (void);
