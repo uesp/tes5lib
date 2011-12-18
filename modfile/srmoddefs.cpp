@@ -577,7 +577,13 @@ bool SrContainsRecordType (const srrectype_t Name, const srrectype_t* pArray)
  * Prepares the given editorID for use, removing whitespace and any invalid
  * characters. Returns false if the final result is not a valid editor ID.
  *
- *=========================================================================*/
+ *========================================================================*/
+int sriseditorchar(int Char)
+{
+	return (isalnum(Char) || Char == '_');
+}
+
+
 bool SrPrepareEditorID (CSString& EditorID)
 {
 
@@ -585,7 +591,7 @@ bool SrPrepareEditorID (CSString& EditorID)
   EditorID.Trim();
 
 	/* Ensure the ID is only alpha-numeric */
-  EditorID.RemoveCharsToMatch(isalnum);
+  EditorID.RemoveCharsToMatch(sriseditorchar);
 
 	/* Empty string is not a valid ID */
   if (EditorID.IsEmpty()) return (false);
