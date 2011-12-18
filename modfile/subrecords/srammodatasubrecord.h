@@ -91,6 +91,24 @@ public:
 		/* Class Constructors/Destructors */
   CSrAmmoDataSubrecord() { }
   virtual void Destroy (void) { CSrSubrecord::Destroy(); }
+  
+  		/* Change any matching formid in the subrecord */
+  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+  {
+	if (m_Data.ProjectileID == OldID) 
+	{
+	  m_Data.ProjectileID = NewID;
+	  return (1);
+	}
+
+	return (0); 
+  }
+
+		/* Fixup the modindex of formids */
+  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+  {
+	return SrFixupFormid(m_Data.ProjectileID, m_Data.ProjectileID, FixupArray);
+  }
 
  		/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) 

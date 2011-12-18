@@ -98,6 +98,32 @@ public:
   //virtual ~CSrEnitSubrecord() { Destroy(); }
   virtual void Destroy (void);
 
+  			/* Change any matching formid in the subrecord */
+  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+  {
+	if (m_Data.BaseEnchID == OldID) 
+	{
+	  m_Data.BaseEnchID = NewID;
+	  return (1);
+	}
+
+	if (m_Data.ItemTypesID == OldID) 
+	{
+	  m_Data.ItemTypesID = NewID;
+	  return (1);
+	}
+
+	return (0); 
+  }
+
+		/* Fixup the modindex of formids */
+  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+  {
+	bool Result = SrFixupFormid(m_Data.BaseEnchID, m_Data.BaseEnchID, FixupArray);
+	Result &= SrFixupFormid(m_Data.ItemTypesID, m_Data.ItemTypesID, FixupArray);
+	return Result;
+  }
+
 	/* Compare two subrecord fields */
   virtual bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
 

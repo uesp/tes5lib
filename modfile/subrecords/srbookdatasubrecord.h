@@ -90,6 +90,27 @@ public:
   CSrBookDataSubrecord() { }
   virtual void Destroy (void) { CSrSubrecord::Destroy(); }
 
+		/* Change any matching formid in the subrecord */
+  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+  {
+	if ((m_Data.Flags & SR_BOOKFLAG_SPELLTOME) == 0) return 0;
+
+	if (m_Data.SkillID == OldID) 
+	{
+	  m_Data.SkillID = NewID;
+	  return (1);
+	}
+
+	return (0); 
+  }
+
+		/* Fixup the modindex of formids */
+  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+  {
+	if ((m_Data.Flags & SR_BOOKFLAG_SPELLTOME) == 0) return false;
+	return SrFixupFormid(*(srformid_t *)&m_Data.SkillID, m_Data.SkillID, FixupArray);
+  }
+
  	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrBookDataSubrecord* pSubrecord1 = SrCastClassNull(CSrBookDataSubrecord, pSubrecord);

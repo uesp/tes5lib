@@ -90,6 +90,24 @@ public:
 	CSrEnitAlchSubrecord() {  }
 	virtual void Destroy (void) { CSrSubrecord::Destroy(); }
 
+			/* Change any matching formid in the subrecord */
+  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+  {
+	if (m_Data.UseSoundID == OldID) 
+	{
+	  m_Data.UseSoundID = NewID;
+	  return (1);
+	}
+
+	return (0); 
+  }
+
+		/* Fixup the modindex of formids */
+  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+  {
+	return SrFixupFormid(m_Data.UseSoundID, m_Data.UseSoundID, FixupArray);
+  }
+
   	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrEnitAlchSubrecord* pSubrecord1 = SrCastClassNull(CSrEnitAlchSubrecord, pSubrecord);

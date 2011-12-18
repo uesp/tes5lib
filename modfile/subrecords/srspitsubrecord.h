@@ -94,6 +94,24 @@ public:
   //virtual ~CSrSpitSubrecord() { Destroy(); }
   virtual void Destroy (void);
 
+		/* Change any matching formid in the subrecord */
+  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+  {
+	if (m_Data.PerkID == OldID) 
+	{
+	  m_Data.PerkID = NewID;
+	  return (1);
+	}
+
+	return (0); 
+  }
+
+		/* Fixup the modindex of formids */
+  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+  {
+	return SrFixupFormid(m_Data.PerkID, m_Data.PerkID, FixupArray);
+  }
+
 	/* Compare two subrecord fields */
   virtual bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
 

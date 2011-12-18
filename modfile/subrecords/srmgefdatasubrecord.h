@@ -137,10 +137,60 @@ public:
   //virtual ~CSrMgefDataSubrecord() { Destroy(); }
   virtual void Destroy (void) { CSrSubrecord::Destroy(); }
   
-  	/* Change any matching formid in the subrecord */
-  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) { 
-       
-	return (0);
+   			/* Change any matching formid in the subrecord */
+  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+  {
+	dword Count = 0;
+
+	if (m_Data.SecondSpellID == OldID) 
+	{
+	  m_Data.SecondSpellID = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ShaderID1 == OldID) 
+	{
+	  m_Data.ShaderID1 = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ProjectileID == OldID) 
+	{
+	  m_Data.ProjectileID = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ArtID1 == OldID) 
+	{
+	  m_Data.ArtID1 = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ArtID2 == OldID) 
+	{
+	  m_Data.ArtID2 = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ImpactSetID == OldID) 
+	{
+	  m_Data.ImpactSetID = NewID;
+	  ++Count;
+	}
+
+	return Count; 
+  }
+
+		/* Fixup the modindex of formids */
+  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+  {
+	bool Result = SrFixupFormid(m_Data.SecondSpellID, m_Data.SecondSpellID, FixupArray);
+	Result &= SrFixupFormid(m_Data.ShaderID1, m_Data.ShaderID1, FixupArray);
+	Result &= SrFixupFormid(m_Data.ProjectileID, m_Data.ProjectileID, FixupArray);
+	Result &= SrFixupFormid(m_Data.ArtID1, m_Data.ArtID1, FixupArray);
+	Result &= SrFixupFormid(m_Data.ArtID2, m_Data.ArtID2, FixupArray);
+	Result &= SrFixupFormid(m_Data.ImpactSetID, m_Data.ImpactSetID, FixupArray);
+	return Result;
   }
 
  	/* Copy the content from an existing subrecord */
@@ -159,11 +209,6 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrMgefDataSubrecord); }
-
-  	/* Fixup the modindex of formids */
-  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) {
-	return true;
-  }
 
 	/* Get class members */
   srmgefdata_t& GetEffectData (void) { return (m_Data); }
