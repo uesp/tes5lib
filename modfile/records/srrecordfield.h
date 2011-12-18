@@ -243,6 +243,21 @@
 					bool SetField##Name (const SSCHAR* pString, long Reserved = 0) { SetMethod(pString); return true; }
 
 
+	#define DECLARE_SRFIELD_BYTE(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
+								String.Format("%u", (dword) GetFunction()); return (true); } \
+							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+								if (pRecord == NULL) return (1); \
+								Class* pRecord1 = SrCastClass(Class, pRecord); \
+								if (pRecord1 == NULL) return (1); \
+								byte Value1 = (dword) this->GetFunction(); \
+								byte Value2 = (dword) pRecord1->GetFunction(); \
+								if (Value1 == Value2) return (0); \
+								if (Value1 > Value2)  return (1); \
+								return (-1); } \
+							bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+								byte Value; \
+								if (!SrFieldConvertByte(pString, Value)) return (false); \
+								SetFunction(Value); return true; } 
 
 	#define DECLARE_SRFIELD_BOOL(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
 								String = BooleanToString(GetFunction()); return (true); } \

@@ -253,6 +253,8 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_SKILL,			"Skill")
 	ADD_STRINGVALUE( SR_FIELD_SPELL,			"Spell")
 	ADD_STRINGVALUE( SR_FIELD_SCALE,			"Scale")
+	ADD_STRINGVALUE( SR_FIELD_USEALL,			"UseAll")
+	ADD_STRINGVALUE( SR_FIELD_GLOBAL,			"Global")
 	
 END_STRINGVALUE()
 /*===========================================================================

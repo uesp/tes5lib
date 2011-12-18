@@ -279,6 +279,8 @@
   #define SR_FIELD_SKILL				217
   #define SR_FIELD_SPELL				218
   #define SR_FIELD_SCALE				219
+  #define SR_FIELD_USEALL				220
+  #define SR_FIELD_GLOBAL				221
 
 /*===========================================================================
  *		End of Field Types
