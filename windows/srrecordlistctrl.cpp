@@ -710,6 +710,16 @@ static srreclistcolinit_t s_MattListInit[] =
 };
 
 
+static srreclistcolinit_t s_MatoListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_MODEL,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
+
 static srreclistcolinit_t s_MgefListInit[] = {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
@@ -980,6 +990,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_LVSP, s_LvspListInit, &CSrLvspRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_MGEF, s_MgefListInit, &CSrMgefRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_MATO, s_MatoListInit, &CSrMatoRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_MATT, s_MattListInit, &CSrMattRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PERK, s_PerkListInit, &CSrPerkRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },

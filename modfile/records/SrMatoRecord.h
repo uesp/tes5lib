@@ -16,7 +16,7 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+  #include "sridrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,19 +27,17 @@
  * Begin Class CSrMatoRecord Definition
  *
  *=========================================================================*/
-class CSrMatoRecord : public CSrRecord 
+class CSrMatoRecord : public CSrIdRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrMatoRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrMatoRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pEdidData;
+  	CSrStringSubrecord*	m_pModlData;
 	CSrSubrecord*		m_pDataData;
 	CSrSubrecord*		m_pDnamData;
-
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -67,8 +65,8 @@ public:
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
-
+		/* Begin field method definitions */
+	DECLARE_SRFIELD_STRING(CSrMatoRecord, m_pModlData, Model, SR_NAME_MODL)
 
 };
 /*===========================================================================
