@@ -20,6 +20,7 @@
 	#include "../subrecords/sringrenitsubrecord.h"
 	#include "../subrecords/sringrdatasubrecord.h"
 	#include "../subrecords/srefitsubrecord.h"
+	#include "../subrecords/srctdasubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
