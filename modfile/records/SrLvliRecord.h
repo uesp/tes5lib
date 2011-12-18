@@ -19,16 +19,10 @@
 	#include "sridrecord.h"
 	#include "../subrecords/srlvlosubrecord.h"
 	#include "../subrecords/srbytesubrecord.h"
+    #include "../subrecords/srlvlfsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
-
-
-	#define SR_LVLIFLAG_CALCULATEEACH	0x01
-	#define SR_LVLIFLAG_CALCULATEALL	0x02
-	#define SR_LVLIFLAG_USEALL			0x04
-
-	#define SR_LVLI_MAXITEMCOUNT		255
 
 
 /*===========================================================================
@@ -46,15 +40,15 @@ class CSrLvliRecord : public CSrIdRecord
 protected:
   	CSrSubrecord*			m_pObndData;
 	CSrByteSubrecord*		m_pChanceNone;
-	CSrByteSubrecord*		m_pFlags;
-	CSrByteSubrecord*		m_pItemCount;
+	CSrLvlfSubrecord*		m_pFlags;
+	CSrByteSubrecord*		m_pListCount;
 	CSrFormidSubrecord*		m_pGlobal;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
-	void SetItemCount (const dword Value);
+	void SetListCount (const dword Value);
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -71,12 +65,11 @@ public:
 	static CSrRecord* Create (void) { return new CSrLvliRecord; }
 
 		/* Get class members */
-	dword GetItemCount    (void) { return m_pItemCount ? m_pItemCount->GetValue() : 0; }
-	byte  GetListFlags    (void) { return m_pFlags ? m_pFlags->GetValue() : 0; }
+	dword GetListCount    (void) { return m_pListCount  ? m_pListCount->GetValue() : 0; }
 	byte  GetChanceNone   (void) { return m_pChanceNone ? m_pChanceNone->GetValue() : 0; }
-	bool  IsCalculateEach (void) { return CheckFlagBits(GetListFlags(), SR_LVLIFLAG_CALCULATEEACH); }
-	bool  IsCalculateAll  (void) { return CheckFlagBits(GetListFlags(), SR_LVLIFLAG_CALCULATEALL); }
-	bool  IsUseAll        (void) { return CheckFlagBits(GetListFlags(), SR_LVLIFLAG_USEALL); }  
+	bool  IsCalculateEach (void) { return m_pFlags ? m_pFlags->IsCalculateEach() : false; }
+	bool  IsCalculateAll  (void) { return m_pFlags ? m_pFlags->IsCalculateAll() : false; }
+	bool  IsUseAll        (void) { return m_pFlags ? m_pFlags->IsUseAll() : false;}  
 
 	CSrLvloSubrecord* GetFirstItem (int& Position);
 	CSrLvloSubrecord* GetNextItem  (int& Position);
@@ -89,15 +82,15 @@ public:
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 	void SetChanceNone    (const byte Value);
-	void SetCalculateEach (const bool Flag);
-	void SetCalculateAll  (const bool Flag);
-	void SetUseAll        (const bool Flag);
-	void UpdateItemCount  (void);
+	void SetCalculateEach (const bool Flag) { if (m_pFlags) m_pFlags->SetCalculateEach(Flag); }
+	void SetCalculateAll  (const bool Flag) { if (m_pFlags) m_pFlags->SetCalculateAll(Flag); }
+	void SetUseAll        (const bool Flag) { if (m_pFlags) m_pFlags->SetUseAll(Flag); }
+	void UpdateListCount  (void);
 
 
 		/* Begin field method definitions */
     DECLARE_SRFIELD_BYTE(CSrLvliRecord, ChanceNone, GetChanceNone, SetChanceNone)
-    DECLARE_SRFIELD_DWORD1(CSrLvliRecord, ItemCount, GetItemCount(), dword Tmp)
+    DECLARE_SRFIELD_DWORD1(CSrLvliRecord, ItemCount, GetListCount(), dword Tmp)
 	DECLARE_SRFIELD_BOOL(CSrLvliRecord, CalculateEach, IsCalculateEach, SetCalculateEach)
 	DECLARE_SRFIELD_BOOL(CSrLvliRecord, CalculateAll, IsCalculateAll, SetCalculateAll)
 	DECLARE_SRFIELD_BOOL(CSrLvliRecord, UseAll, IsUseAll, SetUseAll)

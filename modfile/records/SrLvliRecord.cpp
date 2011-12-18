@@ -20,7 +20,7 @@
 BEGIN_SRSUBRECCREATE(CSrLvliRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLD, CSrByteSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrByteSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrLvlfSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LLCT, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLO, CSrLvloSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLG, CSrFormidSubrecord::Create)
@@ -58,7 +58,7 @@ CSrLvliRecord::CSrLvliRecord ()
 	m_pObndData = NULL;
 	m_pChanceNone = NULL;
 	m_pFlags = NULL;
-	m_pItemCount = NULL;
+	m_pListCount = NULL;
 	m_pGlobal = NULL;
 }
 /*===========================================================================
@@ -76,7 +76,7 @@ void CSrLvliRecord::Destroy (void)
 	m_pObndData = NULL;
 	m_pChanceNone = NULL;
 	m_pFlags = NULL;
-	m_pItemCount = NULL;
+	m_pListCount = NULL;
 	m_pGlobal = NULL;
 
 	CSrIdRecord::Destroy();
@@ -88,7 +88,7 @@ void CSrLvliRecord::Destroy (void)
 
 CSrLvloSubrecord* CSrLvliRecord::AddItem (const srformid_t FormID, const dword Level, const dword Count)
 {
-	if (GetItemCount() > SR_LVLI_MAXITEMCOUNT) return NULL;
+	if (GetListCount() > SR_LVLO_MAXCOUNT) return NULL;
 
 	CSrSubrecord* pSubrecord = AddNewSubrecord(SR_NAME_LVLO);
 	CSrLvloSubrecord* pNewLvlo = SrCastClassNull(CSrLvloSubrecord, pSubrecord);
@@ -99,7 +99,7 @@ CSrLvloSubrecord* CSrLvliRecord::AddItem (const srformid_t FormID, const dword L
 	pNewLvlo->GetListData().Level  = Level;
 	pNewLvlo->GetListData().FormID = FormID;
 
-	SetItemCount(GetItemCount() + 1);
+	SetListCount(GetListCount() + 1);
 	return pNewLvlo;
 }
 
@@ -111,10 +111,10 @@ bool CSrLvliRecord::DeleteItem (CSrLvloSubrecord* pItem)
 
 	if (Result) 
 	{
-		if (GetItemCount() > 0) 
-			SetItemCount(GetItemCount() - 1);
+		if (GetListCount() > 0) 
+			SetListCount(GetListCount() - 1);
 		else
-			UpdateItemCount();
+			UpdateListCount();
 	}
 
 	return true;
@@ -161,7 +161,7 @@ void CSrLvliRecord::InitializeNew (void)
 	if (m_pFlags != NULL) m_pFlags->InitializeNew();
 
 	AddNewSubrecord(SR_NAME_LLCT);
-	if (m_pItemCount != NULL) m_pItemCount->InitializeNew();
+	if (m_pListCount != NULL) m_pListCount->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrLvliRecord::InitializeNew()
@@ -185,11 +185,11 @@ void CSrLvliRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LVLF)
 	{
-		m_pFlags = SrCastClass(CSrByteSubrecord, pSubrecord);
+		m_pFlags = SrCastClass(CSrLvlfSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LLCT)
 	{
-		m_pItemCount = SrCastClass(CSrByteSubrecord, pSubrecord);
+		m_pListCount = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_LVLG)
 	{
@@ -219,8 +219,8 @@ void CSrLvliRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pChanceNone = NULL;
 	else if (m_pFlags == pSubrecord)
 		m_pFlags = NULL;
-	else if (m_pItemCount == pSubrecord)
-		m_pItemCount = NULL;
+	else if (m_pListCount == pSubrecord)
+		m_pListCount = NULL;
 	else if (m_pGlobal == pSubrecord)
 		m_pGlobal = NULL;
 	else
@@ -232,18 +232,18 @@ void CSrLvliRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
-void CSrLvliRecord::SetItemCount (const dword Value)
+void CSrLvliRecord::SetListCount (const dword Value)
 {
 
-	if (m_pItemCount == NULL)
+	if (m_pListCount == NULL)
 	{
 		AddNewSubrecord(SR_NAME_LLCT);
-		if (m_pItemCount == NULL) return;
-		m_pItemCount->InitializeNew();
+		if (m_pListCount == NULL) return;
+		m_pListCount->InitializeNew();
 	}
 
-	if (Value > SR_LVLI_MAXITEMCOUNT) return;
-	m_pItemCount->SetValue((byte) Value);
+	if (Value > SR_LVLO_MAXCOUNT) return;
+	m_pListCount->SetValue((byte) Value);
 }
 
 
@@ -260,52 +260,13 @@ void CSrLvliRecord::SetChanceNone (const byte Value)
 }
 
 
-void CSrLvliRecord::SetCalculateEach (const bool Flag)
-{
-	if (m_pFlags == NULL)
-	{
-		AddNewSubrecord(SR_NAME_LVLF);
-		if (m_pFlags == NULL) return;
-		m_pFlags->InitializeNew();
-	}
-
-	m_pFlags->FlipFlag(SR_LVLIFLAG_CALCULATEEACH, Flag);
-}
-
-
-void CSrLvliRecord::SetCalculateAll (const bool Flag)
-{
-	if (m_pFlags == NULL)
-	{
-		AddNewSubrecord(SR_NAME_LVLF);
-		if (m_pFlags == NULL) return;
-		m_pFlags->InitializeNew();
-	}
-
-	m_pFlags->FlipFlag(SR_LVLIFLAG_CALCULATEALL, Flag);
-}
-
-
-void CSrLvliRecord::SetUseAll (const bool Flag)
-{
-	if (m_pFlags == NULL)
-	{
-		AddNewSubrecord(SR_NAME_LVLF);
-		if (m_pFlags == NULL) return;
-		m_pFlags->InitializeNew();
-	}
-
-	m_pFlags->FlipFlag(SR_LVLIFLAG_USEALL, Flag);
-}
-
-
-void CSrLvliRecord::UpdateItemCount (void)
+void CSrLvliRecord::UpdateListCount (void)
 {
 	dword Count = CountSubrecords(SR_NAME_LVLO);
 
-	if (Count > SR_LVLI_MAXITEMCOUNT)
+	if (Count > SR_LVLO_MAXCOUNT)
 	{
-		SystemLog.Printf("WARNING: LVLI record exceeded maximum of %d LVLO subrecords!", SR_LVLI_MAXITEMCOUNT);
+		SystemLog.Printf("WARNING: Exceeded maximum of %d LVLO subrecords!", SR_LVLO_MAXCOUNT);
 		int Counter = 0;
 		
 		for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
@@ -313,17 +274,17 @@ void CSrLvliRecord::UpdateItemCount (void)
 			if (m_Subrecords[i]->GetRecordType() != SR_NAME_LVLO) continue;
 			++Counter;
 
-			if (Counter > SR_LVLI_MAXITEMCOUNT) 
+			if (Counter > SR_LVLO_MAXCOUNT) 
 			{
 				m_Subrecords.Delete(i);
 				--i;
 			}
 		}
 
-		SetItemCount(SR_LVLI_MAXITEMCOUNT);
+		SetListCount(SR_LVLO_MAXCOUNT);
 	}
 
-	SetItemCount(Count);
+	SetListCount(Count);
 }
 
 
