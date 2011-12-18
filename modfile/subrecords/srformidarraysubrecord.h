@@ -56,6 +56,8 @@ public:
     	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord);
 
+  virtual dword CountUses (const srformid_t FormID);
+
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrFormidArraySubrecord); }
 

@@ -106,6 +106,11 @@ public:
 	return (0); 
   }
 
+  virtual dword CountUses (const srformid_t FormID) 
+  {
+	  return (FormID == m_Data.PerkID);
+  }
+
 		/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
   {

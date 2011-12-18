@@ -74,6 +74,11 @@ public:
 	return (0); 
   }
 
+  virtual dword CountUses (const srformid_t FormID) 
+  {
+	  return (FormID == m_Value);
+  }
+
   	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrFormidSubrecord* pSubrecord1 = SrCastClassNull(CSrFormidSubrecord, pSubrecord);

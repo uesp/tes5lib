@@ -86,6 +86,17 @@ dword CSrCtdaSubrecord::ChangeFormID (const srformid_t NewID, const srformid_t O
  *=========================================================================*/
 
 
+dword CSrCtdaSubrecord::CountUses (const srformid_t FormID)
+{
+	int Count = 0;
+
+	if (IsRefParam1(m_Data.Function) && (srformid_t) m_Data.Parameter1 == FormID) ++Count;
+	if (IsRefParam2(m_Data.Function) && (srformid_t) m_Data.Parameter2 == FormID) ++Count;
+
+	return Count;
+}
+
+
 /*===========================================================================
  *
  * Class CSrCtdaSubrecord Method - bool FixupFormID (FixupArray);

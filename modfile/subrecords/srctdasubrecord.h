@@ -104,6 +104,7 @@ public:
 
   	/* Change any matching formid in the subrecord */
   virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID);
+  virtual dword CountUses (const srformid_t FormID);
 
 	/* Field functions */
   bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);

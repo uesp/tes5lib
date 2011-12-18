@@ -154,6 +154,12 @@ public:
 	  ++Count;
 	}
 
+	if (m_Data.ShaderID2 == OldID) 
+	{
+	  m_Data.ShaderID2 = NewID;
+	  ++Count;
+	}
+
 	if (m_Data.ProjectileID == OldID) 
 	{
 	  m_Data.ProjectileID = NewID;
@@ -181,11 +187,19 @@ public:
 	return Count; 
   }
 
+  virtual dword CountUses (const srformid_t FormID) 
+  {
+	  return (FormID == m_Data.ImpactSetID) + (FormID == m_Data.ArtID2) + (FormID == m_Data.ArtID1)
+		   + (FormID == m_Data.ProjectileID) + (FormID == m_Data.ShaderID1) + (FormID == m_Data.SecondSpellID)
+		   + (FormID == m_Data.ShaderID2);
+  }
+
 		/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
   {
 	bool Result = SrFixupFormid(m_Data.SecondSpellID, m_Data.SecondSpellID, FixupArray);
 	Result &= SrFixupFormid(m_Data.ShaderID1, m_Data.ShaderID1, FixupArray);
+	Result &= SrFixupFormid(m_Data.ShaderID2, m_Data.ShaderID2, FixupArray);
 	Result &= SrFixupFormid(m_Data.ProjectileID, m_Data.ProjectileID, FixupArray);
 	Result &= SrFixupFormid(m_Data.ArtID1, m_Data.ArtID1, FixupArray);
 	Result &= SrFixupFormid(m_Data.ArtID2, m_Data.ArtID2, FixupArray);

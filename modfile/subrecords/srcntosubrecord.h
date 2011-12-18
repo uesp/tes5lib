@@ -57,6 +57,12 @@ public:
   bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
   bool GetField (CSString& Buffer, const int FieldID);
 
+  virtual dword CountUses (const srformid_t FormID) 
+  {
+	  if (m_FormID == FormID) return 1;
+	  return 0; 
+  }
+
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrCntoSubrecord* pSubrecord1 = SrCastClassNull(CSrCntoSubrecord, pSubrecord);

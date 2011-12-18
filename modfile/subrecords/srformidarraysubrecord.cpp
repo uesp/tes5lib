@@ -65,6 +65,20 @@ dword CSrFormidArraySubrecord::ChangeFormID (const srformid_t NewID, const srfor
  *=========================================================================*/
 
 
+dword CSrFormidArraySubrecord::CountUses (const srformid_t FormID)
+{
+	int Count = 0;
+
+	for (dword i = 0; i < m_Values.GetSize(); ++i) 
+	{
+		if (m_Values[i] == FormID) ++Count;
+	}
+
+	return Count;
+}
+
+
+
 /*===========================================================================
  *
  * Class CSrFormidArraySubrecord Method - bool Copy (pSubrecord);

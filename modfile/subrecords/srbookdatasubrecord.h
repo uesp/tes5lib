@@ -103,6 +103,12 @@ public:
 
 	return (0); 
   }
+  
+  virtual dword CountUses (const srformid_t FormID) 
+  {
+	  if ((m_Data.Flags & SR_BOOKFLAG_SPELLTOME) != 0 && FormID == m_Data.SkillID) return 1;
+	  return 0; 
+  }
 
 		/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
