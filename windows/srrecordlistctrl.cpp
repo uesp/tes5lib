@@ -1821,7 +1821,7 @@ void CSrRecordListCtrl::OnDblclk (NMHDR* pNMHDR, LRESULT* pResult) {
   if (pWnd == NULL) pWnd = GetParent();
 
   if (pWnd != NULL) {
-    pWnd->PostMessage(MsgID, (WPARAM) pRecord, 0);
+    pWnd->PostMessage(MsgID, (WPARAM) pRecord, SelIndex);
   }
 
   *pResult = 0;
