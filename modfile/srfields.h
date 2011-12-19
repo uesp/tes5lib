@@ -282,7 +282,8 @@
   #define SR_FIELD_USEALL				220
   #define SR_FIELD_GLOBAL				221
   #define SR_FIELD_HOLDSOUND			222
-
+  #define SR_FIELD_UNKNOWN6				223
+  #define SR_FIELD_UNKNOWN7				224
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/

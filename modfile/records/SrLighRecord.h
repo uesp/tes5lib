@@ -63,8 +63,8 @@ public:
   static CSrRecord* Create (void) { return new CSrLighRecord; }
 
 		/* Get class members */
+  srlighdata_t& GetLightData (void) { return m_pLightData ? m_pLightData->GetLightData() : s_NullLightData; }
   
-
 		/* Initialize a new record */
   void InitializeNew (void);
 
@@ -84,6 +84,21 @@ public:
 	//DECLARE_SRFIELD_EDITORID(CSrLighRecord, FNam, GetFNam, SetFNam)
 	//DECLARE_SRMETHOD_FORMID(FNam, m_pFnamData, SR_NAME_FNAM)
 
+	DECLARE_SRFIELD_INT1(CSrLighRecord, Time, GetLightData().Time, GetLightData().Time)
+	DECLARE_SRFIELD_DWORD1(CSrLighRecord, Radius, GetLightData().Radius, GetLightData().Radius)
+	DECLARE_SRFIELD_DWORDFLAG1(CSrLighRecord, Color, GetLightData().Color, GetLightData().Color)
+	DECLARE_SRFIELD_DWORD1(CSrLighRecord, Value, GetLightData().Value, GetLightData().Value)
+	DECLARE_SRFIELD_DWORD1(CSrLighRecord, Unknown1, GetLightData().Unknown1, GetLightData().Unknown1)
+	DECLARE_SRFIELD_DWORD1(CSrLighRecord, Unknown2, GetLightData().Unknown2, GetLightData().Unknown2)
+
+	DECLARE_SRFIELD_FLOAT1(CSrLighRecord, FallOff, GetLightData().FallOff, GetLightData().FallOff)
+	DECLARE_SRFIELD_FLOAT1(CSrLighRecord, FOV, GetLightData().FOV, GetLightData().FOV)
+	
+	DECLARE_SRFIELD_FLOAT1(CSrLighRecord, Unknown3, GetLightData().Unknown3, GetLightData().Unknown3)
+	DECLARE_SRFIELD_FLOAT1(CSrLighRecord, Unknown4, GetLightData().Unknown4, GetLightData().Unknown4)
+	DECLARE_SRFIELD_FLOAT1(CSrLighRecord, Unknown5, GetLightData().Unknown5, GetLightData().Unknown5)
+	
+	DECLARE_SRFIELD_FLOAT1(CSrLighRecord, Weight, GetLightData().Weight, GetLightData().Weight)
 };
 /*===========================================================================
  *		End of Class CSrLighRecord Definition

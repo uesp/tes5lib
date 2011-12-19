@@ -36,17 +36,29 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrIdRecord Field Map
+ * Begin CSrLighRecord Field Map
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrLighRecord, CSrIdRecord)
 	ADD_SRFIELDALL("HoldSound",		SR_FIELD_HOLDSOUND,			0, CSrLighRecord, FieldHoldSound)
-	ADD_SRFIELDALL("FName",			SR_FIELD_UNKNOWN2,			0, CSrLighRecord, FieldFNam)
+	ADD_SRFIELDALL("FName",			SR_FIELD_UNKNOWN7,				0, CSrLighRecord, FieldFNam)
 	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,				0, CSrLighRecord, FieldModel)
 	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,			0, CSrLighRecord, FieldItemName)
+	ADD_SRFIELDALL("Time",			SR_FIELD_TIME,				0, CSrLighRecord, FieldTime)
+	ADD_SRFIELDALL("Radius",		SR_FIELD_RADIUS,			0, CSrLighRecord, FieldRadius)
+	ADD_SRFIELDALL("Color",			SR_FIELD_COLOR,				0, CSrLighRecord, FieldColor)
+	ADD_SRFIELDALL("Falloff",		SR_FIELD_FALLOFF,			0, CSrLighRecord, FieldFallOff)
+	ADD_SRFIELDALL("FOV",			SR_FIELD_FOV,				0, CSrLighRecord, FieldFOV)
+	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,				0, CSrLighRecord, FieldValue)
+	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,			0, CSrLighRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,			0, CSrLighRecord, FieldUnknown2)
+	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,			0, CSrLighRecord, FieldUnknown3)
+	ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,			0, CSrLighRecord, FieldUnknown4)
+	ADD_SRFIELDALL("Unknown5",		SR_FIELD_UNKNOWN5,			0, CSrLighRecord, FieldUnknown5)
+	ADD_SRFIELDALL("Weight",		SR_FIELD_WEIGHT,			0, CSrLighRecord, FieldWeight)
 END_SRFIELDMAP()
 /*===========================================================================
- *		End of CObRecord Field Map
+ *		End of CSrLighRecord Field Map
  *=========================================================================*/
 
 
