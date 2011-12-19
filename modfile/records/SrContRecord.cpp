@@ -233,6 +233,107 @@ void CSrContRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
+CSrCntoSubrecord* CSrContRecord::AddItem (const srformid_t FormID, const dword Count)
+{
+	if (GetItemCount() > SR_CNTO_MAXCOUNT) return NULL;
+
+	CSrSubrecord* pSubrecord = AddNewSubrecord(SR_NAME_CNTO);
+	CSrCntoSubrecord* pNewCnto = SrCastClassNull(CSrCntoSubrecord, pSubrecord);
+	if (pNewCnto == NULL) return NULL;
+	pNewCnto->InitializeNew();
+
+	pNewCnto->SetCount(Count);
+	pNewCnto->SetFormID(FormID);
+
+	SetItemCount(GetItemCount() + 1);
+	return pNewCnto;
+}
+
+
+bool CSrContRecord::DeleteItem (CSrCntoSubrecord* pItem)
+{
+	if (pItem == NULL) return false;
+	bool Result = m_Subrecords.Delete(pItem);
+
+	if (Result) 
+	{
+		if (GetItemCount() > 0) 
+			SetItemCount(GetItemCount() - 1);
+		else
+			UpdateItemCount();
+	}
+
+	return true;
+}
+
+
+CSrCntoSubrecord* CSrContRecord::GetFirstItem (int& Position)
+{
+	Position = -1;
+	return GetNextItem(Position);	
+}
+
+
+CSrCntoSubrecord* CSrContRecord::GetNextItem (int& Position)
+{
+	++Position;
+
+	for (; Position < (int)m_Subrecords.GetSize(); ++Position)
+	{
+		CSrSubrecord* pSubrecord = m_Subrecords[Position];
+		if (pSubrecord == NULL) continue;
+		if (pSubrecord->GetRecordType() != SR_NAME_CNTO) continue;
+		CSrCntoSubrecord* pCnto = SrCastClass(CSrCntoSubrecord, pSubrecord);
+		if (pCnto != NULL) return pCnto;
+	}
+
+	return NULL;
+}
+
+
+void CSrContRecord::SetItemCount (const dword Value)
+{
+
+	if (m_pItemCount == NULL)
+	{
+		AddNewSubrecord(SR_NAME_COCT);
+		if (m_pItemCount == NULL) return;
+		m_pItemCount->InitializeNew();
+	}
+
+	if (Value > SR_CNTO_MAXCOUNT) return;
+	m_pItemCount->SetValue((byte) Value);
+}
+
+
+void CSrContRecord::UpdateItemCount (void)
+{
+	dword Count = CountSubrecords(SR_NAME_CNTO);
+
+	if (Count > SR_CNTO_MAXCOUNT)
+	{
+		SystemLog.Printf("WARNING: Exceeded maximum of %d CNTO subrecords!", SR_CNTO_MAXCOUNT);
+		int Counter = 0;
+		
+		for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
+		{
+			if (m_Subrecords[i]->GetRecordType() != SR_NAME_LVLO) continue;
+			++Counter;
+
+			if (Counter > SR_CNTO_MAXCOUNT) 
+			{
+				m_Subrecords.Delete(i);
+				--i;
+			}
+		}
+
+		SetItemCount(SR_CNTO_MAXCOUNT);
+	}
+
+	SetItemCount(Count);
+}
+
+
 /*===========================================================================
  *
  * Begin CSrContRecord Get Field Methods

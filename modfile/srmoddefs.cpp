@@ -181,6 +181,16 @@ BEGIN_STRINGVALUE(s_SrSkillTypes)
 	ADD_STRINGVALUE(SR_SKILL_ENCHANTING  ,		"Enchanting")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrContainerTypes)
+	ADD_STRINGVALUE( 0,	"0")
+	ADD_STRINGVALUE( 1,	"1")
+	ADD_STRINGVALUE( 2,	"2")
+	ADD_STRINGVALUE( 3,	"3")
+	ADD_STRINGVALUE( 4,	"4")
+END_STRINGVALUE()
+
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -208,8 +218,8 @@ const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.F
 const SSCHAR* GetSrArmorTypeString		(const int Value) { return s_SrArmorTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrPotionTypeString		(const int Value) { return s_SrPotionTypesMap.FindValue(Value); }
-
 const SSCHAR* GetSrSkillTypeString		(const int Value) { return s_SrSkillTypesMap.FindValue(Value); }
+const SSCHAR* GetSrContainerTypeString	(const int Value) { return s_SrContainerTypesMap.FindValue(Value); }
 
 
 CSString GetSrBodyPartFlagString	(const dword Value) 
@@ -245,9 +255,9 @@ bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString) { return s_SrEnc
 bool GetSrBodyPartValue	 (int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }
 bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString) { return s_SrArmorTypesMap.FindString(Value, pString); }
 
-bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString) { return s_SrPotionTypesMap.FindString(Value, pString); }
-
-bool GetSrSkillTypeValue (int& Value, const SSCHAR* pString) { return s_SrSkillTypesMap.FindString(Value, pString); }
+bool GetSrPotionTypeValue    (int& Value, const SSCHAR* pString) { return s_SrPotionTypesMap.FindString(Value, pString); }
+bool GetSrSkillTypeValue     (int& Value, const SSCHAR* pString) { return s_SrSkillTypesMap.FindString(Value, pString); }
+bool GetSrContainerTypeValue (int& Value, const SSCHAR* pString) { return s_SrContainerTypesMap.FindString(Value, pString); }
 
 
 bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString) 
@@ -661,6 +671,23 @@ bool SrIsValidLvspRecord (const srrectype_t Type)
 {
 	if (Type == SR_NAME_LVSP) return true;
 	if (Type == SR_NAME_SPEL) return true;
+
+	return false;
+}
+
+
+bool SrIsValidContainerRecord (const srrectype_t Type)
+{
+	if (Type == SR_NAME_ALCH) return true;
+	if (Type == SR_NAME_AMMO) return true;
+	if (Type == SR_NAME_ARMO) return true;
+	if (Type == SR_NAME_BOOK) return true;	
+	if (Type == SR_NAME_INGR) return true;
+	if (Type == SR_NAME_LVLI) return true;
+	if (Type == SR_NAME_KEYM) return true;
+	if (Type == SR_NAME_MISC) return true;
+	if (Type == SR_NAME_SCRL) return true;
+	if (Type == SR_NAME_WEAP) return true;
 
 	return false;
 }

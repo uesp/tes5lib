@@ -26,6 +26,9 @@
  *=========================================================================*/
 
 
+	#define SR_CNTO_MAXCOUNT 1000000		//Arbitrary limit for sanity
+
+
 /*===========================================================================
  *
  * Begin Class CSrContRecord Definition
@@ -57,6 +60,8 @@ protected:
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
+	void SetItemCount (const dword Value);
+
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
@@ -65,13 +70,21 @@ public:
   CSrContRecord();
   virtual void Destroy (void);
 
+  CSrCntoSubrecord* AddItem (const srformid_t FormID, const dword Count);
+
     	/* Return a new instance of the class */
   static CSrRecord* Create (void) { return new CSrContRecord; }
+
+  bool DeleteItem (CSrCntoSubrecord* pItem);
 
 		/* Get class members */
   srcontdata_t& GetContData  (void) { return m_pContData ? m_pContData->GetContData() : s_NullContData; }
   dword         GetItemCount (void) { return CountSubrecords(SR_NAME_CNTO); }
-  
+  const char*   GetContainerType (void) { return GetSrContainerTypeString(GetContData().Type); }
+
+  CSrCntoSubrecord* GetFirstItem (int& Position);
+  CSrCntoSubrecord* GetNextItem  (int& Position);  
+  void UpdateItemCount (void);
 
 	/* Initialize a new record */
   void InitializeNew (void);
@@ -80,11 +93,13 @@ public:
   virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
+  void SetContainerType (const char* pString) { GetSrContainerTypeValue(GetContData().Type, pString); }
+
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_MODEL(CSrContRecord, SR_NAME_MODL)
 	DECLARE_SRFIELD_ITEMNAME(CSrContRecord)
-	DECLARE_SRFIELD_DWORD1(CSrContRecord, Type, GetContData().Type, GetContData().Type)
+	DECLARE_SRFIELD_METHOD(CSrContRecord, Type, GetContainerType, SetContainerType)
 	DECLARE_SRFIELD_DWORD1(CSrContRecord, ItemCount, GetItemCount(), dword Tmp)
 
 	DECLARE_SRFIELD_EDITORID(CSrContRecord, OpenSound, GetOpenSound, SetOpenSound)

@@ -634,6 +634,8 @@
 	
 	extern const stringvalue_t s_SrSkillTypes[];
 
+	extern const stringvalue_t s_SrContainerTypes[];
+
 /*===========================================================================
  *		End of Type Definitions
  *=========================================================================*/
@@ -680,6 +682,8 @@
 	bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrSkillTypeString		(const int Value);
 	bool GetSrSkillTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrContainerTypeString	(const int Value);
+	bool GetSrContainerTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions
@@ -691,6 +695,7 @@
 	bool SrIsValidLvliRecord (const srrectype_t Type);
 	bool SrIsValidLvlnRecord (const srrectype_t Type);
 	bool SrIsValidLvspRecord (const srrectype_t Type);
+	bool SrIsValidContainerRecord (const srrectype_t Type);
 	
 
 /*===========================================================================

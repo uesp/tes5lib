@@ -93,8 +93,8 @@ public:
   virtual byte*	GetData     (void) { return (byte *)(&m_FormID); }
 
   	/* Set class methods */
-  void SetItemFormID (const srformid_t Value) { m_FormID = Value; }
-  void SetItemCount  (const dword      Value) { m_Count = Value; }
+  void SetFormID (const srformid_t Value) { m_FormID = Value; }
+  void SetCount  (const dword      Value) { m_Count = Value; }
  
 };
 /*===========================================================================

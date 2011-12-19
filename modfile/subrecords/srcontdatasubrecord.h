@@ -44,8 +44,8 @@
 
 	struct srcontdata_t 
 	{
-		dword		Type;
-		byte		Padding;
+		int 	Type;
+		byte	Padding;
 	};
 
 #pragma pack(pop)
