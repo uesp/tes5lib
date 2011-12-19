@@ -140,6 +140,7 @@
   #define SR_FIND_FINDALL			0x0080	
   #define SR_FIND_ADDRECORDS		0x0100	
   #define SR_FIND_NOHEADER			0x0200
+  #define SR_FIND_FORMID			0x0400
 
 	/* Main game master file */
   #define SR_GAME_MASTER "skyrim.esm"

@@ -805,10 +805,10 @@ dword CSrMultiRecordHandler::Search (srfinddata_t& FindData, CSrCallback* pCallb
   CSrTypeGroup*	 pGroup;
   dword          FindCount = 0;
   dword          Index;
-  dword		 Count;
-  bool		 IsExcluded;
-  bool		 FindText = (FindData.Flags & SR_FIND_COMPARETEXT) != 0;
-  bool		 Result;
+  dword			 Count;
+  bool			 IsExcluded;
+  bool			 FindText = (FindData.Flags & SR_FIND_COMPARETEXT) != 0;
+  bool			 Result;
   int            iResult;
 
   if (pCallback != NULL) {
@@ -818,8 +818,19 @@ dword CSrMultiRecordHandler::Search (srfinddata_t& FindData, CSrCallback* pCallb
   }
 
   ++FindData.FileCount;
+
+		/* Special case */
+  if ((FindData.Flags & SR_FIND_FORMID) != 0)
+  {
+	  srformid_t FormID = *(srformid_t *) FindData.pData;
+	  pRecord = FindFormID(FormID);
+	  if (pRecord == NULL) return 0;
+	  if ((FindData.Flags & SR_FIND_ADDRECORDS) != 0 && FindData.pFindRecords != NULL) FindData.pFindRecords->Add(pRecord);
+	  return 1;
+  }
   
-  for (Index = 0; Index < m_TopFileGroup.GetNumRecords(); ++Index) {
+  for (Index = 0; Index < m_TopFileGroup.GetNumRecords(); ++Index) 
+  {
     pBaseRecord = m_TopFileGroup.GetRecord(Index);
     pRecord     = SrCastClass(CSrRecord, pBaseRecord);
 
