@@ -248,6 +248,29 @@
 					return SafeStringCompare(Get##Name(), pRecord1->Get##Name(), false); } \
 					bool SetField##Name (const SSCHAR* pString, long Reserved = 0) { Set##Name(pString); return true; }
 
+	#define DECLARE_SRFIELD_METHODFLOAT(Class, Member, Name, Type)	float Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
+			void Set##Name (const float Value) { \
+					if (Member == NULL) { \
+						AddNewSubrecord(Type); \
+						if (Member == NULL) return; \
+						Member->InitializeNew(); } \
+					Member->SetValue(Value); } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%g", Get##Name()); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					float Value1 = (float) this->Get##Name(); \
+					float Value2 = (float) pRecord1->Get##Name(); \
+					if (Value1 == Value2) return (0); \
+					if (Value1 > Value2)  return (1); \
+					return (-1); } \
+			bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+					float Value; \
+					if (!SrFieldConvertFloat(pString, Value)) return (false); \
+					Set##Name(Value); return true; } 
+
+
 	#define DECLARE_SRFIELD_METHOD(Class, Name, GetMethod, SetMethod)  \
 			bool GetField##Name     (CSString& String, long Reserved = 0) { String = GetMethod(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \

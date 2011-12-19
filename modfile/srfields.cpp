@@ -255,6 +255,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_SCALE,			"Scale")
 	ADD_STRINGVALUE( SR_FIELD_USEALL,			"UseAll")
 	ADD_STRINGVALUE( SR_FIELD_GLOBAL,			"Global")
+	ADD_STRINGVALUE( SR_FIELD_HOLDSOUND,		"HoldSound")
 	
 END_STRINGVALUE()
 /*===========================================================================

@@ -12,19 +12,22 @@
 #include "srLighrecord.h"
 
 
+srlighdata_t CSrLighRecord::s_NullLightData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrLighRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrFloatSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrLighDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -37,6 +40,10 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrLighRecord, CSrIdRecord)
+	ADD_SRFIELDALL("HoldSound",		SR_FIELD_HOLDSOUND,			0, CSrLighRecord, FieldHoldSound)
+	ADD_SRFIELDALL("FName",			SR_FIELD_UNKNOWN2,			0, CSrLighRecord, FieldFNam)
+	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,				0, CSrLighRecord, FieldModel)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,			0, CSrLighRecord, FieldItemName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -50,6 +57,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrLighRecord::CSrLighRecord () 
 {
+	m_pModel = NULL;
+	m_pFnamData = NULL;
+	m_pObndData = NULL;
+	m_pLightData = NULL;
+	m_pModtData = NULL;
+	m_pSnamData = NULL;
+	m_pItemName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrLighRecord Constructor
@@ -63,6 +77,14 @@ CSrLighRecord::CSrLighRecord ()
  *=========================================================================*/
 void CSrLighRecord::Destroy (void) 
 {
+	m_pModel = NULL;
+	m_pFnamData = NULL;
+	m_pObndData = NULL;
+	m_pLightData = NULL;
+	m_pModtData = NULL;
+	m_pSnamData = NULL;
+	m_pItemName = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -93,11 +115,11 @@ void CSrLighRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
-		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFnamData = SrCastClass(CSrFloatSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
 	{
@@ -105,7 +127,7 @@ void CSrLighRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pLightData = SrCastClass(CSrLighDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
@@ -113,11 +135,11 @@ void CSrLighRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SNAM)
 	{
-		m_pSnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pSnamData = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -137,20 +159,20 @@ void CSrLighRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrLighRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
+	if (m_pModel == pSubrecord)
+		m_pModel = NULL;
 	else if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
 	else if (m_pObndData == pSubrecord)
 		m_pObndData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
+	else if (m_pLightData == pSubrecord)
+		m_pLightData = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
 	else if (m_pSnamData == pSubrecord)
 		m_pSnamData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
