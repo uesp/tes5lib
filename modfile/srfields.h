@@ -284,6 +284,13 @@
   #define SR_FIELD_HOLDSOUND			222
   #define SR_FIELD_UNKNOWN6				223
   #define SR_FIELD_UNKNOWN7				224
+  #define SR_FIELD_UNKNOWNFLAG1			225
+  #define SR_FIELD_UNKNOWNFLAG2			226
+  #define SR_FIELD_UNKNOWNFLAG3			227
+  #define SR_FIELD_LIGHTFLAGS			228
+  #define SR_FIELD_FLICKER				230
+  #define SR_FIELD_FLICKERSLOW			231
+  #define SR_FIELD_PULSE				232
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/

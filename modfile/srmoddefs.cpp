@@ -191,6 +191,13 @@ BEGIN_STRINGVALUE(s_SrContainerTypes)
 END_STRINGVALUE()
 
 
+BEGIN_STRINGVALUE(s_SrLightTypes)
+    ADD_STRINGVALUE( 0,							"None")
+	ADD_STRINGVALUE( SR_LIGHTTYPE_FLICKER,		"Flicker")
+	ADD_STRINGVALUE( SR_LIGHTTYPE_FLICKERSLOW,	"FlickerSlow")
+	ADD_STRINGVALUE( SR_LIGHTTYPE_PULSE,		"Pulse")
+END_STRINGVALUE()
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -220,6 +227,13 @@ const SSCHAR* GetSrArmorTypeString		(const int Value) { return s_SrArmorTypesMap
 const SSCHAR* GetSrPotionTypeString		(const int Value) { return s_SrPotionTypesMap.FindValue(Value); }
 const SSCHAR* GetSrSkillTypeString		(const int Value) { return s_SrSkillTypesMap.FindValue(Value); }
 const SSCHAR* GetSrContainerTypeString	(const int Value) { return s_SrContainerTypesMap.FindValue(Value); }
+const SSCHAR* GetSrLightTypeString   	(const int Value) { return s_SrLightTypesMap.FindValue(Value); }
+
+const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
+{
+	int Value = LightFlags & SR_LIGHTTYPE_MASK;
+	return s_SrLightTypesMap.FindValue(Value); 
+}
 
 
 CSString GetSrBodyPartFlagString	(const dword Value) 
@@ -258,6 +272,20 @@ bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString) { return s_SrArmorT
 bool GetSrPotionTypeValue    (int& Value, const SSCHAR* pString) { return s_SrPotionTypesMap.FindString(Value, pString); }
 bool GetSrSkillTypeValue     (int& Value, const SSCHAR* pString) { return s_SrSkillTypesMap.FindString(Value, pString); }
 bool GetSrContainerTypeValue (int& Value, const SSCHAR* pString) { return s_SrContainerTypesMap.FindString(Value, pString); }
+bool GetSrLightTypeValue     (int& Value, const SSCHAR* pString) { return s_SrLightTypesMap.FindString(Value, pString); }
+
+bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
+{
+	int Type = LightFlags & SR_LIGHTTYPE_MASK;
+
+	if (s_SrLightTypesMap.FindString(Type, pString)) 
+	{
+		LightFlags = (LightFlags & ~SR_LIGHTTYPE_MASK) | Type;
+		return true;
+	}
+
+	return false;
+}
 
 
 bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString) 

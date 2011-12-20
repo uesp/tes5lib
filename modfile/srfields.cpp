@@ -256,6 +256,10 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_USEALL,			"UseAll")
 	ADD_STRINGVALUE( SR_FIELD_GLOBAL,			"Global")
 	ADD_STRINGVALUE( SR_FIELD_HOLDSOUND,		"HoldSound")
+	ADD_STRINGVALUE( SR_FIELD_LIGHTFLAGS,		"LightFlags")
+	ADD_STRINGVALUE( SR_FIELD_FLICKER,			"Flicker")
+	ADD_STRINGVALUE( SR_FIELD_FLICKERSLOW,		"FlickerSlow")
+	ADD_STRINGVALUE( SR_FIELD_PULSE,			"Pulse")
 	
 END_STRINGVALUE()
 /*===========================================================================

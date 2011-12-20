@@ -44,18 +44,18 @@
 
 	struct srlighdata_t 
 	{
-		int   Time;
-		dword Radius;
-		dword Color;
-		dword Unknown1;
-		float FallOff;
-		float FOV;
-		dword Unknown2;
-		float Unknown3;
-		float Unknown4;
-		float Unknown5;
-		dword Value;
-		float Weight;
+		int			Time;
+		dword		Radius;
+		srrgba_t	Color;
+		dword		Flags;
+		float		FallOff;
+		float		FOV;
+		float		Unknown1;
+		float		Unknown2;
+		float		Unknown3;
+		float		Unknown4;
+		dword		Value;
+		float		Weight;
 	};
 
 #pragma pack(pop)
