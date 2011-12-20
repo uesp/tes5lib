@@ -624,6 +624,10 @@
     #define SR_LIGHTTYPE_FLICKERSLOW 0x0040
 	#define SR_LIGHTTYPE_PULSE		 0x0080
     #define SR_LIGHTTYPE_MASK 		 0x00C8
+
+	#define SR_EFFECT_CASTTYPE_NONE			0
+    #define SR_EFFECT_CASTTYPE_NORMAL		1
+    #define SR_EFFECT_CASTTYPE_CHANNELED	2
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -644,6 +648,10 @@
 	extern const stringvalue_t s_SrContainerTypes[];
 
 	extern const stringvalue_t s_SrLightTypes[];
+
+	extern const stringvalue_t s_SrEffectCastTypes[];
+
+	extern const stringvalue_t s_SrActorValues[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -695,6 +703,10 @@
 	bool GetSrContainerTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrLightTypeString	(const int Value);
 	bool GetSrLightTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrEffectCastTypeString (const int Value);
+	bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrActorValuString (const int Value);
+	bool GetSrActorValueValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);

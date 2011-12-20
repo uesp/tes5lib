@@ -84,7 +84,7 @@
 	  int			ActorValue;		//-1-163
 	  srformid_t	ProjectileID;
 	  srformid_t	ExplosionID;	//Unknown8
-	  dword			CastType;		//0-2
+	  int			CastType;		//0-2
 	  dword			Unknown8;		//0-4
 	  int			Unknown9;		//-1, 25-132
 	  srformid_t	ArtID1;

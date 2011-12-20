@@ -78,6 +78,7 @@ public:
   dword			GetSchool	   (void) { return GetEffectData().School; }
   dword			GetEffectType  (void) { return GetEffectData().EffectType; }
   dword			GetConditionCount (void) { return CountSubrecords(SR_NAME_CTDA); }
+  const char*   GetCastType       (void) { return GetSrEffectCastTypeString(GetEffectData().CastType); }
 
 		/* Initialize a new record */
   void InitializeNew (void);
@@ -89,6 +90,7 @@ public:
 		/* Set class members */
   void SetFullName    (const char* pString) { if (m_pFullName) m_pFullName->SetString(pString); }
   void SetDescription (const char* pString) { if (m_pDescription) m_pDescription->SetString(pString); }
+  void SetCastType    (const char* pString) { GetSrEffectCastTypeValue(GetEffectData().CastType, pString); }
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD(FieldFullName)
@@ -161,7 +163,7 @@ public:
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown15, GetEffectData().Unknown15, GetEffectData().Unknown15)
 	
 	DECLARE_SRFIELD_INT1(CSrMgefRecord, ActorValue, GetEffectData().ActorValue, GetEffectData().ActorValue)
-	DECLARE_SRFIELD_DWORD1(CSrMgefRecord, CastType, GetEffectData().CastType, GetEffectData().CastType)
+	DECLARE_SRFIELD_METHOD(CSrMgefRecord, CastType, GetCastType, SetCastType)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, EffectPlayRate, GetEffectData().EffectPlayRate, GetEffectData().EffectPlayRate)
 
 	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, Hostile, GetEffectData().Flags, SR_MGEFFLAG_HOSTILE)
@@ -181,7 +183,7 @@ public:
 	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, UnknownFlag5, GetEffectData().Flags, SR_MGEFFLAG_00020000)
 	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, UnknownFlag6, GetEffectData().Flags, SR_MGEFFLAG_04000000)
 	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, UnknownFlag7, GetEffectData().Flags, SR_MGEFFLAG_08000000)
-	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, UnknownFlag8, GetEffectData().Flags, SR_MGEFFLAG_00000100)
+	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, UnknownFlag8, GetEffectData().Flags, SR_MGEFFLAG_00000800)
 	DECLARE_SRFIELD_BOOL1(CSrMgefRecord, UnknownFlag9, GetEffectData().Flags, SR_MGEFFLAG_10000000)
   
 };
