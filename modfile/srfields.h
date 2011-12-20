@@ -291,6 +291,48 @@
   #define SR_FIELD_FLICKER				230
   #define SR_FIELD_FLICKERSLOW			231
   #define SR_FIELD_PULSE				232
+  #define SR_FIELD_UNKNOWN9				233
+  #define SR_FIELD_UNKNOWN10			234
+  #define SR_FIELD_UNKNOWN11			235
+  #define SR_FIELD_UNKNOWN12			236
+  #define SR_FIELD_UNKNOWN13			237
+  #define SR_FIELD_UNKNOWN14			238
+  #define SR_FIELD_UNKNOWN15			239
+  #define SR_FIELD_UNKNOWN16			240
+  #define SR_FIELD_UNKNOWN17			241
+  #define SR_FIELD_UNKNOWN18			242
+  #define SR_FIELD_UNKNOWN19			243
+  #define SR_FIELD_UNKNOWN20			244
+  #define SR_FIELD_UNKNOWN21			245
+  #define SR_FIELD_LIGHT				246
+  #define SR_FIELD_SHADER1			    247
+  #define SR_FIELD_SHADER2			    248
+  #define SR_FIELD_ART1				    249
+  #define SR_FIELD_ART2				    250
+  #define SR_FIELD_IMPACTSET1			251
+  #define SR_FIELD_SECONDSPELL		    252
+  #define SR_FIELD_EFFECTPLAYRATE	    253
+  #define SR_FIELD_UNKNOWN8				254
+  #define SR_FIELD_ART3				    255
+  #define SR_FIELD_ART4				    256
+  #define SR_FIELD_RECOVER				257
+  #define SR_FIELD_DUALCAST			    258
+  #define SR_FIELD_EXPLOSION		    259
+  #define SR_FIELD_IMPACTSET2			260
+  #define SR_FIELD_DETRIMENTAL			261
+  #define SR_FIELD_PERCENTMAG			262
+  #define SR_FIELD_SELFONLY				263
+  #define SR_FIELD_NOAREA				264
+  #define SR_FIELD_FXPERSIST			265
+  #define SR_FIELD_BOUND				266
+  #define SR_FIELD_WARD					267
+  #define SR_FIELD_UNKNOWNFLAG4			268
+  #define SR_FIELD_UNKNOWNFLAG5			269
+  #define SR_FIELD_UNKNOWNFLAG6			270
+  #define SR_FIELD_UNKNOWNFLAG7			271
+  #define SR_FIELD_UNKNOWNFLAG8			272
+  #define SR_FIELD_UNKNOWNFLAG9			273
+
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/
@@ -324,3 +366,4 @@
 /*===========================================================================
  *		End of File Srfields.H
  *=========================================================================*/
+

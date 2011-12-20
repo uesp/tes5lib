@@ -464,6 +464,11 @@
 						void Set##Name (const char* pEditorID) { \
 							SetSubrecordFormID(Member, pEditorID, Type); }
 
+	#define DECLARE_SRMETHOD_FORMID1(Name, Expr) const char* Get##Name (void) { \
+							return CSrRecord::GetEditorIDHelper(Expr); } \
+						void Set##Name (const char* pEditorID) { \
+							SetSubrecordFormID(Expr, pEditorID); }
+
 
 /*===========================================================================
  *		End of Definitions

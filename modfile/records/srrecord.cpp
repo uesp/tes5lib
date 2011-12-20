@@ -1705,5 +1705,21 @@ void CSrRecord::SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const char* 
 {
 	if (m_pParent == NULL) return;
 	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
-	if (pRecord != NULL) SetSubrecordFormID(pSubrecord, pRecord->GetFormID(), Type);
+
+	if (pRecord != NULL) 
+		SetSubrecordFormID(pSubrecord, pRecord->GetFormID(), Type);
+	else
+		SetSubrecordFormID(pSubrecord, SR_FORMID_NULL, Type);
+}
+
+
+void CSrRecord::SetSubrecordFormID (srformid_t& ResultFormID, const char* pEditorID)
+{
+	if (m_pParent == NULL) return;
+	CSrRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+
+	if (pRecord != NULL) 
+		ResultFormID = pRecord->GetFormID();
+	else
+		ResultFormID = SR_FORMID_NULL;
 }

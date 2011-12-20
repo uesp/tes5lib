@@ -246,6 +246,7 @@ public:
   const char* GetEditorIDHelper (const srformid_t FormID);
   void SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const srformid_t FormID, const srrectype_t Type);
   void SetSubrecordFormID (CSrFormidSubrecord* pSubrecord, const char*   pEditorID, const srrectype_t Type);
+  void SetSubrecordFormID (srformid_t& ResultFormID, const char* pEditorID);
 
 	/* Find information in the record */
   virtual bool Search     (dword& FindCount, srfinddata_t& FindData, CSrCallback* pCallback = NULL);

@@ -48,7 +48,7 @@
     #define SR_MGEFFLAG_04000000		0x04000000
     #define SR_MGEFFLAG_08000000		0x08000000
 	#define SR_MGEFFLAG_10000000		0x10000000
-	#define SR_MGEFFLAG_40000000		0x40000000
+	#define SR_MGEFFLAG_WARD			0x40000000
 
 /*===========================================================================
  *		End of Definitions
@@ -69,35 +69,39 @@
 	  srformid_t	SecondSpellID;
 	  dword			School;
 	  dword			EffectType;
-	  dword			Unknown3;
+	  dword			Unknown1;		//0xffff0000 flags?
 	  srformid_t	LightID;
-	  dword			Unknown4;
-	  srformid_t	ShaderID1;
-	  srformid_t	ShaderID2;
+	  float			Unknown2;		//0-1
+	  srformid_t	ShaderID1;		
+	  srformid_t	ShaderID2;		
 	  dword			SkillLevel;
-	  dword			Unknown7;
+	  dword			Unknown3;		//0-6000
 	  float			CastingDelay;
-	  dword			Unknown9;
-	  dword			Unknown10;
-	  dword			Unknown11;
-	  dword			Unknown12;
-	  dword			ActorValue;
+	  float			Unknown4;		//0-2
+	  float			Unknown5;		//0-5
+	  float			Unknown6;		//0-2
+	  dword			Unknown7;		//0-43
+	  int			ActorValue;		//-1-163
 	  srformid_t	ProjectileID;
-	  dword			Unknown14;
-	  dword			CastType;
-	  dword			Unknown16;
-	  dword			Unknown17;
+	  srformid_t	ExplosionID;	//Unknown8
+	  dword			CastType;		//0-2
+	  dword			Unknown8;		//0-4
+	  int			Unknown9;		//-1, 25-132
 	  srformid_t	ArtID1;
 	  srformid_t	ArtID2;
-	  srformid_t	ImpactSetID;
-	  float			EffectPlayRate;
-	  dword			Unknown18;
-	  float			Unknown19;
-	  dword			Unknown20;
-	  dword			Unknown21;
-	  dword			Unknown22;
-	  float			Unknown23;
-	  dword			Unknown24[5];
+	  srformid_t	ImpactSetID1;
+	  float			EffectPlayRate;	//0-10
+	  srformid_t	DualID;			//Unknown11
+	  float			Unknown10;		//0-3
+	  srformid_t	ArtID3;			//Unknown13
+	  dword			Unknown11;		//Zero
+	  dword			Unknown12;		//Zero
+	  srformid_t	ArtID4;			//Unknown16
+	  srformid_t	ImpactSetID2;	//Unknown17
+	  srformid_t	PerkID;			//Unknown18
+	  dword			Unknown13;		//0-3
+	  float			Unknown14;		//0, 50, 9999, 100000, 1000000
+	  float			Unknown15;		//0, 60, 10000, 600000
   };
 
 #pragma pack(pop)
@@ -125,8 +129,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { memset(&m_Data, 0, sizeof(m_Data)); return File.Read(&m_Data,  m_RecordSize); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Data, m_RecordSize); }
+  virtual bool ReadData  (CSrFile& File) { memset(&m_Data, 0, sizeof(m_Data)); if (m_RecordSize > SR_MGEFDATA_SUBRECORD_SIZE) return false; return File.Read(&m_Data,  m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) {  if (m_RecordSize > SR_MGEFDATA_SUBRECORD_SIZE) return false; return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -178,9 +182,45 @@ public:
 	  ++Count;
 	}
 
-	if (m_Data.ImpactSetID == OldID) 
+	if (m_Data.ArtID3 == OldID) 
 	{
-	  m_Data.ImpactSetID = NewID;
+	  m_Data.ArtID3 = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ArtID4 == OldID) 
+	{
+	  m_Data.ArtID4 = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.PerkID == OldID) 
+	{
+	  m_Data.PerkID = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ExplosionID == OldID) 
+	{
+	  m_Data.ExplosionID = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.DualID == OldID) 
+	{
+	  m_Data.DualID = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ImpactSetID1 == OldID) 
+	{
+	  m_Data.ImpactSetID1 = NewID;
+	  ++Count;
+	}
+
+	if (m_Data.ImpactSetID2 == OldID) 
+	{
+	  m_Data.ImpactSetID2 = NewID;
 	  ++Count;
 	}
 
@@ -189,9 +229,11 @@ public:
 
   virtual dword CountUses (const srformid_t FormID) 
   {
-	  return (FormID == m_Data.ImpactSetID) + (FormID == m_Data.ArtID2) + (FormID == m_Data.ArtID1)
+	  return (FormID == m_Data.ImpactSetID1) + (FormID == m_Data.ArtID2) + (FormID == m_Data.ArtID1)
 		   + (FormID == m_Data.ProjectileID) + (FormID == m_Data.ShaderID1) + (FormID == m_Data.SecondSpellID)
-		   + (FormID == m_Data.ShaderID2);
+		   + (FormID == m_Data.ShaderID2) + (FormID == m_Data.ArtID3) + (FormID == m_Data.ArtID4)
+		   + (FormID == m_Data.ImpactSetID2) + (FormID == m_Data.PerkID) + (FormID == m_Data.DualID)
+		   + (FormID == m_Data.ExplosionID);
   }
 
 		/* Fixup the modindex of formids */
@@ -203,7 +245,13 @@ public:
 	Result &= SrFixupFormid(m_Data.ProjectileID, m_Data.ProjectileID, FixupArray);
 	Result &= SrFixupFormid(m_Data.ArtID1, m_Data.ArtID1, FixupArray);
 	Result &= SrFixupFormid(m_Data.ArtID2, m_Data.ArtID2, FixupArray);
-	Result &= SrFixupFormid(m_Data.ImpactSetID, m_Data.ImpactSetID, FixupArray);
+	Result &= SrFixupFormid(m_Data.ArtID3, m_Data.ArtID3, FixupArray);
+	Result &= SrFixupFormid(m_Data.ArtID4, m_Data.ArtID4, FixupArray);
+	Result &= SrFixupFormid(m_Data.ImpactSetID1, m_Data.ImpactSetID1, FixupArray);
+	Result &= SrFixupFormid(m_Data.ImpactSetID2, m_Data.ImpactSetID2, FixupArray);
+	Result &= SrFixupFormid(m_Data.PerkID, m_Data.PerkID, FixupArray);
+	Result &= SrFixupFormid(m_Data.ExplosionID, m_Data.ExplosionID, FixupArray);
+	Result &= SrFixupFormid(m_Data.DualID, m_Data.DualID, FixupArray);
 	return Result;
   }
 
