@@ -26,7 +26,7 @@ BEGIN_SRSUBRECCREATE(CSrMgefRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrMgefSnddSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
@@ -116,6 +116,7 @@ CSrMgefRecord::CSrMgefRecord ()
   m_pData			= NULL;
   m_pFullName		= NULL;
   m_pDescription	= NULL;
+  m_pSoundData      = NULL;
 }
 /*===========================================================================
  *		End of Class CSrMgefRecord Constructor
@@ -132,6 +133,7 @@ void CSrMgefRecord::Destroy (void)
   m_pData        = NULL;
   m_pFullName    = NULL;
   m_pDescription = NULL;
+  m_pSoundData   = NULL;
 
   CSrIdKeyRecord::Destroy();
 }
@@ -186,6 +188,10 @@ void CSrMgefRecord::OnAddSubrecord (CSrSubrecord* pSubrecord)
   {
     m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
   }
+  else if (pSubrecord->GetRecordType() == SR_NAME_SNDD) 
+  {
+    m_pSoundData = SrCastClass(CSrMgefSnddSubrecord, pSubrecord);
+  }
   else 
   {
     CSrIdKeyRecord::OnAddSubrecord(pSubrecord);
@@ -211,6 +217,8 @@ void CSrMgefRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
     m_pFullName = NULL;
   else if (m_pDescription == pSubrecord) 
     m_pDescription = NULL;
+  else if (m_pSoundData == pSubrecord) 
+    m_pSoundData = NULL;
   else 
     CSrIdKeyRecord::OnDeleteSubrecord(pSubrecord);  
 

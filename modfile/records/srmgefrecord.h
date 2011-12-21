@@ -20,6 +20,7 @@
   #include "../subrecords/srmgefdatasubrecord.h"
   #include "../subrecords/srlstringsubrecord.h"
   #include "../subrecords/srctdasubrecord.h"
+  #include "../subrecords/srmgefsnddsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -53,6 +54,7 @@ protected:
   CSrMgefDataSubrecord*	m_pData;
   CSrLStringSubrecord*	m_pFullName;
   CSrLStringSubrecord*	m_pDescription;
+  CSrMgefSnddSubrecord* m_pSoundData;
 
   static srmgefdata_t s_SrNullEffectData;
 
