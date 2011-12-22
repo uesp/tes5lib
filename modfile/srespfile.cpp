@@ -524,7 +524,7 @@ bool CSrEspFile::Load (const SSCHAR* pFilename, CSrCallback* pCallback) {
   SrStartTimer(Timer);
 
 		/* Attempt to load any string files associated with the file */
-  Result &= LoadStringFiles(pCallback);
+  Result = LoadStringFiles(pCallback);
   MakeStringMap(pCallback);
 
   Result = CSrRecord::InitIOBuffers();

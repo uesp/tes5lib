@@ -71,6 +71,9 @@ public:
 	/* Find a matching entry */
   CSrConfigEntry* FindEntry (const char* pVariable);
 
+  bool FindFirst (CSString& Value, const char* pVariable, int& Position, const char* Default = "");
+  bool FindNext  (CSString& Value, const char* pVariable, int& Position, const char* Default = "");
+
 	/* Load/save a config file */
   bool Load (const char* pFilename);
   bool Save (const char* pFilename);

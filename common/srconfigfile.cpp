@@ -94,6 +94,35 @@ CSrConfigEntry* CSrConfigFile::FindEntry (const char* pVariable) {
  *=========================================================================*/
 
 
+bool CSrConfigFile::FindFirst (CSString& Value, const char* pVariable, int& Position, const char* Default)
+{
+	Position = -1;
+	return FindNext(Value, pVariable, Position, Default);
+}
+
+
+bool CSrConfigFile::FindNext (CSString& Value, const char* pVariable, int& Position, const char* Default)
+{
+	
+	while (Position+1 < (int) m_Records.GetSize()) 
+	{
+		++Position;
+
+		CSrConfigEntry* pEntry = m_Records[Position];
+		if (pEntry == NULL) continue;
+
+		if (pEntry->IsVariable(pVariable)) 
+		{
+			Value = pEntry->GetValue();
+			return true;
+		}
+	}
+
+	Value = Default;
+	return false;
+}
+
+
 /*===========================================================================
  *
  * Class char* CSrConfigFile Method - const Get (pVariable);
