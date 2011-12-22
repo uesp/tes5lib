@@ -394,6 +394,23 @@
 								if (!SrFieldConvertInt(pString, Value)) return (false); \
 								SetExpression = Value; return true; } 
 
+	#define DECLARE_SRFIELD_WORD1(Class, Name, GetExpression, SetExpression) bool GetField##Name (CSString& String, long Reserved) {\
+								String.Format("%hu", GetExpression); return (true); } \
+							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+								if (pRecord == NULL) return (1); \
+								Class* pRecord1 = SrCastClass(Class, pRecord); \
+								if (pRecord1 == NULL) return (1); \
+								word Value1 = (word) this->GetExpression; \
+								word Value2 = (word) pRecord1->GetExpression; \
+								if (Value1 == Value2) return (0); \
+								if (Value1 > Value2)  return (1); \
+								return (-1); } \
+							bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+								word Value; \
+								if (!SrFieldConvertWord(pString, Value)) return (false); \
+								SetExpression = Value; return true; } 
+
+
 	#define DECLARE_SRFIELD_DWORDFLAG1(Class, Name, GetExpression, SetExpression) bool GetField##Name (CSString& String, long Reserved) {\
 								String.Format("0x%08X", GetExpression); return (true); } \
 							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \

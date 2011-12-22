@@ -333,6 +333,21 @@
   #define SR_FIELD_UNKNOWNFLAG8			272
   #define SR_FIELD_UNKNOWNFLAG9			273
   #define SR_FIELD_SOUNDCOUNT			274
+  #define SR_FIELD_NNAM					275
+  #define SR_FIELD_SNAM					276
+  #define SR_FIELD_UNAM					277
+  #define SR_FIELD_NAM8					278
+  #define SR_FIELD_NAM9					279
+  #define SR_FIELD_TNAM					280
+  #define SR_FIELD_WNAM					281
+  #define SR_FIELD_INAM					282
+  #define SR_FIELD_DNAM					283
+  #define SR_FIELD_IMPACTSET			284
+  #define SR_FIELD_FIRESOUND			285
+  #define SR_FIELD_BOUNDSOUND			286
+  #define SR_FIELD_SHEATHSOUND			287
+  #define SR_FIELD_DRAWSOUND			288
+  #define SR_FIELD_SWINGSOUND			289
 
 /*===========================================================================
  *		End of Field Types

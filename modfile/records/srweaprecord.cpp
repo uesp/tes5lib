@@ -13,6 +13,11 @@
 #include "../srrecordhandler.h"
 
 
+srcrdtdata_t     CSrWeapRecord::s_NullCrdtData;
+srweapdata_t     CSrWeapRecord::s_NullWeapData;
+srweapdnamdata_t CSrWeapRecord::s_NullDnamData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
@@ -22,6 +27,18 @@ BEGIN_SRSUBRECCREATE(CSrWeapRecord, CSrItem2Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrWeapDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDwordSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BIDS, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BAMT, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrWeapDnamSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM8, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM9, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NNAM, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_UNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_WNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CRDT, CSrCrdtSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -41,6 +58,32 @@ BEGIN_SRFIELDMAP(CSrWeapRecord, CSrItem2Record)
 	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrWeapRecord, FieldMaterial)
 	ADD_SRFIELDALL("VNAM",			SR_FIELD_VNAM,			0, CSrWeapRecord, FieldVNAM)
 	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrWeapRecord, FieldEquipSlot)
+	ADD_SRFIELDALL("ImpactSet",		SR_FIELD_IMPACTSET,		0, CSrWeapRecord, FieldImpactSet)
+	ADD_SRFIELDALL("FireSound",		SR_FIELD_FIRESOUND,		0, CSrWeapRecord, FieldFireSound)
+	ADD_SRFIELDALL("BoundSound",	SR_FIELD_BOUNDSOUND,	0, CSrWeapRecord, FieldBoundSound)
+	ADD_SRFIELDALL("SheathSound",	SR_FIELD_SHEATHSOUND,	0, CSrWeapRecord, FieldSheathSound)
+	ADD_SRFIELDALL("DrawSound",		SR_FIELD_DRAWSOUND,		0, CSrWeapRecord, FieldDrawSound)
+	ADD_SRFIELDALL("SwingSound",	SR_FIELD_SWINGSOUND,	0, CSrWeapRecord, FieldSwingSound)
+	ADD_SRFIELDALL("Static",		SR_FIELD_STATIC,		0, CSrWeapRecord, FieldStatic)
+	ADD_SRFIELDALL("NName",			SR_FIELD_NNAM,			0, CSrWeapRecord, FieldNName)
+	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrWeapRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrWeapRecord, FieldUnknown2)
+	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,		0, CSrWeapRecord, FieldUnknown3)
+	ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,		0, CSrWeapRecord, FieldUnknown4)
+	ADD_SRFIELDALL("Unknown5",		SR_FIELD_UNKNOWN5,		0, CSrWeapRecord, FieldUnknown5)
+	ADD_SRFIELDALL("Unknown6",		SR_FIELD_UNKNOWN6,		0, CSrWeapRecord, FieldUnknown6)
+	ADD_SRFIELDALL("Unknown7",		SR_FIELD_UNKNOWN7,		0, CSrWeapRecord, FieldUnknown7)
+	ADD_SRFIELDALL("Unknown8",		SR_FIELD_UNKNOWN8,		0, CSrWeapRecord, FieldUnknown8)
+	ADD_SRFIELDALL("Unknown9",		SR_FIELD_UNKNOWN9,		0, CSrWeapRecord, FieldUnknown9)
+	ADD_SRFIELDALL("Unknown10",		SR_FIELD_UNKNOWN10,		0, CSrWeapRecord, FieldUnknown10)
+	ADD_SRFIELDALL("Unknown11",		SR_FIELD_UNKNOWN11,		0, CSrWeapRecord, FieldUnknown11)
+	ADD_SRFIELDALL("Unknown12",		SR_FIELD_UNKNOWN12,		0, CSrWeapRecord, FieldUnknown12)
+	ADD_SRFIELDALL("Unknown13",		SR_FIELD_UNKNOWN13,		0, CSrWeapRecord, FieldUnknown13)
+	ADD_SRFIELDALL("Unknown14",		SR_FIELD_UNKNOWN14,		0, CSrWeapRecord, FieldUnknown14)
+	ADD_SRFIELDALL("Unknown15",		SR_FIELD_UNKNOWN15,		0, CSrWeapRecord, FieldUnknown15)
+	ADD_SRFIELDALL("Unknown16",		SR_FIELD_UNKNOWN16,		0, CSrWeapRecord, FieldUnknown16)
+	ADD_SRFIELDALL("UnknownFormID",	SR_FIELD_UNKNOWN17,		0, CSrWeapRecord, FieldUnknown17)
+	ADD_SRFIELDALL("UnknownFlag1",	SR_FIELD_UNKNOWNFLAG1,	0, CSrWeapRecord, FieldUnknownFlag1)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -57,6 +100,19 @@ CSrWeapRecord::CSrWeapRecord ()
 	m_pEquipSlot	= NULL;
 	m_pWeaponData   = NULL;
 	m_pVNAM         = NULL;
+	m_pSheathSound = NULL;
+	m_pDrawSound = NULL;
+	m_pFireSound = NULL;
+	m_pSwingSound = NULL;
+	m_pBoundSound = NULL;
+	m_pStatic = NULL;
+	m_pImpactSet = NULL;
+	m_pMaterial = NULL;
+	m_pBaseWeapon = NULL;
+	m_pCrdtData = NULL;
+
+	m_pDName = NULL;
+	m_pNName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrWeapRecord Constructor
@@ -73,31 +129,23 @@ void CSrWeapRecord::Destroy (void)
 	m_pEquipSlot	= NULL;
 	m_pWeaponData   = NULL;
 	m_pVNAM         = NULL;
+	m_pImpactSet = NULL;
+	m_pMaterial = NULL;
+	m_pBaseWeapon = NULL;
+	m_pDName = NULL;
+	m_pSheathSound = NULL;
+	m_pDrawSound = NULL;
+	m_pNName = NULL;
+	m_pFireSound = NULL;
+	m_pSwingSound = NULL;
+	m_pBoundSound = NULL;
+	m_pStatic = NULL;
+    m_pCrdtData = NULL;
 
 	CSrItem2Record::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrWeapRecord::Destroy()
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Class CSrWeapRecord Method - const SSCHAR* GetWeaponMaterial (void);
- *
- *=========================================================================*/
-const SSCHAR* CSrWeapRecord::GetWeaponMaterial (void)
-{
-	CSrKywdRecord* pKeyword;
-
-	if (m_pParent == NULL || m_pKeywords == NULL) return "";
-
-	pKeyword = m_pParent->FindKeyword(m_pKeywords->GetFormIDArray(), "WeapMaterial");
-	if (pKeyword == NULL) return "";
-	return pKeyword->GetEditorID() + 12;
-}
-/*===========================================================================
- *		End of Class Method CSrWeapRecord::GetWeaponMaterial()
  *=========================================================================*/
 
 
@@ -140,6 +188,12 @@ void CSrWeapRecord::InitializeNew (void)
 
   AddNewSubrecord(SR_NAME_ETYP);
   if (m_pEquipSlot != NULL) m_pEquipSlot->InitializeNew();
+
+  AddNewSubrecord(SR_NAME_DNAM);
+  if (m_pDName != NULL) m_pDName->InitializeNew();
+
+  AddNewSubrecord(SR_NAME_CRDT);
+  if (m_pCrdtData != NULL) m_pCrdtData->InitializeNew();
     
 }
 /*===========================================================================
@@ -157,15 +211,62 @@ void CSrWeapRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
   if (pSubrecord->GetRecordType() == SR_NAME_DATA) 
   {
     m_pWeaponData = SrCastClass(CSrWeapDataSubrecord, pSubrecord);
-    //TEST_INTVALUE1(m_pWeaponData->GetRecordSize(), 10, SR_NAME_DATA);
   }
   else if (pSubrecord->GetRecordType() == SR_NAME_VNAM) 
   {
     m_pVNAM = SrCastClass(CSrDwordSubrecord, pSubrecord);
   }
+  else if (pSubrecord->GetRecordType() == SR_NAME_SNAM) 
+  {
+    m_pFireSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_NNAM) 
+  {
+    m_pNName = SrCastClass(CSrStringSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_UNAM) 
+  {
+    m_pBoundSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_DNAM) 
+  {
+    m_pDName = SrCastClass(CSrWeapDnamSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_NAM8) 
+  {
+    m_pSheathSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_NAM9) 
+  {
+    m_pDrawSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_TNAM) 
+  {
+    m_pSwingSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_WNAM) 
+  {
+    m_pStatic = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
   else if (pSubrecord->GetRecordType() == SR_NAME_ETYP) 
   {
     m_pEquipSlot = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_CNAM) 
+  {
+    m_pBaseWeapon = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_BIDS) 
+  {
+    m_pImpactSet = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_BAMT) 
+  {
+    m_pMaterial = SrCastClass(CSrFormidSubrecord, pSubrecord);
+  }
+  else if (pSubrecord->GetRecordType() == SR_NAME_CRDT) 
+  {
+    m_pCrdtData = SrCastClass(CSrCrdtSubrecord, pSubrecord);
   }
   else
     CSrItem2Record::OnAddSubrecord(pSubrecord);
@@ -188,8 +289,32 @@ void CSrWeapRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
     m_pWeaponData = NULL;
   else if (m_pVNAM == pSubrecord)
     m_pVNAM = NULL;
+  else if (m_pNName == pSubrecord)
+    m_pNName = NULL;
+  else if (m_pSheathSound == pSubrecord)
+    m_pSheathSound = NULL;
+  else if (m_pDrawSound == pSubrecord)
+    m_pDrawSound = NULL;
+  else if (m_pBaseWeapon == pSubrecord)
+    m_pBaseWeapon = NULL;
+  else if (m_pImpactSet == pSubrecord)
+    m_pImpactSet = NULL;
+  else if (m_pMaterial == pSubrecord)
+    m_pMaterial = NULL;
+  else if (m_pDName == pSubrecord)
+    m_pDName = NULL;
+  else if (m_pStatic == pSubrecord)
+    m_pStatic = NULL;
+  else if (m_pBoundSound == pSubrecord)
+    m_pBoundSound = NULL;
+  else if (m_pFireSound == pSubrecord)
+    m_pFireSound = NULL;
+  else if (m_pSwingSound == pSubrecord)
+    m_pSwingSound = NULL;
   else if (m_pEquipSlot == pSubrecord)
     m_pEquipSlot = NULL;
+  else if (m_pCrdtData == pSubrecord)
+    m_pCrdtData = NULL;
   else
     CSrItem2Record::OnDeleteSubrecord(pSubrecord);
 
@@ -242,11 +367,10 @@ const SSCHAR* CSrWeapRecord::GetEquipSlot (void)
  * Begin CSrWeapRecord Get Field Methods
  *
  *=========================================================================*/
-DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldWeight,       String.Format(SR_FORMATSTR_WEIGHT, GetWeight()))
-DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldValue,        String.Format("%u", GetValue()))
-DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldDamage,       String.Format("%d", (int)GetDamage()))
+DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldWeight,       String.Format(SR_FORMATSTR_WEIGHT, GetWeaponData().Weight))
+DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldValue,        String.Format("%u", GetWeaponData().Value))
+DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldDamage,       String.Format("%d", (int)GetWeaponData().Damage))
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldType,         String = GetWeaponType())
-DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldMaterial,     String = GetWeaponMaterial())
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldVNAM,         String.Format("%u", GetVNAM()))
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldEquipSlot,    String = GetEquipSlot())
 /*===========================================================================
@@ -259,12 +383,11 @@ DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldEquipSlot,    String = GetEquipSlot())
  * Begin CSrWeapRecord Compare Field Methods
  *
  *=========================================================================*/
-DEFINE_SRCOMPFIELDFLOAT(CSrWeapRecord,  CompareFieldWeight,		  GetWeight, 100.0f)
-DEFINE_SRCOMPFIELDDWORD(CSrWeapRecord,  CompareFieldValue,		  GetValue)
+DEFINE_SRCOMPFIELDFLOAT1(CSrWeapRecord, CompareFieldWeight,		  GetWeaponData().Weight, 100.0f)
+DEFINE_SRCOMPFIELDDWORD1(CSrWeapRecord, CompareFieldValue,		  GetWeaponData().Value)
 DEFINE_SRCOMPFIELDDWORD(CSrWeapRecord,  CompareFieldVNAM,		  GetVNAM)
-DEFINE_SRCOMPFIELDINT(CSrWeapRecord,    CompareFieldDamage,		  GetDamage)
+DEFINE_SRCOMPFIELDDWORD1(CSrWeapRecord, CompareFieldDamage,		  GetWeaponData().Damage)
 DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldType,		  GetWeaponType)
-DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldMaterial,	  GetWeaponMaterial)
 DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldEquipSlot,	  GetEquipSlot)
 /*===========================================================================
  *		End of CSrWeapRecord Compare Field Methods
@@ -280,7 +403,7 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldWeight)
   float Value;
 
   if (!SrFieldConvertFloat(pString, Value)) return (false);
-  SetWeight(Value);
+  GetWeaponData().Weight = Value;
 END_SRSETFIELD()
 
 
@@ -288,7 +411,7 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldValue)
   dword Value;
 
   if (!SrFieldConvertDword(pString, Value)) return (false);
-  SetValue(Value);
+  GetWeaponData().Value = Value;
 END_SRSETFIELD()
 
 
@@ -304,7 +427,7 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldDamage)
   word Value;
 
   if (!SrFieldConvertWord(pString, Value)) return (false);
-  SetDamage(Value);
+  GetWeaponData().Damage = Value;
 END_SRSETFIELD()
 	
 
@@ -332,36 +455,6 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldType)
   else
   {
     return AddSrGeneralError("Unable to find the formID for the keyword 'WeapType%s'!", Buffer);
-  }
-
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldMaterial)
-  CSrIdRecord* pIdRecord = NULL;
-  CSString Buffer("WeapMaterial");
-
-  if (m_pParent != NULL) 
-  {
-   
-    if (pString == NULL || *pString == NULL_CHAR) 
-	{
-      SetWeaponMaterial(SR_FORMID_NULL);
-      return (true);
-    }
-
-	Buffer += pString;
-
-    pIdRecord = m_pParent->FindEditorID(Buffer);
-    if (pIdRecord == NULL) return AddSrGeneralError("The keyword '%s' does not exist!", Buffer);
-    if (pIdRecord->GetRecordType() != SR_NAME_KYWD) return AddSrGeneralError("The record '%s' is not a keyword (%4.4s)!", Buffer, pIdRecord->GetRecordType().Name);
-	//if (strnicmp(pIdRecord->GetEditorID(), "WeapMaterial", 12) != 0) return AddSrGeneralError("The keyword '%s' is not a weapon material!", Buffer);
-
-    SetWeaponMaterial(pIdRecord->GetFormID());
-  }
-  else
-  {
-    return AddSrGeneralError("Unable to find the formID for the keyword 'WeapMaterial%s'!", pString);
   }
 
 END_SRSETFIELD()
@@ -405,32 +498,3 @@ void CSrWeapRecord::SetWeaponType (const srformid_t FormID)
 	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(m_pKeywords->GetFormIDArray().GetSize());
 }
 
-
-void CSrWeapRecord::SetWeaponMaterial (const srformid_t FormID)
-{
-	CSrRecord*    pRecord;
-	CSrIdRecord*  pIdRecord;
-	const SSCHAR* pEditorID;
-
-	if (m_pParent == NULL || m_pKeywords == NULL) return;
-
-		/* Delete all existing weapon material keywords */
-	for (int i = (int) m_pKeywords->GetFormIDArray().GetSize() - 1; i >= 0 ; --i)
-	{
-		pRecord = m_pParent->FindFormID(m_pKeywords->GetFormIDArray()[i]);
-		pIdRecord = SrCastClassNull(CSrIdRecord, pRecord);
-		if (pIdRecord == NULL) continue;
-		if (pIdRecord->GetRecordType() != SR_NAME_KYWD) continue;
-
-		pEditorID = pIdRecord->GetEditorID();
-		if (pEditorID == NULL) continue;
-
-		if (strnicmp(pEditorID, "WeapMaterial", 12) != 0) continue;
-		m_pKeywords->GetFormIDArray().Delete(i);
-	}
-
-		/* Add the new keyword material type */
-	m_pKeywords->GetFormIDArray().Add(FormID);
-
-	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(m_pKeywords->GetFormIDArray().GetSize());
-}

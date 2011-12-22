@@ -470,6 +470,8 @@
 	#define SRCLASS_CSrContDataSubrecord		1034
 	#define SRCLASS_CSrLighDataSubrecord		1035
 	#define SRCLASS_CSrMgefSnddSubrecord		1036
+	#define SRCLASS_CSrCrdtSubrecord			1037
+	#define SRCLASS_CSrWeapDnamSubrecord		1038
   
 /*===========================================================================
  *		End of Class Type Definitions
