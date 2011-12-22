@@ -112,7 +112,7 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
 
 	  if (pWeapon != NULL)
 	  {
-		  if (m_Material.CompareNoCase(pWeapon->GetMaterial())) return (false);
+		  if (m_Material.CompareNoCase(pWeapon->GetWeaponMaterial())) return (false);
 	  }
     //if (pItem1 == NULL) return (false);
 

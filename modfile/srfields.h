@@ -349,6 +349,8 @@
   #define SR_FIELD_DRAWSOUND			288
   #define SR_FIELD_SWINGSOUND			289
   #define SR_FIELD_BASEWEAPON			290
+  #define SR_FIELD_MATERIALOBJECT		291
+
 
 /*===========================================================================
  *		End of Field Types

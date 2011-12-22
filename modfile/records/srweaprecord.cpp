@@ -55,6 +55,7 @@ BEGIN_SRFIELDMAP(CSrWeapRecord, CSrItem2Record)
 	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrWeapRecord, FieldValue)
 	ADD_SRFIELDALL("Damage",		SR_FIELD_DAMAGE,		0, CSrWeapRecord, FieldDamage)
 	ADD_SRFIELDALL("Type",			SR_FIELD_TYPE,			0, CSrWeapRecord, FieldType)
+	ADD_SRFIELDALL("MaterialObject",SR_FIELD_MATERIALOBJECT,0, CSrWeapRecord, FieldMaterialObject)
 	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrWeapRecord, FieldMaterial)
 	ADD_SRFIELDALL("VNAM",			SR_FIELD_VNAM,			0, CSrWeapRecord, FieldVNAM)
 	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrWeapRecord, FieldEquipSlot)
@@ -496,6 +497,61 @@ void CSrWeapRecord::SetWeaponType (const srformid_t FormID)
 		/* Add the new keyword weapon type */
 	m_pKeywords->GetFormIDArray().Add(FormID);
 
+	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(m_pKeywords->GetFormIDArray().GetSize());
+}
+
+
+const SSCHAR* CSrWeapRecord::GetWeaponMaterial (void)
+{
+	CSrKywdRecord* pKeyword;
+
+	if (m_pParent == NULL || m_pKeywords == NULL) return "Unknown";
+
+	pKeyword = m_pParent->FindKeyword(m_pKeywords->GetFormIDArray(), "WeapMaterial");
+	if (pKeyword == NULL) return "";
+	return pKeyword->GetEditorID() + 12;
+}
+
+
+
+void CSrWeapRecord::SetWeaponMaterial (const char* pEditorID)
+{
+	if (m_pParent == NULL) return;
+	CSrIdRecord* pRecord = m_pParent->FindEditorID(pEditorID);
+	
+	if (pRecord == NULL)
+		SetWeaponMaterial(SR_FORMID_NULL);
+	else
+		SetWeaponMaterial(pRecord->GetFormID());
+}
+
+
+void CSrWeapRecord::SetWeaponMaterial (const srformid_t FormID)
+{
+	CSrRecord* pRecord;
+	CSrIdRecord* pIdRecord;
+	const SSCHAR* pEditorID;
+	
+	if (m_pParent == NULL || m_pKeywords == NULL) return;
+	
+		/* Delete all existing weapon material keywords */
+	for (int i = (int) m_pKeywords->GetFormIDArray().GetSize() - 1; i >= 0 ; --i)
+	{
+		pRecord = m_pParent->FindFormID(m_pKeywords->GetFormIDArray()[i]);
+		pIdRecord = SrCastClassNull(CSrIdRecord, pRecord);
+		if (pIdRecord == NULL) continue;
+		if (pIdRecord->GetRecordType() != SR_NAME_KYWD) continue;
+		
+		pEditorID = pIdRecord->GetEditorID();
+		if (pEditorID == NULL) continue;
+		
+		if (strnicmp(pEditorID, "WeapMaterial", 12) != 0) continue;
+		m_pKeywords->GetFormIDArray().Delete(i);
+	}
+	
+		/* Add the new keyword material type */
+	m_pKeywords->GetFormIDArray().Add(FormID);
+	
 	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(m_pKeywords->GetFormIDArray().GetSize());
 }
 

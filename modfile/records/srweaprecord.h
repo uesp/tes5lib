@@ -83,6 +83,7 @@ public:
   srweapdnamdata_t& GetDnamData       (void) { return m_pDName ? m_pDName->GetDnamData() : s_NullDnamData; }
   dword			    GetVNAM           (void) { return m_pVNAM ? m_pVNAM->GetValue() : 0; }
   const SSCHAR*	    GetWeaponType     (void);
+  const SSCHAR*	    GetWeaponMaterial (void);
 
 	/* Initialize a new record */
   void InitializeNew (void);
@@ -96,6 +97,8 @@ public:
   void SetWeaponType     (const srformid_t FormID);
   void SetEquipSlotID    (const srformid_t FormID);
   void SetEquipSlot      (const char* pEditorID);
+  void SetWeaponMaterial (const srformid_t FormID);
+  void SetWeaponMaterial (const char* pEditorID);
   	 
 
 		/* Begin field method definitions */
@@ -106,6 +109,7 @@ public:
   DECLARE_SRFIELD(FieldVNAM)
   DECLARE_SRFIELD(FieldEquipSlot)
 
+  DECLARE_SRFIELD_METHOD(CSrWeapRecord, Material, GetWeaponMaterial, SetWeaponMaterial)
   DECLARE_SRFIELD_DWORD1(CSrWeapRecord, Unknown1, GetCrdtData().Unknown1, GetCrdtData().Unknown1)
   DECLARE_SRFIELD_FLOAT1(CSrWeapRecord, Unknown2, GetCrdtData().Unknown2, GetCrdtData().Unknown2)
   DECLARE_SRFIELD_INT1(CSrWeapRecord, Unknown3, GetCrdtData().Unknown3, GetCrdtData().Unknown3)
@@ -149,8 +153,8 @@ public:
   DECLARE_SRFIELD_EDITORID(CSrWeapRecord, BaseWeapon, GetBaseWeapon, SetBaseWeapon)
   DECLARE_SRMETHOD_FORMID(BaseWeapon, m_pBaseWeapon, SR_NAME_CNAM)
 
-  DECLARE_SRFIELD_EDITORID(CSrWeapRecord, Material, GetMaterial, SetMaterial)
-  DECLARE_SRMETHOD_FORMID(Material, m_pMaterial, SR_NAME_BAMT)
+  DECLARE_SRFIELD_EDITORID(CSrWeapRecord, MaterialObject, GetMaterialObject, SetMaterialObject)
+  DECLARE_SRMETHOD_FORMID(MaterialObject, m_pMaterial, SR_NAME_BAMT)
 
   DECLARE_SRFIELD_EDITORID(CSrWeapRecord, ImpactSet, GetImpactSet, SetImpactSet)
   DECLARE_SRMETHOD_FORMID(ImpactSet, m_pImpactSet, SR_NAME_BIDS)

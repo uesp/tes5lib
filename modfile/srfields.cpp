@@ -311,6 +311,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_DRAWSOUND,		"DrawSound")
 	ADD_STRINGVALUE( SR_FIELD_SWINGSOUND,		"SwingSound")
 	ADD_STRINGVALUE( SR_FIELD_BASEWEAPON,		"BaseWeapon")
+	ADD_STRINGVALUE( SR_FIELD_MATERIALOBJECT,	"MaterialObject")
 	
 END_STRINGVALUE()
 /*===========================================================================
