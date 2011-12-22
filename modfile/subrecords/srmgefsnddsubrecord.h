@@ -91,6 +91,7 @@ public:
   virtual byte*	     GetData        (void) { return (byte *)(m_Values.GetRecords()); }
   virtual dword	     GetRecordSize  (void) const { return (m_Values.GetSize() * SR_MGEFSNDD_RECORDSIZE); }
   CSrMgefSnddArray&  GetSnddArray   (void) { return m_Values; }
+  dword              GetSoundCount  (void) { return m_Values.GetSize(); }
 
   	/* Set class methods */
   void SetValue (const dword Index, const dword Value, const srformid_t FormID);

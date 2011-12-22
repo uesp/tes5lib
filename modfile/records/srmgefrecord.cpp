@@ -100,6 +100,7 @@ BEGIN_SRFIELDMAP(CSrMgefRecord, CSrIdKeyRecord)
 	ADD_SRFIELDALL("UnknownFlag7",		SR_FIELD_UNKNOWNFLAG7,		0, CSrMgefRecord, FieldUnknownFlag7)
 	ADD_SRFIELDALL("UnknownFlag8",		SR_FIELD_UNKNOWNFLAG8,		0, CSrMgefRecord, FieldUnknownFlag8)
 	ADD_SRFIELDALL("UnknownFlag9",		SR_FIELD_UNKNOWNFLAG9,		0, CSrMgefRecord, FieldUnknownFlag9)
+	ADD_SRFIELDALL("SoundCount",		SR_FIELD_SOUNDCOUNT,		0, CSrMgefRecord, FieldSoundCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CSrMgefRecord Field Map
@@ -226,6 +227,19 @@ void CSrMgefRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
 /*===========================================================================
  *		End of Class Event CSrMgefRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+void CSrMgefRecord::SetSounds (CSrMgefSnddArray& Sounds)
+{
+	if (m_pSoundData == NULL)
+	{
+		AddNewSubrecord(SR_NAME_SNDD);
+		if (m_pSoundData == NULL) return;
+		m_pSoundData->InitializeNew();
+	}
+
+	m_pSoundData->GetSnddArray() = Sounds;
+}
 
 
 /*===========================================================================

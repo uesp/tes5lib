@@ -152,6 +152,7 @@ TSrArray< TObj >::TSrArray (const TSrArray<TObj>& Source)
 	  m_pRecords[i] = Source.m_pRecords[i];
   }
 
+  m_NumRecords = Source.GetSize();
 }
 
 template <class TObj>
@@ -167,6 +168,7 @@ TSrArray<TObj>& TSrArray< TObj >::operator= (const TSrArray<TObj>& Source)
 		m_pRecords[i] = Source.m_pRecords[i];
 	}
 
+	m_NumRecords = Source.GetSize();
 	return *this;
 }
 /*===========================================================================

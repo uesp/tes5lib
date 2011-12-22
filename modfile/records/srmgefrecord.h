@@ -80,7 +80,10 @@ public:
   dword			GetSchool	   (void) { return GetEffectData().School; }
   dword			GetEffectType  (void) { return GetEffectData().EffectType; }
   dword			GetConditionCount (void) { return CountSubrecords(SR_NAME_CTDA); }
+  dword			GetSoundCount     (void) { return m_pSoundData ? m_pSoundData->GetSoundCount(): 0; }
   const char*   GetCastType       (void) { return GetSrEffectCastTypeString(GetEffectData().CastType); }
+  CSrMgefSnddArray* GetSoundArray (void) { return m_pSoundData ? &m_pSoundData->GetSnddArray() : NULL; }
+
 
 		/* Initialize a new record */
   void InitializeNew (void);
@@ -93,6 +96,7 @@ public:
   void SetFullName    (const char* pString) { if (m_pFullName) m_pFullName->SetString(pString); }
   void SetDescription (const char* pString) { if (m_pDescription) m_pDescription->SetString(pString); }
   void SetCastType    (const char* pString) { GetSrEffectCastTypeValue(GetEffectData().CastType, pString); }
+  void SetSounds (CSrMgefSnddArray& Sounds);
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD(FieldFullName)
@@ -148,6 +152,7 @@ public:
 	DECLARE_SRFIELD_EDITORID(CSrMgefRecord, Perk, GetPerk, SetPerk)
 	DECLARE_SRMETHOD_FORMID1(Perk, GetEffectData().PerkID)
 
+	DECLARE_SRFIELD_DWORD1(CSrMgefRecord, SoundCount,  GetSoundCount(), dword Tmp)
 	DECLARE_SRFIELD_DWORDFLAG1(CSrMgefRecord, Unknown1,  GetEffectData().Unknown1,  GetEffectData().Unknown1)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown2,  GetEffectData().Unknown2,  GetEffectData().Unknown2)
 	DECLARE_SRFIELD_DWORD1(CSrMgefRecord, Unknown3,  GetEffectData().Unknown3,  GetEffectData().Unknown3)

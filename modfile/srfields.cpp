@@ -294,6 +294,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_FXPERSIST,		"FXPersist")
 	ADD_STRINGVALUE( SR_FIELD_BOUND,			"Bound")
 	ADD_STRINGVALUE( SR_FIELD_WARD,				"Ward")
+	ADD_STRINGVALUE( SR_FIELD_SOUNDCOUNT,		"SoundCount")	
 	
 END_STRINGVALUE()
 /*===========================================================================

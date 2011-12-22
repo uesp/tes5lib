@@ -332,6 +332,7 @@
   #define SR_FIELD_UNKNOWNFLAG7			271
   #define SR_FIELD_UNKNOWNFLAG8			272
   #define SR_FIELD_UNKNOWNFLAG9			273
+  #define SR_FIELD_SOUNDCOUNT			274
 
 /*===========================================================================
  *		End of Field Types
