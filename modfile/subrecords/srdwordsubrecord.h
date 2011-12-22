@@ -40,22 +40,21 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { return File.Read(&m_Value, sizeof(dword)); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Value, sizeof(dword)); }
+  virtual bool ReadData  (CSrFile& File) { if (m_RecordSize != 4) return false; return File.Read(&m_Value, 4); }
+  virtual bool WriteData (CSrFile& File) { if (m_RecordSize != 4) return false; return File.Write(&m_Value, 4); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
 	/* Class Constructors/Destructors */
-  CSrDwordSubrecord() : m_Value(0) { }
-  //virtual ~CSrDwordSubrecord() { Destroy(); }
-  virtual void Destroy (void) { m_Value = 0; CSrSubrecord::Destroy(); }
+  CSrDwordSubrecord() : m_Value(0) { m_RecordSize = 4; }
+  virtual void Destroy (void) { m_Value = 0; CSrSubrecord::Destroy(); m_RecordSize = 4;  }
 
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrDwordSubrecord* pSubrecord1 = SrCastClassNull(CSrDwordSubrecord, pSubrecord);
-	m_RecordSize = sizeof(dword);
+	m_RecordSize = 4;
 
 	if (pSubrecord1 != NULL) {
 	  m_Value = pSubrecord1->GetValue();
@@ -70,7 +69,7 @@ public:
   static CSrSubrecord* Create (void) { return (new CSrDwordSubrecord); }
 
 	/* Initialize a new record */
-  virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_Value = 0; m_RecordSize = sizeof(dword); }
+  virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_Value = 0; m_RecordSize = 4; }
 
 	/* Bit flag operations */
   bool  CheckFlag (const dword Mask)                  { return CheckFlagBits(m_Value, Mask); }

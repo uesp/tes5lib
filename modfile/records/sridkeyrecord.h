@@ -53,7 +53,7 @@ protected:
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
-
+	void SetKeywordCount (const dword Count);
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
@@ -80,6 +80,7 @@ public:
 	/* Set keyword data */
   void SetKeywords (const CSString Buffer);
   void SetKeywords (CSrFormidArray& FormIDs);
+
 
 	/* Begin field method definitions */
   DECLARE_SRFIELD(FieldKeywordCount)

@@ -194,7 +194,7 @@ void CSrIdKeyRecord::SetKeywords (const CSString Buffer)
 		m_pKeywords->GetFormIDArray().Add(pRecord->GetFormID());
 	}	
 
-	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(m_pKeywords->GetFormIDArray().GetSize());
+	SetKeywordCount(m_pKeywords->GetFormIDArray().GetSize());
 }
 /*===========================================================================
  *		End of Class Method CSrIdKeyRecord::SetKeywords()
@@ -220,13 +220,25 @@ void CSrIdKeyRecord::SetKeywords (CSrFormidArray& FormIDs)
 		m_pKeywords->InitializeNew();
 	}
 
-	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(FormIDs.GetSize());
-
+	SetKeywordCount(FormIDs.GetSize());
 	m_pKeywords->GetFormIDArray() = FormIDs;
 }
 /*===========================================================================
  *		End of Class Method CSrIdKeyRecord::SetKeywords()
  *=========================================================================*/
+
+
+void CSrIdKeyRecord::SetKeywordCount (const dword Count)
+{
+	if (m_pKeywordCount == NULL)
+	{
+		AddNewSubrecord(SR_NAME_KSIZ);
+		if (m_pKeywordCount == NULL) return;
+		m_pKeywordCount->InitializeNew();
+	}
+
+	m_pKeywordCount->SetValue(Count);
+}
 
 
 /*===========================================================================
