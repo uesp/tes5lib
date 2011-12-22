@@ -127,7 +127,7 @@ public:
   DECLARE_SRFIELD_DWORDFLAG1(CSrWeapRecord, UnknownFlag1, GetDnamData().UnknownFlags1, GetDnamData().UnknownFlags1)
 
   DECLARE_SRFIELD_DWORDFLAG1(CSrWeapRecord, Unknown17, GetDnamData().ReferenceID, GetDnamData().ReferenceID)
-    
+
   DECLARE_SRFIELD_EDITORID(CSrWeapRecord, SheathSound, GetSheathSound, SetSheathSound)
   DECLARE_SRMETHOD_FORMID(SheathSound, m_pSheathSound, SR_NAME_NAM8)
 

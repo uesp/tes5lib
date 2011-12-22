@@ -348,6 +348,7 @@
   #define SR_FIELD_SHEATHSOUND			287
   #define SR_FIELD_DRAWSOUND			288
   #define SR_FIELD_SWINGSOUND			289
+  #define SR_FIELD_BASEWEAPON			290
 
 /*===========================================================================
  *		End of Field Types
