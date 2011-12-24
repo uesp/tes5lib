@@ -34,6 +34,26 @@
 	/* Subrecord header size in bytes */
   #define SR_SUBRECORD_HEADERSIZE 6
 
+#ifdef _DEBUG
+
+  #define SR_VERIFY_SUBRECORDSIZE(REQSIZE) if (m_RecordSize != REQSIZE) { \
+						return AddSrUserError(SRERR_USER_BADINPUT, "0x%08X: Bad subrecord size for %4.4s! Expected %d but found %d bytes!", File.Tell(), m_RecordType.Name, REQSIZE, m_RecordSize); }
+
+  #define SR_VERIFY_SUBRECORDSIZE_MAX(REQSIZE) if (m_RecordSize > REQSIZE) { \
+						return AddSrUserError(SRERR_USER_BADINPUT, "0x%08X: Bad subrecord size for %4.4s! Expected %d or less but found %d bytes!", File.Tell(), m_RecordType.Name, REQSIZE, m_RecordSize); } \
+						else if (m_RecordSize != REQSIZE) { \
+							SystemLog.Printf("0x%08X: Warning: Bad subrecord size for %4.4s! Expected %d but found %d bytes!", File.Tell(), m_RecordType.Name, REQSIZE, m_RecordSize); }
+
+#else
+
+  #define SR_VERIFY_SUBRECORDSIZE(REQSIZE) if (m_RecordSize != REQSIZE) { \
+						return AddSrUserError(SRERR_USER_BADINPUT, "0x%08X: Bad subrecord size for %4.4s! Expected %d but found %d bytes!", File.Tell(), m_RecordType.Name, REQSIZE, m_RecordSize); }
+
+  #define SR_VERIFY_SUBRECORDSIZE_MAX(REQSIZE) if (m_RecordSize > REQSIZE) { \
+						return AddSrUserError(SRERR_USER_BADINPUT, "0x%08X: Bad subrecord size for %4.4s! Expected %d or less but found %d bytes!", File.Tell(), m_RecordType.Name, REQSIZE, m_RecordSize); }
+
+#endif
+
 /*===========================================================================
  *		End of Definitions
  *=========================================================================*/

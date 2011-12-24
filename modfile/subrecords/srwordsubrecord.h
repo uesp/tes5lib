@@ -39,8 +39,24 @@ private:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { return File.Read(&m_Value, sizeof(word)); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Value, sizeof(word)); }
+  virtual bool ReadData  (CSrFile& File) 
+  { 
+	  if (m_RecordSize == 4)
+	  {
+		  m_RecordSize = 2;
+		  bool Result = File.Read(&m_Value, 2); 
+		  word tmp;
+		  Result &= File.Read(&tmp, 2);
+		  return Result;
+	  }
+	  else
+	  {
+		SR_VERIFY_SUBRECORDSIZE(2) 
+		return File.Read(&m_Value, 2); 
+	  }
+  }
+
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(2) return File.Write(&m_Value, 2); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

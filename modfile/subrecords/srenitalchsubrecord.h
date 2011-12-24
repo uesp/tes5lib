@@ -79,8 +79,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { if (m_RecordSize > SRENITALCH_SUBRECORD_SIZE) return false; return File.Read(&m_Data,  m_RecordSize); }
-  virtual bool WriteData (CSrFile& File) { if (m_RecordSize > SRENITALCH_SUBRECORD_SIZE) return false; return File.Write(&m_Data, m_RecordSize); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SRENITALCH_SUBRECORD_SIZE) return File.Read(&m_Data,  m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SRENITALCH_SUBRECORD_SIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

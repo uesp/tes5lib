@@ -77,8 +77,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { m_Data.ArmorType = 0; return File.Read(&m_Data, GetRecordSize()); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Data, GetRecordSize()); }
+  virtual bool ReadData  (CSrFile& File) { m_Data.ArmorType = 0; SR_VERIFY_SUBRECORDSIZE_MAX(SR_BODT_SUBRECORD_SIZE) return File.Read(&m_Data, GetRecordSize()); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_BODT_SUBRECORD_SIZE) return File.Write(&m_Data, GetRecordSize()); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

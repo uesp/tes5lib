@@ -40,8 +40,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { if (m_RecordSize != 4) return false; return File.Read(&m_Value, 4); }
-  virtual bool WriteData (CSrFile& File) { if (m_RecordSize != 4) return false; return File.Write(&m_Value, 4); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(4) return File.Read(&m_Value, m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(4) return File.Write(&m_Value, 4); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -67,6 +67,8 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrDwordSubrecord); }
+
+  dword GetRecordSize (void) { return 4 ; }
 
 	/* Initialize a new record */
   virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_Value = 0; m_RecordSize = 4; }

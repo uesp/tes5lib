@@ -81,8 +81,8 @@ protected:
 protected:
 
 		/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { return File.Read(&m_Data,  SR_AMMODATA_SUBRECORD_SIZE); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Data, SR_AMMODATA_SUBRECORD_SIZE); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_AMMODATA_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_AMMODATA_SUBRECORD_SIZE); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_AMMODATA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_AMMODATA_SUBRECORD_SIZE); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

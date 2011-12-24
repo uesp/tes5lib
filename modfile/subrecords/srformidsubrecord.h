@@ -41,12 +41,13 @@ protected:
 
 	/* Input/output the subrecord data */
   virtual bool ReadData  (CSrFile& File) { 
+	SR_VERIFY_SUBRECORDSIZE(4)
 	bool Result = File.Read(&m_Value, sizeof(dword)); 
 	m_OrigValue = m_Value; 
 	return (Result);
   }
 
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Value, sizeof(dword)); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(4) return File.Write(&m_Value, sizeof(dword)); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

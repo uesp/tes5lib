@@ -75,8 +75,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { if (m_RecordSize != SR_CRDT_SUBRECORD_SIZE) return false; return File.Read(&m_Data,  SR_CRDT_SUBRECORD_SIZE); }
-  virtual bool WriteData (CSrFile& File) { if (m_RecordSize != SR_CRDT_SUBRECORD_SIZE) return false; return File.Write(&m_Data, SR_CRDT_SUBRECORD_SIZE); }
+  virtual bool ReadData  (CSrFile& File) { m_Data.Unknown4 = 0; SR_VERIFY_SUBRECORDSIZE_MAX(SR_CRDT_SUBRECORD_SIZE) return File.Read(&m_Data,  m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_CRDT_SUBRECORD_SIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

@@ -41,8 +41,34 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { bool Result; if (m_RecordSize != 8) return false; Result = File.ReadDWord(m_FormID);  Result &= File.ReadDWord(m_Count); return Result; }
-  virtual bool WriteData (CSrFile& File) { bool Result; if (m_RecordSize != 8) return false; Result = File.WriteDWord(m_FormID); Result &= File.WriteDWord(m_Count); return Result; }
+  virtual bool ReadData  (CSrFile& File) { 
+		bool Result; 
+		SR_VERIFY_SUBRECORDSIZE_MAX(8) 
+		  if (m_RecordSize < 8)
+		  {
+			  struct tmp_t {
+					dword formid;
+					dword count;
+			  };
+
+			  tmp_t Temp;
+
+			  Result = File.Read(&Temp, m_RecordSize);  
+			  m_Count = Temp.count; 
+			  m_FormID = Temp.formid;
+			  
+			  Result = File.ReadDWord(m_FormID);  
+			  Result &= File.ReadDWord(m_Count); 
+		  }
+		  else
+		  {		
+			Result = File.ReadDWord(m_FormID);  
+			Result &= File.ReadDWord(m_Count); 
+		  }
+		  return Result; 
+		}
+
+  virtual bool WriteData (CSrFile& File) { bool Result; SR_VERIFY_SUBRECORDSIZE_MAX(8) Result = File.WriteDWord(m_FormID); Result &= File.WriteDWord(m_Count); return Result; }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

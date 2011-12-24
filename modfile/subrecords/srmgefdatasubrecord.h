@@ -129,8 +129,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { memset(&m_Data, 0, sizeof(m_Data)); if (m_RecordSize > SR_MGEFDATA_SUBRECORD_SIZE) return false; return File.Read(&m_Data,  m_RecordSize); }
-  virtual bool WriteData (CSrFile& File) {  if (m_RecordSize > SR_MGEFDATA_SUBRECORD_SIZE) return false; return File.Write(&m_Data, m_RecordSize); }
+  virtual bool ReadData  (CSrFile& File) { memset(&m_Data, 0, sizeof(m_Data)); SR_VERIFY_SUBRECORDSIZE_MAX(SR_MGEFDATA_SUBRECORD_SIZE) return File.Read(&m_Data,  m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_MGEFDATA_SUBRECORD_SIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

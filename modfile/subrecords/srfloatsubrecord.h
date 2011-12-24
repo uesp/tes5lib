@@ -39,8 +39,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { return File.Read(&m_Value, sizeof(float)); }
-  virtual bool WriteData (CSrFile& File) { return File.Write(&m_Value, sizeof(float)); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(4) return File.Read(&m_Value, 4); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(4) return File.Write(&m_Value, 4); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
