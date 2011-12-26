@@ -80,7 +80,7 @@
 	  float			Unknown4;		//0-2
 	  float			Unknown5;		//0-5
 	  float			Unknown6;		//0-2
-	  dword			Unknown7;		//0-43
+	  int			Unknown7;		//0-43
 	  int			ActorValue;		//-1-163
 	  srformid_t	ProjectileID;
 	  srformid_t	ExplosionID;	//Unknown8

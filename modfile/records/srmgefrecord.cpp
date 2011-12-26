@@ -242,6 +242,24 @@ void CSrMgefRecord::SetSounds (CSrMgefSnddArray& Sounds)
 }
 
 
+srrectype_t CSrMgefRecord::GetSecondRecordType (const int Unknown7)
+{
+	switch (Unknown7)
+	{
+		case 12: return SR_NAME_LIGH;
+		case 17: return SR_NAME_WEAP;
+		case 18: return SR_NAME_NPC_;
+		case 25: return SR_NAME_HAZD;
+		case 34: return SR_NAME_KYWD;
+		case 35: return SR_NAME_SPEL;
+		case 36: return SR_NAME_RACE;
+		case 39: return SR_NAME_ENCH;
+		case 40: return SR_NAME_HAZD;
+	}
+
+	return SR_NAME_NULL;
+}
+
 /*===========================================================================
  *
  * Begin CSrMgefRecord Get Field Methods

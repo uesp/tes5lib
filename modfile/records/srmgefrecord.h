@@ -84,6 +84,7 @@ public:
   const char*   GetCastType       (void) { return GetSrEffectCastTypeString(GetEffectData().CastType); }
   CSrMgefSnddArray* GetSoundArray (void) { return m_pSoundData ? &m_pSoundData->GetSnddArray() : NULL; }
 
+  const char* GetLinkType (void) { return GetSrEffectLinkTypeString(GetEffectData().Unknown7); }
 
 		/* Initialize a new record */
   void InitializeNew (void);
@@ -97,6 +98,10 @@ public:
   void SetDescription (const char* pString) { if (m_pDescription) m_pDescription->SetString(pString); }
   void SetCastType    (const char* pString) { GetSrEffectCastTypeValue(GetEffectData().CastType, pString); }
   void SetSounds (CSrMgefSnddArray& Sounds);
+
+  void SetLinkType (const char* pString) {  GetSrEffectLinkTypeValue(GetEffectData().Unknown7, pString); }
+
+  static srrectype_t GetSecondRecordType (const int Unknown7);
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD(FieldFullName)
@@ -159,7 +164,7 @@ public:
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown4,  GetEffectData().Unknown4,  GetEffectData().Unknown4)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown5,  GetEffectData().Unknown5,  GetEffectData().Unknown5)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown6,  GetEffectData().Unknown6,  GetEffectData().Unknown6)
-	DECLARE_SRFIELD_DWORD1(CSrMgefRecord, Unknown7,  GetEffectData().Unknown7,  GetEffectData().Unknown7)
+	DECLARE_SRFIELD_METHOD(CSrMgefRecord, Unknown7,  GetLinkType,  SetLinkType)
 	DECLARE_SRFIELD_DWORD1(CSrMgefRecord, Unknown8,  GetEffectData().Unknown8,  GetEffectData().Unknown8)
 	DECLARE_SRFIELD_INT1(CSrMgefRecord, Unknown9,  GetEffectData().Unknown9,  GetEffectData().Unknown9)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown10, GetEffectData().Unknown10, GetEffectData().Unknown10)

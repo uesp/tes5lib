@@ -382,7 +382,54 @@ BEGIN_STRINGVALUE(s_SrActorValues)
     ADD_STRINGVALUE( 171,  "171"  )
     ADD_STRINGVALUE( 172,  "172"  )
 END_STRINGVALUE()	
-	
+
+
+BEGIN_STRINGVALUE(s_SrEffectLinkTypes)
+    ADD_STRINGVALUE( 0,  "0"  )
+    ADD_STRINGVALUE( 1,  "1"  )
+    ADD_STRINGVALUE( 2,  "2"  )
+    ADD_STRINGVALUE( 3,  "3"  )
+    ADD_STRINGVALUE( 4,  "4"  )
+    ADD_STRINGVALUE( 5,  "5"  )
+    ADD_STRINGVALUE( 6,  "6"  )
+    ADD_STRINGVALUE( 7,  "7"  )
+    ADD_STRINGVALUE( 8,  "8"  )
+    ADD_STRINGVALUE( 9,  "9"  )
+    ADD_STRINGVALUE( 10,  "10"  )
+    ADD_STRINGVALUE( 11,  "11"  )
+    ADD_STRINGVALUE( 12,  "Light"  )
+    ADD_STRINGVALUE( 13,  "13"  )
+    ADD_STRINGVALUE( 14,  "14"  )
+    ADD_STRINGVALUE( 15,  "15"  )
+    ADD_STRINGVALUE( 16,  "16"  )
+    ADD_STRINGVALUE( 17,  "Weapon"  )
+    ADD_STRINGVALUE( 18,  "NPC"  )
+    ADD_STRINGVALUE( 19,  "19"  )
+    ADD_STRINGVALUE( 20,  "20"  )
+    ADD_STRINGVALUE( 21,  "21"  )
+    ADD_STRINGVALUE( 22,  "22"  )
+    ADD_STRINGVALUE( 23,  "23"  )
+    ADD_STRINGVALUE( 24,  "24"  )
+    ADD_STRINGVALUE( 25,  "Hazard (25)"  )
+    ADD_STRINGVALUE( 26,  "26"  )
+    ADD_STRINGVALUE( 27,  "27"  )
+    ADD_STRINGVALUE( 28,  "28"  )
+    ADD_STRINGVALUE( 29,  "29"  )
+    ADD_STRINGVALUE( 30,  "30"  )
+    ADD_STRINGVALUE( 31,  "31"  )
+    ADD_STRINGVALUE( 32,  "32"  )
+    ADD_STRINGVALUE( 33,  "33"  )
+    ADD_STRINGVALUE( 34,  "Keyword"  )
+    ADD_STRINGVALUE( 35,  "Spell"  )
+    ADD_STRINGVALUE( 36,  "Race"  )
+    ADD_STRINGVALUE( 37,  "37"  )
+    ADD_STRINGVALUE( 38,  "38"  )
+    ADD_STRINGVALUE( 39,  "Enchantment"  )
+    ADD_STRINGVALUE( 40,  "Hazard (40)"  )
+    ADD_STRINGVALUE( 41,  "41"  )
+    ADD_STRINGVALUE( 42,  "42"  )
+    ADD_STRINGVALUE( 43,  "43"  )
+END_STRINGVALUE()
 
 /*===========================================================================
  *		End of Constant String Tables
@@ -416,6 +463,7 @@ const SSCHAR* GetSrContainerTypeString	(const int Value) { return s_SrContainerT
 const SSCHAR* GetSrLightTypeString   	(const int Value) { return s_SrLightTypesMap.FindValue(Value); }
 const SSCHAR* GetSrEffectCastTypeString (const int Value) { return s_SrEffectCastTypesMap.FindValue(Value); }
 const SSCHAR* GetSrActorValueString     (const int Value) { return s_SrActorValuesMap.FindValue(Value); }
+const SSCHAR* GetSrEffectLinkTypeString (const int Value) { return s_SrEffectLinkTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -463,6 +511,7 @@ bool GetSrContainerTypeValue  (int& Value, const SSCHAR* pString) { return s_SrC
 bool GetSrLightTypeValue      (int& Value, const SSCHAR* pString) { return s_SrLightTypesMap.FindString(Value, pString); }
 bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectCastTypesMap.FindString(Value, pString); }
 bool GetSrActorValueValue     (int& Value, const SSCHAR* pString) { return s_SrActorValuesMap.FindString(Value, pString); }
+bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectLinkTypesMap.FindString(Value, pString); }
 
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 

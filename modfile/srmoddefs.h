@@ -635,26 +635,19 @@
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
 	extern const stringvalue_t s_SrSpellCastTypes[];
-
 	extern const stringvalue_t s_SrEnchantTypeA[];
 	extern const stringvalue_t s_SrEnchantTypeB[];
 	extern const stringvalue_t s_SrEnchantTypeC[];
 	extern const stringvalue_t s_SrEnchantTypeD[];
-
 	extern const stringvalue_t s_SrBodyParts[];
 	extern const stringvalue_t s_SrArmorTypes[];
-
 	extern const stringvalue_t s_SrPotionTypes[];
-	
 	extern const stringvalue_t s_SrSkillTypes[];
-
 	extern const stringvalue_t s_SrContainerTypes[];
-
 	extern const stringvalue_t s_SrLightTypes[];
-
 	extern const stringvalue_t s_SrEffectCastTypes[];
-
 	extern const stringvalue_t s_SrActorValues[];
+	extern const stringvalue_t s_SrEffectLinkTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -710,6 +703,8 @@
 	bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrActorValuString (const int Value);
 	bool GetSrActorValueValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrEffectLinkTypeString (const int Value);
+	bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);
