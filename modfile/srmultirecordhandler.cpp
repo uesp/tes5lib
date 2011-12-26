@@ -1090,13 +1090,24 @@ const SSCHAR* CSrMultiRecordHandler::GetEditorID (const srformid_t FormID) {
   if (FormID == SR_FORMID_NULL) return (NULL);
 
   pRecord = FindFormID(FormID);
-  if (pRecord == NULL) return (NULL);
+
+  if (pRecord == NULL) 
+  {
+	  SystemLog.Printf("Unknown formid 0x%08X!", FormID);
+	  return (NULL);
+  }
 
   pIdRecord = SrCastClass(CSrIdRecord, pRecord);
   if (pIdRecord != NULL) return pIdRecord->GetEditorID();
 
   CSrSubrecord* pSubrecord = pRecord->FindSubrecord(SR_NAME_EDID);
-  if (pSubrecord == NULL) return (NULL);
+
+  if (pSubrecord == NULL)
+  {
+	  SystemLog.Printf("Unknown formid 0x%08X!", FormID);
+	  return (NULL);
+  }
+
   return (const char *) pSubrecord->GetData();
 }
 /*===========================================================================
