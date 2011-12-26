@@ -121,7 +121,7 @@ bool CSrResourceHandler::AddPathContents (CSrResourceFolder* pFolder, const char
 
   do {
     if ((FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0) {
-		if (strcmp(FindData.cFileName, ".") == 0 || strcmp(FindData.cFileName, ".."))
+		if (strcmp(FindData.cFileName, ".") == 0 || strcmp(FindData.cFileName, "..") == 0)
 		{
 			FindResult = FindNextFile(hFind, &FindData);
 			continue;
