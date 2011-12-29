@@ -55,6 +55,7 @@ protected:
   CSrStringSubrecord*		m_pNName;
   CSrWeapDnamSubrecord*		m_pDName;
   CSrCrdtSubrecord*			m_pCrdtData;
+  CSrLStringSubrecord*		m_pDescription;
 
   static srcrdtdata_t     s_NullCrdtData;
   static srweapdata_t     s_NullWeapData;
@@ -109,6 +110,7 @@ public:
   DECLARE_SRFIELD(FieldVNAM)
   DECLARE_SRFIELD(FieldEquipSlot)
 
+  DECLARE_SRFIELD_DESCRIPTION(CSrWeapRecord, SR_NAME_DESC)
   DECLARE_SRFIELD_METHOD(CSrWeapRecord, Material, GetWeaponMaterial, SetWeaponMaterial)
   DECLARE_SRFIELD_DWORD1(CSrWeapRecord, Unknown1, GetCrdtData().Unknown1, GetCrdtData().Unknown1)
   DECLARE_SRFIELD_FLOAT1(CSrWeapRecord, Unknown2, GetCrdtData().Unknown2, GetCrdtData().Unknown2)

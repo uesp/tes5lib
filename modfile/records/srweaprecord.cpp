@@ -38,6 +38,7 @@ BEGIN_SRSUBRECCREATE(CSrWeapRecord, CSrItem2Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_UNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_WNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CRDT, CSrCrdtSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
@@ -58,6 +59,7 @@ BEGIN_SRFIELDMAP(CSrWeapRecord, CSrItem2Record)
 	ADD_SRFIELDALL("MaterialObject",SR_FIELD_MATERIALOBJECT,0, CSrWeapRecord, FieldMaterialObject)
 	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrWeapRecord, FieldMaterial)
 	ADD_SRFIELDALL("VNAM",			SR_FIELD_VNAM,			0, CSrWeapRecord, FieldVNAM)
+	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrWeapRecord, FieldDescription)
 	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrWeapRecord, FieldEquipSlot)
 	ADD_SRFIELDALL("BaseWeapon",	SR_FIELD_BASEWEAPON,	0, CSrWeapRecord, FieldBaseWeapon)
 	ADD_SRFIELDALL("ImpactSet",		SR_FIELD_IMPACTSET,		0, CSrWeapRecord, FieldImpactSet)
@@ -99,6 +101,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrWeapRecord::CSrWeapRecord () 
 {
+	m_pDescription  = NULL;
 	m_pEquipSlot	= NULL;
 	m_pWeaponData   = NULL;
 	m_pVNAM         = NULL;
@@ -128,6 +131,7 @@ CSrWeapRecord::CSrWeapRecord ()
  *=========================================================================*/
 void CSrWeapRecord::Destroy (void) 
 {
+	m_pDescription  = NULL;
 	m_pEquipSlot	= NULL;
 	m_pWeaponData   = NULL;
 	m_pVNAM         = NULL;
@@ -226,6 +230,10 @@ void CSrWeapRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
   {
     m_pNName = SrCastClass(CSrStringSubrecord, pSubrecord);
   }
+  else if (pSubrecord->GetRecordType() == SR_NAME_DESC) 
+  {
+    m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
+  }
   else if (pSubrecord->GetRecordType() == SR_NAME_UNAM) 
   {
     m_pBoundSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
@@ -293,6 +301,8 @@ void CSrWeapRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord)
     m_pVNAM = NULL;
   else if (m_pNName == pSubrecord)
     m_pNName = NULL;
+  else if (m_pDescription == pSubrecord)
+    m_pDescription = NULL;
   else if (m_pSheathSound == pSubrecord)
     m_pSheathSound = NULL;
   else if (m_pDrawSound == pSubrecord)
