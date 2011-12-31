@@ -701,7 +701,7 @@
 	bool GetSrLightTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrEffectCastTypeString (const int Value);
 	bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString);
-	const SSCHAR* GetSrActorValuString (const int Value);
+	const SSCHAR* GetSrActorValueString (const int Value);
 	bool GetSrActorValueValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrEffectLinkTypeString (const int Value);
 	bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString);

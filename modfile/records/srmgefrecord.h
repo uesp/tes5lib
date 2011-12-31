@@ -83,7 +83,7 @@ public:
   dword			GetSoundCount     (void) { return m_pSoundData ? m_pSoundData->GetSoundCount(): 0; }
   const char*   GetCastType       (void) { return GetSrEffectCastTypeString(GetEffectData().CastType); }
   CSrMgefSnddArray* GetSoundArray (void) { return m_pSoundData ? &m_pSoundData->GetSnddArray() : NULL; }
-
+  const char*   GetActorValue     (void) { return GetSrActorValueString(GetEffectData().ActorValue); }
   const char* GetLinkType (void) { return GetSrEffectLinkTypeString(GetEffectData().Unknown7); }
 
 		/* Initialize a new record */
@@ -98,12 +98,12 @@ public:
   void SetDescription (const char* pString) { if (m_pDescription) m_pDescription->SetString(pString); }
   void SetCastType    (const char* pString) { GetSrEffectCastTypeValue(GetEffectData().CastType, pString); }
   void SetSounds (CSrMgefSnddArray& Sounds);
-
+  void SetActorValue  (const char* pString) { GetSrActorValueValue(GetEffectData().ActorValue, pString); }
   void SetLinkType (const char* pString) {  GetSrEffectLinkTypeValue(GetEffectData().Unknown7, pString); }
 
   static srrectype_t GetSecondRecordType (const int Unknown7);
 
-		/* Begin field method definitions */
+  		/* Begin field method definitions */
 	DECLARE_SRFIELD(FieldFullName)
 	DECLARE_SRFIELD(FieldDescription)
 	DECLARE_SRFIELD(FieldSchool)
@@ -174,7 +174,7 @@ public:
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown14, GetEffectData().Unknown14, GetEffectData().Unknown14)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, Unknown15, GetEffectData().Unknown15, GetEffectData().Unknown15)
 	
-	DECLARE_SRFIELD_INT1(CSrMgefRecord, ActorValue, GetEffectData().ActorValue, GetEffectData().ActorValue)
+	DECLARE_SRFIELD_METHOD(CSrMgefRecord, ActorValue, GetActorValue, SetActorValue)
 	DECLARE_SRFIELD_METHOD(CSrMgefRecord, CastType, GetCastType, SetCastType)
 	DECLARE_SRFIELD_FLOAT1(CSrMgefRecord, EffectPlayRate, GetEffectData().EffectPlayRate, GetEffectData().EffectPlayRate)
 
