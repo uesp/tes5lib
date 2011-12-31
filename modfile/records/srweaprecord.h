@@ -83,7 +83,7 @@ public:
   srcrdtdata_t&     GetCrdtData       (void) { return m_pCrdtData ? m_pCrdtData->GetCrdtData() : s_NullCrdtData; }
   srweapdnamdata_t& GetDnamData       (void) { return m_pDName ? m_pDName->GetDnamData() : s_NullDnamData; }
   dword			    GetVNAM           (void) { return m_pVNAM ? m_pVNAM->GetValue() : 0; }
-  const SSCHAR*	    GetWeaponType     (void);
+  const SSCHAR*	    GetWeaponType     (void) { return GetSrWeaponTypeString(GetDnamData().WeaponType); }
   const SSCHAR*	    GetWeaponMaterial (void);
 
 	/* Initialize a new record */
@@ -95,7 +95,7 @@ public:
 
   	/* Set class members */
   void SetVNAM   (const dword Value) { if (m_pVNAM != NULL) m_pVNAM->SetValue(Value); }
-  void SetWeaponType     (const srformid_t FormID);
+  void SetWeaponType     (const char* pString) { GetSrWeaponTypeValue(GetDnamData().WeaponType, pString); }
   void SetEquipSlotID    (const srformid_t FormID);
   void SetEquipSlot      (const char* pEditorID);
   void SetWeaponMaterial (const srformid_t FormID);
@@ -106,17 +106,16 @@ public:
   DECLARE_SRFIELD(FieldWeight)
   DECLARE_SRFIELD(FieldValue)
   DECLARE_SRFIELD(FieldDamage)
-  DECLARE_SRFIELD(FieldType)
   DECLARE_SRFIELD(FieldVNAM)
   DECLARE_SRFIELD(FieldEquipSlot)
 
   DECLARE_SRFIELD_DESCRIPTION(CSrWeapRecord, SR_NAME_DESC)
+  DECLARE_SRFIELD_METHOD(CSrWeapRecord, Type, GetWeaponType, SetWeaponType)
   DECLARE_SRFIELD_METHOD(CSrWeapRecord, Material, GetWeaponMaterial, SetWeaponMaterial)
   DECLARE_SRFIELD_DWORD1(CSrWeapRecord, Unknown1, GetCrdtData().Unknown1, GetCrdtData().Unknown1)
   DECLARE_SRFIELD_FLOAT1(CSrWeapRecord, Unknown2, GetCrdtData().Unknown2, GetCrdtData().Unknown2)
   DECLARE_SRFIELD_INT1(CSrWeapRecord, Unknown3, GetCrdtData().Unknown3, GetCrdtData().Unknown3)
 
-  DECLARE_SRFIELD_DWORD1(CSrWeapRecord, Unknown4, GetDnamData().Unknown1, GetDnamData().Unknown1)
   DECLARE_SRFIELD_FLOAT1(CSrWeapRecord, Unknown5, GetDnamData().Unknown2, GetDnamData().Unknown2)
   DECLARE_SRFIELD_FLOAT1(CSrWeapRecord, Unknown6, GetDnamData().Unknown3, GetDnamData().Unknown3)
   DECLARE_SRFIELD_WORD1(CSrWeapRecord, Unknown7, GetDnamData().Unknown4, GetDnamData().Unknown4)

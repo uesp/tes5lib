@@ -431,6 +431,19 @@ BEGIN_STRINGVALUE(s_SrEffectLinkTypes)
     ADD_STRINGVALUE( 43,  "43"  )
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrWeaponTypes)
+    ADD_STRINGVALUE( SR_WEAPON_PROJECTILE	, "Projectile")
+    ADD_STRINGVALUE( SR_WEAPON_1HSWORD		, "1HSword")
+    ADD_STRINGVALUE( SR_WEAPON_DAGGER		, "Dagger")
+    ADD_STRINGVALUE( SR_WEAPON_1HAXE		, "1HAxe")
+    ADD_STRINGVALUE( SR_WEAPON_1HBLUNT		, "1HBlunt")
+    ADD_STRINGVALUE( SR_WEAPON_2HSWORD		, "2HSword")
+    ADD_STRINGVALUE( SR_WEAPON_2HAXEBLUNT	, "2HAxeBlunt")
+    ADD_STRINGVALUE( SR_WEAPON_BOW			, "Bow")		
+    ADD_STRINGVALUE( SR_WEAPON_STAFF		, "Staff")
+END_STRINGVALUE()
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -464,6 +477,7 @@ const SSCHAR* GetSrLightTypeString   	(const int Value) { return s_SrLightTypesM
 const SSCHAR* GetSrEffectCastTypeString (const int Value) { return s_SrEffectCastTypesMap.FindValue(Value); }
 const SSCHAR* GetSrActorValueString     (const int Value) { return s_SrActorValuesMap.FindValue(Value); }
 const SSCHAR* GetSrEffectLinkTypeString (const int Value) { return s_SrEffectLinkTypesMap.FindValue(Value); }
+const SSCHAR* GetSrWeaponTypeString     (const int Value) { return s_SrWeaponTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -512,6 +526,7 @@ bool GetSrLightTypeValue      (int& Value, const SSCHAR* pString) { return s_SrL
 bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectCastTypesMap.FindString(Value, pString); }
 bool GetSrActorValueValue     (int& Value, const SSCHAR* pString) { return s_SrActorValuesMap.FindString(Value, pString); }
 bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectLinkTypesMap.FindString(Value, pString); }
+bool GetSrWeaponTypeValue     (int& Value, const SSCHAR* pString) { return s_SrWeaponTypesMap.FindString(Value, pString); }
 
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 

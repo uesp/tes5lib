@@ -73,7 +73,6 @@ BEGIN_SRFIELDMAP(CSrWeapRecord, CSrItem2Record)
 	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrWeapRecord, FieldUnknown1)
 	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrWeapRecord, FieldUnknown2)
 	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,		0, CSrWeapRecord, FieldUnknown3)
-	ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,		0, CSrWeapRecord, FieldUnknown4)
 	ADD_SRFIELDALL("Unknown5",		SR_FIELD_UNKNOWN5,		0, CSrWeapRecord, FieldUnknown5)
 	ADD_SRFIELDALL("Unknown6",		SR_FIELD_UNKNOWN6,		0, CSrWeapRecord, FieldUnknown6)
 	ADD_SRFIELDALL("Unknown7",		SR_FIELD_UNKNOWN7,		0, CSrWeapRecord, FieldUnknown7)
@@ -152,26 +151,6 @@ void CSrWeapRecord::Destroy (void)
 }
 /*===========================================================================
  *		End of Class Method CSrWeapRecord::Destroy()
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Class CSrWeapRecord Method - const SSCHAR* GetWeaponType (void);
- *
- *=========================================================================*/
-const SSCHAR* CSrWeapRecord::GetWeaponType (void)
-{
-	CSrKywdRecord* pKeyword;
-
-	if (m_pParent == NULL || m_pKeywords == NULL) return "";
-
-	pKeyword = m_pParent->FindKeyword(m_pKeywords->GetFormIDArray(), "WeapType");
-	if (pKeyword == NULL) return "";
-	return pKeyword->GetEditorID() + 8;
-}
-/*===========================================================================
- *		End of Class Method CSrWeapRecord::GetWeaponType()
  *=========================================================================*/
 
 
@@ -382,7 +361,6 @@ const SSCHAR* CSrWeapRecord::GetEquipSlot (void)
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldWeight,       String.Format(SR_FORMATSTR_WEIGHT, GetWeaponData().Weight))
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldValue,        String.Format("%u", GetWeaponData().Value))
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldDamage,       String.Format("%d", (int)GetWeaponData().Damage))
-DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldType,         String = GetWeaponType())
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldVNAM,         String.Format("%u", GetVNAM()))
 DEFINE_SRGETFIELD(CSrWeapRecord::GetFieldEquipSlot,    String = GetEquipSlot())
 /*===========================================================================
@@ -399,7 +377,6 @@ DEFINE_SRCOMPFIELDFLOAT1(CSrWeapRecord, CompareFieldWeight,		  GetWeaponData().W
 DEFINE_SRCOMPFIELDDWORD1(CSrWeapRecord, CompareFieldValue,		  GetWeaponData().Value)
 DEFINE_SRCOMPFIELDDWORD(CSrWeapRecord,  CompareFieldVNAM,		  GetVNAM)
 DEFINE_SRCOMPFIELDDWORD1(CSrWeapRecord, CompareFieldDamage,		  GetWeaponData().Damage)
-DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldType,		  GetWeaponType)
 DEFINE_SRCOMPFIELDSTRING(CSrWeapRecord, CompareFieldEquipSlot,	  GetEquipSlot)
 /*===========================================================================
  *		End of CSrWeapRecord Compare Field Methods
@@ -443,72 +420,12 @@ BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldDamage)
 END_SRSETFIELD()
 	
 
-BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldType)
-  CSrIdRecord* pIdRecord = NULL;
-  CSString Buffer("WeapType");
-
-  if (m_pParent != NULL) 
-  {
-   
-    if (pString == NULL || *pString == NULL_CHAR) 
-	{
-      SetWeaponType(SR_FORMID_NULL);
-      return (true);
-    }
-
-	Buffer += pString;
-    pIdRecord = m_pParent->FindEditorID(Buffer);
-    if (pIdRecord == NULL) return AddSrGeneralError("The keyword '%s' does not exist!", Buffer);
-    if (pIdRecord->GetRecordType() != SR_NAME_KYWD) return AddSrGeneralError("The record '%s' is not a keyword (%4.4s)!", Buffer, pIdRecord->GetRecordType().Name);
-	//if (strnicmp(pIdRecord->GetEditorID(), "WeapType", 8) != 0) return AddSrGeneralError("The keyword '%s' is not a weapon type!", Buffer);
-
-    SetWeaponType(pIdRecord->GetFormID());
-  }
-  else
-  {
-    return AddSrGeneralError("Unable to find the formID for the keyword 'WeapType%s'!", Buffer);
-  }
-
-END_SRSETFIELD()
-
-
 BEGIN_SRSETFIELD(CSrWeapRecord::SetFieldEquipSlot)
 	SetEquipSlot(pString);
 END_SRSETFIELD()
 /*===========================================================================
  *		End of CSrWeapRecord Set Field Methods
  *=========================================================================*/
-
-
-
-void CSrWeapRecord::SetWeaponType (const srformid_t FormID)
-{
-	CSrRecord*    pRecord;
-	CSrIdRecord*  pIdRecord;
-	const SSCHAR* pEditorID;
-
-	if (m_pParent == NULL || m_pKeywords == NULL) return;
-
-		/* Delete all existing weapon type keywords */
-	for (int i = (int) m_pKeywords->GetFormIDArray().GetSize() - 1; i >= 0 ; --i)
-	{
-		pRecord = m_pParent->FindFormID(m_pKeywords->GetFormIDArray()[i]);
-		pIdRecord = SrCastClassNull(CSrIdRecord, pRecord);
-		if (pIdRecord == NULL) continue;
-		if (pIdRecord->GetRecordType() != SR_NAME_KYWD) continue;
-
-		pEditorID = pIdRecord->GetEditorID();
-		if (pEditorID == NULL) continue;
-
-		if (strnicmp(pEditorID, "WeapType", 8) != 0) continue;
-		m_pKeywords->GetFormIDArray().Delete(i);
-	}
-
-		/* Add the new keyword weapon type */
-	m_pKeywords->GetFormIDArray().Add(FormID);
-
-	if (m_pKeywordCount != NULL) m_pKeywordCount->SetValue(m_pKeywords->GetFormIDArray().GetSize());
-}
 
 
 const SSCHAR* CSrWeapRecord::GetWeaponMaterial (void)

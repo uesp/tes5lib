@@ -631,6 +631,16 @@
 	#define SR_EFFECT_CASTTYPE_NONE			0
     #define SR_EFFECT_CASTTYPE_NORMAL		1
     #define SR_EFFECT_CASTTYPE_CHANNELED	2
+
+	#define SR_WEAPON_PROJECTILE	0
+	#define SR_WEAPON_1HSWORD		1
+  	#define SR_WEAPON_DAGGER		2
+  	#define SR_WEAPON_1HAXE			3
+  	#define SR_WEAPON_1HBLUNT		4
+  	#define SR_WEAPON_2HSWORD		5
+  	#define SR_WEAPON_2HAXEBLUNT	6
+  	#define SR_WEAPON_BOW			7
+  	#define SR_WEAPON_STAFF			8
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -648,6 +658,7 @@
 	extern const stringvalue_t s_SrEffectCastTypes[];
 	extern const stringvalue_t s_SrActorValues[];
 	extern const stringvalue_t s_SrEffectLinkTypes[];
+	extern const stringvalue_t s_SrWeaponTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -705,6 +716,8 @@
 	bool GetSrActorValueValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrEffectLinkTypeString (const int Value);
 	bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrWeaponTypeString (const int Value);
+	bool GetSrWeaponTypeValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);

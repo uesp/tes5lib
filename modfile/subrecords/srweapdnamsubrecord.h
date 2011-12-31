@@ -44,7 +44,7 @@
 
 	struct srweapdnamdata_t 
 	{
-		dword		Unknown1;
+		int			WeaponType;
 		float		Unknown2;
 		float		Unknown3;
 		word		Unknown4;
