@@ -355,6 +355,15 @@
   #define SR_FIELD_VERB					294
   #define SR_FIELD_KEYWORD				295
   #define SR_FIELD_WATER				296
+  #define SR_FIELD_FEMALEMODEL			297	
+  #define SR_FIELD_MALEMODEL			298
+  #define SR_FIELD_FEMALE1STMODEL		299
+  #define SR_FIELD_MALE1STMODEL			300
+  #define SR_FIELD_FOOTSTEPS			301
+  #define SR_FIELD_MALETEXTURE			302
+  #define SR_FIELD_FEMALETEXTURE		303
+  #define SR_FIELD_MALE1STTEXTURE		304
+  #define SR_FIELD_FEMALE1STTEXTURE		305
 
 
 /*===========================================================================

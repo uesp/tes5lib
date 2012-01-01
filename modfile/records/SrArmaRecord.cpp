@@ -12,32 +12,36 @@
 #include "srArmarecord.h"
 
 
+srarmadnamdata_t CSrArmaRecord::s_NullDnamData;
+srbodtdata_t     CSrArmaRecord::s_NullBodtData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrArmaRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MOD4, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MOD3, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MOD2, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrBodtSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MOD2, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MOD3, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MOD4, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MOD5, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrArmaDnamSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM2, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM3, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO2T, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO3T, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO3S, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO2S, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO4S, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO5T, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO4T, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MOD5, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM2, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM3, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -50,6 +54,22 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrArmaRecord, CSrIdRecord)
+	ADD_SRFIELDALL("Race",				SR_FIELD_RACE,				0, CSrArmaRecord, FieldRace)
+	ADD_SRFIELDALL("Playable",			SR_FIELD_PLAYABLE,			0, CSrArmaRecord, FieldPlayable)
+	ADD_SRFIELDALL("BodyParts",			SR_FIELD_BODYPARTS,			0, CSrArmaRecord, FieldBodyParts)
+	ADD_SRFIELDALL("Type",				SR_FIELD_TYPE,				0, CSrArmaRecord, FieldType)
+	ADD_SRFIELDALL("FemaleModel",		SR_FIELD_FEMALEMODEL,		0, CSrArmaRecord, FieldFemaleModel)
+	ADD_SRFIELDALL("MaleModel",			SR_FIELD_MALEMODEL,			0, CSrArmaRecord, FieldMaleModel)
+	ADD_SRFIELDALL("Female1stModel",	SR_FIELD_FEMALE1STMODEL,	0, CSrArmaRecord, FieldFemale1stModel)
+	ADD_SRFIELDALL("Male1stModel",		SR_FIELD_MALE1STMODEL,		0, CSrArmaRecord, FieldMale1stModel)
+	ADD_SRFIELDALL("Footsteps",			SR_FIELD_FOOTSTEPS,			0, CSrArmaRecord, FieldFootsteps)
+	ADD_SRFIELDALL("MaleTexture",		SR_FIELD_MALETEXTURE,		0, CSrArmaRecord, FieldMaleTexture)
+	ADD_SRFIELDALL("FemaleTexture",		SR_FIELD_FEMALETEXTURE,		0, CSrArmaRecord, FieldFemaleTexture)
+	ADD_SRFIELDALL("Male1stTexture",	SR_FIELD_MALE1STTEXTURE,	0, CSrArmaRecord, FieldMale1stTexture)
+	ADD_SRFIELDALL("Female1stTexture",	SR_FIELD_FEMALE1STTEXTURE,	0, CSrArmaRecord, FieldFemale1stTexture)
+	ADD_SRFIELDALL("Unknown1",			SR_FIELD_UNKNOWN1,			0, CSrArmaRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",			SR_FIELD_UNKNOWN2,			0, CSrArmaRecord, FieldUnknown2)
+	ADD_SRFIELDALL("Unknown3",			SR_FIELD_UNKNOWN3,			0, CSrArmaRecord, FieldUnknown3)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -63,6 +83,18 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrArmaRecord::CSrArmaRecord () 
 {
+	m_pBodtData = NULL;
+	m_pModel2 = NULL;
+	m_pModel3 = NULL;
+	m_pModel4 = NULL;
+	m_pModel5 = NULL;
+	m_pRace = NULL;
+	m_pMaleTexture = NULL;
+	m_pFemaleTexture = NULL;
+	m_pMale1stTexture = NULL;
+	m_pFemale1stTexture = NULL;
+	m_pFootsteps = NULL;
+	m_pDnamData = NULL;	
 }
 /*===========================================================================
  *		End of Class CSrArmaRecord Constructor
@@ -76,6 +108,19 @@ CSrArmaRecord::CSrArmaRecord ()
  *=========================================================================*/
 void CSrArmaRecord::Destroy (void) 
 {
+	m_pBodtData = NULL;
+	m_pModel2 = NULL;
+	m_pModel3 = NULL;
+	m_pModel4 = NULL;
+	m_pModel5 = NULL;
+	m_pRace = NULL;
+	m_pMaleTexture = NULL;
+	m_pFemaleTexture = NULL;
+	m_pMale1stTexture = NULL;
+	m_pFemale1stTexture = NULL;
+	m_pFootsteps = NULL;
+	m_pDnamData = NULL;	
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -91,6 +136,16 @@ void CSrArmaRecord::Destroy (void)
 void CSrArmaRecord::InitializeNew (void) 
 {
 	CSrIdRecord::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_BODT);
+	if (m_pBodtData != NULL) m_pBodtData->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_RNAM);
+	if (m_pRace != NULL) m_pRace->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DNAM);
+	if (m_pDnamData != NULL) m_pDnamData->InitializeNew();
+
 }
 /*===========================================================================
  *		End of Class Method CSrArmaRecord::InitializeNew()
@@ -104,85 +159,53 @@ void CSrArmaRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrArmaRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
+	if (pSubrecord->GetRecordType() == SR_NAME_MOD4)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MOD4)
-	{
-		m_pMod4Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel4 = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_BODT)
 	{
-		m_pBodtData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBodtData = SrCastClass(CSrBodtSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MOD3)
 	{
-		m_pMod3Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel3 = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_RNAM)
 	{
-		m_pRnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pRace = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MOD2)
 	{
-		m_pMod2Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel2 = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DNAM)
 	{
-		m_pDnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO2T)
-	{
-		m_pMo2tData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO3T)
-	{
-		m_pMo3tData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO3S)
-	{
-		m_pMo3sData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO2S)
-	{
-		m_pMo2sData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDnamData = SrCastClass(CSrArmaDnamSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM0)
 	{
-		m_pNam0Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO4S)
-	{
-		m_pMo4sData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMaleTexture = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SNDD)
 	{
-		m_pSnddData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFootsteps = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM1)
 	{
-		m_pNam1Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO5T)
-	{
-		m_pMo5tData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MO4T)
-	{
-		m_pMo4tData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFemaleTexture = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MOD5)
 	{
-		m_pMod5Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pModel5 = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM2)
 	{
-		m_pNam2Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMale1stTexture = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM3)
 	{
-		m_pNam3Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFemale1stTexture = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -202,46 +225,30 @@ void CSrArmaRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrArmaRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
-	else if (m_pMod4Data == pSubrecord)
-		m_pMod4Data = NULL;
+	if (m_pModel4 == pSubrecord)
+		m_pModel4 = NULL;
 	else if (m_pBodtData == pSubrecord)
 		m_pBodtData = NULL;
-	else if (m_pMod3Data == pSubrecord)
-		m_pMod3Data = NULL;
-	else if (m_pRnamData == pSubrecord)
-		m_pRnamData = NULL;
-	else if (m_pMod2Data == pSubrecord)
-		m_pMod2Data = NULL;
+	else if (m_pModel3 == pSubrecord)
+		m_pModel3 = NULL;
+	else if (m_pRace == pSubrecord)
+		m_pRace = NULL;
+	else if (m_pModel2 == pSubrecord)
+		m_pModel2 = NULL;
 	else if (m_pDnamData == pSubrecord)
 		m_pDnamData = NULL;
-	else if (m_pMo2tData == pSubrecord)
-		m_pMo2tData = NULL;
-	else if (m_pMo3tData == pSubrecord)
-		m_pMo3tData = NULL;
-	else if (m_pMo3sData == pSubrecord)
-		m_pMo3sData = NULL;
-	else if (m_pMo2sData == pSubrecord)
-		m_pMo2sData = NULL;
-	else if (m_pNam0Data == pSubrecord)
-		m_pNam0Data = NULL;
-	else if (m_pMo4sData == pSubrecord)
-		m_pMo4sData = NULL;
-	else if (m_pSnddData == pSubrecord)
-		m_pSnddData = NULL;
-	else if (m_pNam1Data == pSubrecord)
-		m_pNam1Data = NULL;
-	else if (m_pMo5tData == pSubrecord)
-		m_pMo5tData = NULL;
-	else if (m_pMo4tData == pSubrecord)
-		m_pMo4tData = NULL;
-	else if (m_pMod5Data == pSubrecord)
-		m_pMod5Data = NULL;
-	else if (m_pNam2Data == pSubrecord)
-		m_pNam2Data = NULL;
-	else if (m_pNam3Data == pSubrecord)
-		m_pNam3Data = NULL;
+	else if (m_pMaleTexture == pSubrecord)
+		m_pMaleTexture = NULL;
+	else if (m_pFootsteps == pSubrecord)
+		m_pFootsteps = NULL;
+	else if (m_pFemaleTexture == pSubrecord)
+		m_pFemaleTexture = NULL;
+	else if (m_pModel5 == pSubrecord)
+		m_pModel5 = NULL;
+	else if (m_pMale1stTexture == pSubrecord)
+		m_pMale1stTexture = NULL;
+	else if (m_pFemale1stTexture == pSubrecord)
+		m_pFemale1stTexture = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
