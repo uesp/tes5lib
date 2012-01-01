@@ -17,8 +17,7 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrWatrRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrWatrRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
@@ -30,8 +29,7 @@ BEGIN_SRSUBRECCREATE(CSrWatrRecord, CSrRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_GNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
-
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -40,10 +38,11 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrWatrRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrWatrRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,	0, CSrWatrRecord, FieldItemName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -57,6 +56,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrWatrRecord::CSrWatrRecord () 
 {
+	m_pItemName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrWatrRecord Constructor
@@ -70,7 +70,8 @@ CSrWatrRecord::CSrWatrRecord ()
  *=========================================================================*/
 void CSrWatrRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pItemName = NULL;
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrWatrRecord::Destroy()
@@ -84,10 +85,10 @@ void CSrWatrRecord::Destroy (void)
  *=========================================================================*/
 void CSrWatrRecord::InitializeNew (void) 
 {
+	CSrIdRecord::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
+	AddNewSubrecord(SR_NAME_NULL);
+	if (m_pItemName != NULL) m_pItemName->InitializeNew();
 
 }
 /*===========================================================================
@@ -102,11 +103,7 @@ void CSrWatrRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrWatrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
+	if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -152,12 +149,12 @@ void CSrWatrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+	CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -173,9 +170,7 @@ void CSrWatrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrWatrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pFnamData == pSubrecord)
+	if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
 	else if (m_pNnamData == pSubrecord)
 		m_pNnamData = NULL;
@@ -197,11 +192,10 @@ void CSrWatrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pMnamData = NULL;
 	else if (m_pSnamData == pSubrecord)
 		m_pSnamData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
-
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

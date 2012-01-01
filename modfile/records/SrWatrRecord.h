@@ -16,7 +16,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,27 +28,26 @@
  * Begin Class CSrWatrRecord Definition
  *
  *=========================================================================*/
-class CSrWatrRecord : public CSrRecord 
+class CSrWatrRecord : public CSrIdRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrWatrRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrWatrRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEdidData;
-	CSrSubrecord*		m_pFnamData;
-	CSrSubrecord*		m_pNnamData;
-	CSrSubrecord*		m_pDataData;
-	CSrSubrecord*		m_pAnamData;
-	CSrSubrecord*		m_pTnamData;
-	CSrSubrecord*		m_pNam1Data;
-	CSrSubrecord*		m_pDnamData;
-	CSrSubrecord*		m_pNam0Data;
-	CSrSubrecord*		m_pGnamData;
-	CSrSubrecord*		m_pMnamData;
-	CSrSubrecord*		m_pSnamData;
-	CSrSubrecord*		m_pFullData;
+	CSrSubrecord*			m_pFnamData;
+	CSrSubrecord*			m_pNnamData;
+	CSrSubrecord*			m_pDataData;
+	CSrSubrecord*			m_pAnamData;
+	CSrSubrecord*			m_pTnamData;
+	CSrSubrecord*			m_pNam1Data;
+	CSrSubrecord*			m_pDnamData;
+	CSrSubrecord*			m_pNam0Data;
+	CSrSubrecord*			m_pGnamData;
+	CSrSubrecord*			m_pMnamData;
+	CSrSubrecord*			m_pSnamData;
+	CSrLStringSubrecord*	m_pItemName;
 
 
 
@@ -76,7 +76,8 @@ public:
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
+		/* Begin field method definitions */
+	DECLARE_SRFIELD_ITEMNAME(CSrWatrRecord)
 
 
 };
