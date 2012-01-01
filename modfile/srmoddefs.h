@@ -472,6 +472,7 @@
 	#define SRCLASS_CSrMgefSnddSubrecord		1036
 	#define SRCLASS_CSrCrdtSubrecord			1037
 	#define SRCLASS_CSrWeapDnamSubrecord		1038
+	#define SRCLASS_CSrActiDestSubrecord		1039
   
 /*===========================================================================
  *		End of Class Type Definitions

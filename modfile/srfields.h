@@ -350,6 +350,11 @@
   #define SR_FIELD_SWINGSOUND			289
   #define SR_FIELD_BASEWEAPON			290
   #define SR_FIELD_MATERIALOBJECT		291
+  #define SR_FIELD_DESTROYMODEL			292
+  #define SR_FIELD_AMBIENTSOUND			293
+  #define SR_FIELD_VERB					294
+  #define SR_FIELD_KEYWORD				295
+  #define SR_FIELD_WATER				296
 
 
 /*===========================================================================

@@ -271,6 +271,51 @@
 					Set##Name(Value); return true; } 
 
 
+	#define DECLARE_SRFIELD_METHODDWORD(Class, Member, Name, Type)	dword Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
+			void Set##Name (const dword Value) { \
+					if (Member == NULL) { \
+						AddNewSubrecord(Type); \
+						if (Member == NULL) return; \
+						Member->InitializeNew(); } \
+					Member->SetValue(Value); } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%d", Get##Name()); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					dword Value1 = (dword) this->Get##Name(); \
+					dword Value2 = (dword) pRecord1->Get##Name(); \
+					if (Value1 == Value2) return (0); \
+					if (Value1 > Value2)  return (1); \
+					return (-1); } \
+			bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+					dword Value; \
+					if (!SrFieldConvertDWord(pString, Value)) return (false); \
+					Set##Name(Value); return true; } 
+
+	#define DECLARE_SRFIELD_METHODDWORDF(Class, Member, Name, Type, Fmt)	dword Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
+			void Set##Name (const dword Value) { \
+					if (Member == NULL) { \
+						AddNewSubrecord(Type); \
+						if (Member == NULL) return; \
+						Member->InitializeNew(); } \
+					Member->SetValue(Value); } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format(Fmt, Get##Name()); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					dword Value1 = (dword) this->Get##Name(); \
+					dword Value2 = (dword) pRecord1->Get##Name(); \
+					if (Value1 == Value2) return (0); \
+					if (Value1 > Value2)  return (1); \
+					return (-1); } \
+			bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+					dword Value; \
+					if (!SrFieldConvertDword(pString, Value)) return (false); \
+					Set##Name(Value); return true; } 
+
+
 	#define DECLARE_SRFIELD_METHOD(Class, Name, GetMethod, SetMethod)  \
 			bool GetField##Name     (CSString& String, long Reserved = 0) { String = GetMethod(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
@@ -461,7 +506,8 @@
 								if (!SrFieldConvertFloat(pString, Value)) return (false); \
 								SetExpression = Value; return true; } 
 
-	#define DECLARE_SRFIELD_EDITORID(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
+
+#define DECLARE_SRFIELD_EDITORID(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
 								String = GetFunction(); return (true); } \
 							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 								if (pRecord == NULL) return (1); \
@@ -480,6 +526,11 @@
 							SetSubrecordFormID(Member, FormID, Type); } \
 						void Set##Name (const char* pEditorID) { \
 							SetSubrecordFormID(Member, pEditorID, Type); }
+
+
+	#define DECLARE_SRFIELD_EDITORID1(Class, Name, Type) DECLARE_SRFIELD_EDITORID(Class, Name, Get##Name, Set##Name) \
+														 DECLARE_SRMETHOD_FORMID(Name, m_p##Name, Type)
+
 
 	#define DECLARE_SRMETHOD_FORMID1(Name, Expr) const char* Get##Name (void) { \
 							return CSrRecord::GetEditorIDHelper(Expr); } \
