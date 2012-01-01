@@ -70,6 +70,7 @@ BEGIN_SRFIELDMAP(CSrArmaRecord, CSrIdRecord)
 	ADD_SRFIELDALL("Unknown1",			SR_FIELD_UNKNOWN1,			0, CSrArmaRecord, FieldUnknown1)
 	ADD_SRFIELDALL("Unknown2",			SR_FIELD_UNKNOWN2,			0, CSrArmaRecord, FieldUnknown2)
 	ADD_SRFIELDALL("Unknown3",			SR_FIELD_UNKNOWN3,			0, CSrArmaRecord, FieldUnknown3)
+	ADD_SRFIELDALL("RaceCount",			SR_FIELD_RACECOUNT,			0, CSrArmaRecord, FieldRaceCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map

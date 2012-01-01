@@ -77,6 +77,7 @@ public:
 	bool          IsPlayable (void) { return !CheckFlagBits(GetBodtData().Flags, SR_BODT_FLAG_NONPLAYABLE); }  
 	const char* GetBodyParts (void) { m_BodyPartsString = GetSrBodyPartFlagString(GetBodtData().BodyParts); return m_BodyPartsString.c_str(); }
 	const char* GetArmorType (void) { return GetSrArmorTypeString(GetBodtData().ArmorType); }
+	dword       GetRaceCount (void) { return CountSubrecords(SR_NAME_MODL); }
 
 		/* Initialize a new record */
 	void InitializeNew (void);
@@ -105,6 +106,7 @@ public:
 	DECLARE_SRFIELD_DWORDFLAG1(CSrArmaRecord, Unknown1, GetDnamData().Unknown1, GetDnamData().Unknown1)
 	DECLARE_SRFIELD_DWORDFLAG1(CSrArmaRecord, Unknown2, GetDnamData().Unknown2, GetDnamData().Unknown2)
 	DECLARE_SRFIELD_FLOAT1(CSrArmaRecord, Unknown3, GetDnamData().Unknown3, GetDnamData().Unknown3)
+	DECLARE_SRFIELD_DWORD1(CSrArmaRecord, RaceCount, GetRaceCount(), dword Tmp)
 
 	DECLARE_SRFIELD_STRING(CSrArmaRecord, m_pModel2, MaleModel, SR_NAME_MOD2)
 	DECLARE_SRFIELD_STRING(CSrArmaRecord, m_pModel3, FemaleModel, SR_NAME_MOD3)	

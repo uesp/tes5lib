@@ -364,7 +364,7 @@
   #define SR_FIELD_FEMALETEXTURE		303
   #define SR_FIELD_MALE1STTEXTURE		304
   #define SR_FIELD_FEMALE1STTEXTURE		305
-
+  #define SR_FIELD_RACECOUNT			306
 
 /*===========================================================================
  *		End of Field Types
