@@ -377,6 +377,26 @@
   #define SR_FIELD_RECHARGE2			316
   #define SR_FIELD_RECHARGE3			317
   #define SR_FIELD_TRANSLATION			318
+  #define SR_FIELD_ONEHAND				319
+  #define SR_FIELD_TWOHAND				320
+  #define SR_FIELD_MARKSMAN				321
+  #define SR_FIELD_BLOCK				322
+  #define SR_FIELD_SMITHING				323
+  #define SR_FIELD_HEAVYARMOR			324
+  #define SR_FIELD_LIGHTARMOR			325
+  #define SR_FIELD_PICKPOCKET			326
+  #define SR_FIELD_LOCKPICKING			327
+  #define SR_FIELD_SNEAK				328
+  #define SR_FIELD_ALCHEMY				329
+  #define SR_FIELD_SPEECHCRAFT			330
+  #define SR_FIELD_ALTERATION			331
+  #define SR_FIELD_CONJURATION			332
+  #define SR_FIELD_DESTRUCTION			333
+  #define SR_FIELD_ILLUSION				334
+  #define SR_FIELD_RESTORATION			335
+  #define SR_FIELD_ENCHANTING			336
+  #define SR_FIELD_TRAINERSKILL			337
+  #define SR_FIELD_TRAINERLEVEL			338
 
 /*===========================================================================
  *		End of Field Types

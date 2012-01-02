@@ -477,6 +477,22 @@
 								if (!SrFieldConvertWord(pString, Value)) return (false); \
 								SetExpression = Value; return true; } 
 
+	#define DECLARE_SRFIELD_SHORT1(Class, Name, GetExpression, SetExpression) bool GetField##Name (CSString& String, long Reserved) {\
+								String.Format("%hd", GetExpression); return (true); } \
+							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+								if (pRecord == NULL) return (1); \
+								Class* pRecord1 = SrCastClass(Class, pRecord); \
+								if (pRecord1 == NULL) return (1); \
+								short Value1 = (short) this->GetExpression; \
+								short Value2 = (short) pRecord1->GetExpression; \
+								if (Value1 == Value2) return (0); \
+								if (Value1 > Value2)  return (1); \
+								return (-1); } \
+							bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+								word Value; \
+								if (!SrFieldConvertWord(pString, Value)) return (false); \
+								SetExpression = (short) Value; return true; } 
+
 
 	#define DECLARE_SRFIELD_DWORDFLAG1(Class, Name, GetExpression, SetExpression) bool GetField##Name (CSString& String, long Reserved) {\
 								String.Format("0x%08X", GetExpression); return (true); } \
@@ -492,6 +508,23 @@
 							bool SetField##Name (const SSCHAR* pString, long Reserved) { \
 								dword Value; \
 								if (!SrFieldConvertDword(pString, Value)) return (false); \
+								SetExpression = Value; return true; } 
+
+
+	#define DECLARE_SRFIELD_WORDFLAG1(Class, Name, GetExpression, SetExpression) bool GetField##Name (CSString& String, long Reserved) {\
+								String.Format("0x%04hX", GetExpression); return (true); } \
+							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+								if (pRecord == NULL) return (1); \
+								Class* pRecord1 = SrCastClass(Class, pRecord); \
+								if (pRecord1 == NULL) return (1); \
+								word Value1 = (word) this->GetExpression; \
+								word Value2 = (word) pRecord1->GetExpression; \
+								if (Value1 == Value2) return (0); \
+								if (Value1 > Value2)  return (1); \
+								return (-1); } \
+							bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+								word Value; \
+								if (!SrFieldConvertWord(pString, Value)) return (false); \
 								SetExpression = Value; return true; } 
 
 
