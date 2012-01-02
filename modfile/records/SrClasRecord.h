@@ -60,7 +60,7 @@ public:
 
 		/* Get class members */
 	srclasdata_t& GetClassData  (void) { return m_pClassData ? m_pClassData->GetClassData() : s_NullClassData; }
-	const char* GetTrainerSkill (void) { return GetSrSkillTypeString(GetClassData().TrainerSkill - SR_SKILL_ONEHAND); }
+	const char* GetTrainerSkill (void) { return GetSrSkillTypeString(GetClassData().TrainerSkill + SR_SKILL_ONEHAND); }
 
 		/* Initialize a new record */
 	void InitializeNew (void);
