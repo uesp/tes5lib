@@ -184,6 +184,36 @@ void CSrShouRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
+void CSrShouRecord::ForceValidSnamCount (void)
+{
+	dword Count = CountSubrecords(SR_NAME_SNAM);
+
+	if (Count == 3) return;
+
+	if (Count > 3)
+	{
+		int Position;
+		CSrSubrecord* pSubrecord = FindFirstSubrecord(SR_NAME_SNAM, Position);
+		int Count = 0;
+
+		while (pSubrecord)
+		{
+			++Count;
+			pSubrecord = FindNextSubrecord(SR_NAME_SNAM, Position);
+			--Position;
+			m_Subrecords.Delete(Position);
+		}
+	}
+	else if (Count < 3)
+	{
+		for (dword i = Count; i < 3; ++i)
+		{
+			AddNewSubrecord(SR_NAME_SNAM);
+		}
+	}
+}
+
+
 /*===========================================================================
  *
  * Begin CSrShouRecord Get Field Methods

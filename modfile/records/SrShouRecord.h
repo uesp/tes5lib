@@ -77,6 +77,8 @@ public:
 		/* Called to alert record of a new subrecord being added */
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+
+	void ForceValidSnamCount (void);
 	
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_DESCRIPTION(CSrShouRecord, SR_NAME_DESC)
