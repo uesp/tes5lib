@@ -474,6 +474,7 @@
 	#define SRCLASS_CSrWeapDnamSubrecord		1038
 	#define SRCLASS_CSrActiDestSubrecord		1039
 	#define SRCLASS_CSrArmaDnamSubrecord		1040
+	#define SRCLASS_CSrSlgmDataSubrecord		1041
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -643,6 +644,13 @@
   	#define SR_WEAPON_2HAXEBLUNT	6
   	#define SR_WEAPON_BOW			7
   	#define SR_WEAPON_STAFF			8
+
+	#define SR_SOULGEM_EMPTY	 0
+	#define SR_SOULGEM_PETTY	 1
+	#define SR_SOULGEM_LESSER	 2
+	#define SR_SOULGEM_COMMON	 3
+	#define SR_SOULGEM_GREATER	 4
+	#define SR_SOULGEM_GRAND	 5
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -661,6 +669,7 @@
 	extern const stringvalue_t s_SrActorValues[];
 	extern const stringvalue_t s_SrEffectLinkTypes[];
 	extern const stringvalue_t s_SrWeaponTypes[];
+	extern const stringvalue_t s_SrSoulGemTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -720,6 +729,8 @@
 	bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrWeaponTypeString (const int Value);
 	bool GetSrWeaponTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrSoulGemTypeString (const int Value);
+	bool GetSrSoulGemTypeValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);

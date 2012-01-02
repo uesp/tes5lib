@@ -365,6 +365,8 @@
   #define SR_FIELD_MALE1STTEXTURE		304
   #define SR_FIELD_FEMALE1STTEXTURE		305
   #define SR_FIELD_RACECOUNT			306
+  #define SR_FIELD_FILLEDGEM			307
+  #define SR_FIELD_CURRENTSOUL			308
 
 /*===========================================================================
  *		End of Field Types

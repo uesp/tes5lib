@@ -327,6 +327,8 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_MALE1STTEXTURE,	"Male1stTexture")
 	ADD_STRINGVALUE( SR_FIELD_FEMALE1STTEXTURE,	"Female1stTexture")
 	ADD_STRINGVALUE( SR_FIELD_RACECOUNT,		"RaceCount")
+	ADD_STRINGVALUE( SR_FIELD_FILLEDGEM,		"FilledGem")
+	ADD_STRINGVALUE( SR_FIELD_CURRENTSOUL,		"CurrentSoul")
 	
 END_STRINGVALUE()
 /*===========================================================================

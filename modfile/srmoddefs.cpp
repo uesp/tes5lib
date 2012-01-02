@@ -444,6 +444,16 @@ BEGIN_STRINGVALUE(s_SrWeaponTypes)
     ADD_STRINGVALUE( SR_WEAPON_STAFF		, "Staff")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrSoulGemTypes)
+    ADD_STRINGVALUE( SR_SOULGEM_EMPTY	, "Empty")
+	ADD_STRINGVALUE( SR_SOULGEM_PETTY	, "Petty")
+	ADD_STRINGVALUE( SR_SOULGEM_LESSER	, "Lesser")
+	ADD_STRINGVALUE( SR_SOULGEM_COMMON	, "Common")
+	ADD_STRINGVALUE( SR_SOULGEM_GREATER	, "Greater")
+	ADD_STRINGVALUE( SR_SOULGEM_GRAND	, "Grand")
+END_STRINGVALUE()
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -478,6 +488,7 @@ const SSCHAR* GetSrEffectCastTypeString (const int Value) { return s_SrEffectCas
 const SSCHAR* GetSrActorValueString     (const int Value) { return s_SrActorValuesMap.FindValue(Value); }
 const SSCHAR* GetSrEffectLinkTypeString (const int Value) { return s_SrEffectLinkTypesMap.FindValue(Value); }
 const SSCHAR* GetSrWeaponTypeString     (const int Value) { return s_SrWeaponTypesMap.FindValue(Value); }
+const SSCHAR* GetSrSoulGemTypeString    (const int Value) { return s_SrSoulGemTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -527,7 +538,7 @@ bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString) { return s_SrE
 bool GetSrActorValueValue     (int& Value, const SSCHAR* pString) { return s_SrActorValuesMap.FindString(Value, pString); }
 bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectLinkTypesMap.FindString(Value, pString); }
 bool GetSrWeaponTypeValue     (int& Value, const SSCHAR* pString) { return s_SrWeaponTypesMap.FindString(Value, pString); }
-
+bool GetSrSoulGemTypeValue    (int& Value, const SSCHAR* pString) { return s_SrSoulGemTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {

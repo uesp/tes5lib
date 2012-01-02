@@ -270,6 +270,28 @@
 					if (!SrFieldConvertFloat(pString, Value)) return (false); \
 					Set##Name(Value); return true; } 
 
+	#define DECLARE_SRFIELD_METHODDBYTE(Class, Member, Name, Type)	byte Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
+			void Set##Name (const byte Value) { \
+					if (Member == NULL) { \
+						AddNewSubrecord(Type); \
+						if (Member == NULL) return; \
+						Member->InitializeNew(); } \
+					Member->SetValue(Value); } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%u", (dword) Get##Name()); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					byte Value1 = (byte) this->Get##Name(); \
+					byte Value2 = (byte) pRecord1->Get##Name(); \
+					if (Value1 == Value2) return (0); \
+					if (Value1 > Value2)  return (1); \
+					return (-1); } \
+			bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+					byte Value; \
+					if (!SrFieldConvertByte(pString, Value)) return (false); \
+					Set##Name(Value); return true; } 
+
 
 	#define DECLARE_SRFIELD_METHODDWORD(Class, Member, Name, Type)	dword Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
 			void Set##Name (const dword Value) { \

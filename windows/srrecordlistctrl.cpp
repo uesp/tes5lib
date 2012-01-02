@@ -822,17 +822,16 @@ static srreclistcolinit_t s_SgstListInit[] = {
  };
 
 static srreclistcolinit_t s_SlgmListInit[] = {
-	{ SR_FIELD_EDITORID,	100,	LVCFMT_LEFT },
-	{ SR_FIELD_FORMID,	5,	LVCFMT_LEFT },
-	{ SR_FIELD_FLAGS,	50,	LVCFMT_CENTER },
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
 	{ SR_FIELD_ITEMNAME,	150,	LVCFMT_LEFT },
-	{ SR_FIELD_CAPACITY,	60,	LVCFMT_CENTER },
-	{ SR_FIELD_SOUL,	60,	LVCFMT_CENTER },
-	{ SR_FIELD_VALUE,	60,	LVCFMT_CENTER },
-	{ SR_FIELD_WEIGHT,	60,	LVCFMT_CENTER },
-	{ SR_FIELD_USERDATA,	80,	LVCFMT_CENTER },
-	{ SR_FIELD_MODEL,	60,	LVCFMT_CENTER },
-	{ SR_FIELD_ICON,	60,	LVCFMT_CENTER },
+	{ SR_FIELD_CAPACITY,	60,		LVCFMT_CENTER },
+	{ SR_FIELD_CURRENTSOUL,	60,		LVCFMT_CENTER },
+	{ SR_FIELD_FILLEDGEM,	60,		LVCFMT_CENTER },
+	{ SR_FIELD_VALUE,		60,		LVCFMT_CENTER },
+	{ SR_FIELD_WEIGHT,		60,		LVCFMT_CENTER },
+	{ SR_FIELD_MODEL,		60,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
@@ -913,11 +912,9 @@ static srreclistcolinit_t s_WeapListInit[] =
 
 static srreclistinfoinit_t s_ListInit[] = 
 {
-	//{ &SR_NAME_MISC, s_MiscListInit, &CSrMiscRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_NPC_, s_NpcListInit,  &CSrNpcRecord::s_FieldMap,  SR_FIELD_EDITORID },
 	//{ &SR_NAME_SCPT, s_ScptListInit, &CSrScptRecord::s_FieldMap, SR_FIELD_EDITORID },
 	//{ &SR_NAME_SGST, s_SgstListInit, &CSrSgstRecord::s_FieldMap, SR_FIELD_EDITORID },
-	//{ &SR_NAME_SLGM, s_SlgmListInit, &CSrSlgmRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_AACT, s_AactListInit, &CSrAactRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACHR, s_AchrListInit, &CSrAchrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACTI, s_ActiListInit, &CSrActiRecord::s_FieldMap, SR_FIELD_EDITORID },
@@ -995,6 +992,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_RACE, s_RaceListInit, &CSrRaceRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SCRL, s_ScrlListInit, &CSrScrlRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SLGM, s_SlgmListInit, &CSrSlgmRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SNDR, s_SndrListInit, &CSrSndrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },

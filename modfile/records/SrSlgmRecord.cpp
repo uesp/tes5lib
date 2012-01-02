@@ -9,7 +9,10 @@
  *=========================================================================*/
 
 	/* Include Files */
-#include "srSlgmrecord.h"
+#include "srslgmrecord.h"
+
+
+srslgmdata_t CSrSlgmRecord::s_NullSlgmData;
 
 
 /*===========================================================================
@@ -17,19 +20,13 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrSlgmRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrSlgmRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KSIZ, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SOUL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SOUL, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_KWDA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SLCP, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrDataSubrecord::Create)
-
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrSlgmDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SLCP, CSrByteSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -38,10 +35,15 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrItem1Record Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrSlgmRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrSlgmRecord, CSrItem1Record)
+	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,				0, CSrSlgmRecord, FieldValue)
+	ADD_SRFIELDALL("Weight",		SR_FIELD_WEIGHT,			0, CSrSlgmRecord, FieldWeight)
+	ADD_SRFIELDALL("Capacity",		SR_FIELD_CAPACITY,			0, CSrSlgmRecord, FieldCapacity)
+	ADD_SRFIELDALL("FilledGem",		SR_FIELD_FILLEDGEM,			0, CSrSlgmRecord, FieldFilledGem)
+	ADD_SRFIELDALL("CurrentSoul",	SR_FIELD_CURRENTSOUL,		0, CSrSlgmRecord, FieldCurrentSoul)	
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -55,6 +57,10 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrSlgmRecord::CSrSlgmRecord () 
 {
+	m_pCurrentSoul = NULL;
+	m_pSlgmData = NULL;
+	m_pCapacity = NULL;
+	m_pFilledGem = NULL;
 }
 /*===========================================================================
  *		End of Class CSrSlgmRecord Constructor
@@ -68,7 +74,12 @@ CSrSlgmRecord::CSrSlgmRecord ()
  *=========================================================================*/
 void CSrSlgmRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pCurrentSoul = NULL;
+	m_pSlgmData = NULL;
+	m_pCapacity = NULL;
+	m_pFilledGem = NULL;
+
+	CSrItem1Record::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrSlgmRecord::Destroy()
@@ -82,10 +93,19 @@ void CSrSlgmRecord::Destroy (void)
  *=========================================================================*/
 void CSrSlgmRecord::InitializeNew (void) 
 {
+	CSrItem1Record::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pSlgmData != NULL) m_pSlgmData->InitializeNew();
 
+	AddNewSubrecord(SR_NAME_SOUL);
+	if (m_pCurrentSoul != NULL) m_pCurrentSoul->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_SLCP);
+	if (m_pCapacity != NULL) m_pCapacity->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_NAM0);
+	if (m_pFilledGem != NULL) m_pFilledGem->InitializeNew();
 
 }
 /*===========================================================================
@@ -100,54 +120,25 @@ void CSrSlgmRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrSlgmRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
+	if (pSubrecord->GetRecordType() == SR_NAME_SOUL)
 	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KSIZ)
-	{
-		m_pKsizData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
-	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SOUL)
-	{
-		m_pSoulData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
-	{
-		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pCurrentSoul = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_KWDA)
-	{
-		m_pKwdaData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pSlgmData = SrCastClass(CSrSlgmDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SLCP)
 	{
-		m_pSlcpData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pCapacity = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM0)
 	{
-		m_pNam0Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFilledGem = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrItem1Record::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -163,31 +154,16 @@ void CSrSlgmRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrSlgmRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pKsizData == pSubrecord)
-		m_pKsizData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
-	else if (m_pSoulData == pSubrecord)
-		m_pSoulData = NULL;
-	else if (m_pModtData == pSubrecord)
-		m_pModtData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
-	else if (m_pKwdaData == pSubrecord)
-		m_pKwdaData = NULL;
-	else if (m_pSlcpData == pSubrecord)
-		m_pSlcpData = NULL;
-	else if (m_pNam0Data == pSubrecord)
-		m_pNam0Data = NULL;
-
+	if (m_pCurrentSoul == pSubrecord)
+		m_pCurrentSoul = NULL;
+	else if (m_pSlgmData == pSubrecord)
+		m_pSlgmData = NULL;
+	else if (m_pCapacity == pSubrecord)
+		m_pCapacity = NULL;
+	else if (m_pFilledGem == pSubrecord)
+		m_pFilledGem = NULL;
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrItem1Record::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
