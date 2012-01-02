@@ -376,6 +376,7 @@
   #define SR_FIELD_RECHARGE1			315
   #define SR_FIELD_RECHARGE2			316
   #define SR_FIELD_RECHARGE3			317
+  #define SR_FIELD_TRANSLATION			318
 
 /*===========================================================================
  *		End of Field Types

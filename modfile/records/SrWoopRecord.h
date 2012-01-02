@@ -16,7 +16,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -29,15 +30,14 @@
  *=========================================================================*/
 class CSrWoopRecord : public CSrIdRecord 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrWoopRecord, CSrIdRecord)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrWoopRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*		m_pTnamData;
-	CSrSubrecord*		m_pFullData;
-
+	CSrLStringSubrecord*	m_pTranslation;
+	CSrLStringSubrecord*	m_pItemName;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -47,26 +47,27 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrWoopRecord();
-  virtual void Destroy (void);
+		/* Class Constructors/Destructors */
+	CSrWoopRecord();
+	virtual void Destroy (void);
 
     	/* Return a new instance of the class */
-  static CSrRecord* Create (void) { return new CSrWoopRecord; }
+	static CSrRecord* Create (void) { return new CSrWoopRecord; }
 
-	/* Get class members */
+		/* Get class members */
   
 
-	/* Initialize a new record */
-  void InitializeNew (void);
+		/* Initialize a new record */
+	void InitializeNew (void);
 
-	/* Called to alert record of a new subrecord being added */
-  virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
-  virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+		/* Called to alert record of a new subrecord being added */
+	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
+	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
-
+		/* Begin field method definitions */
+	DECLARE_SRFIELD_ITEMNAME(CSrWoopRecord)
+	DECLARE_SRFIELD_STRING(CSrWoopRecord, m_pTranslation, Translation, SR_NAME_TNAM)
 
 };
 /*===========================================================================

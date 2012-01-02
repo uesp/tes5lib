@@ -18,8 +18,8 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrWoopRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -32,6 +32,8 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrWoopRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrWoopRecord, FieldItemName)
+	ADD_SRFIELDALL("Translation",	SR_FIELD_TRANSLATION,	0, CSrWoopRecord, FieldTranslation)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -45,6 +47,8 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrWoopRecord::CSrWoopRecord () 
 {
+	m_pTranslation = NULL;
+	m_pItemName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrWoopRecord Constructor
@@ -58,6 +62,9 @@ CSrWoopRecord::CSrWoopRecord ()
  *=========================================================================*/
 void CSrWoopRecord::Destroy (void) 
 {
+	m_pTranslation = NULL;
+	m_pItemName = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -73,6 +80,12 @@ void CSrWoopRecord::Destroy (void)
 void CSrWoopRecord::InitializeNew (void) 
 {
 	CSrIdRecord::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_FULL);
+	if (m_pItemName != NULL) m_pItemName->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_TNAM);
+	if (m_pTranslation != NULL) m_pTranslation->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrWoopRecord::InitializeNew()
@@ -88,11 +101,11 @@ void CSrWoopRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
 	{
-		m_pTnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pTranslation = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -112,10 +125,10 @@ void CSrWoopRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrWoopRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pTnamData == pSubrecord)
-		m_pTnamData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	if (m_pTranslation == pSubrecord)
+		m_pTranslation = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 

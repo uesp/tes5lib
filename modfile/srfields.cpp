@@ -337,7 +337,9 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_POWERWORD3,		"PowerWord3")
 	ADD_STRINGVALUE( SR_FIELD_RECHARGE1,		"Recharge1")
 	ADD_STRINGVALUE( SR_FIELD_RECHARGE2,		"Recharge2")
-	ADD_STRINGVALUE( SR_FIELD_RECHARGE3,		"Recharge3")	
+	ADD_STRINGVALUE( SR_FIELD_RECHARGE3,		"Recharge3")
+	ADD_STRINGVALUE( SR_FIELD_TRANSLATION,		"Translation")
+
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings
