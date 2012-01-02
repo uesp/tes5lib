@@ -367,6 +367,15 @@
   #define SR_FIELD_RACECOUNT			306
   #define SR_FIELD_FILLEDGEM			307
   #define SR_FIELD_CURRENTSOUL			308
+  #define SR_FIELD_SPELL1				309
+  #define SR_FIELD_SPELL2				310
+  #define SR_FIELD_SPELL3				311
+  #define SR_FIELD_POWERWORD1			312
+  #define SR_FIELD_POWERWORD2			313
+  #define SR_FIELD_POWERWORD3			314
+  #define SR_FIELD_RECHARGE1			315
+  #define SR_FIELD_RECHARGE2			316
+  #define SR_FIELD_RECHARGE3			317
 
 /*===========================================================================
  *		End of Field Types

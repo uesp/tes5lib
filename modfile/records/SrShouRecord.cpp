@@ -12,18 +12,19 @@
 #include "srShourecord.h"
 
 
+srshousnamdata_t CSrShouRecord::s_NullShoutData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrShouRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrDataSubrecord::Create)
-
+BEGIN_SRSUBRECCREATE(CSrShouRecord, CSrIdRecord)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrShouSnamSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -32,10 +33,22 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrShouRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrShouRecord, CSrIdRecord)
+	ADD_SRFIELDALL("Spell1",		SR_FIELD_SPELL1,		0, CSrShouRecord, FieldSpell1)
+	ADD_SRFIELDALL("Spell2",		SR_FIELD_SPELL2,		0, CSrShouRecord, FieldSpell2)
+	ADD_SRFIELDALL("Spell3",		SR_FIELD_SPELL3,		0, CSrShouRecord, FieldSpell3)
+	ADD_SRFIELDALL("PowerWord1",	SR_FIELD_POWERWORD1,	0, CSrShouRecord, FieldPowerWord1)
+	ADD_SRFIELDALL("PowerWord2",	SR_FIELD_POWERWORD2,	0, CSrShouRecord, FieldPowerWord2)
+	ADD_SRFIELDALL("PowerWord3",	SR_FIELD_POWERWORD3,	0, CSrShouRecord, FieldPowerWord3)
+	ADD_SRFIELDALL("Recharge1",		SR_FIELD_RECHARGE1,		0, CSrShouRecord, FieldRecharge1)
+	ADD_SRFIELDALL("Recharge2",		SR_FIELD_RECHARGE2,		0, CSrShouRecord, FieldRecharge2)
+	ADD_SRFIELDALL("Recharge3",		SR_FIELD_RECHARGE3,		0, CSrShouRecord, FieldRecharge3)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrShouRecord, FieldItemName)
+	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrShouRecord, FieldDescription)
+	ADD_SRFIELDALL("Static",		SR_FIELD_STATIC,		0, CSrShouRecord, FieldStatic)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -49,6 +62,12 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrShouRecord::CSrShouRecord () 
 {
+	m_pShoutData1 = NULL;
+	m_pShoutData2 = NULL;
+	m_pShoutData3 = NULL;
+	m_pDescription = NULL;
+	m_pItemName = NULL;
+	m_pStatic = NULL;
 }
 /*===========================================================================
  *		End of Class CSrShouRecord Constructor
@@ -62,7 +81,14 @@ CSrShouRecord::CSrShouRecord ()
  *=========================================================================*/
 void CSrShouRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pShoutData1 = NULL;
+	m_pShoutData2 = NULL;
+	m_pShoutData3 = NULL;
+	m_pDescription = NULL;
+	m_pItemName = NULL;
+	m_pStatic = NULL;
+
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrShouRecord::Destroy()
@@ -76,11 +102,15 @@ void CSrShouRecord::Destroy (void)
  *=========================================================================*/
 void CSrShouRecord::InitializeNew (void) 
 {
+	CSrIdRecord::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	AddNewSubrecord(SR_NAME_SNAM);
+	AddNewSubrecord(SR_NAME_SNAM);
+	AddNewSubrecord(SR_NAME_SNAM);
 
-
+	if (m_pShoutData1 != NULL) m_pShoutData1->InitializeNew();
+	if (m_pShoutData2 != NULL) m_pShoutData2->InitializeNew();
+	if (m_pShoutData3 != NULL) m_pShoutData3->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrShouRecord::InitializeNew()
@@ -94,30 +124,30 @@ void CSrShouRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrShouRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
+	if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SNAM)
-	{
-		m_pSnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
-	{
-		m_pDescData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MDOB)
 	{
-		m_pMdobData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pStatic = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
-
+	else if (pSubrecord->GetRecordType() == SR_NAME_SNAM)
+	{
+		if (m_pShoutData1 == NULL)
+			m_pShoutData1 = SrCastClass(CSrShouSnamSubrecord, pSubrecord);
+		else if (m_pShoutData2 == NULL)
+			m_pShoutData2 = SrCastClass(CSrShouSnamSubrecord, pSubrecord);
+		else if (m_pShoutData3 == NULL)
+			m_pShoutData3 = SrCastClass(CSrShouSnamSubrecord, pSubrecord);
+	}
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -133,19 +163,20 @@ void CSrShouRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrShouRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pSnamData == pSubrecord)
-		m_pSnamData = NULL;
-	else if (m_pDescData == pSubrecord)
-		m_pDescData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
-	else if (m_pMdobData == pSubrecord)
-		m_pMdobData = NULL;
-
+	if (m_pDescription == pSubrecord)
+		m_pDescription = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
+	else if (m_pStatic == pSubrecord)
+		m_pStatic = NULL;
+	else if (m_pShoutData1 == pSubrecord)
+		m_pShoutData1 = NULL;
+	else if (m_pShoutData2 == pSubrecord)
+		m_pShoutData2 = NULL;
+	else if (m_pShoutData3 == pSubrecord)
+		m_pShoutData3 = NULL;
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

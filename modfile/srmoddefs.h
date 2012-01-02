@@ -475,6 +475,7 @@
 	#define SRCLASS_CSrActiDestSubrecord		1039
 	#define SRCLASS_CSrArmaDnamSubrecord		1040
 	#define SRCLASS_CSrSlgmDataSubrecord		1041
+	#define SRCLASS_CSrShouSnamSubrecord		1042
   
 /*===========================================================================
  *		End of Class Type Definitions

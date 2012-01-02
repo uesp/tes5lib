@@ -821,6 +821,16 @@ static srreclistcolinit_t s_SgstListInit[] = {
 	{ SR_FIELD_NONE, 0, 0 }
  };
 
+static srreclistcolinit_t s_ShouListInit[] = 
+{
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_ITEMNAME,	120,	LVCFMT_LEFT },
+	{ SR_FIELD_DESCRIPTION, 100,	LVCFMT_LEFT },
+	{ SR_FIELD_NONE, 0, 0 }
+};
+
 static srreclistcolinit_t s_SlgmListInit[] = {
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
@@ -992,6 +1002,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_PROJ, s_ProjListInit, &CSrProjRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_RACE, s_RaceListInit, &CSrRaceRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SCRL, s_ScrlListInit, &CSrScrlRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_SHOU, s_ShouListInit, &CSrShouRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SLGM, s_SlgmListInit, &CSrSlgmRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SNDR, s_SndrListInit, &CSrSndrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },	
