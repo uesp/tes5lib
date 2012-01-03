@@ -96,7 +96,17 @@ public:
 	/* Get class members */
   CSString&     GetString     (void)       { return (m_String); }
   virtual byte*	GetData       (void)       { return (byte *)(const SSCHAR *)(m_String); }
-  virtual dword	GetRecordSize (void) const { return IsLoadLocal() ? 4 : m_String.GetLength() + 1; }
+
+  virtual dword	GetRecordSize (void) const 
+  { 
+	  if (IsLoadLocal())
+	  {
+		  if (IsStringLoaded()) return m_String.GetLength() + 1;
+		  return 4;
+	  }
+
+	  return m_String.GetLength() + 1; 
+  }
 
   bool IsLoadLocal    (void) const { return ::CheckFlagBits(m_Flags, SR_LSTRING_FLAG_LOADLOCAL); }
   bool IsStringLoaded (void) const { return ::CheckFlagBits(m_Flags, SR_LSTRING_FLAG_ISLOADED); }
