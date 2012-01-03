@@ -917,7 +917,15 @@ CSrIdRecord* CSrMultiRecordHandler::FindEditorID (const SSCHAR* pString) {
  *=========================================================================*/
 CSString* CSrMultiRecordHandler::FindLocalString (const srlstringid_t ID)
 {
-	SystemLog.Printf("CSrMultiRecordHandler::FindLocalString() -- Not Implemented!");
+	CSString* pString = m_ActiveFile.FindLocalString(ID);
+	if (pString) return pString;
+
+	for (dword i = 0; i < m_MasterFiles.GetSize(); ++i)
+	{
+		pString = m_MasterFiles.GetAt(i)->FindLocalString(ID);
+		if (pString) return pString;
+	}
+	
 	return NULL;
 }
 /*===========================================================================
