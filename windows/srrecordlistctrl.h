@@ -57,7 +57,7 @@
   #define SR_RLACTIVATE_DEFAULT SR_RLACTIVATE_RECORD
 
 	/* Number of subrecords in the custom data structure */
-  #define SR_RLMAX_SUBRECORDS 10
+  #define SR_RLMAX_SUBRECORDS 64
 
 	/* Macro to get data from list compare function parameters */
   #define SRRL_SORTFUNC_GETPARAMS(Param1, Param2, Param3) srreclistsort_t* pSortData = (srreclistsort_t *) Param3; \

@@ -140,8 +140,6 @@ public:
 	/* Set class members */
 
 };
-
-typedef CSrPtrArray<CSrCtdaSubrecord> CSrCtdaArray;
 /*===========================================================================
  *		End of Class CSrCtdaSubrecord Definition
  *=========================================================================*/
