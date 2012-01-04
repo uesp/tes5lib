@@ -93,7 +93,7 @@ public:
 	virtual CSrSubrecord* CreateV (void) { return new CSrArraySubrecord; }
 
 	virtual byte* GetData (void);
-	virtual dword GetRecordSize (void);
+	virtual dword GetRecordSize (void) const;
   
 	void InitializeNew (void);
 

@@ -122,7 +122,7 @@ byte* CSrArraySubrecord::GetData (void)
 }
 
 
-dword CSrArraySubrecord::GetRecordSize (void)
+dword CSrArraySubrecord::GetRecordSize (void) const
 {
 	return 0;
 }

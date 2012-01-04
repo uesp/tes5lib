@@ -69,7 +69,7 @@ public:
   static CSrSubrecord* Create (void) { return (new CSrDwordSubrecord); }
   virtual CSrSubrecord* CreateV (void) { return new CSrDwordSubrecord; }
 
-  dword GetRecordSize (void) { return 4 ; }
+  dword GetRecordSize (void) const { return 4 ; }
 
 	/* Initialize a new record */
   virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_Value = 0; m_RecordSize = 4; }

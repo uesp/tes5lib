@@ -15,6 +15,7 @@
 #include "../subrecords/srformidsubrecord.h"
 #include "../subrecords/srlstringsubrecord.h"
 #include "../subrecords/srgmstdatasubrecord.h"
+#include "../subrecords/srepfdsubrecord.h"
 #include "../subrecords/srarraysubrecord.h"
 #include "../srrecordhandler.h"
 
@@ -65,8 +66,6 @@ BEGIN_SRFIELDBASEMAP(CSrRecord)
 	ADD_SRFIELDALL("FormID",      SR_FIELD_FORMID,		  0, CSrRecord, FieldFormID)
 	ADD_SRFIELDALL("RecordType",  SR_FIELD_RECORDTYPE,	  0, CSrRecord, FieldName)
 	ADD_SRFIELDALL("Flags",       SR_FIELD_FLAGS,		  0, CSrRecord, FieldRecordFlags)
-	//ADD_SRFIELDALL("User Data", SR_FIELD_USERDATA,	  0, CSrRecord, FieldUserData)
-	//ADD_SRFIELDALL("Level",	  SR_FIELD_USERDATA,	  0, CSrRecord, FieldUserData)	/* TODO: */
 	ADD_SRFIELDALL("Quest",	      SR_FIELD_QUESTITEM,	  0, CSrRecord, FieldQuestItem)
 	ADD_SRFIELDALL("Dangerous",   SR_FIELD_DANGEROUS,	  0, CSrRecord, FieldDangerous)
 	ADD_SRFIELDALL("Ignored",     SR_FIELD_IGNORED,		  0, CSrRecord, FieldIgnored)
@@ -161,31 +160,35 @@ CSrSubrecord* CSrRecord::AddNewSubrecord (const srrectype_t Type)
  *=========================================================================*/
 CSrSubrecord* CSrRecord::AddNewSubrecord (const srsubrecheader_t Header) 
 {
-  CSrSubrecord* pSubrecord;
-
-	/* Allocate the correct type of subrecord */
-  pSubrecord = CreateSubrecord(Header);
-  
-	/* Add the subrecord to the record's collection */
-  m_Subrecords.Add(pSubrecord);
-
-	/* Special case for local strings */
-  if ( pSubrecord->IsClassType(CSrLStringSubrecord::GetClassType()) )
-  {
+	CSrSubrecord* pSubrecord;
+	
+		/* Allocate the correct type of subrecord */
+	pSubrecord = CreateSubrecord(Header);
+	  
+		/* Add the subrecord to the record's collection */
+	m_Subrecords.Add(pSubrecord);
+	
+		/* Special case for local strings */
+	if ( pSubrecord->IsClassType(CSrLStringSubrecord::GetClassType()) )
+	{
 		CSrLStringSubrecord* pLString = SrCastClass(CSrLStringSubrecord, pSubrecord);
 		if (pLString != NULL) pLString->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
-  }
-  else if ( pSubrecord->IsClassType(CSrGmstDataSubrecord::GetClassType()) )
-  {
+	}
+	else if ( pSubrecord->IsClassType(CSrGmstDataSubrecord::GetClassType()) )
+	{
 		CSrGmstDataSubrecord* pGMST = SrCastClass(CSrGmstDataSubrecord, pSubrecord);
 		if (pGMST != NULL) pGMST->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
-  }  
-	/* TODO: Add Perk-EPFD Subrecord when complete */
-
-  	/* Call the add event */
-  OnAddSubrecord(pSubrecord);
-
-  return (pSubrecord);
+	}
+	else if ( pSubrecord->IsClassType(CSrEpfdSubrecord::GetClassType()) )
+	{
+		CSrEpfdSubrecord* pEPFD = SrCastClass(CSrEpfdSubrecord, pSubrecord);
+		if (pEPFD != NULL) pEPFD->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
+	}
+	
+		/* Call the record add event */
+	OnAddSubrecord(pSubrecord);
+	
+	return (pSubrecord);
 }
 /*===========================================================================
  *		End of Class Method CSrRecord::AddNewSubrecord()
