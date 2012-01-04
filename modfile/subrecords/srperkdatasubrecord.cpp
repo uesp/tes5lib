@@ -102,7 +102,7 @@ byte* CSrPerkDataSubrecord::GetData (void)
 }
 
 
-dword CSrPerkDataSubrecord:: GetRecordSize (void) 
+dword CSrPerkDataSubrecord:: GetRecordSize (void) const
 { 
 	switch (m_DataType)
 	{

@@ -34,7 +34,7 @@ BEGIN_SRSUBRECCREATE(CSrPerkRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PRKF, CSrDataSubrecord::Create)	
 	DEFINE_SRSUBRECCREATE(SR_NAME_EPFT, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EPFD, CSrEpfdSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EPF2, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_EPF2, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EPF3, CSrDwordSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================

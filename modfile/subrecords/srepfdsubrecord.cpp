@@ -38,6 +38,8 @@ bool CSrEpfdSubrecord::Copy (CSrSubrecord* pSubrecord)
 		m_Data05   = pSubrecord1->m_Data05;
 		m_Data06   = pSubrecord1->m_Data06;
 		m_Data07   = pSubrecord1->m_Data07;
+
+		m_Data07.IsLocalString = false;	//TODO: Properly inherit parent file local string setting
 	}
 	else 
 	{
@@ -113,8 +115,13 @@ byte* CSrEpfdSubrecord::GetData (void)
 		case SP_EPFDTYPE_FORMID     : return (byte *)(&m_Data05); 
 		case SP_EPFDTYPE_ZSTRING    : return (byte *)(m_Data06.String.c_str()); 
 		case SP_EPFDTYPE_LSTRING    : 
-			if (m_Data07.IsLocalString)	return (byte *)(&m_Data07.StringID); 
-			if (m_Data07.IsLoaded)      return (byte *)(m_Data07.String.c_str()); 
+
+			if (m_Data07.IsLocalString)	
+			{
+				if (m_Data07.IsLoaded) return (byte *)(m_Data07.String.c_str()); 
+				return (byte *)(&m_Data07.StringID); 			
+			}
+			
 			return (byte *)(m_Data07.String.c_str()); 
 	}
 
@@ -122,7 +129,7 @@ byte* CSrEpfdSubrecord::GetData (void)
 }
 
 
-dword CSrEpfdSubrecord:: GetRecordSize (void) 
+dword CSrEpfdSubrecord::GetRecordSize (void) const
 { 
 	switch (m_DataType)
 	{
@@ -132,9 +139,14 @@ dword CSrEpfdSubrecord:: GetRecordSize (void)
 		case SP_EPFDTYPE_FORMID     : return SR_EPFDFORMID_SUBRECORD_SIZE;
 		case SP_EPFDTYPE_ZSTRING    : return m_Data06.String.GetLength() + 1;
 		case SP_EPFDTYPE_LSTRING    : 
-			if (m_Data07.IsLocalString) return 4;
-			if (m_Data07.IsLoaded)      return m_Data07.String.GetLength() + 1;
-			return 4;
+
+			if (m_Data07.IsLocalString) 
+			{
+				if (m_Data07.IsLoaded) return m_Data07.String.GetLength() + 1;
+				return 4;
+			}
+
+			return m_Data07.String.GetLength() + 1;
 	}
 
 	return m_RecordSize;
@@ -212,6 +224,7 @@ bool CSrEpfdSubrecord::ReadData  (CSrFile& File)
 			if (m_Data07.IsLocalString)
 			{
 				m_Data07.IsLoaded = false;
+				SR_VERIFY_SUBRECORDSIZE(4)
 				return File.Read(&m_Data07.StringID, 4); 
 			}
 			else

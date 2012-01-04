@@ -157,13 +157,14 @@ public:
 	srepfddata07_t&  GetPrkeData07 (void) { return m_Data07; }
 
 	virtual byte*  GetData       (void);
-	virtual dword  GetRecordSize (void);
+	virtual dword  GetRecordSize (void) const;
   
 	void InitializeNew (void);
 
 	void LoadLocalStrings (CSrRecordHandler* pHandler);
 
-	void SetDataType (const byte Value) { m_DataType = Value; }
+	void SetDataType        (const byte Value) { m_DataType = Value; }
+	void SetLoadLocalString (const bool Value) { m_Data07.IsLocalString = Value; }
   
 };
 /*===========================================================================

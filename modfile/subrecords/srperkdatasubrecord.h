@@ -142,7 +142,7 @@ public:
 	srperkdata02_t&  GetPerkData02   (void) { return m_Data02; }
 
 	virtual byte* GetData (void);
-	virtual dword GetRecordSize (void);
+	virtual dword GetRecordSize (void) const;
 	
 	void InitializeNew (void);
 	
