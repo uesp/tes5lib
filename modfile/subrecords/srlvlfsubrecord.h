@@ -73,6 +73,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrLvlfSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return (new CSrLvlfSubrecord); }
 
   	/* Bit flag operations */
   //bool CheckFlag (const byte Mask)                  { return CheckFlagBits(m_Value, Mask); }

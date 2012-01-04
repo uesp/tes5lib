@@ -104,6 +104,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrBodtSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrBodtSubrecord; }
 
 	/* Get class members */
   srbodtdata_t& GetBodtData  (void) { return (m_Data); }

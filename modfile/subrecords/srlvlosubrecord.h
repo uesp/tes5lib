@@ -75,8 +75,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { if (m_RecordSize != SR_LVLO_SUBRECORD_SIZE) return false; return File.Read(&m_Data,  SR_LVLO_SUBRECORD_SIZE); }
-  virtual bool WriteData (CSrFile& File) { if (m_RecordSize != SR_LVLO_SUBRECORD_SIZE) return false; return File.Write(&m_Data, SR_LVLO_SUBRECORD_SIZE); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_LVLO_SUBRECORD_SIZE)  return File.Read(&m_Data,  SR_LVLO_SUBRECORD_SIZE); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_LVLO_SUBRECORD_SIZE)  return File.Write(&m_Data, SR_LVLO_SUBRECORD_SIZE); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -128,6 +128,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrLvloSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return (new CSrLvloSubrecord); }
 
 	/* Get class members */
   srlvlodata_t&		GetListData	(void) { return (m_Data); }

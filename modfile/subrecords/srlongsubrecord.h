@@ -68,6 +68,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrLongSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrLongSubrecord; }
 
 	/* Initialize a new record */
   virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_Value = 0; m_RecordSize = sizeof(dword); }

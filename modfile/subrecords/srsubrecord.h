@@ -143,12 +143,23 @@ public:
 
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord);
+  
+  virtual CSrSubrecord* CreateV (void) = 0;
+
+  virtual CSrSubrecord* CreateCopy (void)
+  {
+		CSrSubrecord* pNew = CreateV();
+		pNew->m_RecordSize = this->m_RecordSize;
+		pNew->m_RecordType = this->m_RecordType;
+		pNew->Copy(this);
+		return pNew;
+  }
 
 	/* Count uses of the given form */
   virtual dword CountUses (const srformid_t FormID) { return (0); }
 
 	/* Create a class instance */
-  static CSrSubrecord* Create (void) { return (new CSrSubrecord); }
+  //static CSrSubrecord* Create (void) { return (new CSrSubrecord); }
 
 	/* Find data in the subrecord */
   virtual dword Search     (srfinddata_t& FindData);

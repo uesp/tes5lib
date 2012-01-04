@@ -81,8 +81,8 @@
 	public: \
 	static int GetClassType (void) { return (SRCLASS_##Class); } \
 	virtual bool IsClassType (const int ClassType) { return (GetClassType() == ClassType ? true : BaseClass::IsClassType(ClassType)); } \
-	virtual int GetMyClassType (void) { return (SRCLASS_##Class);  } 
-
+	virtual int GetMyClassType (void) { return (SRCLASS_##Class);  }
+	
 #if 1
   #define DECLARE_SRALLOCATOR(Class, BaseClass) \
     public: \
@@ -477,6 +477,10 @@
 	#define SRCLASS_CSrSlgmDataSubrecord		1041
 	#define SRCLASS_CSrShouSnamSubrecord		1042
 	#define SRCLASS_CSrClasDataSubrecord		1043
+	#define SRCLASS_CSrPerkDataSubrecord		1044
+	#define SRCLASS_CSrPrkeSubrecord			1045
+	#define SRCLASS_CSrArraySubrecord			1046
+	#define SRCLASS_CSrEpfdSubrecord			1047
   
 /*===========================================================================
  *		End of Class Type Definitions

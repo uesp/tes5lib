@@ -131,6 +131,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrWeapDnamSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return (new CSrWeapDnamSubrecord); }
 
 	/* Get class members */
   srweapdnamdata_t& GetDnamData   (void) { return (m_Data); }

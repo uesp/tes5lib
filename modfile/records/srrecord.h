@@ -270,9 +270,10 @@ public:
   dword GetSubrecordSize (void);
 
 	/* Access subrecords */
-  CSrSubrecord* GetSubrecord     (CSrSubrecord* pSubrecord, const int Offset, const srrectype_t Type);
-  CSrSubrecord* GetSubrecord     (const dword Index) { return (m_Subrecords.GetAt(Index)); }
-  dword         GetNumSubrecords (void) { return (m_Subrecords.GetSize()); }
+  CSrSubrecord*      GetSubrecord         (CSrSubrecord* pSubrecord, const int Offset, const srrectype_t Type);
+  CSrSubrecord*      GetSubrecord         (const dword Index) { return m_Subrecords.GetAt(Index); }
+  dword              GetNumSubrecords     (void) { return m_Subrecords.GetSize(); }
+  CSrSubrecordArray& GetSubrecordArray    (void) { return m_Subrecords; }
 
 	/* Get record members */
   srformid_t        GetFormID     (void) const { return (m_Header.FormID); }

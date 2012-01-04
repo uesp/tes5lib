@@ -100,6 +100,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrScrlDataSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrScrlDataSubrecord; }
 
 	/* Get class members */
   srscrldata_t&  GetScrlData (void) { return (m_Data); }

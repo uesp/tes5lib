@@ -359,6 +359,8 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_ENCHANTING,		"Enchanting")
 	ADD_STRINGVALUE( SR_FIELD_TRAINERSKILL,		"TrainerSkill")
 	ADD_STRINGVALUE( SR_FIELD_TRAINERLEVEL,		"TrainerLevel")
+	ADD_STRINGVALUE( SR_FIELD_NEXTPERK,			"NextPerk")
+	ADD_STRINGVALUE( SR_FIELD_PERKSECTIONS,		"PerkSections")
 
 END_STRINGVALUE()
 /*===========================================================================

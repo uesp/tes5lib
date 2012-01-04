@@ -60,6 +60,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrFormidArraySubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrFormidArraySubrecord; }
 
   	/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray);

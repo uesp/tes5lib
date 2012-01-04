@@ -15,6 +15,7 @@
 #include "../subrecords/srformidsubrecord.h"
 #include "../subrecords/srlstringsubrecord.h"
 #include "../subrecords/srgmstdatasubrecord.h"
+#include "../subrecords/srarraysubrecord.h"
 #include "../srrecordhandler.h"
 
 
@@ -179,6 +180,7 @@ CSrSubrecord* CSrRecord::AddNewSubrecord (const srsubrecheader_t Header)
 		CSrGmstDataSubrecord* pGMST = SrCastClass(CSrGmstDataSubrecord, pSubrecord);
 		if (pGMST != NULL) pGMST->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
   }  
+	/* TODO: Add Perk-EPFD Subrecord when complete */
 
   	/* Call the add event */
   OnAddSubrecord(pSubrecord);
@@ -323,10 +325,13 @@ bool CSrRecord::Copy (CSrRecord* pRecord)
   {
     pSubrecord = pRecord->GetSubrecord(Index);
 
-    pNewSubrecord = AddNewSubrecord(pSubrecord->GetRecordType());
-    if (pNewSubrecord == NULL) continue;
+	pNewSubrecord = pSubrecord->CreateCopy();
+	m_Subrecords.Add(pNewSubrecord);
+	OnAddSubrecord(pNewSubrecord);
 
-    pNewSubrecord->Copy(pSubrecord);
+	//pNewSubrecord = AddNewSubrecord(pSubrecord->GetRecordType());
+	//if (pNewSubrecord == NULL) continue;
+	//pNewSubrecord->Copy(pSubrecord);
   }
 
   return (true);

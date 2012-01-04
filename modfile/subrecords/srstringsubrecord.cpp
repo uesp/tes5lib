@@ -51,6 +51,7 @@ bool CSrStringSubrecord::ReadData (CSrFile& File)
 
 	/* Preallocate the string to the desired size */
   m_String.Empty();
+  m_String.SetSize(m_RecordSize + 2);
   m_String.SetSize(m_RecordSize);
   if (m_RecordSize == 0) return (true);
 

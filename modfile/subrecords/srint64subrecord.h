@@ -67,6 +67,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrInt64Subrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrInt64Subrecord; }
 
 	/* Get class members */
   int64         GetValue    (void) { return (m_Value); }

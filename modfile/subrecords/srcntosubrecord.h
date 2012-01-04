@@ -109,6 +109,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrCntoSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrCntoSubrecord; }
 
 	/* Initialize a new record */
   virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_FormID = m_Count = 0; m_RecordSize = 8; }

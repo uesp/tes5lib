@@ -73,6 +73,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrStringSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrStringSubrecord; }
 
 	/* Get class members */
   CSString&     GetString     (void)       { return (m_String); }

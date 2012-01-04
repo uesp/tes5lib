@@ -623,7 +623,10 @@
 	extern const srrectype_t SR_NAME_YNAM;
 	extern const srrectype_t SR_NAME_ZNAM;
 
-    
+		/* Custom names for internal use */
+	extern const srrectype_t SR_NAME_psec;		/* Perk section */
+	extern const srrectype_t SR_NAME_pssc;		/* Perk subsection */
+	    
 		/* Magic effect IDs */
   
 

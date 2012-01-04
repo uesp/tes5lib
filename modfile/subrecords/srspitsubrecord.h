@@ -139,6 +139,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrSpitSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrSpitSubrecord; }
 
 	/* Get class members */
   srspitdata_t& GetSpellData	(void) { return (m_Data); }

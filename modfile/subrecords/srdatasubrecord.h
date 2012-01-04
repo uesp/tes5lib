@@ -82,6 +82,7 @@ public:
 
 	/* Create a class instance */
   //static CSrSubrecord* Create (void) { return (new CSrDataSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrDataSubrecord; }
 
 	/* Get class members */
   virtual byte*	GetData (void) { return (m_pData); }

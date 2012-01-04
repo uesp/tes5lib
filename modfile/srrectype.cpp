@@ -560,6 +560,12 @@
 	const srrectype_t SR_NAME_XXXX = "XXXX";
 	const srrectype_t SR_NAME_YNAM = "YNAM";
 	const srrectype_t SR_NAME_ZNAM = "ZNAM";
+
+
+		/* Custom names for internal use */
+	const srrectype_t SR_NAME_psec = "psec";
+	const srrectype_t SR_NAME_pssc = "pssc";
+
 /*===========================================================================
  *		End of Standard Subrecord Names
  *=========================================================================*/

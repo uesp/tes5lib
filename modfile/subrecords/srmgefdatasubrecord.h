@@ -271,6 +271,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrMgefDataSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrMgefDataSubrecord; }
 
 	/* Get class members */
   srmgefdata_t& GetEffectData (void) { return (m_Data); }

@@ -66,6 +66,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrByteSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrByteSubrecord; }
 
   	/* Bit flag operations */
   bool CheckFlag (const byte Mask)                  { return CheckFlagBits(m_Value, Mask); }

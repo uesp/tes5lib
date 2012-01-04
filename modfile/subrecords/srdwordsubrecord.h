@@ -67,6 +67,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrDwordSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrDwordSubrecord; }
 
   dword GetRecordSize (void) { return 4 ; }
 

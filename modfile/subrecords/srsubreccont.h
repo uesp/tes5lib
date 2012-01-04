@@ -7,8 +7,8 @@
  * Defines the CSrSubRecContainer used to hold a collection of records.
  *
  *=========================================================================*/
-#ifndef __OBUSBRECCONT_H
-#define __OBUSBRECCONT_H
+#ifndef __SRSUBRECCONT_H
+#define __SRSUBRECCONT_H
 
 
 /*===========================================================================

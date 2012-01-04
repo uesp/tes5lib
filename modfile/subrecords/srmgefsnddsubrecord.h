@@ -75,6 +75,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrMgefSnddSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrMgefSnddSubrecord; }
 
   	/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray);

@@ -132,6 +132,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrEnitAlchSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrEnitAlchSubrecord; }
 
 	/* Get class members */
   srenitalchdata_t& GetAlchData	(void) { return (m_Data); }

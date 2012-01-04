@@ -96,6 +96,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrFormidSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrFormidSubrecord; }
 
   	/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) {

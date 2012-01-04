@@ -67,6 +67,7 @@ public:
 
 	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrFloatSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrFloatSubrecord; }
 
 	/* Get class members */
   float         GetValue    (void) { return (m_Value); }

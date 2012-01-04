@@ -108,6 +108,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrEfitSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrEfitSubrecord; }
 
 	/* Get class members */
   srefitdata_t& GetEffectData (void) { return (m_Data); }

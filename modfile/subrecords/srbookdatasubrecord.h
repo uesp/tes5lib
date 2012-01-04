@@ -133,6 +133,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrBookDataSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrBookDataSubrecord; }
 
 	/* Get class members */
   srbookdata_t&  GetBookData (void) { return (m_Data); }

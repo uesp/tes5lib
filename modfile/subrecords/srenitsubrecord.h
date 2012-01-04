@@ -151,6 +151,7 @@ public:
 
   	/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrEnitSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrEnitSubrecord; }
 
 	/* Get class members */
   srenitdata_t& GetEnchantData	(void) { return (m_Data); }

@@ -90,6 +90,7 @@ public:
 
 		/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrGmstDataSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrGmstDataSubrecord; }
 
 		/* Get class members */
   int           GetInteger     (void)       { return *(int *)&m_RawData; }

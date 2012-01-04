@@ -397,6 +397,8 @@
   #define SR_FIELD_ENCHANTING			336
   #define SR_FIELD_TRAINERSKILL			337
   #define SR_FIELD_TRAINERLEVEL			338
+  #define SR_FIELD_NEXTPERK				339
+  #define SR_FIELD_PERKSECTIONS         340
 
 /*===========================================================================
  *		End of Field Types

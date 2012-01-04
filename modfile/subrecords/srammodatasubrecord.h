@@ -133,6 +133,7 @@ public:
 
   		/* Create a class instance */
   static CSrSubrecord* Create (void) { return (new CSrAmmoDataSubrecord); }
+  virtual CSrSubrecord* CreateV (void) { return new CSrAmmoDataSubrecord; }
 
 		/* Get class members */
   srammodata_t& GetAmmoData   (void) { return (m_Data); }

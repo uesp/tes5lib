@@ -562,7 +562,7 @@
 								SetExpression = Value; return true; } 
 
 
-#define DECLARE_SRFIELD_EDITORID(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
+	#define DECLARE_SRFIELD_EDITORID(Class, Name, GetFunction, SetFunction) bool GetField##Name (CSString& String, long Reserved) {\
 								String = GetFunction(); return (true); } \
 							int CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 								if (pRecord == NULL) return (1); \
