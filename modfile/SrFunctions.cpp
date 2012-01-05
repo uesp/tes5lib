@@ -1808,7 +1808,7 @@ srfunction_t g_SrFunctions[] =
                { 0x003F, 0 },  } }, 
      { 0x1238, "IsSprinting",                      "",                     0x09000000, "", 0, { } }, 
      { 0x1239, "IsBlocking",                       "",                     0x09000000, "", 0, { } }, 
-     { 0x123A, "HasEquippedSpell",                 "hasspell",             0x09000000, "", 1, {
+     { 0x123A, "HasEquippedSpell",                 "hasspell",			   0x09000000, "", 1, {
                { 0x0044, 0 },  } }, 
      { 0x123B, "GetCurrentCastingType",            "getcasting",           0x09000000, "", 1, {
                { 0x0044, 0 },  } }, 
@@ -2254,7 +2254,6 @@ srfunction_t* GetSrFunction	(const char* pString)
 		for (dword i = 0; i < g_SrFunctionCount; ++i)
 		{
 			s_StringFuncMap.SetAt(g_SrFunctions[i].Name, &g_SrFunctions[i]);
-			if (g_SrFunctions[i].ShortName[0] != 0) s_StringFuncMap.SetAt(g_SrFunctions[i].ShortName, &g_SrFunctions[i]);
 		}
 	}
 
