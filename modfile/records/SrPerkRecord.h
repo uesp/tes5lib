@@ -94,6 +94,13 @@ public:
 	srperkdata_t& GetPerkData       (void) { return m_pPerkData ? m_pPerkData->GetPerkData() : s_NullPerkData; }  
 	dword         CountPerkSections (void) { return CountSubrecords(SR_NAME_PRKE); }
 
+		/* Only count the base conditions and not the section conditions */
+	dword GetBaseConditionCount (void);
+
+	const char* GetDataUnknown1 (void) { return GetSrPerkDataUnknown1TypeString((int) GetPerkData().Unknown1); }
+	const char* GetDataUnknown2 (void) { return GetSrPerkDataUnknown2TypeString((int) GetPerkData().Unknown2); }
+	const char* GetDataUnknown3 (void) { return GetSrPerkDataUnknown3TypeString((int) GetPerkData().Unknown3); }
+
 		/* Initialize a new record */
 	void InitializeNew (void);
 
@@ -101,17 +108,22 @@ public:
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
+	void SetDataUnknown1 (const char* pString) { int Value(1); GetSrPerkDataUnknown1TypeValue(Value, pString); GetPerkData().Unknown1 = Value; }
+	void SetDataUnknown2 (const char* pString) { int Value(1); GetSrPerkDataUnknown2TypeValue(Value, pString); GetPerkData().Unknown2 = Value; }
+	void SetDataUnknown3 (const char* pString) { int Value(1); GetSrPerkDataUnknown3TypeValue(Value, pString); GetPerkData().Unknown3 = Value; }
+
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_FULLNAME(CSrPerkRecord)
 	DECLARE_SRFIELD_DESCRIPTION(CSrPerkRecord, SR_NAME_DESC)
 	DECLARE_SRFIELD_EDITORID1(CSrPerkRecord, NextPerk, SR_NAME_NNAM)
 
-	DECLARE_SRFIELD_BYTE1(CSrPerkRecord, Unknown1, GetPerkData().Unknown1, GetPerkData().Unknown1)
-	DECLARE_SRFIELD_BYTE1(CSrPerkRecord, Unknown2, GetPerkData().Unknown2, GetPerkData().Unknown2)
-	DECLARE_SRFIELD_BYTE1(CSrPerkRecord, Unknown3, GetPerkData().Unknown3, GetPerkData().Unknown3)
+	DECLARE_SRFIELD_METHOD(CSrPerkRecord, Unknown1, GetDataUnknown1, SetDataUnknown1)
+	DECLARE_SRFIELD_METHOD(CSrPerkRecord, Unknown2, GetDataUnknown2, SetDataUnknown2)
+	DECLARE_SRFIELD_METHOD(CSrPerkRecord, Unknown3, GetDataUnknown3, SetDataUnknown3)
 
 	DECLARE_SRFIELD_DWORD1(CSrPerkRecord, PerkSections, CountPerkSections(), dword Tmp)
+	DECLARE_SRFIELD_DWORD1(CSrPerkRecord, ConditionCount, GetBaseConditionCount(), dword Tmp)
 
 };
 /*===========================================================================

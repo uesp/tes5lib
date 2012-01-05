@@ -149,12 +149,14 @@ public:
 	static  CSrSubrecord* Create  (void) { return new CSrEpfdSubrecord; }
 	virtual CSrSubrecord* CreateV (void) { return new CSrEpfdSubrecord; }
 
-	srepfddata01_t&  GetPrkeData01 (void) { return m_Data01; }
-	srepfddata02_t&  GetPrkeData02 (void) { return m_Data02; }
-	srepfddata04_t&  GetPrkeData04 (void) { return m_Data04; }
-	srepfddata05_t&  GetPrkeData05 (void) { return m_Data05; }
-	srepfddata06_t&  GetPrkeData06 (void) { return m_Data06; }
-	srepfddata07_t&  GetPrkeData07 (void) { return m_Data07; }
+	srepfddata01_t&  GetEpfdData01 (void) { return m_Data01; }
+	srepfddata02_t&  GetEpfdData02 (void) { return m_Data02; }
+	srepfddata04_t&  GetEpfdData04 (void) { return m_Data04; }
+	srepfddata05_t&  GetEpfdData05 (void) { return m_Data05; }
+	srepfddata06_t&  GetEpfdData06 (void) { return m_Data06; }
+	srepfddata07_t&  GetEpfdData07 (void) { return m_Data07; }
+
+	byte GetDataType (void) { return m_DataType; }
 
 	virtual byte*  GetData       (void);
 	virtual dword  GetRecordSize (void) const;

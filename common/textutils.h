@@ -18,6 +18,7 @@
  *=========================================================================*/
   #include "srerrorhandler.h"
   #include "dl_map.h"
+  #include "srlogfile.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -114,7 +115,12 @@ public:
 	m_pStringValues = NULL;
   }
 
-  const SSCHAR* FindValue  (const int     Value)    { return m_ValueMap.Lookup(Value); }
+  const SSCHAR* FindValue  (const int     Value)    { 
+	  const SSCHAR* pString = m_ValueMap.Lookup(Value); 
+	  if (pString) return pString;
+	   SystemLog.Printf("Unknown key value %d found!", Value);
+	   return NULL;
+  }
 
   int FindString (const SSCHAR* pString)  { 
     const int* pResult = m_StringMap.Lookup(pString); 

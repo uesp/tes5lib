@@ -454,6 +454,139 @@ BEGIN_STRINGVALUE(s_SrSoulGemTypes)
 	ADD_STRINGVALUE( SR_SOULGEM_GRAND	, "Grand")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrPerkDataUnknown1Types)
+    ADD_STRINGVALUE( 1	, "1")
+	ADD_STRINGVALUE( 5	, "5")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPerkDataUnknown2Types)
+    ADD_STRINGVALUE( 0	, "0")
+	ADD_STRINGVALUE( 1	, "1")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPerkDataUnknown3Types)
+    ADD_STRINGVALUE( 0	, "0")
+	ADD_STRINGVALUE( 1	, "1")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPerkDataTypes)
+    ADD_STRINGVALUE( 0, "Quest")
+	ADD_STRINGVALUE( 1, "Spell")
+	ADD_STRINGVALUE( 2, "Complex")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPrkcTypes)
+    ADD_STRINGVALUE( 0, "Player?")
+	ADD_STRINGVALUE( 1, "Item?")
+	ADD_STRINGVALUE( 2, "Target?")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrEpftTypes)
+    ADD_STRINGVALUE( 1, "float")
+	ADD_STRINGVALUE( 2, "actorvalue")
+	ADD_STRINGVALUE( 4, "lstring(4)?")
+	ADD_STRINGVALUE( 5, "spell")
+	ADD_STRINGVALUE( 6, "gmst")
+	ADD_STRINGVALUE( 7, "lstring(7)?")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPerkDataEffectTypes)
+    ADD_STRINGVALUE( 0x00, "0x00?")
+	ADD_STRINGVALUE( 0x01, "Critical Damage")
+	ADD_STRINGVALUE( 0x02, "Critical Chance")
+	ADD_STRINGVALUE( 0x08, "Buy Price")
+	ADD_STRINGVALUE( 0x0E, "Activate Verb?")
+	ADD_STRINGVALUE( 0x12, "Backstab Dmg")
+	ADD_STRINGVALUE( 0x14, "Zoom Factor?")
+	ADD_STRINGVALUE( 0x15, "Recover Arrows")
+	ADD_STRINGVALUE( 0x16, "Skill Increase")
+	ADD_STRINGVALUE( 0x1A, "Bash Dmg")
+	ADD_STRINGVALUE( 0x1B, "Stamina Cost")
+	ADD_STRINGVALUE( 0x1C, "Power Attack Dmg")
+	ADD_STRINGVALUE( 0x1D, "Spell Magnitude")
+	ADD_STRINGVALUE( 0x1E, "Spell Duration")
+	ADD_STRINGVALUE( 0x20, "Encumberance")
+	ADD_STRINGVALUE( 0x21, "Stagger Chance")
+	ADD_STRINGVALUE( 0x22, "Enemy Stagger Chance")
+	ADD_STRINGVALUE( 0x23, "Damage?")
+	ADD_STRINGVALUE( 0x24, "Received Dmg")
+	ADD_STRINGVALUE( 0x25, "Ignore Armor")
+	ADD_STRINGVALUE( 0x26, "Spell Cost")
+	ADD_STRINGVALUE( 0x27, "Blocking Chance")
+	ADD_STRINGVALUE( 0x28, "Blocking Dmge")
+	ADD_STRINGVALUE( 0x29, "Incoming Spell Dmg")
+	ADD_STRINGVALUE( 0x2B, "Intimidation?")
+	ADD_STRINGVALUE( 0x2F, "Detection(0x2f)?")
+	ADD_STRINGVALUE( 0x30, "Detection(0x30)?")
+	ADD_STRINGVALUE( 0x31, "Soul Charge")
+	ADD_STRINGVALUE( 0x32, "Hit Chance?")
+	ADD_STRINGVALUE( 0x33, "Hit Cast Spell?")
+	ADD_STRINGVALUE( 0x34, "Bash Cast Spell?")
+	ADD_STRINGVALUE( 0x35, "Spell Cast spell?")
+	ADD_STRINGVALUE( 0x36, "Set GMST?")
+	ADD_STRINGVALUE( 0x37, "Casting Noise?")
+	ADD_STRINGVALUE( 0x38, "Pickpocket")
+	ADD_STRINGVALUE( 0x39, "Stealth")
+	ADD_STRINGVALUE( 0x3A, "Falling Dmg")
+	ADD_STRINGVALUE( 0x3B, "Lockpick Difficulty?")
+	ADD_STRINGVALUE( 0x3C, "Sell Price")
+	ADD_STRINGVALUE( 0x3D, "PP Weapons")
+	ADD_STRINGVALUE( 0x3F, "Lockpick Start?")
+	ADD_STRINGVALUE( 0x41, "Lockpicking")
+	ADD_STRINGVALUE( 0x42, "Alchemy")
+	ADD_STRINGVALUE( 0x43, "Is attacking?")
+	ADD_STRINGVALUE( 0x44, "Raise Dead Count")
+	ADD_STRINGVALUE( 0x45, "Sneak Cast Spell")
+	ADD_STRINGVALUE( 0x46, "Set Something?")
+	ADD_STRINGVALUE( 0x47, "Spell Absorb")
+	ADD_STRINGVALUE( 0x48, "Plant Effect Count?")
+	ADD_STRINGVALUE( 0x49, "Potion Purity?")
+	ADD_STRINGVALUE( 0x4A, "Door Access?")
+	ADD_STRINGVALUE( 0x4B, "Dual Casting?")
+	ADD_STRINGVALUE( 0x4C, "Armor Smithing")
+	ADD_STRINGVALUE( 0x4D, "Enchantment Effect")
+	ADD_STRINGVALUE( 0x4E, "Weapon Recharge?")
+	ADD_STRINGVALUE( 0x50, "Enchant Effect Count")
+	ADD_STRINGVALUE( 0x51, "Activate Verb?")
+	ADD_STRINGVALUE( 0x52, "Allow Shouts?")
+	ADD_STRINGVALUE( 0x53, "Poison Hit Count")
+	ADD_STRINGVALUE( 0x54, "PP Poison")
+	ADD_STRINGVALUE( 0x55, "Armor Rating")
+	ADD_STRINGVALUE( 0x56, "Lockpick Noise")
+	ADD_STRINGVALUE( 0x57, "Gather Plant Count")
+	ADD_STRINGVALUE( 0x58, "Summon Range")
+	ADD_STRINGVALUE( 0x59, "Duplicate Potion?")
+	ADD_STRINGVALUE( 0x5A, "Make Wax Key")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPerkDataApplyTypes)
+    ADD_STRINGVALUE( 1,  "=float")
+	ADD_STRINGVALUE( 2,  "+float")
+	ADD_STRINGVALUE( 3,  "*float")
+	ADD_STRINGVALUE( 9,  "lstring+spell")
+	ADD_STRINGVALUE( 10, "spell")
+	ADD_STRINGVALUE( 11, "gmst")
+	ADD_STRINGVALUE( 14, "actorvalue")
+	ADD_STRINGVALUE( 15, "lstring")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrPerkDataUnknownTypes)
+    ADD_STRINGVALUE( 1, "1")
+	ADD_STRINGVALUE( 2, "2")
+	ADD_STRINGVALUE( 3, "3")
+END_STRINGVALUE()
+
+
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -489,6 +622,17 @@ const SSCHAR* GetSrActorValueString     (const int Value) { return s_SrActorValu
 const SSCHAR* GetSrEffectLinkTypeString (const int Value) { return s_SrEffectLinkTypesMap.FindValue(Value); }
 const SSCHAR* GetSrWeaponTypeString     (const int Value) { return s_SrWeaponTypesMap.FindValue(Value); }
 const SSCHAR* GetSrSoulGemTypeString    (const int Value) { return s_SrSoulGemTypesMap.FindValue(Value); }
+
+const SSCHAR* GetSrPerkDataUnknown1TypeString (const int Value) { return s_SrPerkDataUnknown1TypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkDataUnknown2TypeString (const int Value) { return s_SrPerkDataUnknown2TypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkDataUnknown3TypeString (const int Value) { return s_SrPerkDataUnknown3TypesMap.FindValue(Value); }
+
+const SSCHAR* GetSrPerkDataTypeString (const int Value) { return s_SrPerkDataTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPrkcTypeString (const int Value) { return s_SrPrkcTypesMap.FindValue(Value); }
+const SSCHAR* GetSrEpftTypeString (const int Value) { return s_SrEpftTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkDataEffectTypeString (const int Value) { return s_SrPerkDataEffectTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkDataApplyTypeString (const int Value) { return s_SrPerkDataApplyTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkDataUnknownTypeString (const int Value) { return s_SrPerkDataUnknownTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -539,6 +683,17 @@ bool GetSrActorValueValue     (int& Value, const SSCHAR* pString) { return s_SrA
 bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectLinkTypesMap.FindString(Value, pString); }
 bool GetSrWeaponTypeValue     (int& Value, const SSCHAR* pString) { return s_SrWeaponTypesMap.FindString(Value, pString); }
 bool GetSrSoulGemTypeValue    (int& Value, const SSCHAR* pString) { return s_SrSoulGemTypesMap.FindString(Value, pString); }
+
+bool GetSrPerkDataUnknown1TypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknown1TypesMap.FindString(Value, pString); }
+bool GetSrPerkDataUnknown2TypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknown2TypesMap.FindString(Value, pString); }
+bool GetSrPerkDataUnknown3TypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknown3TypesMap.FindString(Value, pString); }
+
+bool GetSrPerkDataTypeTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataTypesMap.FindString(Value, pString); }
+bool GetSrPrkcTypeValue (int& Value, const SSCHAR* pString) { return s_SrPrkcTypesMap.FindString(Value, pString); }
+bool GetSrEpftTypeValue (int& Value, const SSCHAR* pString) { return s_SrEpftTypesMap.FindString(Value, pString); }
+bool GetSrPerkDataEffectTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataEffectTypesMap.FindString(Value, pString); }
+bool GetSrPerkDataApplyTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataApplyTypesMap.FindString(Value, pString); }
+bool GetSrPerkDataUnknownTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknownTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {

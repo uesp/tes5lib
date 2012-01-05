@@ -145,6 +145,8 @@ public:
 	virtual dword GetRecordSize (void) const;
 	
 	void InitializeNew (void);
+
+	void SetDataType (const srperkdatatype_t Type) { m_DataType = Type; }
 	
 };
 /*===========================================================================

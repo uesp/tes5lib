@@ -12,7 +12,7 @@
 #include "srPerkrecord.h"
 
 
-srperkdata_t CSrPerkRecord::s_NullPerkData;
+srperkdata_t CSrPerkRecord::s_NullPerkData = { 0, 0, 0 };
 
 
 /*===========================================================================
@@ -48,13 +48,14 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrPerkRecord, CSrIdRecord)
-	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrPerkRecord, FieldItemName)
-	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrPerkRecord, FieldDescription)
-	ADD_SRFIELDALL("NextPerk",		SR_FIELD_NEXTPERK,		0, CSrPerkRecord, FieldNextPerk)
-	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrPerkRecord, FieldUnknown1)
-	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrPerkRecord, FieldUnknown2)
-	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,		0, CSrPerkRecord, FieldUnknown3)
-	ADD_SRFIELDALL("PerkSections",	SR_FIELD_PERKSECTIONS,	0, CSrPerkRecord, FieldPerkSections)
+	ADD_SRFIELDALL("ItemName",			SR_FIELD_ITEMNAME,			0, CSrPerkRecord, FieldItemName)
+	ADD_SRFIELDALL("Description",		SR_FIELD_DESCRIPTION,		0, CSrPerkRecord, FieldDescription)
+	ADD_SRFIELDALL("NextPerk",			SR_FIELD_NEXTPERK,			0, CSrPerkRecord, FieldNextPerk)
+	ADD_SRFIELDALL("Unknown1",			SR_FIELD_UNKNOWN1,			0, CSrPerkRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",			SR_FIELD_UNKNOWN2,			0, CSrPerkRecord, FieldUnknown2)
+	ADD_SRFIELDALL("Unknown3",			SR_FIELD_UNKNOWN3,			0, CSrPerkRecord, FieldUnknown3)
+	ADD_SRFIELDALL("PerkSections",		SR_FIELD_PERKSECTIONS,		0, CSrPerkRecord, FieldPerkSections)
+	ADD_SRFIELDALL("ConditionCount",	SR_FIELD_CONDITIONCOUNT,	0, CSrPerkRecord, FieldConditionCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -119,7 +120,8 @@ void CSrPerkRecord::InitializeNew (void)
 	AddNewSubrecord(SR_NAME_DESC);
 	if (m_pDescription != NULL) m_pDescription->InitializeNew();
 
-	AddNewSubrecord(SR_NAME_DATA);
+	srsubrecheader_t Header = { SR_NAME_DATA, 5 };
+	AddNewSubrecord(Header);
 	if (m_pPerkData != NULL) m_pPerkData->InitializeNew();
 }
 /*===========================================================================
@@ -146,7 +148,7 @@ void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		if (pSubrecord->GetRecordSize() == SR_PERKDATA_SUBRECORD_SIZE) 
+		if (m_pPerkData == NULL) 
 		{
 			m_pCurrentSection = NULL;
 			m_pPerkData = SrCastClass(CSrPerkDataSubrecord, pSubrecord);
@@ -271,7 +273,8 @@ void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  * Class CSrPerkRecord Event - void OnDeleteSubrecord (pSubrecord);
  *
  *=========================================================================*/
-void CSrPerkRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
+void CSrPerkRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) 
+{
 
 	if (m_pDescription == pSubrecord)
 		m_pDescription = NULL;
@@ -288,6 +291,20 @@ void CSrPerkRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of Class Event CSrPerkRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+dword CSrPerkRecord::GetBaseConditionCount (void)
+{
+	dword Count = 0;
+
+	for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
+	{
+		if (m_Subrecords[i]->GetRecordType() == SR_NAME_PRKE) break;
+		if (m_Subrecords[i]->GetRecordType() == SR_NAME_CTDA) ++Count;
+	}
+
+	return Count;
+}
 
 
 /*===========================================================================

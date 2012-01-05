@@ -676,6 +676,15 @@
 	extern const stringvalue_t s_SrEffectLinkTypes[];
 	extern const stringvalue_t s_SrWeaponTypes[];
 	extern const stringvalue_t s_SrSoulGemTypes[];
+	extern const stringvalue_t s_SrPerkDataUnknown1Types[];
+	extern const stringvalue_t s_SrPerkDataUnknown2Types[];
+	extern const stringvalue_t s_SrPerkDataUnknown3Types[];
+	extern const stringvalue_t s_SrPerkDataTypes[];
+	extern const stringvalue_t s_SrPrkcTypes[];
+	extern const stringvalue_t s_SrEpftTypes[];
+	extern const stringvalue_t s_SrPerkDataEffectTypes[];
+	extern const stringvalue_t s_SrPerkDataApplyTypes[];
+	extern const stringvalue_t s_SrPerkDataUnknownTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -737,6 +746,27 @@
 	bool GetSrWeaponTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrSoulGemTypeString (const int Value);
 	bool GetSrSoulGemTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrPerkDataUnknown1TypeString (const int Value);
+	const SSCHAR* GetSrPerkDataUnknown2TypeString (const int Value);
+	const SSCHAR* GetSrPerkDataUnknown3TypeString (const int Value);
+	bool GetSrPerkDataUnknown1TypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkDataUnknown2TypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkDataUnknown3TypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrPerkDataTypeString (const int Value);
+	const SSCHAR* GetSrPrkcTypeString (const int Value);
+	const SSCHAR* GetSrEpftTypeString (const int Value);
+	const SSCHAR* GetSrPerkDataEffectTypeString (const int Value);
+	const SSCHAR* GetSrPerkDataApplyTypeString (const int Value);
+	const SSCHAR* GetSrPerkDataUnknownTypeString (const int Value);
+
+	bool GetSrPerkDataTypeTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPrkcTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrEpftTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkDataEffectTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkDataApplyTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkDataUnknownTypeValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);

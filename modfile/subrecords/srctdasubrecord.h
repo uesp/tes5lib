@@ -82,6 +82,7 @@ class CSrCtdaSubrecord : public CSrSubrecord {
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   srctdtdata_t	m_Data;
+  byte			m_Prkc;		/* Used as a helper with PERK records */
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -109,14 +110,15 @@ public:
 	/* Field functions */
   bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
   bool GetField      (CSString& Buffer, const int FieldID);
-  
+    
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrCtdaSubrecord* pSubrecord1 = SrCastClassNull(CSrCtdaSubrecord, pSubrecord);
 	m_RecordSize = SR_CTDA_SUBRECORD_SIZE;
-
+	
 	if (pSubrecord1 != NULL) {
 	  m_Data = pSubrecord1->GetCtdtData();
+	  m_Prkc = pSubrecord1->m_Prkc;
 	}
 	else {
 	  memset(&m_Data, 0, sizeof(m_Data));
@@ -134,11 +136,13 @@ public:
 	/* Get class members */
   srctdtdata_t& GetCtdtData (void) { return (m_Data); }
   virtual byte*	GetData     (void) { return (byte *)(&m_Data); }
+  byte GetPrkc       (void) { return m_Prkc; }
    
 	/* Initialize a new record */
   void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_CTDA_SUBRECORD_SIZE; }
 
 	/* Set class members */
+  void SetPrkc (const byte Value) { m_Prkc = Value; }
 
 };
 /*===========================================================================

@@ -399,6 +399,14 @@
   #define SR_FIELD_TRAINERLEVEL			338
   #define SR_FIELD_NEXTPERK				339
   #define SR_FIELD_PERKSECTIONS         340
+  #define SR_FIELD_PERKSECTYPE			341
+  #define SR_FIELD_PERKINDEX			342
+  #define SR_FIELD_PERKSECDATATYPE		343
+  #define SR_FIELD_PERKSECDATA			344
+  #define SR_FIELD_PERKEFFTYPE			345
+  #define SR_FIELD_PERKSEFFDATA			346
+  #define SR_FIELD_PERKAPPLYTYPE		347
+  #define SR_FIELD_PRKC					348
 
 /*===========================================================================
  *		End of Field Types

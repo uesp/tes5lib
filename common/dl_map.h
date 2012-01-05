@@ -432,7 +432,12 @@ TValue* TGenPtrMap<TKey, TValue, TKeyArg>::Lookup (TKeyArg Key) {
   dword         Hash;
 
   pAssoc = GetAssocNode(Key, Hash);
-  if (pAssoc == NULL) return (NULL);
+
+  if (pAssoc == NULL) 
+  {
+	  //SystemLog.Printf("Unknown key %d found!", (int) Key);
+	  return (NULL);
+  }
 
   return pAssoc->Value;
  }
