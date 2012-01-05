@@ -703,6 +703,9 @@ bool CSrEspFile::Save (const SSCHAR* pFilename, CSrCallback* pCallback)
   Result = CSrRecord::InitIOBuffers();
   if (!Result) return (false);
 
+  UpdateLoadLocalString();
+  //TODO: Create/update local string indices
+
   SetFilename(pFilename);
   
   Result = m_File.Open(pFilename, "wb");
@@ -737,3 +740,9 @@ bool CSrEspFile::Write (CSrCallback* pCallback) {
 /*===========================================================================
  *		End of Class Method CSrEspFile::Write()
  *=========================================================================*/
+
+
+void CSrEspFile::UpdateLoadLocalString (void)
+{
+	m_Records.UpdateLoadLocalString(IsLoadLocalString());
+}

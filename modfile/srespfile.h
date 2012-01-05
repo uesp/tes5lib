@@ -317,6 +317,8 @@ public:
   void ModRecordCount (const int   Delta) { if (m_pHeader) m_pHeader->ModRecordCount(Delta); }
   void SetCacheFlags  (const dword Flags) { m_CacheFlags = Flags; }
 
+  void UpdateLoadLocalString (void);
+
 };
 /*===========================================================================
  *		End of Class CSrEspFile Definition

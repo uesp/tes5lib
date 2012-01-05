@@ -736,3 +736,26 @@ bool CSrGroup::WriteGroupSize (CSrFile& File, const dword Offset) {
 /*===========================================================================
  *		End of Class Method CSrGroup::WriteRecordSize()
  *=========================================================================*/
+
+
+void CSrGroup::UpdateLoadLocalString (const bool LoadLocal)
+{
+	if (m_pRecords == NULL) return;
+
+	for (dword i = 0; i < m_pRecords->GetSize(); ++i)
+	{
+		CSrBaseRecord* pBaseRecord = m_pRecords->GetAt(i);
+
+		if (pBaseRecord->IsGroup())
+		{
+			CSrGroup* pGroup = SrCastClass(CSrGroup, pBaseRecord);
+			if (pGroup) pGroup->UpdateLoadLocalString(LoadLocal);
+		}
+		else
+		{
+			CSrRecord* pRecord = SrCastClass(CSrRecord, pBaseRecord);
+			if (pRecord) pRecord->UpdateLoadLocalString(LoadLocal);
+		}
+	}
+
+}

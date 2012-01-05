@@ -222,6 +222,8 @@ public:
   virtual bool Write (CSrFile& File) { return Write(File, NULL); }
   virtual bool Write (CSrFile& File, CSrCallback* pCallback);
 
+  virtual void UpdateLoadLocalString (const bool LoadLocal);
+
 };
 /*===========================================================================
  *		End of Class CSrGroup Definition

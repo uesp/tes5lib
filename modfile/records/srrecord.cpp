@@ -167,23 +167,9 @@ CSrSubrecord* CSrRecord::AddNewSubrecord (const srsubrecheader_t Header)
 	  
 		/* Add the subrecord to the record's collection */
 	m_Subrecords.Add(pSubrecord);
-	
-		/* Special case for local strings */
-	if ( pSubrecord->IsClassType(CSrLStringSubrecord::GetClassType()) )
-	{
-		CSrLStringSubrecord* pLString = SrCastClass(CSrLStringSubrecord, pSubrecord);
-		if (pLString != NULL) pLString->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
-	}
-	else if ( pSubrecord->IsClassType(CSrGmstDataSubrecord::GetClassType()) )
-	{
-		CSrGmstDataSubrecord* pGMST = SrCastClass(CSrGmstDataSubrecord, pSubrecord);
-		if (pGMST != NULL) pGMST->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
-	}
-	else if ( pSubrecord->IsClassType(CSrEpfdSubrecord::GetClassType()) )
-	{
-		CSrEpfdSubrecord* pEPFD = SrCastClass(CSrEpfdSubrecord, pSubrecord);
-		if (pEPFD != NULL) pEPFD->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
-	}
+
+		/* Propagate the local string setting */
+	pSubrecord->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
 	
 		/* Call the record add event */
 	OnAddSubrecord(pSubrecord);
@@ -1730,4 +1716,14 @@ void CSrRecord::SetSubrecordFormID (srformid_t& ResultFormID, const char* pEdito
 		ResultFormID = pRecord->GetFormID();
 	else
 		ResultFormID = SR_FORMID_NULL;
+}
+
+
+void CSrRecord::UpdateLoadLocalString (const bool LoadLocal)
+{
+
+	for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
+	{
+		m_Subrecords[i]->SetLoadLocalString(LoadLocal);
+	}
 }

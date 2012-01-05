@@ -330,6 +330,8 @@ public:
 
   	/* Set a  record field from a string value */
   bool SetField (const srrecfieldid_t FieldID, const SSCHAR* pString);
+
+  void UpdateLoadLocalString (const bool LoadLocal);
   
 	/* Output the record to a file */
   bool Write (CSrFile& File);

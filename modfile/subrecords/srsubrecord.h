@@ -187,6 +187,7 @@ public:
   virtual void InitializeNew (void) { }
 
   virtual void LoadLocalStrings (CSrRecordHandler* pHandler) { }
+  virtual void SetLoadLocalString (const bool LoadLocal) { }
  
 	/* Input/Output the subrecord to a file */
   virtual bool Read  (CSrFile& File);
