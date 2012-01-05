@@ -78,6 +78,19 @@
 
   typedef CSrPtrArray<srfilterfield_t> CSrFieldFilterArray;
 
+
+	/* Extra filtering options */
+  struct srfilterextra_t
+  {
+	  CSString	FilterText;
+	  bool		ActiveOnly;
+
+	  srfilterextra_t()
+	  {
+		  ActiveOnly = false;
+	  }
+  };
+
 /*===========================================================================
  *		End of Type Definitions
  *=========================================================================*/
@@ -141,11 +154,11 @@ public:
   void Destroy (void);
 
 	/* Checks if a record matches the filter */
-  bool CheckRecord (CSrRecord* pRecord);
+  bool CheckRecord (CSrRecord* pRecord, const srfilterextra_t ExtraFilter);
 
 	/* Count records matching filter in the given file */
-  dword CountMatchingRecords (CSrEspFile& File);
-  dword CountMatchingRecords (CSrGroup* pTopGroup);
+  dword CountMatchingRecords (CSrEspFile& File, const srfilterextra_t ExtraFilter);
+  dword CountMatchingRecords (CSrGroup* pTopGroup, const srfilterextra_t ExtraFilter);
 
 	/* Get class members */
   const SSCHAR*    GetID          (void) const { return (m_ID); }

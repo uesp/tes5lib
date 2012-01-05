@@ -287,7 +287,7 @@ int CSrRecordVirtualListCtrl::UpdateRecord (CSrRecord* pNewRecord, CSrRecord* pO
   ListIndex = FindRecord(pOldRecord);
 
   if (ListIndex < 0) {
-    if (m_pCurrentFilter != NULL && !m_pCurrentFilter->CheckRecord(pNewRecord)) return (-1);
+    if (m_pCurrentFilter != NULL && !m_pCurrentFilter->CheckRecord(pNewRecord, m_ExtraFilter)) return (-1);
     return AddRecord(pNewRecord);
   }
 

@@ -272,6 +272,7 @@ protected:
   CSrRecListInfoArray		m_ListInfos;
   srreclistinfo_t*			m_pCurrentList;
   CSrRecordFilter*			m_pCurrentFilter;
+  srfilterextra_t			m_ExtraFilter;
 
   bool						m_ActNormalList;
   bool						m_EnableColors;
@@ -377,6 +378,8 @@ public:
   virtual CSrRecord*         GetSelectedRecord     (void);
   virtual srrlcustomdata_t*  GetSelectedCustomData (void);
   virtual int                GetSelectedItem       (void);
+
+  srfilterextra_t& GetExtraFilter (void) { return m_ExtraFilter; }
 
 	/* Access the static options member */
   static srreclistoptions_t& GetOptions (void) { return (m_Options); }

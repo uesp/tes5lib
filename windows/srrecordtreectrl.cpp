@@ -206,7 +206,7 @@ dword CSrRecordTreeCtrl::IncludeInCounts (CSrRecord* pRecord) {
     if (hItem == NULL)          continue;
     if (pFilter->IsFlagEmpty()) continue;
 
-    Result = pFilter->CheckRecord(pRecord);
+    Result = pFilter->CheckRecord(pRecord, m_ExtraFilter);
 
     if (Result) {
       pFilter->ModRecordCount(1);
@@ -250,7 +250,7 @@ dword CSrRecordTreeCtrl::RemoveFromCounts (CSrRecord* pRecord) {
     if (hItem == NULL)          continue;
     if (pFilter->IsFlagEmpty()) continue;
 
-    Result = pFilter->CheckRecord(pRecord);
+    Result = pFilter->CheckRecord(pRecord, m_ExtraFilter);
 
     if (Result) {
       pFilter->ModRecordCount(-1);
@@ -323,8 +323,9 @@ HTREEITEM CSrRecordTreeCtrl::SelectFromFilterID (const SSCHAR* pID) {
  * Class CSrRecordTreeCtrl Method - void UpdateFilterCounts (File);
  *
  *=========================================================================*/
-void CSrRecordTreeCtrl::UpdateFilterCounts (CSrEspFile& File) {
-  UpdateFilterCounts(&File.GetRecords());
+void CSrRecordTreeCtrl::UpdateFilterCounts (CSrEspFile& File) 
+{
+	UpdateFilterCounts(&File.GetRecords());
 }
 /*===========================================================================
  *		End of Class Method CSrRecordTreeCtrl::UpdateFilterCounts()
@@ -336,7 +337,8 @@ void CSrRecordTreeCtrl::UpdateFilterCounts (CSrEspFile& File) {
  * Class CSrRecordTreeCtrl Method - void UpdateFilterCounts (pTopGroup);
  *
  *=========================================================================*/
-void CSrRecordTreeCtrl::UpdateFilterCounts (CSrGroup* pTopGroup) {
+void CSrRecordTreeCtrl::UpdateFilterCounts (CSrGroup* pTopGroup) 
+{
   CSrRecFilterArray* pFilterArray = GetFilterArray();
   CSrRecordFilter*   pFilter;
   CString	     Buffer;
@@ -354,7 +356,7 @@ void CSrRecordTreeCtrl::UpdateFilterCounts (CSrGroup* pTopGroup) {
 
     if (pFilter->IsFlagEmpty()) continue;
 
-    Count = pFilter->CountMatchingRecords(pTopGroup);
+    Count = pFilter->CountMatchingRecords(pTopGroup, m_ExtraFilter);
     pFilter->SetRecordCount(Count);
 
     UpdateItemText(hItem, pFilter);

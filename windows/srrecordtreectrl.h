@@ -58,6 +58,7 @@ class CSrRecordTreeCtrl : public CTreeCtrl {
 protected:
   CSrRecFilterArray			m_Filters;
   CSrRecFilterArray*		m_pRefFilters;
+  srfilterextra_t			m_ExtraFilter;
 
   static srrectreeoptions_t	m_Options;
 
@@ -81,6 +82,8 @@ public:
 
 	/* Get the currently selected filter object */
   CSrRecordFilter* GetSelectedFilter (void);
+
+  srfilterextra_t& GetExtraFilter (void) { return m_ExtraFilter; }
 
 	/* Access the current filter array */
   CSrRecFilterArray* GetFilterArray (void) { return (m_pRefFilters == NULL ? &m_Filters : m_pRefFilters); }

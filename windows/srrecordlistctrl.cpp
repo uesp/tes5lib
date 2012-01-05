@@ -1273,7 +1273,7 @@ void CSrRecordListCtrl::AddAllRecords (CSrGroup* pTopGroup)
     if (pRecord == NULL) continue;
 
     if (m_pCurrentFilter != NULL) {
-      if (m_pCurrentFilter->CheckRecord(pRecord)) AddRecord(pRecord);
+      if (m_pCurrentFilter->CheckRecord(pRecord, m_ExtraFilter)) AddRecord(pRecord);
      }
     else if (pRecord->GetRecordType() == *m_pCurrentList->pRecordType) 
       AddRecord(pRecord);
@@ -2442,7 +2442,7 @@ int CSrRecordListCtrl::UpdateRecord (CSrRecord* pNewRecord, CSrRecord* pOldRecor
   ListIndex = FindRecord(pOldRecord);
 
   if (ListIndex < 0) {
-    if (m_pCurrentFilter != NULL && !m_pCurrentFilter->CheckRecord(pNewRecord)) return (-1);
+    if (m_pCurrentFilter != NULL && !m_pCurrentFilter->CheckRecord(pNewRecord, m_ExtraFilter)) return (-1);
     return AddRecord(pNewRecord);
   }
 

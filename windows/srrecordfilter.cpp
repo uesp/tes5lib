@@ -74,51 +74,56 @@ void CSrRecordFilter::Destroy (void) {
 
 /*===========================================================================
  *
- * Class CSrRecordFilter Method - bool CheckRecord (pRecord);
+ * Class CSrRecordFilter Method - bool CheckRecord (pRecord, const srfilterextra_t ExtraFilter);
  *
  * Checks if the given record matches the filter. Returns true if it does.
  *
  *=========================================================================*/
-bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
-  //CSrItem1Record* pItem1;
+bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord, const srfilterextra_t ExtraFilter) 
+{
   CSrWeapRecord*  pWeapon;
   CSrArmoRecord*  pArmor;
-  //CSrClotRecord*  pClothing;
-  //CSrScptRecord*  pScript;
-  //CSrEnchRecord*  pEnchant;
-  //CSrSpelRecord*  pSpell;
-  dword			BodyFlags;
-  bool			Result;
+  CSrItem1Record* pItem1 = NULL;
+  dword			  BodyFlags;
+  bool		  	  Result;
 
 	/* Ignore invalid input */
   if (pRecord == NULL) return (false);
   if (IsFlagEmpty())   return (false);
 
+	/* Check active record if required */
+  if (ExtraFilter.ActiveOnly && !pRecord->IsActive()) return false;
+
 	/* Do the record types match? */
-  if (IsMaskRecordType()) {
+  if (IsMaskRecordType()) 
+  {
     if (pRecord->GetRecordType() != m_RecordType) return (false);
-   }
+  }
 
 	/* Do the item names match? */
-  if (IsMaskItemName()) {
-    //pItem1 = SrCastClass(CSrItem1Record, pRecord);
-    //if (pItem1 == NULL) return (false);
-    //if (strnicmp(m_NameFilter, pItem1->GetItemName(), m_NameFilter.GetLength()) != 0) return (false);
-   }
+  if (IsMaskItemName()) 
+  {
+    pItem1 = SrCastClass(CSrItem1Record, pRecord);
+    if (pItem1 == NULL) return (false);
+    if (strnicmp(m_NameFilter, pItem1->GetItemName(), m_NameFilter.GetLength()) != 0) return (false);
+  }
 
 	/* Do the materials names match? */
-  if (IsMaskMaterial()) {
+  if (IsMaskMaterial()) 
+  {
 	  pWeapon = SrCastClass(CSrWeapRecord, pRecord);
 
 	  if (pWeapon != NULL)
 	  {
 		  if (m_Material.CompareNoCase(pWeapon->GetWeaponMaterial())) return (false);
 	  }
-    //if (pItem1 == NULL) return (false);
 
-    //if (stristr(pItem1->GetItemName(), m_Material) == NULL) {
-//      if (stristr(m_NameFilter, pItem1->GetModel()) == NULL) return (false);
-     //}
+      if (pItem1 == NULL) return (false);
+
+      if (stristr(pItem1->GetItemName(), m_Material) == NULL) 
+	  {
+		if (stristr(m_NameFilter, pItem1->GetModel()) == NULL) return (false);
+      }
    }
 
 	/* Do the weapon types match? */
@@ -129,39 +134,34 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
    }
 
 	/* Do the armor types match? */
-  if (IsMaskArmorType()) {
-    //pArmor = SrCastClass(CSrArmoRecord, pRecord);
-    //if (pArmor == NULL) return (false);
-    //if ((dword) pArmor->IsHeavyArmor() != m_ArmorType) return (false);
-   }
+  if (IsMaskArmorType()) 
+  {
+	  //TODO
+  }
 
    	/* Do the script types match? */
-  if (IsMaskScriptType()) {
-    //pScript = SrCastClass(CSrScptRecord, pRecord);
-    //if (pScript == NULL) return (false);
-    //if ((int)pScript->GetType() != m_ScriptType) return (false);
-   }
+  if (IsMaskScriptType()) 
+  {
+  	  //TODO
+  }
 
    	/* Do the enchant types match? */
-  if (IsMaskEnchantType()) {
-    //pEnchant = SrCastClass(CSrEnchRecord, pRecord);
-    //if (pEnchant == NULL) return (false);
-    //if ((int)pEnchant->GetType() != m_EnchantType) return (false);
-   }
+  if (IsMaskEnchantType()) 
+  {
+  	  //TODO
+  }
 
 	/* Do the spell types match? */
-  if (IsMaskSpellType()) {
-    //pSpell = SrCastClass(CSrSpelRecord, pRecord);
-    //if (pSpell == NULL) return (false);
-    //if ((int)pSpell->GetType() != m_SpellType) return (false);
-   }
+  if (IsMaskSpellType()) 
+  {
+   	  //TODO
+  }
 
 	/* Do the spell levels match? */
-  if (IsMaskSpellLevel()) {
-    //pSpell = SrCastClass(CSrSpelRecord, pRecord);
-    //if (pSpell == NULL) return (false);
-    //if ((int)pSpell->GetLevel() != m_SpellLevel) return (false);
-   }
+  if (IsMaskSpellLevel()) 
+  {
+	  	  //TODO
+  }
    
    	/* Do the biped parts match? */
   if (IsMaskBodyParts()) {
@@ -171,11 +171,6 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
       if (pArmor == NULL) return (false);
       BodyFlags = pArmor->GetBodyFlags();
     }
-    //else if (pRecord->GetRecordType() == SR_NAME_CLOT) {
-//      pClothing = SrCastClass(CSrClotRecord, pRecord);
-      //if (pClothing == NULL) return (false);
-      //BodyFlags = pClothing->GetBodyFlags();
-     //}
     else 
 	{
       return (false);
@@ -201,8 +196,23 @@ bool CSrRecordFilter::CheckRecord (CSrRecord* pRecord) {
   Result = CheckFieldRecord(pRecord);
   if (!Result) return (false);
 
+	/* Check text filters if required */
+  if (!ExtraFilter.FilterText.IsEmpty())
+  {
+	  CSrIdRecord* pIDRecord = SrCastClassNull(CSrIdRecord, pRecord);
+
+	  if (pIDRecord == NULL)
+	  {
+		  CSrSubrecord* pEdid = pRecord->FindSubrecord(SR_NAME_EDID);
+		  if (pEdid == NULL || pEdid->GetData() == NULL) return false;
+		  if (stristr((const char *) pEdid->GetData(), ExtraFilter.FilterText.c_str()) == NULL) return false;
+	  }
+
+	  if (stristr(pIDRecord->GetEditorID(), ExtraFilter.FilterText.c_str()) == NULL) return false;
+  }
+
 	/* Record matches all filter criteria */
-  return (true);
+  return true;
 }
 /*===========================================================================
  *		End of Class Method CSrRecordFilter::CheckRecord()
@@ -277,14 +287,15 @@ bool CSrRecordFilter::CheckFieldRecord (srfilterfield_t& Filter, CSrRecord* pRec
 
 /*===========================================================================
  *
- * Class CSrRecordFilter Method - dword CountMatchingRecords (File);
+ * Class CSrRecordFilter Method - dword CountMatchingRecords (File, ExtraFilter);
  *
  * Counts and returns the number of matching records in the given file.
  *
  *=========================================================================*/
-dword CSrRecordFilter::CountMatchingRecords (CSrEspFile& File) {
-  return CountMatchingRecords(&File.GetRecords());
- }
+dword CSrRecordFilter::CountMatchingRecords (CSrEspFile& File, const srfilterextra_t ExtraFilter) 
+{
+	return CountMatchingRecords(&File.GetRecords(), ExtraFilter);
+}
 /*===========================================================================
  *		End of Class Method CSrRecordFilter::CountMatchingRecords()
  *=========================================================================*/
@@ -292,17 +303,18 @@ dword CSrRecordFilter::CountMatchingRecords (CSrEspFile& File) {
 
 /*===========================================================================
  *
- * Class CSrRecordFilter Method - dword CountMatchingRecords (pTopGroup);
+ * Class CSrRecordFilter Method - dword CountMatchingRecords (pTopGroup, ExtraFilter);
  *
  * Counts and returns the number of matching records in the given file.
  *
  *=========================================================================*/
-dword CSrRecordFilter::CountMatchingRecords (CSrGroup* pTopGroup) {
+dword CSrRecordFilter::CountMatchingRecords (CSrGroup* pTopGroup, const srfilterextra_t ExtraFilter) 
+{
   CSrTypeGroup*  pGroup;
   CSrBaseRecord* pBaseRecord;
   CSrRecord*     pRecord;
   dword          Count = 0;
-  dword		 Index;
+  dword			 Index;
 
 	/* Easy answer for an empty filter */
   if (IsFlagEmpty()) return (0);
@@ -315,16 +327,17 @@ dword CSrRecordFilter::CountMatchingRecords (CSrGroup* pTopGroup) {
   if (pGroup == NULL) return (0);
 
 	/* Very quick result for simple filters */
-  if (m_FilterMask == SR_RECFILTER_MASK_RECORDTYPE) {
+  if (m_FilterMask == SR_RECFILTER_MASK_RECORDTYPE && !ExtraFilter.ActiveOnly && ExtraFilter.FilterText.IsEmpty()) 
+  {
     return pGroup->GetNumRecords();
-   }
+  }
 
   for (Index = 0; Index < pGroup->GetNumRecords(); ++Index) {
     pBaseRecord = pGroup->GetRecord(Index);
     pRecord     = SrCastClass(CSrRecord, pBaseRecord);
     if (pRecord == NULL) continue;
 
-    if (CheckRecord(pRecord)) ++Count;
+    if (CheckRecord(pRecord, ExtraFilter)) ++Count;
    }
 
   return (Count);
