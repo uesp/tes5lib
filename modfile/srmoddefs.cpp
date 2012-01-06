@@ -481,9 +481,9 @@ END_STRINGVALUE()
 
 
 BEGIN_STRINGVALUE(s_SrPrkcTypes)
-    ADD_STRINGVALUE( 0, "Player?")
-	ADD_STRINGVALUE( 1, "Item?")
-	ADD_STRINGVALUE( 2, "Target?")
+    ADD_STRINGVALUE( 0, "0")
+	ADD_STRINGVALUE( 1, "1")
+	ADD_STRINGVALUE( 2, "2")
 END_STRINGVALUE()
 
 
@@ -499,8 +499,8 @@ END_STRINGVALUE()
 
 BEGIN_STRINGVALUE(s_SrPerkDataEffectTypes)
     ADD_STRINGVALUE( 0x00, "0x00?")
-	ADD_STRINGVALUE( 0x01, "Critical Damage")
-	ADD_STRINGVALUE( 0x02, "Critical Chance")
+	ADD_STRINGVALUE( 0x01, "Critical Chance")
+	ADD_STRINGVALUE( 0x02, "Critical Damage")
 	ADD_STRINGVALUE( 0x08, "Buy Price")
 	ADD_STRINGVALUE( 0x0E, "Activate Verb?")
 	ADD_STRINGVALUE( 0x12, "Backstab Dmg")
