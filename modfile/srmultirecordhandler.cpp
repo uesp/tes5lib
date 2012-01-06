@@ -58,18 +58,19 @@ CSrMultiRecordHandler::CSrMultiRecordHandler (const dword HashMapSize)
   m_NextFreeFormID   = SRESPFILE_FIRST_FORMID;
   m_NextFreeEditorID = SRESPFILE_FIRST_EDITORID;
 
-  //m_FormIdMap.InitHashTable(HashMapSize);
-  //m_EditorIdMap.InitHashTable(HashMapSize);
+  m_FormIdMap.InitHashTable(HashMapSize);
+  m_EditorIdMap.InitHashTable(HashMapSize);
 
   m_ActiveFile.SetParent(this);
 
 	/* Initialize the special player reference */
-  //m_PlayerRef.Initialize(SR_NAME_REFR);
-  //m_PlayerRef.InitializeNew();
-  //m_PlayerRef.SetFormID(SR_PLAYERREF_FORMID);
-  //m_PlayerRef.SetBaseFormID(SR_PLAYER_FORMID);
-  //m_PlayerRef.SetParent(this);
-  //m_PlayerRef.SetQuestItem(true);
+  m_PlayerRef.Initialize(SR_NAME_REFR);
+  m_PlayerRef.InitializeNew();
+  m_PlayerRef.SetFormID(SR_PLAYERREF_FORMID);
+  m_PlayerRef.SetEditorID("PlayerRef");
+  //m_PlayerRef.SetBaseFormID(SR_PLAYER_FORMID); //TODO: When implemented
+  m_PlayerRef.SetParent(this);
+  m_PlayerRef.SetQuestItem(true);
 
 }
 /*===========================================================================
@@ -86,8 +87,9 @@ void CSrMultiRecordHandler::Destroy (void) {
   m_NextFreeFormID   = SRESPFILE_FIRST_FORMID;
   m_NextFreeEditorID = SRESPFILE_FIRST_EDITORID;
 
-	/* Remove the oblivion master file from the array if required */
-  if (m_MasterFiles.GetAt(0) == &m_SkyrimMaster) {
+	/* Remove the Skyrim master file from the array if required */
+  if (m_MasterFiles.GetAt(0) == &m_SkyrimMaster) 
+  {
     m_MasterFiles.SetAt(0, NULL);
   }
 
@@ -1566,7 +1568,7 @@ bool CSrMultiRecordHandler::IndexRecords (CSrCallback* pCallback) {
   m_EditorIdMap.InitHashTable(MapSize);
 
 	/* Add special pseudo-records */
-  //m_FormIdMap.SetAt(&m_PlayerRef);
+  m_FormIdMap.SetAt(&m_PlayerRef);
 
 	/* Index all masters */
   for (Index = 0; Index < m_MasterFiles.GetSize(); ++Index) {

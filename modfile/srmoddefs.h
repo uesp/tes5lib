@@ -56,8 +56,8 @@
   #define SR_MODINDEX_MIN 0
 
 	/* Special formids */
-  //#define SR_PLAYERREF_FORMID 0x14
-  //#define SR_PLAYER_FORMID    0x7
+  #define SR_PLAYERREF_FORMID 0x14
+  #define SR_PLAYER_FORMID    0x7
 
 /*===========================================================================
  *		End of FormID Definitions

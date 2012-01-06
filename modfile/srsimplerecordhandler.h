@@ -44,7 +44,7 @@ protected:
   dword					m_NextFreeFormID;	/* Used to find a free ID */
   dword					m_NextFreeEditorID;
 
-  //CSrRefrRecord		 m_PlayerRef;		/* Special pseudo-records */
+  CSrRefrRecord			m_PlayerRef;		/* Special pseudo-records */
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -94,7 +94,7 @@ public:
 
 	/* Get class members */
   CSrEspFile&    GetEspFile         (void) { return (m_EspFile); }
-  //CSrRefrRecord* GetPlayerReference (void) { return (&m_PlayerRef); }
+  CSrRefrRecord* GetPlayerReference (void) { return (&m_PlayerRef); }
 
 	/* Adds the given record to the record indexes */
   virtual void IndexRecord  (CSrRecord*     pRecord);

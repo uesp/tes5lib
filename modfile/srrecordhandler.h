@@ -18,8 +18,8 @@
  *=========================================================================*/
   #include "records/sridrecord.h"
   #include "records/srkywdrecord.h"
-  //#include "records/srrefrrecord.h"
-  //#include "groups/srtypegroup.h"
+  #include "records/srrefrrecord.h"
+  #include "groups/srtypegroup.h"
   #include "records/srrecordmap.h"
 /*===========================================================================
  *		End of Required Includes
@@ -169,7 +169,7 @@ public:
   virtual const SSCHAR* GetFreeEditorID (void) = 0;
 
 	/* Access the special player reference */
-  //virtual CSrRefrRecord* GetPlayerReference (void) = 0;
+  virtual CSrRefrRecord* GetPlayerReference (void) = 0;
 
 	/* Is the parent the active file or not */
   virtual bool IsActive (void) const = 0;

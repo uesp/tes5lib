@@ -26,12 +26,13 @@ CSrSimpleRecordHandler::CSrSimpleRecordHandler (const dword HashMapSize)
   m_EditorIdMap.InitHashTable(HashMapSize);
 
   	/* Initialize the special player reference */
-  //m_PlayerRef.Initialize(SR_NAME_REFR);
-  //m_PlayerRef.InitializeNew();
-  //m_PlayerRef.SetFormID(SR_PLAYERREF_FORMID);
-  //m_PlayerRef.SetBaseFormID(SR_PLAYER_FORMID);
-  //m_PlayerRef.SetParent(this);
-  //m_PlayerRef.SetQuestItem(true);
+  m_PlayerRef.Initialize(SR_NAME_REFR);
+  m_PlayerRef.InitializeNew();
+  m_PlayerRef.SetFormID(SR_PLAYERREF_FORMID);
+  m_PlayerRef.SetEditorID("PlayerRef");
+  //m_PlayerRef.SetBaseFormID(SR_PLAYER_FORMID); //TODO: When implemented
+  m_PlayerRef.SetParent(this);
+  m_PlayerRef.SetQuestItem(true);
 
   m_EspFile.SetParent(this);
 }
@@ -342,7 +343,7 @@ bool CSrSimpleRecordHandler::IndexRecords (CSrCallback* pCallback)
   m_EditorIdMap.InitHashTable(MapSize);
 
   	/* Add special pseudo-records */
-  //m_FormIdMap.SetAt(&m_PlayerRef);
+  m_FormIdMap.SetAt(&m_PlayerRef);
   
 	/* Index all records in the file */
   m_EspFile.ForEachRecord(l_IndexCallback, 0, this);

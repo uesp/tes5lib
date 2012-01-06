@@ -175,7 +175,7 @@ protected:
 
   static srmultirecoptions_t	m_Options;				/* Handler options */
 
-  //CSrRefrRecord				m_PlayerRef;			/* Special pseudo-records */
+  CSrRefrRecord					m_PlayerRef;			/* Special pseudo-records */
 
 
 public:
@@ -330,7 +330,7 @@ public:
   dword          GetNumMaster       (void) { return (m_MasterFiles.GetSize()); }
   CEspFileArray& GetMasterFiles     (void) { return (m_MasterFiles); }
   CSrEspFile&    GetActiveFile      (void) { return (m_ActiveFile); }
-  //CSrRefrRecord* GetPlayerReference (void) { return (&m_PlayerRef); }
+  CSrRefrRecord* GetPlayerReference (void) { return (&m_PlayerRef); }
 
     	/* Get undo information */
   dword             GetNumUndoItems (void) { return (m_UndoItems.GetSize() > 0); }

@@ -322,7 +322,7 @@ public:
   virtual srformid_t     GetFreeFormID      (const byte ModIndex = 0)			{ return (m_pParent ? m_pParent->GetFreeFormID(ModIndex) : 0); }
   virtual const SSCHAR*  GetFreeEditorID    (void)								{ return (m_pParent ? m_pParent->GetFreeEditorID() : ""); }
   virtual bool           IsActive           (void) const                        { return (m_IsActive); }
-  //virtual CSrRefrRecord* GetPlayerReference (void)                                       { return (m_pParent ? m_pParent->GetPlayerReference() : NULL); }
+  virtual CSrRefrRecord* GetPlayerReference (void)                              { return (m_pParent ? m_pParent->GetPlayerReference() : NULL); }
 
 		/* Set class members */
   void SetActive      (const bool  Value) { m_IsActive = Value; }
