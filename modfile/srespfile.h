@@ -284,16 +284,18 @@ public:
   CSrTypeGroup* GetTypeGroup (const srrectype_t Type);
 
 	/* Get class methods */
-  CSrTes4Record*    GetHeader        (void) { return (m_pHeader); }
-  const SSCHAR*     GetFilename      (void) { return (m_Filename); }
-  const SSCHAR*     GetShortFilename (void) { return (m_ShortFilename); }
-  CSrRecordHandler* GetParent        (void) { return (m_pParent); }
-  int			    GetRecordCount   (void) { return (m_pHeader ? m_pHeader->GetRecordCount() : 0); }
-  byte				GetModIndex      (void) { return (m_ModIndex); }
-  CSrFileGroup&     GetRecords       (void) { return (m_Records); }
-  virtual CSrGroup* GetTopGroup      (void) { return (&m_Records); }
-  dword				GetCacheFlags    (void) { return (m_CacheFlags); }
-  bool				IsLocalStrings   (void) const { return m_pHeader == NULL ? false : m_pHeader->IsLocalStrings(); }
+  CSrTes4Record*    GetHeader         (void) { return (m_pHeader); }
+  const SSCHAR*     GetFilename       (void) { return (m_Filename); }
+  const SSCHAR*     GetShortFilename  (void) { return (m_ShortFilename); }
+  CSrRecordHandler* GetParent         (void) { return (m_pParent); }
+  int			    GetRecordCount    (void) { return (m_pHeader ? m_pHeader->GetRecordCount() : 0); }
+  byte				GetModIndex       (void) { return (m_ModIndex); }
+  CSrFileGroup&     GetRecords        (void) { return (m_Records); }
+  virtual CSrGroup* GetTopGroup       (void) { return (&m_Records); }
+  dword				GetCacheFlags     (void) { return (m_CacheFlags); }
+  bool				IsLocalStrings    (void) const { return m_pHeader == NULL ? false : m_pHeader->IsLocalStrings(); }
+  const char*       GetModAuthor      (void) { return m_pHeader ? m_pHeader->GetAuthor() : "" ; }
+  const char*		GetModDescription (void) { return m_pHeader ? m_pHeader->GetSummary() : "" ; }
 
     	/* Initialize a new file */
   void InitializeNew (void);
@@ -327,6 +329,9 @@ public:
   void ModRecordCount (const int   Delta) { if (m_pHeader) m_pHeader->ModRecordCount(Delta); }
   void SetCacheFlags  (const dword Flags) { m_CacheFlags = Flags; }
   void SetLoadLocal   (const bool Value)  { if (m_pHeader) m_pHeader->SetLocalStrings(Value); }
+
+  void SetModAuthor      (const char* pString) { if (m_pHeader) m_pHeader->SetAuthor(pString); }
+  void SetModDescription (const char* pString) { if (m_pHeader) m_pHeader->SetSummary(pString); }
 
   void UpdateLoadLocalString (void);
 
