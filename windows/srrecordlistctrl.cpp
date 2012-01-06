@@ -1306,7 +1306,7 @@ void CSrRecordListCtrl::AutoResize (const int CX, const int CY)
   NewSize.left   = m_AutoResizeOffset.left;
 
   SetWindowPos(NULL, NewSize.left, NewSize.top, NewSize.Width(), NewSize.Height(), SWP_NOZORDER | SWP_NOMOVE );
- }
+}
 /*===========================================================================
  *		End of Class Method CSrRecordListCtrl::AutoResize()
  *=========================================================================*/
