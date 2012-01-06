@@ -12,6 +12,7 @@
 #include "srlstringsubrecord.h"
 #include <unordered_map>
 #include "../srrecordhandler.h"
+#include "strings/srstringfile.h"
 
 
 /*===========================================================================
@@ -133,3 +134,17 @@ bool CSrLStringSubrecord::WriteData (CSrFile& File)
 /*===========================================================================
  *		End of Class Method CSrLStringSubrecord::WriteData()
  *=========================================================================*/
+
+
+void CSrLStringSubrecord::UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID)
+{
+
+	if (m_String.IsEmpty())
+	{
+		m_StringID = 0;
+		return;
+	}
+
+	m_StringID = NextStringID++;
+	StringFile.Add(m_StringID, m_String);
+}

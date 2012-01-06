@@ -1891,6 +1891,16 @@ void CSrRecordListCtrl::ResetContents (void) {
  *=========================================================================*/
 
 
+void CSrRecordListCtrl::ClearSelections(void)
+{
+	for (dword i = 0; i < GetItemCount(); ++i) 
+	{
+		SetItemState(i, 0, LVIS_SELECTED);    
+	}
+
+}
+
+
 /*===========================================================================
  *
  * Class CSrRecordListCtrl Method - bool SelectRecord (pRecord);

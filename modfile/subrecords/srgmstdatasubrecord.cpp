@@ -11,6 +11,7 @@
 	/* Include Files */
 #include "srgmstdatasubrecord.h"
 #include "../srrecordhandler.h"
+#include "strings/srstringfile.h"
 
 
 /*===========================================================================
@@ -146,3 +147,18 @@ bool CSrGmstDataSubrecord::WriteData (CSrFile& File)
 /*===========================================================================
  *		End of Class Method CSrGmstDataSubrecord::WriteData()
  *=========================================================================*/
+
+
+void CSrGmstDataSubrecord::UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID)
+{
+	if (!IsGlobalString()) return;
+
+	if (m_String.IsEmpty())
+	{
+		m_RawData = 0;
+		return;
+	}
+
+	m_RawData = NextStringID++;
+	StringFile.Add(m_RawData, m_String);
+}

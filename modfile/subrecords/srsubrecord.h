@@ -66,6 +66,7 @@
  *=========================================================================*/
 
   class CSrRecordHandler;
+  class CSrStringFile;
 
 #pragma pack(push, 1)
 
@@ -195,6 +196,8 @@ public:
   
 	/* Set class members */
   void SetSpecialSize (const dword Size = 0) { m_RecordSize = Size; }
+
+  virtual void UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID) { }
 
 };
 

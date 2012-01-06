@@ -349,7 +349,7 @@ public:
   virtual ~CSrRecordListCtrl();
 
 	/* Called when the parent window is resized */
-  void AutoResize (void);
+  void AutoResize (const int CX, const int CY);
 
 	/* Adds a record to the list */
   virtual int  AddRecord       (CSrRecord*  pRecord);
@@ -357,6 +357,8 @@ public:
   virtual int  AddCustomRecord (srrlcustomdata_t& CustomData);
   virtual void AddAllRecords   (CSrEspFile& File);
   virtual void AddAllRecords   (CSrGroup* pTopGroup);
+
+  void ClearSelections(void);
 
 	/* Set default list settings */
   virtual void DefaultSettings (void);

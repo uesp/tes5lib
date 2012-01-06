@@ -123,6 +123,7 @@ public:
   void SetLoadLocalString (const bool Flag) { ::FlipFlagBits(m_Flags, SR_LSTRING_FLAG_LOADLOCAL, Flag); }
   void SetIsStringLoaded  (const bool Flag) { ::FlipFlagBits(m_Flags, SR_LSTRING_FLAG_ISLOADED,  Flag); }
 
+  void UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID);
   
 };
 /*===========================================================================

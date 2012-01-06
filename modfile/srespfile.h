@@ -196,8 +196,12 @@ private:
   CSString			m_Filename;		/* Filename as last loaded/saved */
   CSString			m_ShortFilename;
 
-  CSrStringFileArray m_StringFiles;
+  CSrStringFile		 m_ILStringFile;
+  CSrStringFile		 m_DLStringFile;
+  CSrStringFile		 m_LStringFile;
+
   CSrStringFileMap	 m_StringMap;
+  srlstringid_t		 m_NextStringID;
 
   byte				m_ModIndex;
   bool				m_IsActive;
@@ -226,8 +230,14 @@ protected:
 
   virtual bool LoadStringFiles (CSrCallback* pCallback);
   virtual void MakeStringMap (CSrCallback* pCallback);
-  virtual bool LoadStringFile (const SSCHAR* pFilename, CSrCallback* pCallback);
+  virtual void MakeStringMap (CSrStringFile& StringFile, CSrCallback* pCallback);
+  virtual bool LoadStringFile (CSrStringFile& StringFile, const SSCHAR* pFilename, CSrCallback* pCallback);
   virtual void LoadLocalStrings (CSrCallback* pCallback);
+
+  bool SaveLocalStrings(const char* pFilename);
+
+  void UpdateStringMap (CSrGroup* pGroup);
+  void UpdateStringMap (CSrRecord* pRecord);
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -293,7 +303,7 @@ public:
 	/* Main input/output methods */
   virtual bool Load (const SSCHAR* pFilename, CSrCallback* pCallback = NULL);
   virtual bool Save (const SSCHAR* pFilename, CSrCallback* pCallback = NULL);
-
+  
 	/* Set class members */
   void SetParent   (CSrRecordHandler* pParent) { m_pParent  = pParent; }
   void SetFilename (const SSCHAR*     pString) { m_Filename = pString;  m_ShortFilename = m_Filename;  m_ShortFilename.ReverseTruncate("\\:/"); }
@@ -316,8 +326,11 @@ public:
   void SetActive      (const bool  Value) { m_IsActive = Value; }
   void ModRecordCount (const int   Delta) { if (m_pHeader) m_pHeader->ModRecordCount(Delta); }
   void SetCacheFlags  (const dword Flags) { m_CacheFlags = Flags; }
+  void SetLoadLocal   (const bool Value)  { if (m_pHeader) m_pHeader->SetLocalStrings(Value); }
 
   void UpdateLoadLocalString (void);
+
+  void UpdateStringMap (void);
 
 };
 /*===========================================================================

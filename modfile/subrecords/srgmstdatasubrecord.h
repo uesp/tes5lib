@@ -124,6 +124,8 @@ public:
   void SetIsStringLoaded  (const bool Flag) { ::FlipFlagBits(m_Flags, SR_LSTRING_FLAG_ISLOADED,  Flag); }
   void SetGlobalType      (const byte Type) { m_Flags =(m_Flags & ~SR_GMSTDATA_TYPEMASK) | (Type & SR_GMSTDATA_TYPEMASK); }
 
+  virtual void UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID);
+
 };
 /*===========================================================================
  *		End of Class CSrGmstDataSubrecord Definition

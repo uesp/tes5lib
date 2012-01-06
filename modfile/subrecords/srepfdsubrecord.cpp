@@ -11,6 +11,7 @@
 	/* Include Files */
 #include "srepfdsubrecord.h"
 #include "../srrecordhandler.h"
+#include "strings/srstringfile.h"
 
 
 CSrEpfdSubrecord::CSrEpfdSubrecord() : m_DataType(SP_EPFDTYPE_UNKNOWN)
@@ -264,4 +265,19 @@ bool CSrEpfdSubrecord::WriteData (CSrFile& File)
 	}
 
 	return AddSrGeneralError("Unknown EPFD data type %d!", m_DataType);
+}
+
+
+void CSrEpfdSubrecord::UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID)
+{
+	if (m_DataType != SP_EPFDTYPE_LSTRING) return;
+
+	if (m_Data07.String.IsEmpty())
+	{
+		m_Data07.StringID = 0;
+		return;
+	}
+
+	m_Data07.StringID = NextStringID++;
+	StringFile.Add(m_Data07.StringID, m_Data07.String);
 }

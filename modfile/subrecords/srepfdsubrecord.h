@@ -167,6 +167,8 @@ public:
 
 	void SetDataType        (const byte Value) { m_DataType = Value; }
 	void SetLoadLocalString (const bool Value) { m_Data07.IsLocalString = Value; }
+
+	virtual void UpdateLocalStrings(CSrStringFile& StringFile, srlstringid_t& NextStringID);
   
 };
 /*===========================================================================

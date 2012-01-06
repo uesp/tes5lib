@@ -43,6 +43,13 @@ void CSrStringFile::Destroy (void)
  *=========================================================================*/
 
 
+void CSrStringFile::Add (const srlstringid_t ID, const CSString String)
+{
+	srstringrecord_h NewRecord = { ID, String, -1 };
+	m_Strings.Add(NewRecord);
+}
+
+
 /*===========================================================================
  *
  * Class CSrStringFile Method - void Dump (void);
@@ -293,7 +300,6 @@ bool CSrStringFile::ReadBStringsFast (CSrFile& File)
 		dword Offset = m_Strings[i].Offset;
 		Length = *((dword *) (pFileData + Offset));
 		m_Strings[i].String.Copy(pFileData + Offset + 4, Length);
-		//pString->UpdateLength();
 	}
 
 	return true;
@@ -301,3 +307,112 @@ bool CSrStringFile::ReadBStringsFast (CSrFile& File)
 /*===========================================================================
  *		End of Class Method CSrStringFile::ReadBStringsFast()
  *=========================================================================*/
+
+
+bool CSrStringFile::Save (const SSCHAR* pFile, const SSCHAR* pExtension)
+{
+	CSString  Filename(pFile);
+	CSrFile	  File;
+	bool      Result;
+
+	if (pFile == NULL) return AddSrGeneralError("Invalid string filename!");
+	if (pExtension == NULL) return AddSrGeneralError("Invalid string file extension!");
+
+	Filename.Truncate(Filename.FindCharR('.'));
+	Filename += ".";
+	Filename += pExtension;
+
+	if (stricmp(pExtension, "ilstrings") == 0 || stricmp(pExtension, "dlstrings") == 0) 
+		m_IsBStringFile = true;
+	else
+		m_IsBStringFile = false;
+
+	SystemLog.Printf("Attempting to save '%s'...", Filename.c_str());
+
+	Result = File.Open(Filename, "wb");
+	if (!Result) return false;
+
+	m_Filename = Filename;
+
+	Result  = File.WriteDWord(m_Strings.GetSize());
+	Result &= File.WriteDWord(0);
+	if (!Result) return AddSrGeneralError("Failed to write the string file header data!");
+
+		/* This call will write incorrect offsets */
+	Result = WriteDirectory(File);
+	if (!Result) return false;
+
+	if (m_IsBStringFile)
+		Result = WriteBStrings(File);
+	else
+		Result = WriteStrings(File);
+
+	if (!Result) return false;
+
+	int FileSize;
+	Result = File.Tell(FileSize);
+	if (!Result) return AddSrGeneralError("Failed to get the string file size!");
+
+	Result = File.Seek(4);
+	if (!Result) return false;
+
+	Result = File.WriteDWord(FileSize - 8 - 8*m_Strings.GetSize());
+	if (!Result) return AddSrGeneralError("Failed to update the string file data size field!");
+		
+		/* Rewrite the correct string offsets */
+	Result = WriteDirectory(File);
+	if (!Result) return false;
+
+
+	File.Close();
+	return true;
+}
+
+
+bool CSrStringFile::WriteDirectory(CSrFile& File)
+{
+	bool Result; 
+
+	for (dword i = 0; i < m_Strings.GetSize(); ++i)
+	{
+		Result = File.WriteDWord(m_Strings[i].ID);
+		Result &= File.WriteDWord(m_Strings[i].Offset);
+		if (!Result) return AddSrGeneralError("Failed to write string #%d directory entry to file!", i);
+	}
+
+	return true;
+}
+
+
+bool CSrStringFile::WriteStrings(CSrFile& File)
+{
+	int  StartOffset = File.Tell();
+	bool Result; 
+
+	for (dword i = 0; i < m_Strings.GetSize(); ++i)
+	{
+		m_Strings[i].Offset = File.Tell() - StartOffset;
+		Result = File.Write(m_Strings[i].String, m_Strings[i].String.GetLength() + 1);
+		if (!Result) return AddSrGeneralError("Failed to write string #%d to file!", i);
+	}
+
+	return true;
+}
+
+
+bool CSrStringFile::WriteBStrings(CSrFile& File)
+{
+	int  StartOffset = File.Tell();
+	bool Result; 
+
+	for (dword i = 0; i < m_Strings.GetSize(); ++i)
+	{
+		m_Strings[i].Offset = File.Tell() - StartOffset;
+
+		Result  = File.WriteDWord(m_Strings[i].String.GetLength() + 1);
+		Result &= File.Write(m_Strings[i].String, m_Strings[i].String.GetLength() + 1);
+		if (!Result) return AddSrGeneralError("Failed to write string #%d to file!", i);
+	}
+	
+	return true;
+}

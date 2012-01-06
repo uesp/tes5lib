@@ -14,6 +14,7 @@
 #include "srespfile.h"
 #include "srrecordhandler.h"
 #include "../common/srtime.h"
+#include <direct.h>
 
 
 /*===========================================================================
@@ -29,6 +30,7 @@ CSrEspFile::CSrEspFile (void)
   m_IsActive   = false;
   m_ModIndex   = 0;
   m_CacheFlags = 0;
+  m_NextStringID = 1;
 
   m_Records.SetParent(NULL);
   m_Records.SetParentGroup(NULL);
@@ -422,13 +424,14 @@ void CSrEspFile::InitializeNew (void) {
 
 /*===========================================================================
  *
- * Class CSrEspFile Method - bool LoadStringFile (pFilename, pCallback);
+ * Class CSrEspFile Method - bool LoadStringFile (StringFile, pFilename, pCallback);
  *
  *=========================================================================*/
-bool CSrEspFile::LoadStringFile (const SSCHAR* pFilename, CSrCallback* pCallback)
+bool CSrEspFile::LoadStringFile (CSrStringFile& StringFile, const SSCHAR* pFilename, CSrCallback* pCallback)
 {
-	bool			Result;
-	CSrStringFile	EmptyStringFile;
+	bool Result;
+
+	StringFile.Destroy();
 
 		/* A non-existant string file is not an error */
 	if (!FileExists(pFilename)) return true;
@@ -441,10 +444,7 @@ bool CSrEspFile::LoadStringFile (const SSCHAR* pFilename, CSrCallback* pCallback
 		pCallback->ForceCallback(0);
 	}
 
-	m_StringFiles.Add(EmptyStringFile);
-	int i = m_StringFiles.GetSize() - 1;
-
-	Result = m_StringFiles[i].Load(pFilename);
+	Result = StringFile.Load(pFilename);
 	return Result;
 }
 /*===========================================================================
@@ -466,8 +466,6 @@ bool CSrEspFile::LoadStringFiles (CSrCallback* pCallback)
 	bool		  Result;
 	int           Index;
 
-	m_StringFiles.Destroy();
-
 	Index = Pathname.FindCharR('\\');
 
 	if (Index > 0) 
@@ -488,15 +486,15 @@ bool CSrEspFile::LoadStringFiles (CSrCallback* pCallback)
 
 	Filename = Pathname + BaseFilename;
 	Filename += "_" + g_SrLanguage + ".STRINGS";
-	Result = LoadStringFile(Filename, pCallback);
+	Result = LoadStringFile(m_LStringFile, Filename, pCallback);
 	
 	Filename = Pathname + BaseFilename;
 	Filename += "_" + g_SrLanguage + ".DLSTRINGS";
-	Result = LoadStringFile(Filename, pCallback);
+	Result = LoadStringFile(m_DLStringFile, Filename, pCallback);
 
 	Filename = Pathname + BaseFilename;
 	Filename += "_" + g_SrLanguage + ".ILSTRINGS";
-	Result = LoadStringFile(Filename, pCallback);
+	Result = LoadStringFile(m_ILStringFile, Filename, pCallback);
   
 	return true;
 }
@@ -563,7 +561,6 @@ bool CSrEspFile::Load (const SSCHAR* pFilename, CSrCallback* pCallback) {
  *=========================================================================*/
 void CSrEspFile::MakeStringMap (CSrCallback* pCallback)
 {
-	//m_StringMap.clear();
 	m_StringMap.Destroy();
 	m_StringMap.InitHashTable(100000);
 
@@ -573,23 +570,29 @@ void CSrEspFile::MakeStringMap (CSrCallback* pCallback)
 		pCallback->ForceCallback(0);
 	}
 
-	for (dword i = 0; i < m_StringFiles.GetSize(); ++i)
-	{
-		CSrStringFile& StringFile = m_StringFiles[i];
-
-		for (dword j = 0; j < StringFile.GetStrings().GetSize(); ++j)
-		{
-			srstringrecord_h& StringRecord = StringFile.GetStrings()[j];
-			//m_StringMap[StringRecord.ID] = &StringRecord.String;
-			m_StringMap.SetAt(StringRecord.ID, &StringRecord.String);
-		}
-
-	}
-
+	MakeStringMap(m_ILStringFile, pCallback);
+	MakeStringMap(m_DLStringFile, pCallback);
+	MakeStringMap(m_LStringFile, pCallback);
 }
 /*===========================================================================
  *		End of Class Method CSrEspFile::MakeStringMap()
  *=========================================================================*/
+
+
+void CSrEspFile::MakeStringMap (CSrStringFile& StringFile, CSrCallback* pCallback)
+{
+
+	for (dword j = 0; j < StringFile.GetStrings().GetSize(); ++j)
+	{
+		srstringrecord_h& StringRecord = StringFile.GetStrings()[j];
+
+		CSString* pString = m_StringMap.Lookup(StringRecord.ID);
+		if (pString != NULL) SystemLog.Printf("\tWARNING: String Map Collision for ID 0x%08X!", StringRecord.ID);
+			
+		m_StringMap.SetAt(StringRecord.ID, &StringRecord.String);
+	}
+
+}
 
 
 /*===========================================================================
@@ -696,6 +699,7 @@ bool CSrEspFile::Read (CSrCallback* pCallback)
 bool CSrEspFile::Save (const SSCHAR* pFilename, CSrCallback* pCallback) 
 {
   srtimer_t Timer;  
+  srtimer_t Timer1;
   bool      Result;
 
   SrStartTimer(Timer);
@@ -703,8 +707,15 @@ bool CSrEspFile::Save (const SSCHAR* pFilename, CSrCallback* pCallback)
   Result = CSrRecord::InitIOBuffers();
   if (!Result) return (false);
 
+  SrStartTimer(Timer1);
   UpdateLoadLocalString();
-  //TODO: Create/update local string indices
+  UpdateStringMap();
+  SrEndTimer(Timer1, "\tUpdated local strings in");
+
+  SrStartTimer(Timer1);
+  Result = SaveLocalStrings(pFilename);
+  if (!Result) return (false);
+  SrEndTimer(Timer1, "\tSaved local strings in");
 
   SetFilename(pFilename);
   
@@ -722,6 +733,55 @@ bool CSrEspFile::Save (const SSCHAR* pFilename, CSrCallback* pCallback)
 /*===========================================================================
  *		End of Class Method CSrEspFile::Save()
  *=========================================================================*/
+
+
+bool CSrEspFile::SaveLocalStrings(const char* pFilename)
+{
+	CSString	  BaseFilename(pFilename);
+	CSString	  Pathname(pFilename);
+	CSString	  Filename;
+	CSrStringFile EmptyStringFile;
+	bool		  Result;
+	int           Index;
+
+	if (m_pHeader == NULL) return true;
+	if (!m_pHeader->IsLocalStrings()) return true;
+
+	Index = Pathname.FindCharR('\\');
+
+	if (Index > 0) 
+	{
+		Pathname.Truncate(Index);
+		Pathname += "\\";
+		BaseFilename.Delete(0, Index+1);
+	}
+	else
+	{
+		Pathname.Empty();
+	}
+
+	Pathname += "Strings\\";
+	BaseFilename.Truncate(BaseFilename.FindCharR('.'));
+
+	Filename = Pathname;
+	Filename += BaseFilename;
+	Filename += "_" + g_SrLanguage;
+	
+	int iResult = _mkdir(Pathname);
+	if (iResult == -1 && errno != EEXIST) return  AddSrGeneralError("Failed to create the string path '%s'!", Pathname.c_str());
+
+	Result = m_ILStringFile.Save(Filename, "ilstrings");
+	if (!Result) return AddSrGeneralError("Failed to save the ILSTRING file for '%s'!", Filename.c_str());
+
+	Result = m_DLStringFile.Save(Filename, "dlstrings");
+	if (!Result) return AddSrGeneralError("Failed to save the DLSTRING file for '%s'!", Filename.c_str());
+
+	Result = m_LStringFile.Save(Filename, "strings");
+	if (!Result) return AddSrGeneralError("Failed to save the STRING file for '%s'!", Filename.c_str());
+
+	return true;
+}
+
 
 
 /*===========================================================================
@@ -745,4 +805,90 @@ bool CSrEspFile::Write (CSrCallback* pCallback) {
 void CSrEspFile::UpdateLoadLocalString (void)
 {
 	m_Records.UpdateLoadLocalString(IsLoadLocalString());
+}
+
+
+void CSrEspFile::UpdateStringMap (CSrRecord* pRecord)
+{
+	if (pRecord == NULL) return;
+
+		//TODO: Make sure the following outputs the strings to the correct file
+	if (pRecord->GetRecordType() == SR_NAME_QUST)
+	{
+		for (dword i = 0; i < pRecord->GetNumSubrecords(); ++i)
+		{
+			CSrSubrecord* pSubrecord = pRecord->GetSubrecord(i);
+
+			if (pSubrecord->GetRecordType() == SR_NAME_CNAM)
+				pSubrecord->UpdateLocalStrings(m_DLStringFile, m_NextStringID);
+			else
+				pSubrecord->UpdateLocalStrings(m_LStringFile, m_NextStringID);
+		}
+	}
+	else if (pRecord->GetRecordType() == SR_NAME_BOOK)
+	{
+		for (dword i = 0; i < pRecord->GetNumSubrecords(); ++i)
+		{
+			CSrSubrecord* pSubrecord = pRecord->GetSubrecord(i);
+
+			if (pSubrecord->GetRecordType() == SR_NAME_DESC)
+				pSubrecord->UpdateLocalStrings(m_DLStringFile, m_NextStringID);
+			else
+				pSubrecord->UpdateLocalStrings(m_LStringFile, m_NextStringID);
+		}
+	}
+	else if (pRecord->GetRecordType() == SR_NAME_INFO)
+	{
+		for (dword i = 0; i < pRecord->GetNumSubrecords(); ++i)
+		{
+			CSrSubrecord* pSubrecord = pRecord->GetSubrecord(i);
+
+				//TODO: Figure out what lstring to save to ILSTRING file
+			pSubrecord->UpdateLocalStrings(m_LStringFile, m_NextStringID);
+		}
+	}
+	else
+	{
+		for (dword i = 0; i < pRecord->GetNumSubrecords(); ++i)
+		{
+			CSrSubrecord* pSubrecord = pRecord->GetSubrecord(i);
+			pSubrecord->UpdateLocalStrings(m_LStringFile, m_NextStringID);
+		}
+	}
+}
+
+
+void CSrEspFile::UpdateStringMap (CSrGroup* pGroup)
+{
+	if (pGroup == NULL) return;
+
+	for (dword i = 0; i < pGroup->GetNumRecords(); ++i)
+	{
+		CSrBaseRecord* pBaseRecord = pGroup->GetRecord(i);
+
+		if (pBaseRecord->IsGroup())
+		{
+			CSrGroup* pGroup = SrCastClass(CSrGroup, pBaseRecord);
+			UpdateStringMap(pGroup);
+		}
+		else
+		{
+			CSrRecord* pRecord = SrCastClass(CSrRecord, pBaseRecord);
+			UpdateStringMap(pRecord);
+		}
+	}
+
+}
+
+
+void CSrEspFile::UpdateStringMap (void)
+{
+	m_StringMap.Destroy();
+	m_ILStringFile.Destroy();
+	m_DLStringFile.Destroy();
+	m_LStringFile.Destroy();
+
+	m_NextStringID = 1;
+
+	UpdateStringMap(&m_Records);	
 }

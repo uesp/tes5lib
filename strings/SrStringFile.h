@@ -75,12 +75,18 @@ protected:
 	virtual bool ReadBStringsFast (CSrFile& File);
 	virtual bool ReadStringsFast  (CSrFile& File);
 
+	bool WriteDirectory(CSrFile& File);
+	bool WriteStrings(CSrFile& File);
+	bool WriteBStrings(CSrFile& File);
+
 public:
 
 	CSrStringFile();
 	virtual ~CSrStringFile() { Destroy(); }
 
 	virtual void Destroy (void);
+
+	void Add (const srlstringid_t ID, const CSString String);
 
 	void Dump (void);
 
@@ -89,6 +95,7 @@ public:
 	CSString        GetFilename   (void) { return m_Filename; }
 
 	virtual bool Load (const SSCHAR* pFile);
+	virtual bool Save (const SSCHAR* pFile, const SSCHAR* pExtension);
 
 };
 
