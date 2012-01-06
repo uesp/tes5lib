@@ -105,6 +105,9 @@ public:
  *=========================================================================*/
 
 
+	CSString CreateSrStringFilename (const char* pFilename, const char* pExtension);
+	CSString CreateSrStringPathname (const char* pFilename);
+
 #endif
 /*===========================================================================
  *		End of File SrStringFile.H

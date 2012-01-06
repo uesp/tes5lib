@@ -459,44 +459,13 @@ bool CSrEspFile::LoadStringFile (CSrStringFile& StringFile, const SSCHAR* pFilen
  *=========================================================================*/
 bool CSrEspFile::LoadStringFiles (CSrCallback* pCallback) 
 {
-	CSString	  BaseFilename(m_Filename);
-	CSString	  Pathname(m_Filename);
-	CSString	  Filename;
-	CSrStringFile EmptyStringFile;
-	bool		  Result;
-	int           Index;
+	bool Result;
 
-	Index = Pathname.FindCharR('\\');
-
-	if (Index > 0) 
-	{
-		Pathname.Truncate(Index);
-		Pathname += "\\";
-		BaseFilename.Delete(0, Index+1);
-	}
-	else
-	{
-		Pathname.Empty();
-	}
-
-	Pathname += "Strings\\";
-
-	Index = BaseFilename.FindCharR('.');
-	if (Index > 0) BaseFilename.Truncate(Index);
-
-	Filename = Pathname + BaseFilename;
-	Filename += "_" + g_SrLanguage + ".STRINGS";
-	Result = LoadStringFile(m_LStringFile, Filename, pCallback);
-	
-	Filename = Pathname + BaseFilename;
-	Filename += "_" + g_SrLanguage + ".DLSTRINGS";
-	Result = LoadStringFile(m_DLStringFile, Filename, pCallback);
-
-	Filename = Pathname + BaseFilename;
-	Filename += "_" + g_SrLanguage + ".ILSTRINGS";
-	Result = LoadStringFile(m_ILStringFile, Filename, pCallback);
+	Result  = LoadStringFile(m_LStringFile,  CreateSrStringFilename(m_Filename, "STRINGS"),   pCallback);
+	Result &= LoadStringFile(m_DLStringFile, CreateSrStringFilename(m_Filename, "DLSTRINGS"), pCallback);
+	Result &= LoadStringFile(m_ILStringFile, CreateSrStringFilename(m_Filename, "ILSTRINGS"), pCallback);
   
-	return true;
+	return Result;
 }
 /*===========================================================================
  *		End of Class Method CSrEspFile::LoadStringFiles()
@@ -737,47 +706,23 @@ bool CSrEspFile::Save (const SSCHAR* pFilename, CSrCallback* pCallback)
 
 bool CSrEspFile::SaveLocalStrings(const char* pFilename)
 {
-	CSString	  BaseFilename(pFilename);
-	CSString	  Pathname(pFilename);
-	CSString	  Filename;
-	CSrStringFile EmptyStringFile;
-	bool		  Result;
-	int           Index;
+	bool Result;
 
 	if (m_pHeader == NULL) return true;
 	if (!m_pHeader->IsLocalStrings()) return true;
-
-	Index = Pathname.FindCharR('\\');
-
-	if (Index > 0) 
-	{
-		Pathname.Truncate(Index);
-		Pathname += "\\";
-		BaseFilename.Delete(0, Index+1);
-	}
-	else
-	{
-		Pathname.Empty();
-	}
-
-	Pathname += "Strings\\";
-	BaseFilename.Truncate(BaseFilename.FindCharR('.'));
-
-	Filename = Pathname;
-	Filename += BaseFilename;
-	Filename += "_" + g_SrLanguage;
 	
+	CSString Pathname = CreateSrStringPathname(pFilename);
 	int iResult = _mkdir(Pathname);
 	if (iResult == -1 && errno != EEXIST) return  AddSrGeneralError("Failed to create the string path '%s'!", Pathname.c_str());
 
-	Result = m_ILStringFile.Save(Filename, "ilstrings");
-	if (!Result) return AddSrGeneralError("Failed to save the ILSTRING file for '%s'!", Filename.c_str());
+	Result = m_ILStringFile.Save(CreateSrStringFilename(pFilename, "ilstrings"), "ilstrings");
+	if (!Result) return AddSrGeneralError("Failed to save the ILSTRING file for '%s'!", pFilename);
 
-	Result = m_DLStringFile.Save(Filename, "dlstrings");
-	if (!Result) return AddSrGeneralError("Failed to save the DLSTRING file for '%s'!", Filename.c_str());
+	Result = m_DLStringFile.Save(CreateSrStringFilename(pFilename, "dlstrings"), "dlstrings");
+	if (!Result) return AddSrGeneralError("Failed to save the DLSTRING file for '%s'!", pFilename);
 
-	Result = m_LStringFile.Save(Filename, "strings");
-	if (!Result) return AddSrGeneralError("Failed to save the STRING file for '%s'!", Filename.c_str());
+	Result = m_LStringFile.Save(CreateSrStringFilename(pFilename, "strings"), "strings");
+	if (!Result) return AddSrGeneralError("Failed to save the STRING file for '%s'!", pFilename);
 
 	return true;
 }
