@@ -1290,16 +1290,15 @@ void CSrRecordListCtrl::AddAllRecords (CSrGroup* pTopGroup)
 
 /*===========================================================================
  *
- * Class CSrRecordListCtrl Method - void AutoResize (void);
+ * Class CSrRecordListCtrl Method - void AutoResize (CX. CY);
  *
  * Description
  *
  *=========================================================================*/
-void CSrRecordListCtrl::AutoResize (void) {
-  CRect ParentRect;
+void CSrRecordListCtrl::AutoResize (const int CX, const int CY)
+{
+  CRect ParentRect(1, 1, CX, CY);
   CRect NewSize;
-
-  GetParent()->GetClientRect(&ParentRect);
 
   NewSize.top    = m_AutoResizeOffset.top;
   NewSize.bottom = m_AutoResizeOffset.bottom + ParentRect.bottom - 35;
@@ -1307,8 +1306,6 @@ void CSrRecordListCtrl::AutoResize (void) {
   NewSize.left   = m_AutoResizeOffset.left;
 
   SetWindowPos(NULL, NewSize.left, NewSize.top, NewSize.Width(), NewSize.Height(), SWP_NOZORDER | SWP_NOMOVE );
-  //SetWindowPos(NULL, 0, 0, NewSize.Width(), NewSize.Height(), SWP_NOZORDER | SWP_NOMOVE );
-  //SetWindowPos(NULL, 0, 0, 100, 200, SWP_NOZORDER | SWP_NOMOVE );
  }
 /*===========================================================================
  *		End of Class Method CSrRecordListCtrl::AutoResize()
