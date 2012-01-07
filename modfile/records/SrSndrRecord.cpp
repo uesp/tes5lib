@@ -201,6 +201,23 @@ void CSrSndrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
+CSrStringSubrecord* CSrSndrRecord::AddSoundFile (const char* pFilename)
+{
+	CSrStringSubrecord* pNewString;
+
+	if (pFilename == NULL || pFilename[0] == 0) return NULL;
+
+	CSrSubrecord* pSubrecord = AddNewSubrecord(SR_NAME_ANAM);
+	pNewString = SrCastClassNull(CSrStringSubrecord, pSubrecord);
+	if (pNewString == NULL) return NULL;
+
+	pNewString->InitializeNew();
+	pNewString->SetString(pFilename);
+
+	return pNewString;
+}
+
+
 /*===========================================================================
  *
  * Begin CSrSndrRecord Get Field Methods

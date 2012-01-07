@@ -59,6 +59,8 @@ public:
 	CSrSndrRecord();
 	virtual void Destroy (void);
 
+	CSrStringSubrecord* AddSoundFile (const char* pFilename);
+
     	/* Return a new instance of the class */
 	static CSrRecord* Create (void) { return new CSrSndrRecord; }
 
