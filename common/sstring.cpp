@@ -1051,7 +1051,7 @@ void CSString::Unescape (void) {
  * Copies the given source string to the current object.
  *
  *=========================================================================*/
-const CSString& CSString::operator= (const CSString& SrcString) {
+CSString& CSString::operator= (const CSString& SrcString) {
 
   if (m_pString != SrcString.m_pString) {
     if (GetLength() < SrcString.GetLength()) {

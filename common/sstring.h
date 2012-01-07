@@ -211,7 +211,7 @@ public:
   void UpdateLength (void);
 
 	/* Overloaded copy operators */
-  const CSString& operator= (const CSString& SrcString);
+        CSString& operator= (const CSString& SrcString);
   const CSString& operator= (const SSCHAR     Char);
   const CSString& operator= (const SSCHAR*    pSrcString);  
   

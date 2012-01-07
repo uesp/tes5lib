@@ -233,7 +233,12 @@ void TSrArray< TObj >::Delete (const dword Index) {
   if (!IsValidIndex(Index)) return;
 
 	/* Shift array to the right of deletion point */
-  memmove(m_pRecords + Index, m_pRecords + Index + 1, (m_NumRecords - Index) * sizeof(TObj));
+//  memmove(m_pRecords + Index, m_pRecords + Index + 1, (m_NumRecords - Index) * sizeof(TObj));
+
+  for (dword i = Index; i < m_NumRecords; ++i)
+  {
+		  m_pRecords[i] = m_pRecords[i+1];
+  }
   
   --m_NumRecords;
  }
@@ -281,7 +286,7 @@ void TSrArray< TObj >::Grow (void) {
     Resize(SRARRAY_MINSIZE);
    }
   else {
-    Resize(m_NumAllocated * 3 / 2);
+    Resize(m_NumAllocated * 2);
    }
 
  }
@@ -308,8 +313,14 @@ void TSrArray< TObj >::Resize (const dword NewSize) {
   pNewRecords = new TObj[Size];
 
   if (m_pRecords != NULL) {
-    memmove(pNewRecords, m_pRecords, sizeof(TObj)*m_NumAllocated);
-    delete [] m_pRecords;
+    //memmove(pNewRecords, m_pRecords, sizeof(TObj)*m_NumAllocated);
+
+	  for (dword i = 0; i < m_NumRecords; ++i)
+	  {
+		  pNewRecords[i] = m_pRecords[i];
+	  }
+
+	  delete [] m_pRecords;
    }
 
   m_NumAllocated = Size;
@@ -363,7 +374,13 @@ void TSrArray< TObj >::Sort_Priv (int StartIndex, int EndIndex, ARRAYSORTFUNC Co
 
     if (Result > 0) {
       Temp = m_pRecords[MidIndex + 1];
-      memmove(&m_pRecords[StartIndex + 1], &m_pRecords[StartIndex], (MidIndex - StartIndex + 1)*sizeof(m_pRecords[StartIndex]));
+      //memmove(&m_pRecords[StartIndex + 1], &m_pRecords[StartIndex], (MidIndex - StartIndex + 1)*sizeof(m_pRecords[StartIndex]));
+
+	  for (dword i = MidIndex + 1; i > StartIndex; --i)
+	  {
+		  m_pRecords[i] = m_pRecords[i-1];
+	  }
+
       m_pRecords[StartIndex] = Temp;
 
       ++MidIndex;
