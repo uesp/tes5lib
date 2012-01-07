@@ -407,6 +407,13 @@
   #define SR_FIELD_PERKSEFFDATA			346
   #define SR_FIELD_PERKAPPLYTYPE		347
   #define SR_FIELD_PRKC					348
+  #define SR_FIELD_IMAGESPACE			349
+  #define SR_FIELD_X1					350
+  #define SR_FIELD_Y1					351
+  #define SR_FIELD_Z1					352
+  #define SR_FIELD_X2					353
+  #define SR_FIELD_Y2					354
+  #define SR_FIELD_Z2					355
 
 /*===========================================================================
  *		End of Field Types
