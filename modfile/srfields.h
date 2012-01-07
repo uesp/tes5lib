@@ -421,6 +421,9 @@
   #define SR_FIELD_FNAME				360
   #define SR_FIELD_CNAME				361
   #define SR_FIELD_SOUNDFLAGS			362
+  #define SR_FIELD_PARENT				363
+  #define SR_FIELD_VNAME				364
+  #define SR_FIELD_UNAME				365
 
 /*===========================================================================
  *		End of Field Types

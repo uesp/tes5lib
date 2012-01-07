@@ -383,6 +383,9 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_FNAME,			"FName")
 	ADD_STRINGVALUE( SR_FIELD_CNAME,			"CName")
 	ADD_STRINGVALUE( SR_FIELD_SOUNDFLAGS,		"SoundFlags")
+	ADD_STRINGVALUE( SR_FIELD_PARENT,			"Parent")
+	ADD_STRINGVALUE( SR_FIELD_VNAME,			"VName")
+	ADD_STRINGVALUE( SR_FIELD_UNAME,			"UName")
 
 END_STRINGVALUE()
 /*===========================================================================

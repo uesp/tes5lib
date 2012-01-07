@@ -315,6 +315,28 @@
 					if (!SrFieldConvertDword(pString, Value)) return (false); \
 					Set##Name(Value); return true; } 
 
+	#define DECLARE_SRFIELD_METHODWORD(Class, Member, Name, Type)	word Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
+			void Set##Name (const word Value) { \
+					if (Member == NULL) { \
+						AddNewSubrecord(Type); \
+						if (Member == NULL) return; \
+						Member->InitializeNew(); } \
+					Member->SetValue(Value); } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%hd", Get##Name()); return true; } \
+			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
+					if (pRecord == NULL) return (1); \
+					Class* pRecord1 = SrCastClass(Class, pRecord); \
+					if (pRecord1 == NULL) return (1); \
+					word Value1 = (word) this->Get##Name(); \
+					word Value2 = (word) pRecord1->Get##Name(); \
+					if (Value1 == Value2) return (0); \
+					if (Value1 > Value2)  return (1); \
+					return (-1); } \
+			bool SetField##Name (const SSCHAR* pString, long Reserved) { \
+					word Value; \
+					if (!SrFieldConvertWord(pString, Value)) return (false); \
+					Set##Name(Value); return true; } 
+
 	#define DECLARE_SRFIELD_METHODDWORDF(Class, Member, Name, Type, Fmt)	dword Get##Name (void) const { return Member ? Member->GetValue() : 0; } \
 			void Set##Name (const dword Value) { \
 					if (Member == NULL) { \

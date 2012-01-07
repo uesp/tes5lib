@@ -9,7 +9,7 @@
  *=========================================================================*/
 
 	/* Include Files */
-#include "srSnctrecord.h"
+#include "srsnctrecord.h"
 
 
 /*===========================================================================
@@ -18,11 +18,11 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrSnctRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_UNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrWordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_UNAM, CSrWordSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -35,6 +35,11 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrSnctRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrSnctRecord, FieldItemName)
+	ADD_SRFIELDALL("Parent",		SR_FIELD_PARENT,		0, CSrSnctRecord, FieldParentCategory)
+	ADD_SRFIELDALL("SoundFlags",	SR_FIELD_SOUNDFLAGS,	0, CSrSnctRecord, FieldSoundFlags)
+	ADD_SRFIELDALL("VName",			SR_FIELD_VNAME,			0, CSrSnctRecord, FieldVName)
+	ADD_SRFIELDALL("UName",			SR_FIELD_UNAME,			0, CSrSnctRecord, FieldUName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -48,6 +53,11 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrSnctRecord::CSrSnctRecord () 
 {
+	m_pFlags = NULL;
+	m_pItemName = NULL;
+	m_pParentCategory = NULL;
+	m_pVnamData = NULL;
+	m_pUnamData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrSnctRecord Constructor
@@ -61,6 +71,12 @@ CSrSnctRecord::CSrSnctRecord ()
  *=========================================================================*/
 void CSrSnctRecord::Destroy (void) 
 {
+	m_pFlags = NULL;
+	m_pItemName = NULL;
+	m_pParentCategory = NULL;
+	m_pVnamData = NULL;
+	m_pUnamData = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -75,10 +91,17 @@ void CSrSnctRecord::Destroy (void)
  *=========================================================================*/
 void CSrSnctRecord::InitializeNew (void) 
 {
-
-	/* Call the base class method first */
 	CSrIdRecord::InitializeNew();
 
+
+	AddNewSubrecord(SR_NAME_FULL);
+	if (m_pItemName != NULL) m_pItemName->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_FNAM);
+	if (m_pFlags != NULL) m_pFlags->InitializeNew();
+
+	AddNewSubrecord(SR_NAME_VNAM);
+	if (m_pVnamData != NULL) m_pVnamData->InitializeNew();
 
 }
 /*===========================================================================
@@ -95,28 +118,27 @@ void CSrSnctRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_VNAM)
 	{
-		m_pVnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pVnamData = SrCastClass(CSrWordSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
-		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pFlags = SrCastClass(CSrDwordSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_PNAM)
 	{
-		m_pPnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pParentCategory = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_UNAM)
 	{
-		m_pUnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pUnamData = SrCastClass(CSrWordSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrIdRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -134,15 +156,14 @@ void CSrSnctRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pVnamData == pSubrecord)
 		m_pVnamData = NULL;
-	else if (m_pFnamData == pSubrecord)
-		m_pFnamData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
-	else if (m_pPnamData == pSubrecord)
-		m_pPnamData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
+	else if (m_pFlags == pSubrecord)
+		m_pFlags = NULL;
+	else if (m_pParentCategory == pSubrecord)
+		m_pParentCategory = NULL;
 	else if (m_pUnamData == pSubrecord)
 		m_pUnamData = NULL;
-
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
