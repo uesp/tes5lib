@@ -416,6 +416,11 @@
   #define SR_FIELD_Z2					355
   #define SR_FIELD_BOUNDS				356
   #define SR_FIELD_SOUNDREF				357
+  #define SR_FIELD_CATEGORY				358
+  #define SR_FIELD_OUTPUTMARKER			359
+  #define SR_FIELD_FNAME				360
+  #define SR_FIELD_CNAME				361
+  #define SR_FIELD_SOUNDFLAGS			362
 
 /*===========================================================================
  *		End of Field Types

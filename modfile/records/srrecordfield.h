@@ -312,7 +312,7 @@
 					return (-1); } \
 			bool SetField##Name (const SSCHAR* pString, long Reserved) { \
 					dword Value; \
-					if (!SrFieldConvertDWord(pString, Value)) return (false); \
+					if (!SrFieldConvertDword(pString, Value)) return (false); \
 					Set##Name(Value); return true; } 
 
 	#define DECLARE_SRFIELD_METHODDWORDF(Class, Member, Name, Type, Fmt)	dword Get##Name (void) const { return Member ? Member->GetValue() : 0; } \

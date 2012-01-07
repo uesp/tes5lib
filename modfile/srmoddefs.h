@@ -484,6 +484,7 @@
 	#define SRCLASS_CSrCamsDataSubrecord		1048
 	#define SRCLASS_CSrBoundsSubrecord			1049
 	#define SRCLASS_CSrSnddDataSubrecord		1050
+	#define SRCLASS_CSrSndrBnamSubrecord		1051
   
 /*===========================================================================
  *		End of Class Type Definitions
