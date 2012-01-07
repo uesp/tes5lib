@@ -377,6 +377,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_Y2,				"Y2")	
 	ADD_STRINGVALUE( SR_FIELD_Z2,				"Z2")
 	ADD_STRINGVALUE( SR_FIELD_BOUNDS,			"Bounds")
+	ADD_STRINGVALUE( SR_FIELD_SOUNDREF,			"SoundRef")
 
 END_STRINGVALUE()
 /*===========================================================================

@@ -852,7 +852,8 @@ static srreclistcolinit_t s_SounListInit[] =
 	{ SR_FIELD_EDITORID,			150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,   			5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,				50,		LVCFMT_CENTER },
-	//{ SR_FIELD_SOUNDFILE,			100,	LVCFMT_CENTER },
+	{ SR_FIELD_SOUNDFILE,			100,	LVCFMT_CENTER },
+	{ SR_FIELD_SOUNDREF,			100,	LVCFMT_CENTER },
 	//{ SR_FIELD_MINATTENUATION,    60,	LVCFMT_CENTER },
 	//{ SR_FIELD_MAXATTENUATION,    60,	LVCFMT_CENTER },
 	//{ SR_FIELD_STATICATTENUATION, 60,	LVCFMT_CENTER },
@@ -870,7 +871,6 @@ static srreclistcolinit_t s_SounListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-
 static srreclistcolinit_t s_SndrListInit[] = 
 {
 	{ SR_FIELD_EDITORID,			150,	LVCFMT_LEFT },
@@ -878,7 +878,6 @@ static srreclistcolinit_t s_SndrListInit[] =
 	{ SR_FIELD_FLAGS,				50,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE, 0, 0 }
 };
-
 
 static srreclistcolinit_t s_SpelListInit[] = 
 {
@@ -892,7 +891,8 @@ static srreclistcolinit_t s_SpelListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-static srreclistcolinit_t s_StatListInit[] = {
+static srreclistcolinit_t s_StatListInit[] = 
+{
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
@@ -921,7 +921,6 @@ static srreclistcolinit_t s_WeapListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
-
 static srreclistcolinit_t s_WoopListInit[] = 
 {
 	{ SR_FIELD_EDITORID,	   150,	LVCFMT_LEFT },
@@ -935,9 +934,6 @@ static srreclistcolinit_t s_WoopListInit[] =
 
 static srreclistinfoinit_t s_ListInit[] = 
 {
-	//{ &SR_NAME_NPC_, s_NpcListInit,  &CSrNpcRecord::s_FieldMap,  SR_FIELD_EDITORID },
-	//{ &SR_NAME_SCPT, s_ScptListInit, &CSrScptRecord::s_FieldMap, SR_FIELD_EDITORID },
-	//{ &SR_NAME_SGST, s_SgstListInit, &CSrSgstRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_AACT, s_AactListInit, &CSrAactRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACHR, s_AchrListInit, &CSrAchrRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_ACTI, s_ActiListInit, &CSrActiRecord::s_FieldMap, SR_FIELD_EDITORID },
@@ -1036,7 +1032,6 @@ static srreclistinfoinit_t s_ListInit[] =
  *
  *=========================================================================*/
 BEGIN_MESSAGE_MAP(CSrRecordListCtrl, CListCtrl)
-	//{{AFX_MSG_MAP(CSrRecordListCtrl)
 	ON_NOTIFY_REFLECT(HDN_ITEMCLICK, OnItemclick)
 	ON_NOTIFY_REFLECT(LVN_COLUMNCLICK, OnColumnclick)
 	ON_NOTIFY_REFLECT(NM_DBLCLK, OnDblclk)
@@ -1050,7 +1045,6 @@ BEGIN_MESSAGE_MAP(CSrRecordListCtrl, CListCtrl)
 	ON_WM_KEYDOWN()
 	ON_WM_CLOSE()
 	ON_WM_DESTROY()
-	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 /*===========================================================================
  *		End of CSrRecordListCtrl Message Map

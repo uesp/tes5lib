@@ -483,6 +483,7 @@
 	#define SRCLASS_CSrEpfdSubrecord			1047
 	#define SRCLASS_CSrCamsDataSubrecord		1048
 	#define SRCLASS_CSrBoundsSubrecord			1049
+	#define SRCLASS_CSrSnddDataSubrecord		1050
   
 /*===========================================================================
  *		End of Class Type Definitions

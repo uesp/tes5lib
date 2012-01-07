@@ -415,6 +415,7 @@
   #define SR_FIELD_Y2					354
   #define SR_FIELD_Z2					355
   #define SR_FIELD_BOUNDS				356
+  #define SR_FIELD_SOUNDREF				357
 
 /*===========================================================================
  *		End of Field Types
