@@ -38,8 +38,8 @@ BEGIN_SRFIELDMAP(CSrSnctRecord, CSrIdRecord)
 	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrSnctRecord, FieldItemName)
 	ADD_SRFIELDALL("Parent",		SR_FIELD_PARENT,		0, CSrSnctRecord, FieldParentCategory)
 	ADD_SRFIELDALL("SoundFlags",	SR_FIELD_SOUNDFLAGS,	0, CSrSnctRecord, FieldSoundFlags)
-	ADD_SRFIELDALL("VName",			SR_FIELD_VNAME,			0, CSrSnctRecord, FieldVName)
-	ADD_SRFIELDALL("UName",			SR_FIELD_UNAME,			0, CSrSnctRecord, FieldUName)
+	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrSnctRecord, FieldVName)
+	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrSnctRecord, FieldUName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
