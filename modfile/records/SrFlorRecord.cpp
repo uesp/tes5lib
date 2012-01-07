@@ -20,7 +20,6 @@
 BEGIN_SRSUBRECCREATE(CSrFlorRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
@@ -104,10 +103,6 @@ void CSrFlorRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
 		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -166,8 +161,6 @@ void CSrFlorRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pFnamData = NULL;
 	else if (m_pModlData == pSubrecord)
 		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pFullData == pSubrecord)
 		m_pFullData = NULL;
 	else if (m_pVmadData == pSubrecord)

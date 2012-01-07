@@ -21,7 +21,6 @@ srslgmdata_t CSrSlgmRecord::s_NullSlgmData;
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrSlgmRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SOUL, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrSlgmDataSubrecord::Create)

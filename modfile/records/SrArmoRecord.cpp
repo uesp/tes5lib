@@ -24,7 +24,6 @@ srbodtdata_t  CSrArmoRecord::s_NullBodtData;
 BEGIN_SRSUBRECCREATE(CSrArmoRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrArmoDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_BIDS, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrBodtSubrecord::Create)

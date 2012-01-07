@@ -19,7 +19,6 @@
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrTreeRecord, CSrRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PFPC, CSrDataSubrecord::Create)
@@ -102,10 +101,6 @@ void CSrTreeRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
 	{
 		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -155,8 +150,6 @@ void CSrTreeRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pModlData == pSubrecord)
 		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pEdidData == pSubrecord)
 		m_pEdidData = NULL;
 	else if (m_pModtData == pSubrecord)

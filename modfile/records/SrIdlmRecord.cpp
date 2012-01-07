@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrIdlmRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_IDLF, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_IDLT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_IDLC, CSrDataSubrecord::Create)
@@ -89,11 +88,7 @@ void CSrIdlmRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrIdlmRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_IDLF)
+	if (pSubrecord->GetRecordType() == SR_NAME_IDLF)
 	{
 		m_pIdlfData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -127,9 +122,7 @@ void CSrIdlmRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrIdlmRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pIdlfData == pSubrecord)
+	if (m_pIdlfData == pSubrecord)
 		m_pIdlfData = NULL;
 	else if (m_pIdltData == pSubrecord)
 		m_pIdltData = NULL;

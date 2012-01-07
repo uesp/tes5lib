@@ -20,7 +20,6 @@
 BEGIN_SRSUBRECCREATE(CSrProjRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
@@ -107,10 +106,6 @@ void CSrProjRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM1)
 	{
 		m_pNam1Data = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -165,8 +160,6 @@ void CSrProjRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pVnamData = NULL;
 	else if (m_pModlData == pSubrecord)
 		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pNam1Data == pSubrecord)
 		m_pNam1Data = NULL;
 	else if (m_pModtData == pSubrecord)

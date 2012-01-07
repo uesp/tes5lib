@@ -19,7 +19,6 @@
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrSounRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SDSC, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
@@ -92,10 +91,6 @@ void CSrSounRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SDSC)
 	{
 		m_pSdscData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -124,8 +119,6 @@ void CSrSounRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pSdscData == pSubrecord)
 		m_pSdscData = NULL;
 	else if (m_pSnddData == pSubrecord)

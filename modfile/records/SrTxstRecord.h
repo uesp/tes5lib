@@ -35,7 +35,6 @@ class CSrTxstRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pTx05Data;
 	CSrSubrecord*		m_pDnamData;
 	CSrSubrecord*		m_pTx00Data;

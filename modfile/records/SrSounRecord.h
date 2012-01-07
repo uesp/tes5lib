@@ -36,7 +36,6 @@ class CSrSounRecord : public CSrIdRecord
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   	CSrSubrecord*		m_pFnamData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pSdscData;
 	CSrSubrecord*		m_pSnddData;
 

@@ -36,7 +36,6 @@ class CSrArtoRecord : public CSrIdRecord
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pDnamData;
 	CSrSubrecord*		m_pModtData;
 

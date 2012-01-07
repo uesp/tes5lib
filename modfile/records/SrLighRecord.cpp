@@ -23,7 +23,6 @@ srlighdata_t CSrLighRecord::s_NullLightData;
 BEGIN_SRSUBRECCREATE(CSrLighRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrFloatSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrLighDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrFormidSubrecord::Create)
@@ -142,10 +141,6 @@ void CSrLighRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pFnamData = SrCastClass(CSrFloatSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
 		m_pLightData = SrCastClass(CSrLighDataSubrecord, pSubrecord);
@@ -184,8 +179,6 @@ void CSrLighRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pModel = NULL;
 	else if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pLightData == pSubrecord)
 		m_pLightData = NULL;
 	else if (m_pModtData == pSubrecord)

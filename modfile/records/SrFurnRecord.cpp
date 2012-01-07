@@ -20,7 +20,6 @@
 BEGIN_SRSUBRECCREATE(CSrFurnRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNMK, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_KNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDataSubrecord::Create)
@@ -109,10 +108,6 @@ void CSrFurnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_KNAM)
 	{
 		m_pKnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -191,8 +186,6 @@ void CSrFurnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pFnmkData = NULL;
 	else if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pKnamData == pSubrecord)
 		m_pKnamData = NULL;
 	else if (m_pModtData == pSubrecord)

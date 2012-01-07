@@ -36,7 +36,6 @@ class CSrTreeRecord : public CSrRecord
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pEdidData;
 	CSrSubrecord*		m_pModtData;
 	CSrSubrecord*		m_pPfpcData;

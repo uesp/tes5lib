@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrAppaRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_QUAL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
@@ -88,11 +87,7 @@ void CSrAppaRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrAppaRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
+	 if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
 		m_pDescData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -122,9 +117,7 @@ void CSrAppaRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrAppaRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pDescData == pSubrecord)
+	if (m_pDescData == pSubrecord)
 		m_pDescData = NULL;
 	else if (m_pQualData == pSubrecord)
 		m_pQualData = NULL;

@@ -38,7 +38,6 @@ protected:
   	CSrSubrecord*		m_pVnamData;
 	CSrSubrecord*		m_pFnamData;
 	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pEdidData;
 	CSrSubrecord*		m_pFullData;
 	CSrSubrecord*		m_pModtData;

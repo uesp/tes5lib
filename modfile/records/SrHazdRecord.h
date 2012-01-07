@@ -36,7 +36,6 @@ class CSrHazdRecord : public CSrIdRecord
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pFullData;
 	CSrSubrecord*		m_pModtData;
 	CSrSubrecord*		m_pDataData;

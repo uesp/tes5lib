@@ -17,8 +17,9 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
-  #include "../subrecords/srformidarraysubrecord.h"
+	#include "srrecord.h"
+	#include "../subrecords/srformidarraysubrecord.h"
+	#include "../subrecords/srboundssubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -42,14 +43,15 @@
  *
  *=========================================================================*/
 class CSrIdRecord : public CSrRecord {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrIdRecord, CSrRecord)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrIdRecord, CSrRecord)
 
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  CSrStringSubrecord*		m_pEditorID;
+	CSrStringSubrecord*		m_pEditorID;
+	CSrBoundsSubrecord*		m_pBounds;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -66,6 +68,8 @@ public:
 	/* Return a new instance of the class */
   static CSrRecord* Create (void) { return (new CSrIdRecord); }
 
+  srboundsdata_t* GetBoundsData (void) { return m_pBounds ? &m_pBounds->GetBoundsData() : NULL; }
+
 	/* Get the current editor ID */
   const SSCHAR* GetEditorID (void) const            { return (m_pEditorID ? (const SSCHAR *)m_pEditorID->GetString().c_str() : ""); }
   bool          IsEditorID  (const SSCHAR* pString) { return SafeStringCompare(GetEditorID(), pString, true) == 0; }
@@ -81,8 +85,11 @@ public:
 	/* Set the editor ID */
   void SetEditorID (const SSCHAR *pData);
 
+  void SetBoundsData (const srboundsdata_t Data);
+ 
 	/* Begin field method definitions */
   DECLARE_SRFIELD(FieldEditorID)
+  DECLARE_SRFIELD(FieldBounds)
 
 };
 /*===========================================================================

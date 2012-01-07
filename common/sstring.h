@@ -554,7 +554,7 @@ inline bool operator>  (const CSString&  String1, const SSCHAR*    String2) { re
   int SafeStringCompare (const SSCHAR* pString1, const SSCHAR* pString2, const bool NoCase = true);
 
   typedef CSrPtrArray<CSString> CSStringArray;
-  int SplitString(CSStringArray& SplitStrings, const CSString& Buffer, const char SplitChar);
+  int SplitString(CSStringArray& SplitStrings, const CSString& Buffer, const char SplitChar, const bool IgnoreConsecutive = false);
 
 /*===========================================================================
  *		End of Function Definitions

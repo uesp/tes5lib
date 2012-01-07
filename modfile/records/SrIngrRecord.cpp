@@ -22,7 +22,6 @@ sringrenitdata_t CSrIngrRecord::s_NullIngrEnitData;
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrIngrRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrEfitSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ENIT, CSrIngrEnitSubrecord::Create)

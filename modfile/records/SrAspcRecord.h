@@ -35,7 +35,6 @@ class CSrAspcRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pRdatData;
 	CSrSubrecord*		m_pBnamData;
 	CSrSubrecord*		m_pSnamData;

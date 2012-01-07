@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrLvspRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLD, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrLvlfSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LLCT, CSrByteSubrecord::Create)
@@ -171,11 +170,7 @@ void CSrLvspRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrLvspRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_LVLD)
+	if (pSubrecord->GetRecordType() == SR_NAME_LVLD)
 	{
 		m_pChanceNone = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
@@ -205,9 +200,7 @@ void CSrLvspRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrLvspRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pChanceNone == pSubrecord)
+	if (m_pChanceNone == pSubrecord)
 		m_pChanceNone = NULL;
 	else if (m_pFlags == pSubrecord)
 		m_pFlags = NULL;

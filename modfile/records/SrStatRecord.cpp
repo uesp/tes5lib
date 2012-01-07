@@ -23,7 +23,6 @@ srdnamdata_t CSrStatRecord::s_NullDnamData;
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrStatRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDnamSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
@@ -57,7 +56,6 @@ END_SRFIELDMAP()
 CSrStatRecord::CSrStatRecord () 
 {
 	m_pModlData = NULL;
-	m_pObndData = NULL;
 	m_pDnamData = NULL;
 	m_pModtData = NULL;
 	m_pMnamData = NULL;
@@ -76,7 +74,6 @@ CSrStatRecord::CSrStatRecord ()
 void CSrStatRecord::Destroy (void) 
 {
 	m_pModlData = NULL;
-	m_pObndData = NULL;
 	m_pDnamData = NULL;
 	m_pModtData = NULL;
 	m_pMnamData = NULL;
@@ -102,7 +99,7 @@ void CSrStatRecord::InitializeNew (void)
 	if (m_pModlData != NULL) m_pModlData->InitializeNew();
 
 	AddNewSubrecord(SR_NAME_OBND);
-	if (m_pObndData != NULL) m_pObndData->InitializeNew();
+	if (m_pBounds != NULL) m_pBounds->InitializeNew();
 
 	AddNewSubrecord(SR_NAME_DNAM);
 	if (m_pDnamData != NULL) m_pDnamData->InitializeNew();
@@ -123,10 +120,6 @@ void CSrStatRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
 	{
 		m_pModlData = SrCastClass(CSrStringSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DNAM)
 	{
@@ -164,8 +157,6 @@ void CSrStatRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pModlData == pSubrecord)
 		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pDnamData == pSubrecord)
 		m_pDnamData = NULL;
 	else if (m_pModtData == pSubrecord)

@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrKeymRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrDataSubrecord::Create)
@@ -90,11 +89,7 @@ void CSrKeymRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrKeymRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
+	if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{
 		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -132,9 +127,7 @@ void CSrKeymRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrKeymRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pModtData == pSubrecord)
+	if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;
 	else if (m_pYnamData == pSubrecord)
 		m_pYnamData = NULL;

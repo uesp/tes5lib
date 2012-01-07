@@ -19,7 +19,6 @@
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrHazdRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
@@ -94,10 +93,6 @@ void CSrHazdRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
 		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -134,8 +129,6 @@ void CSrHazdRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pModlData == pSubrecord)
 		m_pModlData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pFullData == pSubrecord)
 		m_pFullData = NULL;
 	else if (m_pModtData == pSubrecord)

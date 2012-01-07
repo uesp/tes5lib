@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrAspcRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_RDAT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_BNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
@@ -88,11 +87,7 @@ void CSrAspcRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrAspcRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_RDAT)
+	if (pSubrecord->GetRecordType() == SR_NAME_RDAT)
 	{
 		m_pRdatData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -122,9 +117,7 @@ void CSrAspcRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrAspcRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pRdatData == pSubrecord)
+	if (m_pRdatData == pSubrecord)
 		m_pRdatData = NULL;
 	else if (m_pBnamData == pSubrecord)
 		m_pBnamData = NULL;

@@ -27,7 +27,6 @@ BEGIN_SRSUBRECCREATE(CSrMgefRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrMgefSnddSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================

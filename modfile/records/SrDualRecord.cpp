@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrDualRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
@@ -86,11 +85,7 @@ void CSrDualRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrDualRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
+	if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
 		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -112,9 +107,7 @@ void CSrDualRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrDualRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pDataData == pSubrecord)
+	if (m_pDataData == pSubrecord)
 		m_pDataData = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);

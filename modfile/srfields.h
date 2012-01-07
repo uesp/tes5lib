@@ -414,6 +414,7 @@
   #define SR_FIELD_X2					353
   #define SR_FIELD_Y2					354
   #define SR_FIELD_Z2					355
+  #define SR_FIELD_BOUNDS				356
 
 /*===========================================================================
  *		End of Field Types

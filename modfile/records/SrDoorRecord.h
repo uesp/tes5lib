@@ -37,7 +37,6 @@ class CSrDoorRecord : public CSrIdRecord
 protected:
   	CSrSubrecord*		m_pModlData;
 	CSrSubrecord*		m_pFnamData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pVmadData;
 	CSrSubrecord*		m_pSnamData;
 	CSrSubrecord*		m_pFullData;

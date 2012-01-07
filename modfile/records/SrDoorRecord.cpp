@@ -20,7 +20,6 @@
 BEGIN_SRSUBRECCREATE(CSrDoorRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
@@ -101,10 +100,6 @@ void CSrDoorRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{
 		m_pVmadData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -151,8 +146,6 @@ void CSrDoorRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pModlData = NULL;
 	else if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pVmadData == pSubrecord)
 		m_pVmadData = NULL;
 	else if (m_pSnamData == pSubrecord)

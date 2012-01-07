@@ -25,7 +25,6 @@ BEGIN_SRSUBRECCREATE(CSrActiRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DMDS, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDwordSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_KNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DEST, CSrActiDestSubrecord::Create)
@@ -161,10 +160,6 @@ void CSrActiRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_PNAM)
 	{
 		m_pPnamData = SrCastClass(CSrDwordSubrecord, pSubrecord);
@@ -243,8 +238,6 @@ void CSrActiRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pFnamData = NULL;
 	else if (m_pDmdsData == pSubrecord)
 		m_pDmdsData = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pModel == pSubrecord)
 		m_pModel = NULL;
 	else if (m_pItemName == pSubrecord)

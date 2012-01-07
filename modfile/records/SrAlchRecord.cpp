@@ -24,7 +24,6 @@ srenitalchdata_t CSrAlchRecord::s_NullAlchEnitData;
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrAlchRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrFormidSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ENIT, CSrEnitAlchSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrEfitSubrecord::Create)

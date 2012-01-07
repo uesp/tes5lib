@@ -22,7 +22,6 @@ srammodata_t CSrAmmoRecord::s_NullAmmoData;
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrAmmoRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrAmmoDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)

@@ -35,7 +35,6 @@ class CSrAppaRecord : public CSrItem1Record
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pDescData;
 	CSrSubrecord*		m_pQualData;
 	CSrSubrecord*		m_pDataData;

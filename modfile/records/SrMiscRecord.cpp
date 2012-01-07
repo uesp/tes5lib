@@ -21,7 +21,6 @@ srmiscdata_t CSrMiscRecord::s_NullMiscData;
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrMiscRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrMiscDataSubrecord::Create)
@@ -116,11 +115,7 @@ void CSrMiscRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrMiscRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
+	if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{
 		m_pVmadData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -162,9 +157,7 @@ void CSrMiscRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrMiscRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
-	else if (m_pVmadData == pSubrecord)
+	if (m_pVmadData == pSubrecord)
 		m_pVmadData = NULL;
 	else if (m_pModtData == pSubrecord)
 		m_pModtData = NULL;

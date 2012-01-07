@@ -22,7 +22,6 @@ srcontdata_t		CSrContRecord::s_NullContData;
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrContRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
@@ -144,10 +143,6 @@ void CSrContRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pModel = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pObndData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SNAM)
 	{
 		m_pOpenSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
@@ -204,8 +199,6 @@ void CSrContRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pModel == pSubrecord)
 		m_pModel = NULL;
-	else if (m_pObndData == pSubrecord)
-		m_pObndData = NULL;
 	else if (m_pOpenSound == pSubrecord)
 		m_pOpenSound = NULL;
 	else if (m_pItemName == pSubrecord)

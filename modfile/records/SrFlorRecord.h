@@ -37,7 +37,6 @@ class CSrFlorRecord : public CSrIdRecord
 protected:
 	CSrSubrecord*		m_pFnamData;
 	CSrSubrecord*		m_pModlData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pFullData;
 	CSrSubrecord*		m_pVmadData;
 	CSrSubrecord*		m_pModtData;

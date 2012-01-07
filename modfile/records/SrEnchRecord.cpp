@@ -23,7 +23,6 @@ srenitdata_t CSrEnchRecord::s_NullEffectData = { 0 };
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrEnchRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrFormidSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS1, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS2, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)

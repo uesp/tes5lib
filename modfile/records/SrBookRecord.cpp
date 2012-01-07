@@ -22,7 +22,6 @@ srbookdata_t CSrBookRecord::s_NullBookData;
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrBookRecord, CSrItem1Record)
-	DEFINE_SRSUBRECCREATE(SR_NAME_OBND, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrBookDataSubrecord::Create)

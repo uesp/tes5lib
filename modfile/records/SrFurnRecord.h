@@ -37,7 +37,6 @@ class CSrFurnRecord : public CSrItem1Record
 protected:
   	CSrSubrecord*		m_pFnmkData;
 	CSrSubrecord*		m_pFnamData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pKnamData;
 	CSrSubrecord*		m_pModtData;
 	CSrSubrecord*		m_pPnamData;

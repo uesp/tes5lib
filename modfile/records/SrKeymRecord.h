@@ -35,7 +35,6 @@ class CSrKeymRecord : public CSrItem1Record
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pModtData;
 	CSrSubrecord*		m_pYnamData;
 	CSrSubrecord*		m_pZnamData;

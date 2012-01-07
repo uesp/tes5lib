@@ -35,7 +35,6 @@ class CSrIdlmRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pIdlfData;
 	CSrSubrecord*		m_pIdltData;
 	CSrSubrecord*		m_pIdlcData;

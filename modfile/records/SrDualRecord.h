@@ -35,7 +35,6 @@ class CSrDualRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pDataData;
 
 

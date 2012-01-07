@@ -37,7 +37,6 @@ class CSrNpc_Record : public CSrIdRecord
 protected:
   	CSrSubrecord*		m_pTincData;
 	CSrSubrecord*		m_pSploData;
-	CSrSubrecord*		m_pObndData;
 	CSrSubrecord*		m_pCsdiData;
 	CSrSubrecord*		m_pCnamData;
 	CSrSubrecord*		m_pDestData;
