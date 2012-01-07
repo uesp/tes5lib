@@ -265,6 +265,13 @@ BEGIN_SRSETFIELD(CSrIdRecord::SetFieldBounds)
 
 	Buffer.Trim();
 
+	if (Buffer.IsEmpty())
+	{
+		DeleteSubrecords(SR_NAME_OBND);
+		m_pBounds = NULL;
+		return true;
+	}
+
 	CSStringArray SplitStrings;
 	int Count = SplitString(SplitStrings, Buffer, ' ', true);
 
