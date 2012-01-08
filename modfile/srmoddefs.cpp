@@ -586,6 +586,12 @@ BEGIN_STRINGVALUE(s_SrPerkDataUnknownTypes)
 END_STRINGVALUE()
 
 
+BEGIN_STRINGVALUE(s_SrSopmContentTypes)
+	ADD_STRINGVALUE( SR_SOPMCONTENTTYPE_FNAM,		"Fnam")
+	ADD_STRINGVALUE( SR_SOPMCONTENTTYPE_ANAM,		"Anam")
+	ADD_STRINGVALUE( SR_SOPMCONTENTTYPE_ONAM,		"Onam")
+	ADD_STRINGVALUE( SR_SOPMCONTENTTYPE_ANAMONAM,	"Anam+Onam")
+END_STRINGVALUE()
 
 /*===========================================================================
  *		End of Constant String Tables
@@ -633,6 +639,8 @@ const SSCHAR* GetSrEpftTypeString (const int Value) { return s_SrEpftTypesMap.Fi
 const SSCHAR* GetSrPerkDataEffectTypeString (const int Value) { return s_SrPerkDataEffectTypesMap.FindValue(Value); }
 const SSCHAR* GetSrPerkDataApplyTypeString (const int Value) { return s_SrPerkDataApplyTypesMap.FindValue(Value); }
 const SSCHAR* GetSrPerkDataUnknownTypeString (const int Value) { return s_SrPerkDataUnknownTypesMap.FindValue(Value); }
+
+const SSCHAR* GetSopmContentTypeString (const int Value) { return s_SrSopmContentTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -694,6 +702,8 @@ bool GetSrEpftTypeValue (int& Value, const SSCHAR* pString) { return s_SrEpftTyp
 bool GetSrPerkDataEffectTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataEffectTypesMap.FindString(Value, pString); }
 bool GetSrPerkDataApplyTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataApplyTypesMap.FindString(Value, pString); }
 bool GetSrPerkDataUnknownTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknownTypesMap.FindString(Value, pString); }
+
+bool GetSrSopmContentTypeValue (int& Value, const SSCHAR* pString) { return s_SrSopmContentTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {

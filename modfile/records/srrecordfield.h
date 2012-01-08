@@ -255,7 +255,7 @@
 						if (Member == NULL) return; \
 						Member->InitializeNew(); } \
 					Member->SetValue(Value); } \
-			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%g", Get##Name()); return true; } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { if (Member) String.Format("%g", Get##Name()); else String.Empty(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 					if (pRecord == NULL) return (1); \
 					Class* pRecord1 = SrCastClass(Class, pRecord); \
@@ -277,7 +277,7 @@
 						if (Member == NULL) return; \
 						Member->InitializeNew(); } \
 					Member->SetValue(Value); } \
-			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%u", (dword) Get##Name()); return true; } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { if (Member) String.Format("%u", (dword) Get##Name()); else String.Empty(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 					if (pRecord == NULL) return (1); \
 					Class* pRecord1 = SrCastClass(Class, pRecord); \
@@ -300,7 +300,7 @@
 						if (Member == NULL) return; \
 						Member->InitializeNew(); } \
 					Member->SetValue(Value); } \
-			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%d", Get##Name()); return true; } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { if (Member) String.Format("%d", Get##Name()); else String.Empty(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 					if (pRecord == NULL) return (1); \
 					Class* pRecord1 = SrCastClass(Class, pRecord); \
@@ -322,7 +322,7 @@
 						if (Member == NULL) return; \
 						Member->InitializeNew(); } \
 					Member->SetValue(Value); } \
-			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format("%hd", Get##Name()); return true; } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { if (Member) String.Format("%hd", Get##Name()); else String.Empty(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 					if (pRecord == NULL) return (1); \
 					Class* pRecord1 = SrCastClass(Class, pRecord); \
@@ -344,7 +344,7 @@
 						if (Member == NULL) return; \
 						Member->InitializeNew(); } \
 					Member->SetValue(Value); } \
-			bool GetField##Name     (CSString& String, long Reserved = 0) { String.Format(Fmt, Get##Name()); return true; } \
+			bool GetField##Name     (CSString& String, long Reserved = 0) { if (Member) String.Format(Fmt, Get##Name()); else String.Empty(); return true; } \
 			int  CompareField##Name (CSrRecord* pRecord, long Reserved = 0) { \
 					if (pRecord == NULL) return (1); \
 					Class* pRecord1 = SrCastClass(Class, pRecord); \

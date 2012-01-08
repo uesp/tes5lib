@@ -485,6 +485,9 @@
 	#define SRCLASS_CSrBoundsSubrecord			1049
 	#define SRCLASS_CSrSnddDataSubrecord		1050
 	#define SRCLASS_CSrSndrBnamSubrecord		1051
+	#define SRCLASS_CSrSopmOnamSubrecord		1052
+	#define SRCLASS_CSrSopmSnamSubrecord		1053
+	#define SRCLASS_CSrSopmAnamSubrecord		1054
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -661,6 +664,13 @@
 	#define SR_SOULGEM_COMMON	 3
 	#define SR_SOULGEM_GREATER	 4
 	#define SR_SOULGEM_GRAND	 5
+
+		/* Custom types for handling different content types */
+    #define SR_SOPMCONTENTTYPE_UNKNOWN	0
+	#define SR_SOPMCONTENTTYPE_FNAM		1
+	#define SR_SOPMCONTENTTYPE_ANAM		2
+	#define SR_SOPMCONTENTTYPE_ONAM		3
+	#define SR_SOPMCONTENTTYPE_ANAMONAM	4
 	
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -689,6 +699,7 @@
 	extern const stringvalue_t s_SrPerkDataEffectTypes[];
 	extern const stringvalue_t s_SrPerkDataApplyTypes[];
 	extern const stringvalue_t s_SrPerkDataUnknownTypes[];
+	extern const stringvalue_t s_SrSopmContentTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -771,6 +782,9 @@
 	bool GetSrPerkDataEffectTypeValue (int& Value, const SSCHAR* pString);
 	bool GetSrPerkDataApplyTypeValue (int& Value, const SSCHAR* pString);
 	bool GetSrPerkDataUnknownTypeValue (int& Value, const SSCHAR* pString);
+	
+	const SSCHAR* GetSrSopmContentTypeString (const int Value);
+	bool GetSrSopmContentTypeValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);
