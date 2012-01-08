@@ -115,6 +115,8 @@ public:
   int InsertAfter  (const dword Index, TObj* pRecord);
   int InsertAfter (TObj* pRecord, TObj* pAfter, const int Offset = 0);
 
+    void MoveToEnd (const dword Index);
+
 	/* Update a record */
   void SetAt (const dword Index, TObj* pRecord) { if (IsValidIndex(Index)) m_ppRecords[Index] = pRecord; }
 
@@ -528,6 +530,18 @@ void CSrPtrArray< TObj >::Grow (void) {
 /*===========================================================================
  *		End of Class Method CSrPtrArray< TObj >::Grow()
  *=========================================================================*/
+
+
+template <class TObj>
+void CSrPtrArray< TObj >::MoveToEnd (const dword Index)
+{
+	if (Index + 1 >= m_NumRecords) return;
+
+	TObj* pRecord = m_ppRecords[Index];
+
+	memmove(m_ppRecords + Index, m_ppRecords + Index + 1, sizeof(m_ppRecords[0]) * (m_NumRecords - Index));
+	m_ppRecords[m_NumRecords - 1] = pRecord;
+}
 
 
 /*===========================================================================

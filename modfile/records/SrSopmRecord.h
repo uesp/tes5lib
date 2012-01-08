@@ -63,7 +63,10 @@ public:
 
 		/* Get class members */
 	int GetContentType (void);
-  
+
+	srsopmanamdata_t* GetAnamData (void) { return m_pAnamData ? &m_pAnamData->GetSopmData() : NULL; }
+	srsopmonamdata_t* GetOnamData (void) { return m_pOnamData ? &m_pOnamData->GetSopmData() : NULL; }
+	srsopmsnamdata_t* GetSnamData (void) { return m_pSnamData ? &m_pSnamData->GetSopmData() : NULL; }  
 
 		/* Initialize a new record */
 	void InitializeNew (void);
@@ -74,9 +77,12 @@ public:
 
 	void SetContentType (const int Type);
 
+	void SetAnamData (const srsopmanamdata_t Data) { if (m_pAnamData) m_pAnamData->GetSopmData() = Data; }
+	void SetOnamData (const srsopmonamdata_t Data) { if (m_pOnamData) m_pOnamData->GetSopmData() = Data; }
+	void SetSnamData (const srsopmsnamdata_t Data) { if (m_pSnamData) m_pSnamData->GetSopmData() = Data; }  
 
 		/* Begin field method definitions */
-	DECLARE_SRFIELD_METHODDWORDF(CSrSopmRecord, m_pFlags, SoundFlags, SR_NAME_MNAM, "0x%08X")
+	DECLARE_SRFIELD_METHODDWORDF(CSrSopmRecord, m_pFlags, SoundFlags, SR_NAME_FNAM, "0x%08X")
 	DECLARE_SRFIELD_METHODDWORDF(CSrSopmRecord, m_pNam1Data, Unknown1, SR_NAME_NAM1, "0x%08X")
 	DECLARE_SRFIELD_METHODDWORD(CSrSopmRecord, m_pMnamData, Unknown2, SR_NAME_MNAM)
 	DECLARE_SRFIELD_METHODDWORD(CSrSopmRecord, m_pCnamData, Unknown3, SR_NAME_CNAM)

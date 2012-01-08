@@ -306,6 +306,8 @@ public:
 	/* Initialize a new record */
   virtual void InitializeNew (void);
 
+  void MoveToEnd (const srrectype_t Name);
+
 	/* Called to alert record of a new subrecord being added */
   virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);

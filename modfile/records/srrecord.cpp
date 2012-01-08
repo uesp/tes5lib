@@ -1025,6 +1025,23 @@ void CSrRecord::LoadLocalStrings (CSrCallback* pCallback)
  *		End of Class Method CSrRecord::LoadLocalStrings()
  *=========================================================================*/
 
+
+void CSrRecord::MoveToEnd (const srrectype_t Name)
+{
+	dword StopIndex = m_Subrecords.GetSize();
+
+	for (dword i = 0; i < StopIndex; ++i)
+	{
+		CSrSubrecord* pSubrecord = m_Subrecords.GetAt(i);
+		if (pSubrecord == NULL) continue;
+		if (pSubrecord->GetRecordType() != Name) continue;
+
+		m_Subrecords.MoveToEnd(i);
+		--StopIndex;
+	}
+
+}
+
    
 /*===========================================================================
  *

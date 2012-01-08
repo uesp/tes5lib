@@ -189,11 +189,11 @@ int CSrSopmRecord::GetContentType (void)
 
 	if (m_pAnamData != NULL)
 	{
-		if (m_pOnamData != NULL) SR_SOPMCONTENTTYPE_ANAMONAM;
+		if (m_pOnamData != NULL) return SR_SOPMCONTENTTYPE_ANAMONAM;
 		return SR_SOPMCONTENTTYPE_ANAM;
 	}
 
-	if (m_pOnamData != NULL) SR_SOPMCONTENTTYPE_ONAM;
+	if (m_pOnamData != NULL) return SR_SOPMCONTENTTYPE_ONAM;
 	return SR_SOPMCONTENTTYPE_UNKNOWN;
 }
 
@@ -205,8 +205,8 @@ void CSrSopmRecord::SetContentType (const int Type)
 		case SR_SOPMCONTENTTYPE_UNKNOWN:
 			break;
 		case SR_SOPMCONTENTTYPE_FNAM:		
-			if (m_pFlags    == NULL) { AddNewSubrecord(SR_NAME_FNAM); if (m_pFlags)     m_pFlags->InitializeNew(); }
-			if (m_pCnamData == NULL) { AddNewSubrecord(SR_NAME_CNAM); if (m_pCnamData) m_pCnamData->InitializeNew(); }
+			if (m_pFlags    == NULL) { AddNewSubrecord(SR_NAME_FNAM); if (m_pFlags)    { m_pFlags->InitializeNew(); m_pFlags->SetValue(1); } }
+			if (m_pCnamData == NULL) { AddNewSubrecord(SR_NAME_CNAM); if (m_pCnamData) { m_pCnamData->InitializeNew(); m_pCnamData->SetValue(2); } }
 			if (m_pSnamData == NULL) { AddNewSubrecord(SR_NAME_SNAM); if (m_pSnamData) m_pSnamData->InitializeNew(); }
 			if (m_pAnamData == NULL) { AddNewSubrecord(SR_NAME_ANAM); if (m_pAnamData) m_pAnamData->InitializeNew(); }
 			DeleteSubrecords(SR_NAME_NAM1);
@@ -220,18 +220,28 @@ void CSrSopmRecord::SetContentType (const int Type)
 			if (m_pNam1Data == NULL) { AddNewSubrecord(SR_NAME_NAM1); if (m_pNam1Data) m_pNam1Data->InitializeNew(); }
 			DeleteSubrecords(SR_NAME_FNAM);
 			DeleteSubrecords(SR_NAME_CNAM);
+			DeleteSubrecords(SR_NAME_SNAM);
+			DeleteSubrecords(SR_NAME_ONAM);
 			m_pFlags = NULL;
 			m_pCnamData = NULL;
+			m_pSnamData = NULL;
+			m_pOnamData = NULL;
 			if (m_pMnamData) m_pMnamData->FlipFlag(0x01, false);
+			if (m_pNam1Data) m_pNam1Data->FlipFlag(0x01, true);
 			break;
 		case SR_SOPMCONTENTTYPE_ONAM:	
 			if (m_pOnamData == NULL) { AddNewSubrecord(SR_NAME_ONAM); if (m_pOnamData) m_pOnamData->InitializeNew(); }
 			if (m_pNam1Data == NULL) { AddNewSubrecord(SR_NAME_NAM1); if (m_pNam1Data) m_pNam1Data->InitializeNew(); }
 			DeleteSubrecords(SR_NAME_FNAM);
 			DeleteSubrecords(SR_NAME_CNAM);
+			DeleteSubrecords(SR_NAME_ANAM);
+			DeleteSubrecords(SR_NAME_SNAM);
 			m_pFlags = NULL;
 			m_pCnamData = NULL;
+			m_pSnamData = NULL;
+			m_pAnamData = NULL;
 			if (m_pMnamData) m_pMnamData->FlipFlag(0x01, true);
+			if (m_pNam1Data) m_pNam1Data->FlipFlag(0x01, false);
 			break;
 		case SR_SOPMCONTENTTYPE_ANAMONAM:
 			if (m_pAnamData == NULL) { AddNewSubrecord(SR_NAME_ANAM); if (m_pAnamData) m_pAnamData->InitializeNew(); }
@@ -239,9 +249,12 @@ void CSrSopmRecord::SetContentType (const int Type)
 			if (m_pNam1Data == NULL) { AddNewSubrecord(SR_NAME_NAM1); if (m_pNam1Data) m_pNam1Data->InitializeNew(); }
 			DeleteSubrecords(SR_NAME_FNAM);
 			DeleteSubrecords(SR_NAME_CNAM);
+			DeleteSubrecords(SR_NAME_SNAM);
 			m_pFlags = NULL;
 			m_pCnamData = NULL;
+			m_pSnamData = NULL;
 			if (m_pMnamData) m_pMnamData->FlipFlag(0x01, true);
+			if (m_pNam1Data) m_pNam1Data->FlipFlag(0x01, true);
 			break;
 	}
 	
