@@ -9,7 +9,7 @@
  *=========================================================================*/
 
 	/* Include Files */
-#include "srOtftrecord.h"
+#include "srotftrecord.h"
 
 
 /*===========================================================================
@@ -17,10 +17,8 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrOtftRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_INAM, CSrDataSubrecord::Create)
-
+BEGIN_SRSUBRECCREATE(CSrOtftRecord, CSrIdRecord)
+	DEFINE_SRSUBRECCREATE(SR_NAME_INAM, CSrFormidArraySubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -29,10 +27,11 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrOtftRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrOtftRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemCount",		SR_FIELD_ITEMCOUNT,		0, CSrOtftRecord, FieldItemCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -46,6 +45,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrOtftRecord::CSrOtftRecord () 
 {
+	m_pItems = NULL;
 }
 /*===========================================================================
  *		End of Class CSrOtftRecord Constructor
@@ -59,7 +59,9 @@ CSrOtftRecord::CSrOtftRecord ()
  *=========================================================================*/
 void CSrOtftRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	m_pItems = NULL;
+
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrOtftRecord::Destroy()
@@ -73,10 +75,10 @@ void CSrOtftRecord::Destroy (void)
  *=========================================================================*/
 void CSrOtftRecord::InitializeNew (void) 
 {
+	CSrIdRecord::InitializeNew();
 
-	/* Call the base class method first */
-	CSrRecord::InitializeNew();
-
+	AddNewSubrecord(SR_NAME_INAM);
+	if (m_pItems != NULL) m_pItems->InitializeNew();
 
 }
 /*===========================================================================
@@ -91,18 +93,13 @@ void CSrOtftRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrOtftRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
+	if (pSubrecord->GetRecordType() == SR_NAME_INAM)
 	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItems = SrCastClass(CSrFormidArraySubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_INAM)
-	{
-		m_pInamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -118,13 +115,10 @@ void CSrOtftRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrOtftRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pInamData == pSubrecord)
-		m_pInamData = NULL;
-
+	if (m_pItems == pSubrecord)
+		m_pItems = NULL;
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
