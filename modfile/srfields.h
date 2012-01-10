@@ -424,6 +424,11 @@
   #define SR_FIELD_PARENT				363
   #define SR_FIELD_VNAME				364
   #define SR_FIELD_UNAME				365
+  #define SR_FIELD_FACTION				366
+  #define SR_FIELD_LOCATION				367
+  #define SR_FIELD_RANK					368
+  #define SR_FIELD_MINLEVEL				369
+  #define SR_FIELD_RESET				370
 
 /*===========================================================================
  *		End of Field Types

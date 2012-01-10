@@ -386,6 +386,11 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_PARENT,			"Parent")
 	ADD_STRINGVALUE( SR_FIELD_VNAME,			"VName")
 	ADD_STRINGVALUE( SR_FIELD_UNAME,			"UName")
+	ADD_STRINGVALUE( SR_FIELD_FACTION,			"Faction")
+	ADD_STRINGVALUE( SR_FIELD_LOCATION,			"Location")
+	ADD_STRINGVALUE( SR_FIELD_RANK,				"Rank")
+	ADD_STRINGVALUE( SR_FIELD_MINLEVEL,			"MinLevel")
+	ADD_STRINGVALUE( SR_FIELD_RESET,			"Reset")
 
 END_STRINGVALUE()
 /*===========================================================================

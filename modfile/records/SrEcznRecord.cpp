@@ -12,13 +12,16 @@
 #include "srEcznrecord.h"
 
 
+sreczndata_t CSrEcznRecord::s_NullEncounterData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrEcznRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrEcznDataSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -31,6 +34,14 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrEcznRecord, CSrIdRecord)
+	ADD_SRFIELDALL("Faction",		SR_FIELD_FACTION,	0, CSrEcznRecord, FieldFaction)
+	ADD_SRFIELDALL("Location",		SR_FIELD_LOCATION,	0, CSrEcznRecord, FieldLocation)
+	ADD_SRFIELDALL("Rank",			SR_FIELD_RANK,		0, CSrEcznRecord, FieldRank)
+	ADD_SRFIELDALL("MinLevel",		SR_FIELD_MINLEVEL,	0, CSrEcznRecord, FieldMinLevel)
+	ADD_SRFIELDALL("Reset",			SR_FIELD_RESET,		0, CSrEcznRecord, FieldReset)
+	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,	0, CSrEcznRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,	0, CSrEcznRecord, FieldUnknown2)
+	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,	0, CSrEcznRecord, FieldUnknown3)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -44,6 +55,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrEcznRecord::CSrEcznRecord () 
 {
+	m_pEncounterData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrEcznRecord Constructor
@@ -57,6 +69,8 @@ CSrEcznRecord::CSrEcznRecord ()
  *=========================================================================*/
 void CSrEcznRecord::Destroy (void) 
 {
+	m_pEncounterData = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -72,6 +86,9 @@ void CSrEcznRecord::Destroy (void)
 void CSrEcznRecord::InitializeNew (void) 
 {
 	CSrIdRecord::InitializeNew();
+
+	AddNewSubrecord(SR_NAME_DATA);
+	if (m_pEncounterData != NULL) m_pEncounterData->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrEcznRecord::InitializeNew()
@@ -87,7 +104,7 @@ void CSrEcznRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pEncounterData = SrCastClass(CSrEcznDataSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -107,8 +124,8 @@ void CSrEcznRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrEcznRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
+	if (m_pEncounterData == pSubrecord)
+		m_pEncounterData = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 

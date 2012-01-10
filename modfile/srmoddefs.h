@@ -488,6 +488,7 @@
 	#define SRCLASS_CSrSopmOnamSubrecord		1052
 	#define SRCLASS_CSrSopmSnamSubrecord		1053
 	#define SRCLASS_CSrSopmAnamSubrecord		1054
+	#define SRCLASS_CSrEcznDataSubrecord		1055
   
 /*===========================================================================
  *		End of Class Type Definitions
