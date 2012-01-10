@@ -36,9 +36,7 @@ class CSrAactRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEdidData;
-
-
+  	
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:

@@ -16,7 +16,7 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+  #include "sridrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,16 +27,15 @@
  * Begin Class CSrQustRecord Definition
  *
  *=========================================================================*/
-class CSrQustRecord : public CSrRecord 
+class CSrQustRecord : public CSrIdRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrQustRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrQustRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   	CSrSubrecord*		m_pFnamData;
-	CSrSubrecord*		m_pEdidData;
 	CSrSubrecord*		m_pAlntData;
 	CSrSubrecord*		m_pIndxData;
 	CSrSubrecord*		m_pNextData;

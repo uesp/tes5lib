@@ -17,8 +17,7 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrScenRecord, CSrRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
+BEGIN_SRSUBRECCREATE(CSrScenRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NEXT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
@@ -56,10 +55,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrScenRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrScenRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -86,7 +85,7 @@ CSrScenRecord::CSrScenRecord ()
  *=========================================================================*/
 void CSrScenRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrScenRecord::Destroy()
@@ -102,7 +101,7 @@ void CSrScenRecord::InitializeNew (void)
 {
 
 	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	CSrIdRecord::InitializeNew();
 
 
 }
@@ -118,11 +117,7 @@ void CSrScenRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrScenRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
+	if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
@@ -234,10 +229,9 @@ void CSrScenRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pScroData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+		CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -253,9 +247,7 @@ void CSrScenRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrScenRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
-	else if (m_pFnamData == pSubrecord)
+	if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
 	else if (m_pNextData == pSubrecord)
 		m_pNextData = NULL;
@@ -313,7 +305,7 @@ void CSrScenRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pScroData = NULL;
 
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

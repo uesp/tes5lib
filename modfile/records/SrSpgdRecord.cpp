@@ -17,9 +17,8 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrSpgdRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrSpgdRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ICON, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
 
 END_SRSUBRECCREATE()
@@ -30,10 +29,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrSpgdRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrSpgdRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -60,7 +59,7 @@ CSrSpgdRecord::CSrSpgdRecord ()
  *=========================================================================*/
 void CSrSpgdRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrSpgdRecord::Destroy()
@@ -76,7 +75,7 @@ void CSrSpgdRecord::InitializeNew (void)
 {
 
 	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	CSrIdRecord::InitializeNew();
 
 
 }
@@ -96,10 +95,6 @@ void CSrSpgdRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pIconData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
 		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -107,7 +102,7 @@ void CSrSpgdRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+	CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -125,13 +120,12 @@ void CSrSpgdRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pIconData == pSubrecord)
 		m_pIconData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
+
 	else if (m_pDataData == pSubrecord)
 		m_pDataData = NULL;
 
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

@@ -17,9 +17,8 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrMovtRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrMovtRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SPED, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_INAM, CSrDataSubrecord::Create)
 
@@ -31,10 +30,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrMovtRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrMovtRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -61,7 +60,7 @@ CSrMovtRecord::CSrMovtRecord ()
  *=========================================================================*/
 void CSrMovtRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrMovtRecord::Destroy()
@@ -77,7 +76,7 @@ void CSrMovtRecord::InitializeNew (void)
 {
 
 	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	CSrIdRecord::InitializeNew();
 
 
 }
@@ -97,10 +96,6 @@ void CSrMovtRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pSpedData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MNAM)
 	{
 		m_pMnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
@@ -112,7 +107,7 @@ void CSrMovtRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+	CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -130,15 +125,14 @@ void CSrMovtRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pSpedData == pSubrecord)
 		m_pSpedData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
+
 	else if (m_pMnamData == pSubrecord)
 		m_pMnamData = NULL;
 	else if (m_pInamData == pSubrecord)
 		m_pInamData = NULL;
 
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

@@ -17,9 +17,8 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrPackRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrPackRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_POBA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PKDT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PSDT, CSrDataSubrecord::Create)
@@ -64,10 +63,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrPackRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrPackRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -94,7 +93,7 @@ CSrPackRecord::CSrPackRecord ()
  *=========================================================================*/
 void CSrPackRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrPackRecord::Destroy()
@@ -110,7 +109,7 @@ void CSrPackRecord::InitializeNew (void)
 {
 
 	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	CSrIdRecord::InitializeNew();
 
 
 }
@@ -129,10 +128,6 @@ void CSrPackRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_POBA)
 	{
@@ -277,7 +272,7 @@ void CSrPackRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+	CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -295,8 +290,7 @@ void CSrPackRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
+
 	else if (m_pPobaData == pSubrecord)
 		m_pPobaData = NULL;
 	else if (m_pPkdtData == pSubrecord)
@@ -369,7 +363,7 @@ void CSrPackRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pScdaData = NULL;
 
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================

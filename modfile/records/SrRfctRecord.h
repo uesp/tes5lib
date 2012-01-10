@@ -16,7 +16,7 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srrecord.h"
+  #include "sridrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -27,17 +27,15 @@
  * Begin Class CSrRfctRecord Definition
  *
  *=========================================================================*/
-class CSrRfctRecord : public CSrRecord 
+class CSrRfctRecord : public CSrIdRecord 
 {
   DECLARE_SRSUBRECCREATE()
   DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrRfctRecord, CSrRecord)
+  DECLARE_SRCLASS(CSrRfctRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pEdidData;
 	CSrSubrecord*		m_pDataData;
-
 
 
   /*---------- Begin Protected Class Methods --------------------*/

@@ -17,10 +17,9 @@
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
-BEGIN_SRSUBRECCREATE(CSrSmqnRecord, CSrRecord)
+BEGIN_SRSUBRECCREATE(CSrSmqnRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_EDID, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS2, CSrDataSubrecord::Create)
@@ -40,10 +39,10 @@ END_SRSUBRECCREATE()
 
 /*===========================================================================
  *
- * Begin CSrRecord Field Map
+ * Begin CSrIdRecord Field Map
  *
  *=========================================================================*/
-BEGIN_SRFIELDMAP(CSrSmqnRecord, CSrRecord)
+BEGIN_SRFIELDMAP(CSrSmqnRecord, CSrIdRecord)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -70,7 +69,7 @@ CSrSmqnRecord::CSrSmqnRecord ()
  *=========================================================================*/
 void CSrSmqnRecord::Destroy (void) 
 {
-	CSrRecord::Destroy();
+	CSrIdRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrSmqnRecord::Destroy()
@@ -86,7 +85,7 @@ void CSrSmqnRecord::InitializeNew (void)
 {
 
 	/* Call the base class method first */
-	CSrRecord::InitializeNew();
+	CSrIdRecord::InitializeNew();
 
 
 }
@@ -109,10 +108,6 @@ void CSrSmqnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
 		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_EDID)
-	{
-		m_pEdidData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XNAM)
 	{
@@ -157,7 +152,7 @@ void CSrSmqnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	else
 	{
-	CSrRecord::OnAddSubrecord(pSubrecord);
+	CSrIdRecord::OnAddSubrecord(pSubrecord);
 	}
 
 }
@@ -177,8 +172,7 @@ void CSrSmqnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pNnamData = NULL;
 	else if (m_pFnamData == pSubrecord)
 		m_pFnamData = NULL;
-	else if (m_pEdidData == pSubrecord)
-		m_pEdidData = NULL;
+
 	else if (m_pXnamData == pSubrecord)
 		m_pXnamData = NULL;
 	else if (m_pPnamData == pSubrecord)
@@ -201,7 +195,7 @@ void CSrSmqnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pMnamData = NULL;
 
 	else
-		CSrRecord::OnDeleteSubrecord(pSubrecord);
+		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
