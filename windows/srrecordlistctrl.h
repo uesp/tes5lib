@@ -434,6 +434,7 @@ public:
 	/* Update a record in the list */
   virtual int  UpdateRecord (CSrRecord* pNewRecord, CSrRecord* pOldRecord);
   virtual void UpdateRecord (const int ListIndex);
+  virtual void UpdateRecord (const int ListIndex, CSrRecord* pRecord);
 
 
 	/* ClassWizard generated virtual function overrides */

@@ -16,7 +16,7 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridrecord.h"
+	#include "sridrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -29,14 +29,12 @@
  *=========================================================================*/
 class CSrFlstRecord : public CSrIdRecord 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrFlstRecord, CSrIdRecord)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrFlstRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*		m_pLnamData;
-
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
@@ -45,26 +43,29 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrFlstRecord();
-  virtual void Destroy (void);
+		/* Class Constructors/Destructors */
+	CSrFlstRecord();
+	virtual void Destroy (void);
+
+	void AddItem (const srformid_t FormID);
 
     	/* Return a new instance of the class */
-  static CSrRecord* Create (void) { return new CSrFlstRecord; }
+	static CSrRecord* Create (void) { return new CSrFlstRecord; }
 
-	/* Get class members */
+		/* Get class members */
+	dword GetItemCount (void) { return CountSubrecords(SR_NAME_LNAM); }
   
 
-	/* Initialize a new record */
-  void InitializeNew (void);
+		/* Initialize a new record */
+	void InitializeNew (void);
 
-	/* Called to alert record of a new subrecord being added */
-  virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
-  virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+		/* Called to alert record of a new subrecord being added */
+	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
+	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
-
+		/* Begin field method definitions */
+	DECLARE_SRFIELD_DWORD1(CSrFlstRecord, ItemCount, GetItemCount(), dword Tmp)
 
 };
 /*===========================================================================

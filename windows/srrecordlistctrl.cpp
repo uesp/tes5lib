@@ -436,6 +436,7 @@ static srreclistcolinit_t s_FlstListInit[] =
 	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
 	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
 	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_ITEMCOUNT,	80,		LVCFMT_CENTER },
 	{ SR_FIELD_NONE,		0,		0 }
 };
 
@@ -1533,10 +1534,10 @@ CSrRecord* CSrRecordListCtrl::GetRecord (const int ListIndex) {
   Value = GetItemData(ListIndex);
   if (Value == 0) return (NULL);
 
-  switch (m_pCurrentList->Type) {
+  switch (m_pCurrentList->Type) 
+  {
     case SR_RECORDLIST_RECORD:
         return (CSrRecord *) Value;
-	break;
     case SR_RECORDLIST_CUSTOM:
         return ((srrlcustomdata_t *) Value)->pRecord;
    }
@@ -1979,16 +1980,16 @@ void CSrRecordListCtrl::SetItemData (const int ListIndex, CSrRecord* pRecord) {
   switch (m_pCurrentList->Type) {  
     case SR_RECORDLIST_RECORD: 
         CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pRecord);
-	break;
+		break;
     case SR_RECORDLIST_CUSTOM: 
         pCustomData = new srrlcustomdata_t;
-	m_CustomData.Add(pCustomData);
+		m_CustomData.Add(pCustomData);
 
-	memset(pCustomData, 0, sizeof(srrlcustomdata_t));
-	pCustomData->pRecord = pRecord;
+		memset(pCustomData, 0, sizeof(srrlcustomdata_t));
+		pCustomData->pRecord = pRecord;
 
-	CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pCustomData);
-	break;
+		CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pCustomData);
+		break;
    }
 
  }
@@ -2010,18 +2011,18 @@ void CSrRecordListCtrl::SetItemData (const int ListIndex, CSrRecord* pRecord, CS
   switch (m_pCurrentList->Type) {  
     case SR_RECORDLIST_RECORD: 
         CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pRecord);
-	break;
+		break;
     case SR_RECORDLIST_CUSTOM: 
         pCustomData = new srrlcustomdata_t;
-	m_CustomData.Add(pCustomData);
+		m_CustomData.Add(pCustomData);
 
         memset(pCustomData, 0, sizeof(srrlcustomdata_t));
-	pCustomData->pRecord        = pRecord;
-	pCustomData->pSubrecords[0] = pSubrecord;
-	pCustomData->UserData       = UserData;
+		pCustomData->pRecord        = pRecord;
+		pCustomData->pSubrecords[0] = pSubrecord;
+		pCustomData->UserData       = UserData;
 
-	CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pCustomData);
-	break;
+		CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pCustomData);
+		break;
    }
 
  }
@@ -2437,21 +2438,43 @@ void CSrRecordListCtrl::UpdateCurrentList (void) {
  * Class CSrRecordListCtrl Method - void UpdateRecord (ListIndex);
  *
  *=========================================================================*/
-void CSrRecordListCtrl::UpdateRecord (const int ListIndex) {
-  CSrRecord*        pRecord;
-  srrlcustomdata_t* pCustomData;
+void CSrRecordListCtrl::UpdateRecord (const int ListIndex) 
+{
+	CSrRecord*        pRecord;
+	srrlcustomdata_t* pCustomData;
+	
+	pCustomData = GetCustomData(ListIndex);
+	
+	if (pCustomData != NULL) {
+	  SetColumnTexts(ListIndex, pCustomData->pRecord, pCustomData->pSubrecords);
+	  return;
+	}
+	
+	pRecord = GetRecord(ListIndex);
+	if (pRecord == NULL) return;
+	
+	SetColumnTexts(ListIndex, pRecord, NULL);
+}
 
-  pCustomData = GetCustomData(ListIndex);
 
-  if (pCustomData != NULL) {
-    SetColumnTexts(ListIndex, pCustomData->pRecord, pCustomData->pSubrecords);
-    return;
-  }
-
-  pRecord = GetRecord(ListIndex);
-  if (pRecord == NULL) return;
-
-  SetColumnTexts(ListIndex, pRecord, NULL);
+void CSrRecordListCtrl::UpdateRecord (const int ListIndex, CSrRecord* pNewRecord) 
+{
+	CSrRecord*        pRecord;
+	srrlcustomdata_t* pCustomData;
+	
+	pCustomData = GetCustomData(ListIndex);
+	
+	if (pCustomData != NULL) 
+	{
+		pCustomData->pRecord = pNewRecord;
+		SetColumnTexts(ListIndex, pCustomData->pRecord, pCustomData->pSubrecords);
+		return;
+	}
+	
+	pRecord = GetRecord(ListIndex);
+	if (pRecord == NULL) return;
+	
+	SetColumnTexts(ListIndex, pRecord, NULL);
 }
 /*===========================================================================
  *		End of Class Method CSrRecordListCtrl::UpdateRecord()

@@ -18,7 +18,7 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrFlstRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LNAM, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -31,6 +31,7 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrFlstRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemCount",		SR_FIELD_ITEMCOUNT,	0,	CSrFlstRecord, FieldItemCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -83,17 +84,9 @@ void CSrFlstRecord::InitializeNew (void)
  * Class CSrFlstRecord Event - void OnAddSubrecord (pSubrecord);
  *
  *=========================================================================*/
-void CSrFlstRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
-
-	if (pSubrecord->GetRecordType() == SR_NAME_LNAM)
-	{
-		m_pLnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else
-	{
-		CSrIdRecord::OnAddSubrecord(pSubrecord);
-	}
-
+void CSrFlstRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) 
+{
+	CSrIdRecord::OnAddSubrecord(pSubrecord);
 }
 /*===========================================================================
  *		End of Class Event CSrFlstRecord::OnAddSubRecord()
@@ -105,17 +98,26 @@ void CSrFlstRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  * Class CSrFlstRecord Event - void OnDeleteSubrecord (pSubrecord);
  *
  *=========================================================================*/
-void CSrFlstRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
-
-	if (m_pLnamData == pSubrecord)
-		m_pLnamData = NULL;
-	else
-		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
-
+void CSrFlstRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) 
+{
+	CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 }
 /*===========================================================================
  *		End of Class Event CSrFlstRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+void CSrFlstRecord::AddItem (const srformid_t FormID)
+{
+	CSrSubrecord* pSubrecord = AddNewSubrecord(SR_NAME_LNAM);
+	CSrFormidSubrecord* pFormID = SrCastClassNull(CSrFormidSubrecord, pSubrecord);
+
+	if (pFormID != NULL) 
+	{
+		pFormID->InitializeNew();
+		pFormID->SetValue(FormID);
+	}
+}
 
 
 /*===========================================================================
