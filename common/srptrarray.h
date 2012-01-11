@@ -59,7 +59,13 @@
  *
  *=========================================================================*/
 template <class TObj>
-class CSrPtrArray {
+class CSrPtrArray 
+{
+
+private:
+  CSrPtrArray(const CSrPtrArray<TObj>& Source);
+  void Copy (const CSrPtrArray<TObj>& Source) { }
+  CSrPtrArray<TObj>& operator= (const CSrPtrArray<TObj>& Source);
 
   /*---------- Begin Private Class Members ----------------------*/
 protected:
@@ -83,6 +89,7 @@ public:
 
 	/* Class Constructors/Destructors */
   CSrPtrArray();
+
   virtual   ~CSrPtrArray() { Destroy(); }
   virtual void Destroy (void);
   void         Empty   (void) { Destroy(); }
@@ -91,7 +98,7 @@ public:
   void  Add    (TObj* pRecord);
   TObj* AddNew (void);
 
-  void Copy (CSrPtrArray<TObj>& Source);
+
 
 	/* Delete elements */
   virtual bool  Delete   (const dword Index);
@@ -129,7 +136,7 @@ public:
 	/* Operators */
   TObj* operator[] (const dword Index) { return GetAt(Index); }
 
- };
+};
 /*===========================================================================
  *		End of Class CSrPtrArray Definition
  *=========================================================================*/
@@ -143,20 +150,30 @@ public:
  *
  *=========================================================================*/
 template <class TObj>
-class CSrRefPtrArray : virtual public CSrPtrArray<TObj> {
+class CSrRefPtrArray : virtual public CSrPtrArray<TObj> 
+{
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
-  virtual ~CSrRefPtrArray() { Destroy(); }
 
-	/* Class Constructors/Destructors */
-  void Destroy (void);
+	CSrRefPtrArray() { }
+	CSrRefPtrArray(const CSrRefPtrArray<TObj>& Source);
+	virtual ~CSrRefPtrArray() { Destroy(); }
 
-	/* Delete elements */
-  bool Delete (const dword Index);
-  bool Delete (TObj* pRecord) { return this->Delete( this->Find(pRecord)); }
+	CSrRefPtrArray<TObj>& operator= (const CSrRefPtrArray<TObj>& Source);
 
- };
+		/* Class Constructors/Destructors */
+	void Destroy (void);
+
+	void Copy (const CSrRefPtrArray<TObj>& Source);
+
+		/* Delete elements */
+	bool Delete (const dword Index);
+	bool Delete (TObj* pRecord) { return this->Delete( this->Find(pRecord)); }
+
+	void Truncate (const dword Index);
+
+};
 /*===========================================================================
  *		End of Class CSrRefPtrArray Definition
  *=========================================================================*/
@@ -177,6 +194,43 @@ CSrPtrArray< TObj >::CSrPtrArray () {
 /*===========================================================================
  *		End of Class CSrPtrArray Constructor
  *=========================================================================*/
+
+
+template <class TObj>
+CSrPtrArray< TObj >::CSrPtrArray(const CSrPtrArray<TObj>& Source)
+{
+	m_NumRecords   = 0;
+	m_NumAllocated = 0;
+	m_ppRecords    = NULL;
+	Copy(Source);
+}
+
+
+template <class TObj>
+CSrPtrArray<TObj>& CSrPtrArray< TObj >::operator= (const CSrPtrArray<TObj>& Source)
+{
+	Destroy();
+	Copy(Source);
+	return *this;
+}
+
+
+template <class TObj>
+CSrRefPtrArray< TObj >::CSrRefPtrArray(const CSrRefPtrArray<TObj>& Source)
+{
+	m_NumRecords   = 0;
+	m_NumAllocated = 0;
+	m_ppRecords    = NULL;
+	Copy(Source);
+}
+
+template <class TObj>
+CSrRefPtrArray<TObj>& CSrRefPtrArray< TObj >::operator= (const CSrRefPtrArray<TObj>& Source)
+{
+	Destroy();
+	Copy(Source);
+	return *this;
+}
 
 
 /*===========================================================================
@@ -282,7 +336,7 @@ TObj* CSrPtrArray< TObj >::AddNew (void) {
 
 
 template <class TObj>
-void CSrPtrArray< TObj >::Copy (CSrPtrArray<TObj>& Source)
+void CSrRefPtrArray< TObj >::Copy (const CSrRefPtrArray<TObj>& Source)
 {
 	Destroy();
 	SetAllocatedSize(Source.GetSize() + 1);
@@ -355,6 +409,14 @@ bool CSrRefPtrArray< TObj >::Delete (const dword Index) {
  *		End of Class Method CSrRefPtrArray::Delete()
  *=========================================================================*/
 
+
+template <class TObj>
+void CSrRefPtrArray< TObj >::Truncate (const dword Index) 
+{
+	if (Index >= m_NumRecords) return;
+	m_NumRecords = Index;
+}
+  
 
 /*===========================================================================
  *

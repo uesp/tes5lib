@@ -1111,30 +1111,29 @@ int CALLBACK s_DefaultRecListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamS
  * Default callback function for record list sorting with custom data.
  *
  *=========================================================================*/
-int CALLBACK s_DefaultCustomRecListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
-  SRRL_SORTFUNC_GETPARAMS(lParam1, lParam2, lParamSort);
-  dword Index;
-  bool  Result = false;
-  int   Value;
-
-	/* Ensure valid data */
-  if (pCustomData1 == NULL || pCustomData2 == NULL) return (0);
-
-	/* Check all subrecord fields first */
-  for (Index = 0; Index < SR_RLMAX_SUBRECORDS; ++Index) {
-    if (pCustomData1->pSubrecords[Index] == NULL) continue;
-    if (pCustomData2->pSubrecords[Index] == NULL) continue;
-
-    Result = pCustomData1->pSubrecords[Index]->CompareFields(Value, pSortData->FieldID, pCustomData2->pSubrecords[Index]);
-    if (Result) break;
-   }  
-  
-	/* Use the record comparison only if all the subrecord comparison failed */
-  if (pRecord1 == NULL || pRecord2 == NULL) return (0);
-  if (!Result) Value = pRecord1->CompareFields(pSortData->FieldID, pRecord2);
-
-  if (pSortData->Reverse) return (-Value);
-  return (Value);
+int CALLBACK s_DefaultCustomRecListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) 
+{
+	SRRL_SORTFUNC_GETPARAMS(lParam1, lParam2, lParamSort);
+	dword Index;
+	bool  Result = false;
+	int   Value;
+	
+		/* Ensure valid data */
+	if (pCustomData1 == NULL || pCustomData2 == NULL) return (0);
+	
+		/* Check all subrecord fields first */
+	for (Index = 0; Index < pCustomData1->Subrecords.GetSize() && Index < pCustomData2->Subrecords.GetSize(); ++Index) 
+	{
+		Result = pCustomData1->Subrecords[Index]->CompareFields(Value, pSortData->FieldID, pCustomData2->Subrecords[Index]);
+		if (Result) break;
+	 }  
+	
+		/* Use the record comparison only if all the subrecord comparison failed */
+	if (pRecord1 == NULL || pRecord2 == NULL) return (0);
+	if (!Result) Value = pRecord1->CompareFields(pSortData->FieldID, pRecord2);
+	
+	if (pSortData->Reverse) return (-Value);
+	return (Value);
 }
 /*===========================================================================
  *		End of Function CALLBACK s_DefaultCustomRecListSort()
@@ -1220,10 +1219,10 @@ int CSrRecordListCtrl::AddRecord (CSrRecord* pRecord) {
 int CSrRecordListCtrl::AddCustomRecord (CSrRecord* pRecord, CSrSubrecord* pSubrecord, const int UserData) {
   srrlcustomdata_t CustomData;
 
-  memset(&CustomData, 0, sizeof(CustomData));
   CustomData.pRecord        = pRecord;
-  CustomData.pSubrecords[0] = pSubrecord;
   CustomData.UserData       = UserData;
+  CustomData.Subrecords.Destroy();
+  CustomData.Subrecords.Add(pSubrecord);
 
   return AddCustomRecord(CustomData);
  }
@@ -1251,7 +1250,7 @@ int CSrRecordListCtrl::AddCustomRecord (srrlcustomdata_t& CustomData) {
   SetItemData(ListIndex, CustomData);
   
 	/* Update all column texts */
-  SetColumnTexts(ListIndex, CustomData.pRecord, CustomData.pSubrecords);
+  SetColumnTexts(ListIndex, CustomData.pRecord, &CustomData.Subrecords);
   return (ListIndex);
  }
 /*===========================================================================
@@ -1990,7 +1989,7 @@ void CSrRecordListCtrl::SetItemData (const int ListIndex, CSrRecord* pRecord) {
         pCustomData = new srrlcustomdata_t;
 		m_CustomData.Add(pCustomData);
 
-		memset(pCustomData, 0, sizeof(srrlcustomdata_t));
+		pCustomData->Destroy();
 		pCustomData->pRecord = pRecord;
 
 		CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pCustomData);
@@ -2021,10 +2020,11 @@ void CSrRecordListCtrl::SetItemData (const int ListIndex, CSrRecord* pRecord, CS
         pCustomData = new srrlcustomdata_t;
 		m_CustomData.Add(pCustomData);
 
-        memset(pCustomData, 0, sizeof(srrlcustomdata_t));
-		pCustomData->pRecord        = pRecord;
-		pCustomData->pSubrecords[0] = pSubrecord;
-		pCustomData->UserData       = UserData;
+		pCustomData->Destroy();
+		pCustomData->pRecord      = pRecord;
+		pCustomData->UserData     = UserData;
+		pCustomData->Subrecords.Destroy();
+		pCustomData->Subrecords.Add(pSubrecord);
 
 		CListCtrl::SetItemData(ListIndex, (DWORD) (void *) pCustomData);
 		break;
@@ -2301,7 +2301,7 @@ void CSrRecordListCtrl::SetAutoResizeOffset (void) {
  * Updates the given record text in the list.
  *
  *=========================================================================*/
-void CSrRecordListCtrl::SetColumnTexts (const int ListIndex, CSrRecord* pRecord, CSrSubrecord* pSubrecords[]) {
+void CSrRecordListCtrl::SetColumnTexts (const int ListIndex, CSrRecord* pRecord, CSrRefSubrecordArray* pSubrecords) {
   srreclistcolumn_t* pColumn;
   CSString	     Buffer;
   dword		     Index;
@@ -2334,9 +2334,8 @@ void CSrRecordListCtrl::SetColumnTexts (const int ListIndex, CSrRecord* pRecord,
 		/* Try all valid subrecord general fields if present */
     if (pSubrecords == NULL) continue;
 
-    for (SubIndex = 0; SubIndex < SR_RLMAX_SUBRECORDS; ++SubIndex) {
-      if (pSubrecords[SubIndex] == NULL) continue;
-      Result = pSubrecords[SubIndex]->GetField(Buffer, pColumn->FieldID);
+    for (SubIndex = 0; SubIndex < pSubrecords->GetSize(); ++SubIndex) {
+      Result = (*pSubrecords)[SubIndex]->GetField(Buffer, pColumn->FieldID);
 
       if (Result) {
         SetItemText(ListIndex, pColumn->SubItem, Buffer);
@@ -2451,7 +2450,7 @@ void CSrRecordListCtrl::UpdateRecord (const int ListIndex)
 	pCustomData = GetCustomData(ListIndex);
 	
 	if (pCustomData != NULL) {
-	  SetColumnTexts(ListIndex, pCustomData->pRecord, pCustomData->pSubrecords);
+	  SetColumnTexts(ListIndex, pCustomData->pRecord, &pCustomData->Subrecords);
 	  return;
 	}
 	
@@ -2472,7 +2471,7 @@ void CSrRecordListCtrl::UpdateRecord (const int ListIndex, CSrRecord* pNewRecord
 	if (pCustomData != NULL) 
 	{
 		pCustomData->pRecord = pNewRecord;
-		SetColumnTexts(ListIndex, pCustomData->pRecord, pCustomData->pSubrecords);
+		SetColumnTexts(ListIndex, pCustomData->pRecord, &pCustomData->Subrecords);
 		return;
 	}
 	

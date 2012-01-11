@@ -186,6 +186,7 @@ public:
 
 	/* Initialize a new record */
   virtual void InitializeNew (void) { }
+  void InitializeNew (const srrectype_t Type, const dword Size) { m_RecordType = Type; m_RecordSize = Size; InitializeNew(); }
 
   virtual void LoadLocalStrings (CSrRecordHandler* pHandler) { }
   virtual void SetLoadLocalString (const bool LoadLocal) { }

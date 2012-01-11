@@ -130,10 +130,9 @@ private:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructor */
-  //CSrRefBaseRecordCont();
-  virtual ~CSrRefBaseRecordCont() { Destroy(); }
-  virtual void Destroy (void) { m_Records.Destroy(); }
+		/* Class Constructor */
+	virtual ~CSrRefBaseRecordCont() { Destroy(); }
+	virtual void Destroy (void) { m_Records.Destroy(); }
   
 	/* Add records */
   virtual void Add (CSrBaseRecord* pObject) { m_Records.Add(pObject); }

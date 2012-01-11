@@ -150,6 +150,14 @@ CSrSubrecord* CSrRecord::AddNewSubrecord (const srrectype_t Type)
  *=========================================================================*/
 
 
+CSrSubrecord* CSrRecord::AddInitNewSubrecord (const srrectype_t Type)
+{
+	CSrSubrecord* pSubrecord = AddNewSubrecord(Type);
+	if (pSubrecord != NULL) pSubrecord->InitializeNew();
+	return pSubrecord;
+}
+
+
 /*===========================================================================
  *
  * Class CEsmRecord Method - CSrRecord* AddNewSubrecord (Header);

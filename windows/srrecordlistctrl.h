@@ -17,8 +17,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "modfile/srespfile.h"
-  #include "srrecordfilter.h"
+	#include "modfile/srespfile.h"
+	#include "srrecordfilter.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -35,7 +35,7 @@
 
 	/* Custom messages */
   #define ID_SRRECORDLIST_ACTIVATE		(WM_APP + 101)
-  #define ID_SRRECORDLIST_ALTACTIVATE		(WM_APP + 102)
+  #define ID_SRRECORDLIST_ALTACTIVATE	(WM_APP + 102)
   #define ID_SRRECORDLIST_DROP			(WM_APP + 103)
   #define ID_SRRECORDLIST_CHECKDROP		(WM_APP + 104)
   #define ID_SRRECORDLIST_CHAR			(WM_APP + 105)
@@ -51,13 +51,13 @@
   #define SR_RLDRAG_ALL		0xffff
 
 	/* Types of list activation */
-  #define SR_RLACTIVATE_NONE      0
-  #define SR_RLACTIVATE_RECORD    1
-  #define SR_RLACTIVATE_SUBRECORD 2
-  #define SR_RLACTIVATE_DEFAULT SR_RLACTIVATE_RECORD
+  #define SR_RLACTIVATE_NONE		0
+  #define SR_RLACTIVATE_RECORD		1
+  #define SR_RLACTIVATE_SUBRECORD	2
+  #define SR_RLACTIVATE_DEFAULT		SR_RLACTIVATE_RECORD
 
 	/* Number of subrecords in the custom data structure */
-  #define SR_RLMAX_SUBRECORDS 64
+  //#define SR_RLMAX_SUBRECORDS 64
 
 	/* Macro to get data from list compare function parameters */
   #define SRRL_SORTFUNC_GETPARAMS(Param1, Param2, Param3) srreclistsort_t* pSortData = (srreclistsort_t *) Param3; \
@@ -68,7 +68,7 @@
 
 	/* Initialize columns flags */
   #define SRRL_INITCOL_NOEXTRAFIELDS	1
-  #define SRRL_INITCOL_FORCENEW		2
+  #define SRRL_INITCOL_FORCENEW			2
   
 	/* Types of color to apply to the list */
   #define SRRL_COLORMASK_ACTIVE		1
@@ -165,20 +165,37 @@
 	/* Holds item information in a custom list */
   struct srrlcustomdata_t 
   {
-	CSrRecord*		pRecord;
-	CSrSubrecord*	pSubrecords[SR_RLMAX_SUBRECORDS];
-	void*			pUserData;
-	int				UserCount;
-	int				UserData;
+	CSrRecord*				pRecord;
+	CSrRefSubrecordArray	Subrecords;
+	void*					pUserData;
+	int						UserCount;
+	int						UserData;
+
+	srrlcustomdata_t()
+	{
+		pUserData = NULL;
+		UserData = 0;
+		UserCount = 0;
+		pRecord = NULL;
+	}
+
+	void Destroy (void)
+	{
+		Subrecords.Destroy();
+		pRecord = NULL;
+		pUserData = NULL;
+		UserData = 0;
+		UserCount = 0;
+	}
   };
 
 	/* Used when sorting the list */
   struct srreclistsort_t 
   {
-	int		SubItem;
-	int		ListType;
+	int				SubItem;
+	int				ListType;
 	srrecfieldid_t	FieldID;
-	bool		Reverse;
+	bool			Reverse;
   };
 
 	/* An array of list information pointers */
@@ -324,7 +341,7 @@ protected:
   srreclistinfo_t* InitializeColumns (const srrectype_t& Type, srreclistcolinit_t* ListInit, const srrecfieldmap_t* pFieldMap, const dword Flags = 0, const srrecfieldid_t SortField = 0);
 
 	/* Update the texts in a column */
-  void SetColumnTexts (const int ListIndex, CSrRecord* pRecord, CSrSubrecord* pSubrecords[]);
+  void SetColumnTexts (const int ListIndex, CSrRecord* pRecord, CSrRefSubrecordArray* pSubrecords);
 
 	/* Helper sort methods */
   virtual void SortListPriv (const srrecfieldid_t FieldID);

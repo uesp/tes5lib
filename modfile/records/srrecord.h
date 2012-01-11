@@ -207,10 +207,11 @@ public:
   bool DeleteChildRecord (CSrBaseRecord* ) { return (false); }
 
 	/* Create a new subrecord */
-  CSrSubrecord* AddNewSubrecord (const srrectype_t      Type); 
-  CSrSubrecord* AddNewSubrecord (const srsubrecheader_t Header); 
-  CSrSubrecord* CreateSubrecord (const srsubrecheader_t Header);
-  CSrSubrecord* CreateSubrecord (const srrectype_t      Type);
+  CSrSubrecord* AddNewSubrecord     (const srrectype_t      Type); 
+  CSrSubrecord* AddInitNewSubrecord (const srrectype_t      Type); 
+  CSrSubrecord* AddNewSubrecord     (const srsubrecheader_t Header); 
+  CSrSubrecord* CreateSubrecord     (const srsubrecheader_t Header);
+  CSrSubrecord* CreateSubrecord     (const srrectype_t      Type);
 
 	/* Static methods to initialize/destroy temporary input/output buffers */
   static bool InitIOBuffers    (void);
