@@ -179,6 +179,10 @@
 		pRecord = NULL;
 	}
 
+	void Add (CSrSubrecord* pSubrecord) { Subrecords.Add(pSubrecord); }
+	dword GetSRCount (void) { return Subrecords.GetSize(); }
+	CSrSubrecord* GetSR (const dword Index) { return Subrecords[Index]; }
+	
 	void Destroy (void)
 	{
 		Subrecords.Destroy();
@@ -187,6 +191,7 @@
 		UserData = 0;
 		UserCount = 0;
 	}
+
   };
 
 	/* Used when sorting the list */
@@ -208,7 +213,7 @@
   {
 	bool		Enable;
 	COLORREF	Color;
-	int		Order;
+	int			Order;
 
 	srreclistcolor_t() 
 	{
