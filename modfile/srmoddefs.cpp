@@ -207,7 +207,7 @@ END_STRINGVALUE()
 
 
 BEGIN_STRINGVALUE(s_SrActorValues)
-    ADD_STRINGVALUE( -1,  "-1"  )
+    ADD_STRINGVALUE( -1,  "None"  )
 	ADD_STRINGVALUE( 0, "Aggression" )
 	ADD_STRINGVALUE( 1, "Confidence" )
 	ADD_STRINGVALUE( 2, "Energy" )

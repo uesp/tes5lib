@@ -189,6 +189,53 @@ CSrSubrecord* CSrRecord::AddNewSubrecord (const srsubrecheader_t Header)
  *=========================================================================*/
 
 
+CSrSubrecord* CSrRecord::AddNewSubrecordAfter (const srsubrecheader_t Header, const srrectype_t AddAfter)
+{
+	CSrSubrecord* pSubrecord;
+	int           Position = -1;
+
+	pSubrecord = CreateSubrecord(Header);
+	
+	for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
+	{
+		if (m_Subrecords[i]->GetRecordType() == AddAfter)
+		{
+			Position = i;
+			break;
+		}
+	}	
+
+	if (Position < 0)
+		m_Subrecords.Add(pSubrecord);
+	else
+		m_Subrecords.InsertAfter(Position, pSubrecord);
+
+	pSubrecord->SetLoadLocalString(m_pParent ? m_pParent->IsLoadLocalString() : false);
+	OnAddSubrecord(pSubrecord);
+	
+	return (pSubrecord);
+}
+
+
+CSrSubrecord* CSrRecord::AddNewSubrecordAfter (const srrectype_t Type, const srrectype_t AddAfter)
+{
+	srsubrecheader_t Header;
+  
+	Header.Type = Type;
+	Header.Size = 0;
+
+	return AddNewSubrecordAfter(Header, AddAfter);
+}
+
+
+CSrSubrecord* CSrRecord::AddInitNewSubrecordAfter (const srrectype_t Type, const srrectype_t AddAfter)
+{
+	CSrSubrecord* pSubrecord = AddNewSubrecordAfter(Type, AddAfter);
+	if (pSubrecord != NULL) pSubrecord->InitializeNew();
+	return pSubrecord;
+}
+
+
 /*===========================================================================
  *
  * Class CSrRecord Method - dword ChangeFormidSubrecords (Type, NewID, OldID);

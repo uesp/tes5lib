@@ -429,6 +429,29 @@
   #define SR_FIELD_RANK					368
   #define SR_FIELD_MINLEVEL				369
   #define SR_FIELD_RESET				370
+  #define SR_FIELD_SPELLCOUNT			371
+  #define SR_FIELD_NAKEDARMOR			372
+  #define SR_FIELD_MALEHEIGHT			373
+  #define SR_FIELD_FEMALEHEIGHT			374
+  #define SR_FIELD_ACTORVALUE1			375
+  #define SR_FIELD_ACTORVALUE2			376
+  #define SR_FIELD_ACTORVALUE3			377
+  #define SR_FIELD_ACTORVALUE4			378
+  #define SR_FIELD_ACTORVALUE5			379
+  #define SR_FIELD_ACTORVALUE6			380
+  #define SR_FIELD_ACTORVALUE7			381
+  #define SR_FIELD_SKILL1				382
+  #define SR_FIELD_SKILL2				383
+  #define SR_FIELD_SKILL3				384
+  #define SR_FIELD_SKILL4				385
+  #define SR_FIELD_SKILL5				386
+  #define SR_FIELD_SKILL6				387
+  #define SR_FIELD_SKILL7				388
+  #define SR_FIELD_UNKNOWN22			389
+  #define SR_FIELD_UNKNOWN23			391
+  #define SR_FIELD_UNKNOWN24			392
+  #define SR_FIELD_UNKNOWN25			393
+  #define SR_FIELD_UNKNOWN26			394
 
 /*===========================================================================
  *		End of Field Types

@@ -213,6 +213,10 @@ public:
   CSrSubrecord* CreateSubrecord     (const srsubrecheader_t Header);
   CSrSubrecord* CreateSubrecord     (const srrectype_t      Type);
 
+  CSrSubrecord* AddNewSubrecordAfter     (const srsubrecheader_t Header, const srrectype_t AddAfter); 
+  CSrSubrecord* AddNewSubrecordAfter     (const srrectype_t Type, const srrectype_t AddAfter); 
+  CSrSubrecord* AddInitNewSubrecordAfter (const srrectype_t Type, const srrectype_t AddAfter);
+
 	/* Static methods to initialize/destroy temporary input/output buffers */
   static bool InitIOBuffers    (void);
   static void DestroyIOBuffers (void);

@@ -12,6 +12,10 @@
 #include "srRacerecord.h"
 
 
+srracedata_t CSrRaceRecord::s_NullRaceData;
+srbodtdata_t CSrRaceRecord::s_NullBodtData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
@@ -20,69 +24,78 @@
 BEGIN_SRSUBRECCREATE(CSrRaceRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SPCT, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SPLO, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_WNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrBodtSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrRaceDataSubrecord::Create)
 
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FTSF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINP, CSrDataSubrecord::Create)	
-	DEFINE_SRSUBRECCREATE(SR_NAME_INDX, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_WNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_RPRM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_HCLF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ANAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_BODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_LNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ANAM, CSrStringSubrecord::Create)	
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MTNM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VTCK, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_RPRF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_UNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ATKD, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DFTF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MTYP, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ATKE, CSrDataSubrecord::Create)
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_MTNM, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VTCK, CSrFormidArraySubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_HCLF, CSrFormidArraySubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrFormidArraySubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINL, CSrWordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrFloatSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_UNAM, CSrFloatSubrecord::Create)
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_ATKD, CSrAtkdSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ATKE, CSrStringSubrecord::Create)
+
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_AHCF, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_GNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_PHWT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM3, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM4, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MPAV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM5, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SNMV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SWMV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_UNES, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ONAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FLMV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAME, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_QNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINL, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_HEAD, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MPAI, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_AHCM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINI, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TIND, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SPLO, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINC, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TIRS, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM8, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SPCT, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DNAM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAM7, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_PHTN, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_WKMV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_RNMV, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SPED, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FTSM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DFTM, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_INDX, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_GNAM, CSrFormidSubrecord::Create)
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM4, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM5, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM7, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ONAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_LNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAME, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MTYP, CSrFormidSubrecord::Create)	
+	DEFINE_SRSUBRECCREATE(SR_NAME_SPED, CSrSpedSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_QNAM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_UNES, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_PHTN, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_PHWT, CSrPhwtSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrDataSubrecord::Create)	
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_HEAD, CSrDwordSubrecord::Create)
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_MPAI, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MPAV, CSrMpavSubrecord::Create)	
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_RPRM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_RPRF, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_AHCM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_AHCF, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FTSM, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FTSF, CSrFormidSubrecord::Create)	
+	DEFINE_SRSUBRECCREATE(SR_NAME_DFTF, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DFTM, CSrFormidSubrecord::Create)
+
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINI, CSrWordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINT, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINP, CSrWordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TIND, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINC, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINV, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TIRS, CSrWordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAM8, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrFormidSubrecord::Create)
+	
+	DEFINE_SRSUBRECCREATE(SR_NAME_WKMV, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_RNMV, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SWMV, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FLMV, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SNMV, CSrFormidSubrecord::Create)	
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -97,6 +110,51 @@ END_SRSUBRECCREATE()
 BEGIN_SRFIELDMAP(CSrRaceRecord, CSrIdKeyRecord)
 	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrRaceRecord, FieldItemName)
 	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrRaceRecord, FieldDescription)
+	ADD_SRFIELDALL("SpellCount",	SR_FIELD_SPELLCOUNT,	0, CSrRaceRecord, FieldSpellCount)
+	ADD_SRFIELDALL("NakedArmor",	SR_FIELD_NAKEDARMOR,	0, CSrRaceRecord, FieldNakedArmor)
+	ADD_SRFIELDALL("BodyParts",		SR_FIELD_BODYPARTS,		0, CSrRaceRecord, FieldBodyParts)
+	ADD_SRFIELDALL("MaleHeight",	SR_FIELD_MALEHEIGHT,	0, CSrRaceRecord, FieldMaleHeight)
+	ADD_SRFIELDALL("FemaleHeight",	SR_FIELD_FEMALEHEIGHT,	0, CSrRaceRecord, FieldFemaleHeight)
+	ADD_SRFIELDALL("ActorValue1",	SR_FIELD_ACTORVALUE1,	0, CSrRaceRecord, FieldActorValue1)
+	ADD_SRFIELDALL("Skill1",		SR_FIELD_SKILL1,		0, CSrRaceRecord, FieldSkill1)
+	ADD_SRFIELDALL("ActorValue2",	SR_FIELD_ACTORVALUE2,	0, CSrRaceRecord, FieldActorValue2)
+	ADD_SRFIELDALL("Skill2",		SR_FIELD_SKILL2,		0, CSrRaceRecord, FieldSkill2)
+	ADD_SRFIELDALL("ActorValue3",	SR_FIELD_ACTORVALUE3,	0, CSrRaceRecord, FieldActorValue3)
+	ADD_SRFIELDALL("Skill3",		SR_FIELD_SKILL3,		0, CSrRaceRecord, FieldSkill3)
+	ADD_SRFIELDALL("ActorValue4",	SR_FIELD_ACTORVALUE4,	0, CSrRaceRecord, FieldActorValue4)
+	ADD_SRFIELDALL("Skill4",		SR_FIELD_SKILL4,		0, CSrRaceRecord, FieldSkill4)
+	ADD_SRFIELDALL("ActorValue5",	SR_FIELD_ACTORVALUE5,	0, CSrRaceRecord, FieldActorValue5)
+	ADD_SRFIELDALL("Skill5",		SR_FIELD_SKILL5,		0, CSrRaceRecord, FieldSkill5)
+	ADD_SRFIELDALL("ActorValue6",	SR_FIELD_ACTORVALUE6,	0, CSrRaceRecord, FieldActorValue6)
+	ADD_SRFIELDALL("Skill6",		SR_FIELD_SKILL6,		0, CSrRaceRecord, FieldSkill6)
+	ADD_SRFIELDALL("ActorValue7",	SR_FIELD_ACTORVALUE7,	0, CSrRaceRecord, FieldActorValue7)
+	ADD_SRFIELDALL("Skill7",		SR_FIELD_SKILL7,		0, CSrRaceRecord, FieldSkill7)
+	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrRaceRecord, FieldUnknown1)
+	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrRaceRecord, FieldUnknown2)
+	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,		0, CSrRaceRecord, FieldUnknown3)
+	ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,		0, CSrRaceRecord, FieldUnknown4)
+	ADD_SRFIELDALL("Unknown5",		SR_FIELD_UNKNOWN5,		0, CSrRaceRecord, FieldUnknown5)
+	ADD_SRFIELDALL("Unknown6",		SR_FIELD_UNKNOWN6,		0, CSrRaceRecord, FieldUnknown6)
+	ADD_SRFIELDALL("Unknown7",		SR_FIELD_UNKNOWN7,		0, CSrRaceRecord, FieldUnknown7)
+	ADD_SRFIELDALL("Unknown8",		SR_FIELD_UNKNOWN8,		0, CSrRaceRecord, FieldUnknown8)
+	ADD_SRFIELDALL("Unknown9",		SR_FIELD_UNKNOWN9,		0, CSrRaceRecord, FieldUnknown9)
+	ADD_SRFIELDALL("Unknown10",		SR_FIELD_UNKNOWN10,		0, CSrRaceRecord, FieldUnknown10)
+	ADD_SRFIELDALL("Unknown11",		SR_FIELD_UNKNOWN11,		0, CSrRaceRecord, FieldUnknown11)
+	ADD_SRFIELDALL("Unknown12",		SR_FIELD_UNKNOWN12,		0, CSrRaceRecord, FieldUnknown12)
+	ADD_SRFIELDALL("Unknown13",		SR_FIELD_UNKNOWN13,		0, CSrRaceRecord, FieldUnknown13)
+	ADD_SRFIELDALL("Unknown14",		SR_FIELD_UNKNOWN14,		0, CSrRaceRecord, FieldUnknown14)
+	ADD_SRFIELDALL("Unknown15",		SR_FIELD_UNKNOWN15,		0, CSrRaceRecord, FieldUnknown15)
+	ADD_SRFIELDALL("Unknown16",		SR_FIELD_UNKNOWN16,		0, CSrRaceRecord, FieldUnknown16)
+	ADD_SRFIELDALL("Unknown17",		SR_FIELD_UNKNOWN17,		0, CSrRaceRecord, FieldUnknown17)
+	ADD_SRFIELDALL("Unknown18",		SR_FIELD_UNKNOWN18,		0, CSrRaceRecord, FieldUnknown18)
+	ADD_SRFIELDALL("Unknown19",		SR_FIELD_UNKNOWN19,		0, CSrRaceRecord, FieldUnknown19)
+	ADD_SRFIELDALL("Unknown20",		SR_FIELD_UNKNOWN20,		0, CSrRaceRecord, FieldUnknown20)
+	ADD_SRFIELDALL("Unknown21",		SR_FIELD_UNKNOWN21,		0, CSrRaceRecord, FieldUnknown21)
+	ADD_SRFIELDALL("Unknown22",		SR_FIELD_UNKNOWN22,		0, CSrRaceRecord, FieldUnknown22)
+	ADD_SRFIELDALL("Unknown23",		SR_FIELD_UNKNOWN23,		0, CSrRaceRecord, FieldUnknown23)
+	ADD_SRFIELDALL("Unknown24",		SR_FIELD_UNKNOWN24,		0, CSrRaceRecord, FieldUnknown24)
+	ADD_SRFIELDALL("Unknown25",		SR_FIELD_UNKNOWN25,		0, CSrRaceRecord, FieldUnknown25)
+	ADD_SRFIELDALL("Unknown26",		SR_FIELD_UNKNOWN26,		0, CSrRaceRecord, FieldUnknown26)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -110,8 +168,12 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrRaceRecord::CSrRaceRecord () 
 {
-	m_pItemName = NULL;
 	m_pDescription = NULL;
+	m_pItemName = NULL;
+	m_pSpellCount = NULL;
+	m_pNakedArmor = NULL;
+	m_pBodyData = NULL;
+	m_pRaceData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrRaceRecord Constructor
@@ -125,8 +187,12 @@ CSrRaceRecord::CSrRaceRecord ()
  *=========================================================================*/
 void CSrRaceRecord::Destroy (void) 
 {
-	m_pItemName = NULL;
 	m_pDescription = NULL;
+	m_pItemName = NULL;
+	m_pSpellCount = NULL;
+	m_pNakedArmor = NULL;
+	m_pBodyData = NULL;
+	m_pRaceData = NULL;
 
 	CSrIdKeyRecord::Destroy();
 }
@@ -144,11 +210,13 @@ void CSrRaceRecord::InitializeNew (void)
 {
 	CSrIdKeyRecord::InitializeNew();
 
-	AddNewSubrecord(SR_NAME_FULL);
-	if (m_pItemName != NULL) m_pItemName->InitializeNew();
+	AddInitNewSubrecord(SR_NAME_FULL);
+	AddInitNewSubrecord(SR_NAME_DESC);
+	AddInitNewSubrecord(SR_NAME_SPCT);
+	AddInitNewSubrecord(SR_NAME_WNAM);
+	AddInitNewSubrecord(SR_NAME_BODT);
+	AddInitNewSubrecord(SR_NAME_DATA);
 
-	AddNewSubrecord(SR_NAME_DESC);
-	if (m_pDescription != NULL) m_pDescription->InitializeNew();
 }
 /*===========================================================================
  *		End of Class Method CSrRaceRecord::InitializeNew()
@@ -162,29 +230,9 @@ void CSrRaceRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_TINT)
-	{
-		m_pTintData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
-	{
-		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FTSF)
-	{
-		m_pFtsfData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TINP)
-	{
-		m_pTinpData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
+	if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
 		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_INDX)
-	{
-		m_pIndxData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
@@ -192,231 +240,19 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_WNAM)
 	{
-		m_pWnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pNakedArmor = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_RPRM)
-	{
-		m_pRprmData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_HCLF)
-	{
-		m_pHclfData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_ANAM)
-	{
-		m_pAnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pRaceData = SrCastClass(CSrRaceDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_BODT)
 	{
-		m_pBodtData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MNAM)
-	{
-		m_pMnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_LNAM)
-	{
-		m_pLnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
-	{
-		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MTNM)
-	{
-		m_pMtnmData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_VTCK)
-	{
-		m_pVtckData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_RPRF)
-	{
-		m_pRprfData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_PNAM)
-	{
-		m_pPnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_UNAM)
-	{
-		m_pUnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_ATKD)
-	{
-		m_pAtkdData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DFTF)
-	{
-		m_pDftfData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MTYP)
-	{
-		m_pMtypData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_ATKE)
-	{
-		m_pAtkeData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM1)
-	{
-		m_pNam1Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODL)
-	{
-		m_pModlData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_AHCF)
-	{
-		m_pAhcfData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_GNAM)
-	{
-		m_pGnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_PHWT)
-	{
-		m_pPhwtData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM3)
-	{
-		m_pNam3Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM4)
-	{
-		m_pNam4Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MPAV)
-	{
-		m_pMpavData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM5)
-	{
-		m_pNam5Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SNMV)
-	{
-		m_pSnmvData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SWMV)
-	{
-		m_pSwmvData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM0)
-	{
-		m_pNam0Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_UNES)
-	{
-		m_pUnesData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_ONAM)
-	{
-		m_pOnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FLMV)
-	{
-		m_pFlmvData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAME)
-	{
-		m_pNameData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_VNAM)
-	{
-		m_pVnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_QNAM)
-	{
-		m_pQnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TINL)
-	{
-		m_pTinlData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_HEAD)
-	{
-		m_pHeadData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MPAI)
-	{
-		m_pMpaiData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_AHCM)
-	{
-		m_pAhcmData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TINI)
-	{
-		m_pTiniData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TIND)
-	{
-		m_pTindData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SPLO)
-	{
-		m_pSploData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TINC)
-	{
-		m_pTincData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TINV)
-	{
-		m_pTinvData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_TIRS)
-	{
-		m_pTirsData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM8)
-	{
-		m_pNam8Data = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBodyData = SrCastClass(CSrBodtSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SPCT)
 	{
-		m_pSpctData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DNAM)
-	{
-		m_pDnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_NAM7)
-	{
-		m_pNam7Data = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_PHTN)
-	{
-		m_pPhtnData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_WKMV)
-	{
-		m_pWkmvData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_RNMV)
-	{
-		m_pRnmvData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SPED)
-	{
-		m_pSpedData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FTSM)
-	{
-		m_pFtsmData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_DFTM)
-	{
-		m_pDftmData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_RNAM)
-	{
-		m_pRnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pSpellCount = SrCastClass(CSrDwordSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -436,134 +272,18 @@ void CSrRaceRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrRaceRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pTintData == pSubrecord)
-		m_pTintData = NULL;
-	else if (m_pFnamData == pSubrecord)
-		m_pFnamData = NULL;
-	else if (m_pFtsfData == pSubrecord)
-		m_pFtsfData = NULL;
-	else if (m_pTinpData == pSubrecord)
-		m_pTinpData = NULL;
-	else if (m_pDescription == pSubrecord)
+	if (m_pDescription == pSubrecord)
 		m_pDescription = NULL;
-	else if (m_pIndxData == pSubrecord)
-		m_pIndxData = NULL;
 	else if (m_pItemName == pSubrecord)
 		m_pItemName = NULL;
-	else if (m_pWnamData == pSubrecord)
-		m_pWnamData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
-	else if (m_pRprmData == pSubrecord)
-		m_pRprmData = NULL;
-	else if (m_pHclfData == pSubrecord)
-		m_pHclfData = NULL;
-	else if (m_pAnamData == pSubrecord)
-		m_pAnamData = NULL;
-	else if (m_pBodtData == pSubrecord)
-		m_pBodtData = NULL;
-	else if (m_pMnamData == pSubrecord)
-		m_pMnamData = NULL;
-	else if (m_pLnamData == pSubrecord)
-		m_pLnamData = NULL;
-	else if (m_pModtData == pSubrecord)
-		m_pModtData = NULL;
-	else if (m_pMtnmData == pSubrecord)
-		m_pMtnmData = NULL;
-	else if (m_pVtckData == pSubrecord)
-		m_pVtckData = NULL;
-	else if (m_pRprfData == pSubrecord)
-		m_pRprfData = NULL;
-	else if (m_pPnamData == pSubrecord)
-		m_pPnamData = NULL;
-	else if (m_pUnamData == pSubrecord)
-		m_pUnamData = NULL;
-	else if (m_pAtkdData == pSubrecord)
-		m_pAtkdData = NULL;
-	else if (m_pDftfData == pSubrecord)
-		m_pDftfData = NULL;
-	else if (m_pMtypData == pSubrecord)
-		m_pMtypData = NULL;
-	else if (m_pAtkeData == pSubrecord)
-		m_pAtkeData = NULL;
-	else if (m_pNam1Data == pSubrecord)
-		m_pNam1Data = NULL;
-	else if (m_pModlData == pSubrecord)
-		m_pModlData = NULL;
-	else if (m_pAhcfData == pSubrecord)
-		m_pAhcfData = NULL;
-	else if (m_pGnamData == pSubrecord)
-		m_pGnamData = NULL;
-	else if (m_pPhwtData == pSubrecord)
-		m_pPhwtData = NULL;
-	else if (m_pNam3Data == pSubrecord)
-		m_pNam3Data = NULL;
-	else if (m_pNam4Data == pSubrecord)
-		m_pNam4Data = NULL;
-	else if (m_pMpavData == pSubrecord)
-		m_pMpavData = NULL;
-	else if (m_pNam5Data == pSubrecord)
-		m_pNam5Data = NULL;
-	else if (m_pSnmvData == pSubrecord)
-		m_pSnmvData = NULL;
-	else if (m_pSwmvData == pSubrecord)
-		m_pSwmvData = NULL;
-	else if (m_pNam0Data == pSubrecord)
-		m_pNam0Data = NULL;
-	else if (m_pUnesData == pSubrecord)
-		m_pUnesData = NULL;
-	else if (m_pOnamData == pSubrecord)
-		m_pOnamData = NULL;
-	else if (m_pFlmvData == pSubrecord)
-		m_pFlmvData = NULL;
-	else if (m_pNameData == pSubrecord)
-		m_pNameData = NULL;
-	else if (m_pVnamData == pSubrecord)
-		m_pVnamData = NULL;
-	else if (m_pQnamData == pSubrecord)
-		m_pQnamData = NULL;
-	else if (m_pTinlData == pSubrecord)
-		m_pTinlData = NULL;
-	else if (m_pHeadData == pSubrecord)
-		m_pHeadData = NULL;
-	else if (m_pMpaiData == pSubrecord)
-		m_pMpaiData = NULL;
-	else if (m_pAhcmData == pSubrecord)
-		m_pAhcmData = NULL;
-	else if (m_pTiniData == pSubrecord)
-		m_pTiniData = NULL;
-	else if (m_pTindData == pSubrecord)
-		m_pTindData = NULL;
-	else if (m_pSploData == pSubrecord)
-		m_pSploData = NULL;
-	else if (m_pTincData == pSubrecord)
-		m_pTincData = NULL;
-	else if (m_pTinvData == pSubrecord)
-		m_pTinvData = NULL;
-	else if (m_pTirsData == pSubrecord)
-		m_pTirsData = NULL;
-	else if (m_pNam8Data == pSubrecord)
-		m_pNam8Data = NULL;
-	else if (m_pSpctData == pSubrecord)
-		m_pSpctData = NULL;
-	else if (m_pDnamData == pSubrecord)
-		m_pDnamData = NULL;
-	else if (m_pNam7Data == pSubrecord)
-		m_pNam7Data = NULL;
-	else if (m_pPhtnData == pSubrecord)
-		m_pPhtnData = NULL;
-	else if (m_pWkmvData == pSubrecord)
-		m_pWkmvData = NULL;
-	else if (m_pRnmvData == pSubrecord)
-		m_pRnmvData = NULL;
-	else if (m_pSpedData == pSubrecord)
-		m_pSpedData = NULL;
-	else if (m_pFtsmData == pSubrecord)
-		m_pFtsmData = NULL;
-	else if (m_pDftmData == pSubrecord)
-		m_pDftmData = NULL;
-	else if (m_pRnamData == pSubrecord)
-		m_pRnamData = NULL;
+	else if (m_pNakedArmor == pSubrecord)
+		m_pNakedArmor = NULL;
+	else if (m_pRaceData == pSubrecord)
+		m_pRaceData = NULL;
+	else if (m_pBodyData == pSubrecord)
+		m_pBodyData = NULL;
+	else if (m_pSpellCount == pSubrecord)
+		m_pSpellCount = NULL;
 	else
 		CSrIdKeyRecord::OnDeleteSubrecord(pSubrecord);
 
@@ -571,6 +291,17 @@ void CSrRaceRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of Class Event CSrRaceRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+CSrFormidSubrecord* CSrRaceRecord::AddSpell (const srformid_t FormID)
+{
+	CSrSubrecord* pSubrecord = AddInitNewSubrecordAfter(SR_NAME_SPLO, SR_NAME_SPCT);
+	CSrFormidSubrecord* pFormID = SrCastClassNull(CSrFormidSubrecord, pSubrecord);
+	if (pFormID == NULL) return NULL;
+
+	pFormID->SetValue(FormID);
+	return pFormID;
+}
 
 
 /*===========================================================================
