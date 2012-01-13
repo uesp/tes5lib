@@ -56,7 +56,6 @@ END_SRSUBRECCREATE()
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrArmoRecord, CSrIdKeyRecord)
 	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrArmoRecord, FieldItemName)
-	ADD_SRFIELDALL("Model",			SR_FIELD_ARMMODEL,		0, CSrArmoRecord, FieldModel)
 	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrArmoRecord, FieldDescription)
 	ADD_SRFIELDALL("Rating",		SR_FIELD_RATING,		0, CSrArmoRecord, FieldRating)
 	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrArmoRecord, FieldValue)
@@ -86,10 +85,8 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrArmoRecord::CSrArmoRecord () 
 {
-	m_pModel = NULL;
 	m_pItemName = NULL;
 	m_pDescription = NULL;
-	m_pBoundsData = NULL;	
 	m_pImpactData = NULL;	
 	m_pBodyData = NULL;
 	m_pArmorData = NULL;
@@ -121,10 +118,8 @@ CSrArmoRecord::CSrArmoRecord ()
  *=========================================================================*/
 void CSrArmoRecord::Destroy (void) 
 {
-	m_pModel = NULL;
 	m_pItemName = NULL;
 	m_pDescription = NULL;
-	m_pBoundsData = NULL;	
 	m_pImpactData = NULL;	
 	m_pBodyData = NULL;
 	m_pArmorData = NULL;
@@ -162,9 +157,6 @@ void CSrArmoRecord::InitializeNew (void)
 	AddNewSubrecord(SR_NAME_FULL);
 	if (m_pItemName != NULL) m_pItemName->InitializeNew();
 
-	AddNewSubrecord(SR_NAME_MODL);
-	if (m_pModel != NULL) m_pModel->InitializeNew();
-
 	AddNewSubrecord(SR_NAME_DESC);
 	if (m_pDescription != NULL) m_pDescription->InitializeNew();
 
@@ -197,14 +189,6 @@ void CSrArmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
 		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODL)
-	{
-		m_pModel = SrCastClass(CSrFormidSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
-	{
-		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
 	{
@@ -298,10 +282,6 @@ void CSrArmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pMod4Data == pSubrecord)
 		m_pMod4Data = NULL;
-	else if (m_pBoundsData == pSubrecord)
-		m_pBoundsData = NULL;
-	else if (m_pModel == pSubrecord)
-		m_pModel = NULL;
 	else if (m_pItemName == pSubrecord)
 		m_pItemName = NULL;
 	else if (m_pTemplate == pSubrecord)

@@ -40,8 +40,6 @@ class CSrArmoRecord : public CSrIdKeyRecord
 protected:
 	CSrLStringSubrecord*	m_pDescription;
 	CSrLStringSubrecord*	m_pItemName;
-	CSrFormidSubrecord*		m_pModel;
-	CSrSubrecord*			m_pBoundsData;
 	
 	CSrFormidSubrecord*		m_pImpactData;	
 	CSrBodtSubrecord*		m_pBodyData;
@@ -118,7 +116,6 @@ public:
   
   DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Enchantment, GetEnchantment, SetEnchantment)
   DECLARE_SRFIELD_EDITORID(CSrArmoRecord, EquipmentSlot, GetEquipmentSlot, SetEquipmentSlot)
-  DECLARE_SRFIELD_EDITORID(CSrArmoRecord, Model, GetModel, SetModel)
   DECLARE_SRFIELD_EDITORID(CSrArmoRecord, PickupSound, GetPickupSound, SetPickupSound)
   DECLARE_SRFIELD_EDITORID(CSrArmoRecord, DropSound,   GetDropSound,   SetDropSound)
 
@@ -134,7 +131,6 @@ public:
     
   DECLARE_SRMETHOD_FORMID(Enchantment, m_pEnchantment, SR_NAME_EITM)
   DECLARE_SRMETHOD_FORMID(EquipmentSlot,  m_pEquipmentSlot, SR_NAME_ETYP)
-  DECLARE_SRMETHOD_FORMID(Model, m_pModel, SR_NAME_MODL)
   DECLARE_SRMETHOD_FORMID(PickupSound, m_pPickupSound, SR_NAME_YNAM)
   DECLARE_SRMETHOD_FORMID(DropSound,   m_pDropSound,   SR_NAME_ZNAM)
 
