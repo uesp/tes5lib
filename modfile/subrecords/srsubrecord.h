@@ -144,6 +144,14 @@ public:
 
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord);
+
+  virtual bool CopyFull (CSrSubrecord* pSubrecord)
+  {
+	  if (pSubrecord == NULL) return false;
+	  m_RecordSize = pSubrecord->GetRecordSize();
+	  m_RecordType = pSubrecord->GetRecordType();
+	  return Copy(pSubrecord);
+  }
   
   virtual CSrSubrecord* CreateV (void) = 0;
 

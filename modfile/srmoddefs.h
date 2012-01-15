@@ -613,7 +613,7 @@
 	#define SR_BODYPARTS_DRAGONRWING		0x00010000
 	#define SR_BODYPARTS_DRAGONBODY			0x00020000
 	#define SR_BODYPARTS_UNKNOWN3			0x00100000
-	#define SR_BODYPARTS_UNKNOWN4			0x00300000
+	#define SR_BODYPARTS_UNKNOWN4			0x00200000
 	#define SR_BODYPARTS_UNKNOWN2			0x80000000
 
     #define SR_ARMORTYPE_NONE  2
@@ -677,7 +677,14 @@
 	#define SR_SOPMCONTENTTYPE_ANAM		2
 	#define SR_SOPMCONTENTTYPE_ONAM		3
 	#define SR_SOPMCONTENTTYPE_ANAMONAM	4
+
+	#define SR_RACE_MOVENAME_WALK 0x4B4C4147
+	#define SR_RACE_MOVENAME_RUN1 0x53314E55
+	#define SR_RACE_MOVENAME_SNEK 0x4B41454E
+	#define SR_RACE_MOVENAME_BLD0 0x30444C42
+	#define SR_RACE_MOVENAME_SWIM 0x4D495753
 	
+	extern const stringvalue_t s_SrRaceMoveNames[];
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
 	extern const stringvalue_t s_SrSpellCastTypes[];
@@ -693,6 +700,7 @@
 	extern const stringvalue_t s_SrLightTypes[];
 	extern const stringvalue_t s_SrEffectCastTypes[];
 	extern const stringvalue_t s_SrActorValues[];
+	extern const stringvalue_t s_SrActorSkillValues[];
 	extern const stringvalue_t s_SrEffectLinkTypes[];
 	extern const stringvalue_t s_SrWeaponTypes[];
 	extern const stringvalue_t s_SrSoulGemTypes[];

@@ -44,7 +44,7 @@
 
 	struct srphwtdata_t 
 	{
-		dword Unknown[16];
+		float Unknown[16];
 	};
 
 #pragma pack(pop)

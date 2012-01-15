@@ -80,12 +80,12 @@ public:
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord);
 
-	/* Create a class instance */
-  //static CSrSubrecord* Create (void) { return (new CSrDataSubrecord); }
   virtual CSrSubrecord* CreateV (void) { return new CSrDataSubrecord; }
-
+  	
 	/* Get class members */
   virtual byte*	GetData (void) { return (m_pData); }
+
+  virtual void InitializeNew (void) { m_RecordSize = 0; delete m_pData; m_pData = NULL; }
 
 	/* Set data */
   virtual void SetData (const byte* pData, const word Size);

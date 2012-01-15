@@ -45,17 +45,18 @@
  * control in a normal page.
  *
  *=========================================================================*/
-class CTabCtrlSheet : public CTabCtrl {
+class CTabCtrlSheet : public CTabCtrl 
+{
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
   CPropertyPage*	m_pPages[TCS_ARRAYSIZE];	/* Array of pages to display */
-  int			m_NumPages;			/* Number of sheets currently defined */
+  int				m_NumPages;			/* Number of sheets currently defined */
 
-  int			m_CurrentPage;			/* The currently displayed sheet */
+  int				m_CurrentPage;			/* The currently displayed sheet */
 
-  bool			m_AutoResize;
-  CRect			m_AutoResizeOffset;
+  bool				m_AutoResize;
+  CRect				m_AutoResizeOffset;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -81,6 +82,8 @@ public:
 	/* Attempts to automatically resize the control to the parent */
   void AutoResize (void);
 
+  CWnd* FindChild(const int ControlID);
+
 	/* Return the currently displayed page */	
   CPropertyPage* GetCurrentPage (void) { return (m_CurrentPage >= 0 ? m_pPages[m_CurrentPage] : NULL); }
 
@@ -97,14 +100,7 @@ public:
 	/* Sets the current tab/page to the given index */ 
   bool SetPage (const int PageIndex);
 
-
-	/* ClassWizard generated virtual function overrides */
-  //{{AFX_VIRTUAL(CTabCtrlSheet)
-  //}}AFX_VIRTUAL
-
 	/* Generated message map functions */
-protected:
-  //{{AFX_MSG(CTabCtrlSheet)
 public:
   afx_msg void OnSelchange(NMHDR* pNMHDR, LRESULT* pResult);
 protected:
@@ -112,18 +108,13 @@ protected:
   afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
   afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
   afx_msg void OnSize(UINT nType, int cx, int cy);
-  //}}AFX_MSG
 
   DECLARE_MESSAGE_MAP()
 
- };
+};
 /*===========================================================================
  *		End of Class CTabCtrlSheet Definition
  *=========================================================================*/
-
-
-//{{AFX_INSERT_LOCATION}}
-//}}AFX_INSERT_LOCATION
 
 
 #endif

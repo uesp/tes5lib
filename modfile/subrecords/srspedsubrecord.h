@@ -44,7 +44,7 @@
 
 	struct srspeddata_t 
 	{
-		dword Unknown[11];
+		float Unknown[11];
 	};
 
 #pragma pack(pop)

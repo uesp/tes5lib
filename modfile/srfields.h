@@ -452,6 +452,22 @@
   #define SR_FIELD_UNKNOWN24			392
   #define SR_FIELD_UNKNOWN25			393
   #define SR_FIELD_UNKNOWN26			394
+  #define SR_FIELD_LISTUNKNOWN1			395
+  #define SR_FIELD_LISTUNKNOWN2			396
+  #define SR_FIELD_LISTUNKNOWN3			397
+  #define SR_FIELD_LISTUNKNOWN4			398
+  #define SR_FIELD_LISTUNKNOWN5			399
+  #define SR_FIELD_LISTUNKNOWN6			400
+  #define SR_FIELD_LISTUNKNOWN7			401
+  #define SR_FIELD_LISTUNKNOWN8			402
+  #define SR_FIELD_LISTUNKNOWN9			403
+  #define SR_FIELD_LISTUNKNOWN10		404
+  #define SR_FIELD_LISTUNKNOWN11		405
+  #define SR_FIELD_LISTUNKNOWN12		406
+  #define SR_FIELD_LISTUNKNOWN13		407
+  #define SR_FIELD_LISTUNKNOWN14		408
+  #define SR_FIELD_LISTUNKNOWN15		409
+  #define SR_FIELD_LISTUNKNOWN16		410
 
 /*===========================================================================
  *		End of Field Types

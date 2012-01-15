@@ -84,7 +84,6 @@ public:
   virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
   virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-
 		/* Begin field method definitions */
   DECLARE_SRFIELD(FieldPerkID)
   DECLARE_SRFIELD(FieldPerk)

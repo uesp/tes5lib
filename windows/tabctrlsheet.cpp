@@ -161,6 +161,20 @@ void CTabCtrlSheet::DisplayPage (const int PageIndex) {
  *=========================================================================*/
 
 
+CWnd* CTabCtrlSheet::FindChild(const int ControlID)
+{
+	CWnd* pWnd;
+
+	for (int i = 0; i < m_NumPages; ++i)
+	{
+		pWnd = m_pPages[i]->GetDlgItem(ControlID);
+		if (pWnd != NULL) return pWnd;
+	}
+
+	return NULL;
+}
+
+
 /*===========================================================================
  *
  * Class CTabCtrlSheet Method - RECT GetPageRect (void);

@@ -65,6 +65,11 @@ public:
   	/* Fixup the modindex of formids */
   virtual bool FixupFormID (CSrFormidFixupArray& FixupArray);
 
+  void ForceArraySize (const dword Size)
+  {
+	  m_Values.SetSize(Size);
+  }
+
 	/* Initialize a new record */
   virtual void InitializeNew (void) { 
 	CSrSubrecord::InitializeNew();
@@ -74,7 +79,8 @@ public:
 	/* Get class members */
   srformid_t      GetFormID      (const dword Index) { return (m_Values.IsValidIndex(Index) ? m_Values[Index] : SR_FORMID_NULL); }
   virtual byte*	  GetData        (void) { return (byte *)(m_Values.GetRecords()); }
-  virtual dword	  GetRecordSize  (void) const { return (m_Values.GetSize() * sizeof(srformid_t)); }
+  virtual dword	  GetRecordSize  (void) const { return m_Values.GetSize() * sizeof(srformid_t); }
+          dword	  GetArraySize   (void) const { return m_Values.GetSize(); }
   CSrFormidArray& GetFormIDArray (void) { return m_Values; }
 
   	/* Set class methods */

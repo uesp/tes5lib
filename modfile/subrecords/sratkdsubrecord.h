@@ -44,17 +44,17 @@
 
 	struct sratkddata_t 
 	{
-		float Unknown1;
-		float Unknown2;
-		float Unknown3;
-		dword Unknown4;
-		float Unknown5;
-		float Unknown6;
-		float Unknown7;
-		float Unknown8;
-		float Unknown9;
-		float Unknown10;
-		float Unknown11;
+		float		Unknown1;
+		float		Unknown2;
+		float		Unknown3;
+		dword		Unknown4;
+		float		Unknown5;
+		float		Unknown6;
+		float		Unknown7;
+		srformid_t	Keyword;
+		float		Unknown8;
+		float		Unknown9;
+		float		Unknown10;
 	};
 
 #pragma pack(pop)
@@ -105,8 +105,30 @@ public:
 		return (true);
 	}
 
+	 virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID) 
+	 {
+
+		if (m_Data.Keyword == OldID) 
+		{
+			m_Data.Keyword = NewID;
+			return 1;
+		}
+
+		return 0; 
+	}
+
+	virtual dword CountUses (const srformid_t FormID) 
+	{
+		return FormID == m_Data.Keyword;
+	}
+
+	virtual bool FixupFormID (CSrFormidFixupArray& FixupArray) 
+	{
+		return SrFixupFormid(m_Data.Keyword, m_Data.Keyword, FixupArray);
+	}
+
   		/* Create a class instance */
-	static CSrSubrecord* Create (void) { return (new CSrAtkdSubrecord); }
+	static  CSrSubrecord* Create  (void) { return (new CSrAtkdSubrecord); }
 	virtual CSrSubrecord* CreateV (void) { return (new CSrAtkdSubrecord); }
 
 		/* Get class members */

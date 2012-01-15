@@ -31,6 +31,793 @@
 
 /*===========================================================================
  *
+ * Begin Type Definitins
+ *
+ *=========================================================================*/
+struct srracemodelinfo_t
+{
+	CSrDataSubrecord	 Marker;		//MNAM or FNAM
+	CSrStringSubrecord*	 pModel;		//ANAM
+	CSrDataSubrecord*	 pModt;
+
+	srracemodelinfo_t()
+	{
+		pModel = NULL;
+		pModt = NULL;
+	}
+
+	~srracemodelinfo_t()
+	{
+		delete pModel;
+		delete pModt;
+	}
+
+	void Destroy (void)
+	{
+		delete pModel;
+		delete pModt;
+		pModel = NULL;
+		pModt = NULL;
+	}
+
+	void CheckNew (void)
+	{
+		if (pModt)
+		{
+			if (pModt->GetRecordSize() < 12)
+			{
+				SystemLog.Printf("Warning: Race MODT in model section has invalid size of %d bytes!", pModt->GetRecordSize());
+			}
+		}
+	}
+
+	void SetModel (const char* pString);
+
+};
+
+
+struct srraceattackinfo_t
+{
+	CSrAtkdSubrecord	Data;
+	CSrStringSubrecord	Event;
+
+	void CheckNew (void)
+	{
+		if (Event.GetRecordType() != SR_NAME_ATKE)
+		{
+			SystemLog.Printf("Warning: Race ATKE subrecord is not initialized!");
+			Event.InitializeNew(SR_NAME_ATKE, 0);
+		}
+	}
+
+	void InitializeNew (void)
+	{
+		Data.Initialize(SR_NAME_ATKD, SR_ATKD_SUBRECORD_SIZE);
+		Data.InitializeNew();
+		Event.Initialize(SR_NAME_ATKE, 0);
+		Event.InitializeNew();
+	}
+};
+
+
+struct srraceegtinfo_t
+{
+	CSrDataSubrecord	Marker;		//MNAM or FNAM
+	CSrDwordSubrecord	Index;
+	CSrStringSubrecord	Model;
+	CSrDataSubrecord	Modt;
+
+	void CheckNew();
+};
+
+
+struct srracehavokinfo_t
+{
+	CSrDataSubrecord	Marker;		//MNAM or FNAM
+	CSrStringSubrecord	Model;
+	CSrDataSubrecord	Modt;
+
+	void CheckNew();
+};
+
+
+struct srracemoveinfo_t
+{
+	CSrFormidSubrecord	MoveType;
+	CSrSpedSubrecord	SpeedData;
+
+	void InitializeNew()
+	{
+		MoveType.Initialize(SR_NAME_MTYP, 4);
+		SpeedData.Initialize(SR_NAME_SPED, SR_SPED_SUBRECORD_SIZE);
+		MoveType.InitializeNew();
+		SpeedData.InitializeNew();
+	}
+
+	void CheckNew()
+	{
+		if (SpeedData.GetRecordType() != SR_NAME_SPED) 
+		{
+			SystemLog.Printf("Warning: Race SPED subrecord is not initialized!");
+			SpeedData.Initialize(SR_NAME_SPED, SR_SPED_SUBRECORD_SIZE);
+		}
+	}
+};
+
+
+struct srraceheaddata_t
+{
+	CSrDwordSubrecord	Index;
+	CSrDwordSubrecord	Data;
+
+	void CheckNew()
+	{
+		if (Data.GetRecordType() != SR_NAME_HEAD)
+		{
+			SystemLog.Printf("Warning: Race HEAD subrecord is not initialized!");
+			Data.Initialize(SR_NAME_HEAD, 4);
+		}
+	}
+};
+
+
+struct srraceheadmpadata_t
+{
+	CSrDwordSubrecord	Index;
+	CSrMpavSubrecord	Data;
+
+	void CheckNew()
+	{
+		if (Data.GetRecordType() != SR_NAME_MPAV) 
+		{
+			SystemLog.Printf("Warning: Race MPAV subrecord is not initialized!");
+			Data.Initialize(SR_NAME_MPAV, SR_MPAV_SUBRECORD_SIZE);
+		}
+	}
+};
+
+
+struct srraceheadtintdata_t
+{
+	CSrDwordSubrecord	Tinc;
+	CSrDwordSubrecord	Tinv;
+	CSrWordSubrecord	Tirs;
+
+	void CheckNew()
+	{
+		if (Tinv.GetRecordType() != SR_NAME_TINV) 
+		{
+			SystemLog.Printf("Warning: Race TINV subrecord is not initialized!");
+			Tinv.Initialize(SR_NAME_TINV, 4);
+		}
+
+		if (Tirs.GetRecordType() != SR_NAME_TIRS) 
+		{
+			SystemLog.Printf("Warning: Race TIRS subrecord is not initialized!");
+			Tirs.Initialize(SR_NAME_TIRS, 2);
+		}
+	}
+};
+
+
+typedef CSrPtrArray<srraceheadtintdata_t> CSrRaceHeadTintDataArray;
+
+
+struct srraceheadtintinfo_t
+{
+	CSrWordSubrecord	Index;
+	CSrStringSubrecord*	pMaskFile;
+	CSrWordSubrecord*	pTinp;
+	CSrFormidSubrecord*	pColor;
+
+	CSrRaceHeadTintDataArray	Tints;
+
+	srraceheadtintinfo_t()
+	{
+		pMaskFile = NULL;
+		pTinp = NULL;
+		pColor = NULL;
+	}
+
+	~srraceheadtintinfo_t()
+	{
+		delete pMaskFile;
+		delete pTinp;
+		delete pColor;
+	}
+
+	void Destroy (void)
+	{
+		delete pMaskFile;
+		delete pTinp;
+		delete pColor;
+
+		pMaskFile = NULL;
+		pTinp = NULL;
+		pColor = NULL;
+
+		Tints.Destroy();
+	}
+
+	void CheckNew()
+	{
+		for (dword i = 0; i < Tints.GetSize(); ++i)
+		{
+			Tints[i]->CheckNew();
+		}
+	}
+
+};
+
+
+typedef CSrPtrArray<srraceheadtintinfo_t> CSrRaceHeadTintArray;
+typedef CSrPtrArray<srraceheaddata_t>     CSrRaceHeadDataArray;
+typedef CSrPtrArray<srraceheadmpadata_t>  CSrRaceHeadMpaArray;
+typedef CSrPtrArray<srraceattackinfo_t>   CSrRaceAttackArray;
+typedef CSrPtrArray<CSrDwordSubrecord>    CSrRaceMtnmArray;
+typedef CSrPtrArray<srracemoveinfo_t>     CSrRaceMoveArray;
+typedef CSrPtrArray<CSrStringSubrecord>   CSrRaceStringArray;
+typedef CSrPtrArray<CSrFormidSubrecord>   CSrRaceFormidArray;
+typedef CSrPtrArray<CSrPhwtSubrecord>     CSrRacePhwtArray;
+
+
+struct srraceheadinfo_t
+{
+	CSrDataSubrecord		Name0;
+	CSrDataSubrecord		Marker;
+	CSrRaceHeadDataArray	HeadData;
+	CSrRaceHeadMpaArray		MPAData;
+
+	CSrRaceFormidArray		RacialPresets;
+	CSrRaceFormidArray		HairColors;
+	CSrRaceFormidArray		FeatureSets;
+	CSrFormidSubrecord*		pHeadFeature;
+	CSrRaceHeadTintArray	Tints;
+
+	srraceheadinfo_t()
+	{
+		pHeadFeature = NULL;
+	}
+
+	~srraceheadinfo_t()
+	{
+		delete pHeadFeature;
+	}
+
+	void Destroy (void)
+	{
+		delete pHeadFeature;
+		pHeadFeature = NULL;
+
+		Tints.Destroy();
+		RacialPresets.Destroy();
+		HairColors.Destroy();
+		FeatureSets.Destroy();
+		HeadData.Destroy();
+		MPAData.Destroy();
+	}
+
+	void CheckNew()
+	{
+		for (dword i = 0; i < Tints.GetSize(); ++i) Tints[i]->CheckNew();
+		for (dword i = 0; i < MPAData.GetSize(); ++i) MPAData[i]->CheckNew();
+		for (dword i = 0; i < HeadData.GetSize(); ++i) HeadData[i]->CheckNew();
+	}
+
+};
+
+
+
+struct srraceinfo_t
+{
+	srracemodelinfo_t		MaleModel;
+	srracemodelinfo_t		FemaleModel;
+
+	CSrRaceMtnmArray		MovementNames;
+	CSrFormidArraySubrecord	VoiceTypes;
+	CSrFormidArraySubrecord	HairColors;
+	CSrFormidArraySubrecord	DecapitatedHeads;
+
+	CSrWordSubrecord*		pTinl;
+	CSrFloatSubrecord		PName;
+	CSrFloatSubrecord		UName;
+
+	CSrRaceAttackArray		Attacks;
+
+	CSrDataSubrecord		Name1;
+
+	srraceegtinfo_t			MaleEgt;
+	srraceegtinfo_t			FemaleEgt;
+
+	CSrBodtSubrecord		BodyData;	//GNAM
+
+	CSrDataSubrecord		Name3;
+
+	srracehavokinfo_t		MaleHavok;
+	srracehavokinfo_t		FemaleHavok;
+
+	CSrFormidSubrecord*		pMaterial;		//NAM4
+	CSrFormidSubrecord*		pImpactData;	//NAM5
+	CSrFormidSubrecord*		pBloodFX;		//NAM7
+	CSrFormidSubrecord*		pOpenSound;		//ONAM
+	CSrFormidSubrecord*		pCloseSound;	//LNAM
+
+	CSrRaceStringArray		BodyNames;
+	CSrRaceMoveArray		MovementTypes;
+	CSrDwordSubrecord*		pVName;
+
+	CSrRaceFormidArray		EquipSlots;
+	CSrFormidSubrecord		UnequipSlot;
+
+	CSrRaceStringArray		FacialKeys;
+	CSrRacePhwtArray		FacialWeights;
+
+	CSrDataSubrecord*		pName0M;
+	srraceheadinfo_t		MaleHead;
+	CSrDataSubrecord*		pName0F;
+	srraceheadinfo_t		FemaleHead;
+
+	CSrFormidSubrecord*		pNam8;
+	CSrFormidSubrecord*		pRName;
+	CSrFormidSubrecord*		pWalkMove;
+	CSrFormidSubrecord*		pRunMove;
+	CSrFormidSubrecord*		pSwimMove;
+	CSrFormidSubrecord*		pFlyMove;
+	CSrFormidSubrecord*		pSneakMove;	
+
+	srraceinfo_t()
+	{
+		pTinl = NULL;
+		pMaterial = NULL;	
+		pImpactData = NULL;
+		pBloodFX = NULL;	
+		pOpenSound = NULL;	
+		pCloseSound = NULL;
+		pVName = NULL;
+		pNam8 = NULL;
+		pRName = NULL;
+		pWalkMove = NULL;
+		pRunMove = NULL;
+		pSwimMove = NULL;
+		pFlyMove = NULL;
+		pSneakMove = NULL;	
+		pName0M = NULL;
+		pName0F = NULL;
+	}
+
+	~srraceinfo_t()
+	{
+		delete pTinl;
+		delete pMaterial;	
+		delete pImpactData;
+		delete pBloodFX;	
+		delete pOpenSound;	
+		delete pCloseSound;
+		delete pVName;
+		delete pNam8;
+		delete pRName;
+		delete pWalkMove;
+		delete pRunMove;
+		delete pSwimMove;
+		delete pFlyMove;
+		delete pSneakMove;	
+		delete pName0M;
+		delete pName0F;
+	}
+
+	void Destroy (void)
+	{
+		delete pTinl;
+		delete pMaterial;	
+		delete pImpactData;
+		delete pBloodFX;	
+		delete pOpenSound;	
+		delete pCloseSound;
+		delete pVName;
+		delete pNam8;
+		delete pRName;
+		delete pWalkMove;
+		delete pRunMove;
+		delete pSwimMove;
+		delete pFlyMove;
+		delete pSneakMove;	
+		delete pName0M;
+		delete pName0F;
+
+		pTinl = NULL;
+		pMaterial = NULL;	
+		pImpactData = NULL;
+		pBloodFX = NULL;	
+		pOpenSound = NULL;	
+		pCloseSound = NULL;
+		pVName = NULL;
+		pNam8 = NULL;
+		pRName = NULL;
+		pWalkMove = NULL;
+		pRunMove = NULL;
+		pSwimMove = NULL;
+		pFlyMove = NULL;
+		pSneakMove = NULL;	
+		pName0M = NULL;
+		pName0F = NULL;
+
+		MaleModel.Destroy();
+		FemaleModel.Destroy();
+		FacialKeys.Destroy();
+		FacialWeights.Destroy();
+		EquipSlots.Destroy();
+		MaleHead.Destroy();
+		FemaleHead.Destroy();
+		BodyNames.Destroy();
+		MovementTypes.Destroy();
+		Attacks.Destroy();
+		MovementTypes.Destroy();
+		VoiceTypes.Destroy();
+		HairColors.Destroy();
+		MovementNames.Destroy();
+		DecapitatedHeads.Destroy();
+	}
+
+	void CheckNew()
+	{
+		MaleModel.CheckNew();
+		FemaleModel.CheckNew();
+
+		if (MovementNames.GetSize() != 5)
+		{
+			SystemLog.Printf("Warning: Race array MovementNames[] expected to be size 5 not %d!", MovementNames.GetSize());
+		}
+		
+		if (VoiceTypes.GetArraySize() != 0 && VoiceTypes.GetArraySize() != 2)
+		{
+			SystemLog.Printf("Warning: Race array VoiceTypes[] should be size 0 or 2 not %d!", VoiceTypes.GetArraySize());
+			VoiceTypes.ForceArraySize(2);
+		}
+
+		if (HairColors.GetArraySize() != 0 && HairColors.GetArraySize() != 2 )
+		{
+			SystemLog.Printf("Warning: Race array HairColors[] should be size 0 or 2 not %d!", HairColors.GetArraySize());
+			HairColors.ForceArraySize(2);
+		}
+
+		if (DecapitatedHeads.GetArraySize() != 0 && DecapitatedHeads.GetArraySize() != 2)
+		{
+			SystemLog.Printf("Warning: Race array DecapitatedHeads[] should be size 0 or 2 not %d!", DecapitatedHeads.GetArraySize());
+			DecapitatedHeads.ForceArraySize(2);
+		}
+		
+		if (PName.GetRecordType() != SR_NAME_PNAM)
+		{
+			SystemLog.Printf("Warning: Race PNAM subrecord not initialized!");
+			PName.Initialize(SR_NAME_PNAM, 4);
+			PName.SetValue(5);
+		}
+
+		if (UName.GetRecordType() != SR_NAME_UNAM)
+		{
+			SystemLog.Printf("Warning: Race UNAM subrecord not initialized!");
+			UName.Initialize(SR_NAME_UNAM, 4);
+			UName.SetValue(3);
+		}
+
+		for (dword i = 0; i < Attacks.GetSize(); ++i) Attacks[i]->CheckNew();
+						
+		MaleEgt.CheckNew();
+		FemaleEgt.CheckNew();
+		
+		if (BodyData.GetRecordType() != SR_NAME_GNAM)
+		{
+			SystemLog.Printf("Warning: Race GNAM subrecord not initialized!");
+			BodyData.Initialize(SR_NAME_GNAM, SR_BODT_SUBRECORD_SIZE);
+		}
+		
+		MaleHavok.CheckNew();
+		FemaleHavok.CheckNew();		
+		
+		if (BodyNames.GetSize() != 32)
+		{
+			SystemLog.Printf("Warning: Race array NAME[] should be size 32 not %d!", BodyNames.GetSize());
+			
+			while (BodyNames.GetSize() > 32) BodyNames.Delete(BodyNames.GetSize() - 1);
+			while (BodyNames.GetSize() < 32) BodyNames.AddNew()->Initialize(SR_NAME_NAME, 0);			
+		}
+
+		for (dword i = 0; i < MovementTypes.GetSize(); ++i) MovementTypes[i]->CheckNew();
+		
+		if (UnequipSlot.GetRecordType() != SR_NAME_UNES)
+		{
+			SystemLog.Printf("Warning: Race UNES subrecord is not initialized!");
+			UnequipSlot.Initialize(SR_NAME_UNES, 4);
+			UnequipSlot.SetValue(0);
+		}		
+	
+		if (pName0M) MaleHead.CheckNew();
+		if (pName0F) FemaleHead.CheckNew();		
+	}
+
+	void SetTinl (const char* pString)
+	{
+		if (pString == NULL || *pString == '\0')
+		{
+			delete pTinl;
+			pTinl = NULL;
+			return;
+		}
+
+		if (pTinl == NULL)
+		{
+			pTinl = new CSrWordSubrecord;
+			pTinl->Initialize(SR_NAME_TINL, 2);
+			pTinl->InitializeNew();
+		}
+
+		pTinl->SetValue((word) atoi(pString));
+	}
+
+	void SetVName (const char* pString)
+	{
+		if (pString == NULL || *pString == '\0')
+		{
+			delete pVName;
+			pVName = NULL;
+			return;
+		}
+
+		if (pVName == NULL)
+		{
+			pVName = new CSrDwordSubrecord;
+			pVName->Initialize(SR_NAME_VNAM, 4);
+			pVName->InitializeNew();
+		}
+
+		pVName->SetValue(strtoul(pString, NULL, 0));
+	}
+
+	void SetWalkMove (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pWalkMove;
+			pWalkMove = NULL;
+			return;
+		}
+
+		if (pWalkMove == NULL)
+		{
+			pWalkMove = new CSrFormidSubrecord;
+			pWalkMove->Initialize(SR_NAME_WKMV, 4);
+			pWalkMove->InitializeNew();
+		}
+
+		pWalkMove->SetValue(FormID);
+	}
+
+	void SetRunMove (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pRunMove;
+			pRunMove = NULL;
+			return;
+		}
+
+		if (pRunMove == NULL)
+		{
+			pRunMove = new CSrFormidSubrecord;
+			pRunMove->Initialize(SR_NAME_RNMV, 4);
+			pRunMove->InitializeNew();
+		}
+
+		pRunMove->SetValue(FormID);
+	}
+
+	void SetSwimMove (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pSwimMove;
+			pSwimMove = NULL;
+			return;
+		}
+
+		if (pSwimMove == NULL)
+		{
+			pSwimMove = new CSrFormidSubrecord;
+			pSwimMove->Initialize(SR_NAME_SWMV, 4);
+			pSwimMove->InitializeNew();
+		}
+
+		pSwimMove->SetValue(FormID);
+	}
+
+	void SetFlyMove (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pFlyMove;
+			pFlyMove = NULL;
+			return;
+		}
+
+		if (pFlyMove == NULL)
+		{
+			pFlyMove = new CSrFormidSubrecord;
+			pFlyMove->Initialize(SR_NAME_FLMV, 4);
+			pFlyMove->InitializeNew();
+		}
+
+		pFlyMove->SetValue(FormID);
+	}
+
+	void SetSneakMove (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pSneakMove;
+			pSneakMove = NULL;
+			return;
+		}
+
+		if (pSneakMove == NULL)
+		{
+			pSneakMove = new CSrFormidSubrecord;
+			pSneakMove->Initialize(SR_NAME_SNMV, 4);
+			pSneakMove->InitializeNew();
+		}
+
+		pSneakMove->SetValue(FormID);
+	}
+
+	void SetMaterial (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pMaterial;
+			pMaterial = NULL;
+			return;
+		}
+
+		if (pMaterial == NULL)
+		{
+			pMaterial = new CSrFormidSubrecord;
+			pMaterial->Initialize(SR_NAME_NAM4, 4);
+			pMaterial->InitializeNew();
+		}
+
+		pMaterial->SetValue(FormID);
+	}
+
+	void SetImpactSet (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pImpactData;
+			pImpactData = NULL;
+			return;
+		}
+
+		if (pImpactData == NULL)
+		{
+			pImpactData = new CSrFormidSubrecord;
+			pImpactData->Initialize(SR_NAME_NAM5, 4);
+			pImpactData->InitializeNew();
+		}
+
+		pImpactData->SetValue(FormID);
+	}
+
+	void SetBloodFX (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pBloodFX;
+			pBloodFX = NULL;
+			return;
+		}
+
+		if (pBloodFX == NULL)
+		{
+			pBloodFX = new CSrFormidSubrecord;
+			pBloodFX->Initialize(SR_NAME_NAM7, 4);
+			pBloodFX->InitializeNew();
+		}
+
+		pBloodFX->SetValue(FormID);
+	}
+
+	void SetOpenSound (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pOpenSound;
+			pOpenSound = NULL;
+			return;
+		}
+
+		if (pOpenSound == NULL)
+		{
+			pOpenSound = new CSrFormidSubrecord;
+			pOpenSound->Initialize(SR_NAME_ONAM, 4);
+			pOpenSound->InitializeNew();
+		}
+
+		pOpenSound->SetValue(FormID);
+	}
+
+	void SetCloseSound (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pCloseSound;
+			pCloseSound = NULL;
+			return;
+		}
+
+		if (pCloseSound == NULL)
+		{
+			pCloseSound = new CSrFormidSubrecord;
+			pCloseSound->Initialize(SR_NAME_LNAM, 4);
+			pCloseSound->InitializeNew();
+		}
+
+		pCloseSound->SetValue(FormID);
+	}
+
+	void SetName8 (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pNam8;
+			pNam8 = NULL;
+			return;
+		}
+
+		if (pNam8 == NULL)
+		{
+			pNam8 = new CSrFormidSubrecord;
+			pNam8->Initialize(SR_NAME_NAM8, 4);
+			pNam8->InitializeNew();
+		}
+
+		pNam8->SetValue(FormID);
+	}
+
+	void SetRName (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pRName;
+			pRName = NULL;
+			return;
+		}
+
+		if (pRName == NULL)
+		{
+			pRName = new CSrFormidSubrecord;
+			pRName->Initialize(SR_NAME_RNAM, 4);
+			pRName->InitializeNew();
+		}
+
+		pRName->SetValue(FormID);
+	}
+
+	void AddEquipSlot (const srformid_t FormID)
+	{
+		CSrFormidSubrecord* pFormID = EquipSlots.AddNew();
+		pFormID->Initialize(SR_NAME_QNAM, 4);
+		pFormID->InitializeNew();
+		pFormID->SetValue(FormID);
+	}
+
+};
+
+/*===========================================================================
+ *		End Type Definitins
+ *=========================================================================*/
+
+
+/*===========================================================================
+ *
  * Begin Class CSrRaceRecord Definition
  *
  *=========================================================================*/
@@ -72,6 +859,9 @@ public:
     	/* Return a new instance of the class */
 	static CSrRecord* Create (void) { return new CSrRaceRecord; }
 
+	bool CreateRaceInfo     (srraceinfo_t& RaceInfo);
+	bool CreateFromRaceInfo (srraceinfo_t& RaceInfo);
+
 		/* Get class members */
 	dword         GetSpellCount (void) { return m_pSpellCount ? m_pSpellCount->GetValue() : 0; }
 	srracedata_t& GetRaceData   (void) { return m_pRaceData ? m_pRaceData->GetRaceData() : s_NullRaceData; } 
@@ -92,6 +882,12 @@ public:
 		/* Initialize a new record */
 	void InitializeNew (void);
 
+	static void InitializeDwordData   (CSrSubrecord* pSubrecord, const dword Value);
+	static void InitializeFloatData   (CSrSubrecord* pSubrecord, const float Value);
+	static void InitializeModtData    (CSrSubrecord* pSubrecord);
+	static void InitializeFormid2Data (CSrSubrecord* pSubrecord);
+
+
 		/* Called to alert record of a new subrecord being added */
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
@@ -108,6 +904,8 @@ public:
 	void SetRaceSkillAV5   (const char* pString) { SetRaceSkillAV(4, pString); }
 	void SetRaceSkillAV6   (const char* pString) { SetRaceSkillAV(5, pString); }
 	void SetRaceSkillAV7   (const char* pString) { SetRaceSkillAV(6, pString); }	
+
+	void UpdateSpellCount (void);
 
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_DESCRIPTION(CSrRaceRecord, SR_NAME_DESC)
