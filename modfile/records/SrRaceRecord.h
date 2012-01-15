@@ -214,6 +214,16 @@ struct srraceheadtintdata_t
 			Tirs.Initialize(SR_NAME_TIRS, 2);
 		}
 	}
+
+	void InitializeNew (void)
+	{
+		Tinc.Initialize(SR_NAME_TINC, 4);
+		Tinv.Initialize(SR_NAME_TINV, 4);
+		Tirs.Initialize(SR_NAME_TIRS, 2);
+		Tinc.InitializeNew();
+		Tinv.InitializeNew();
+		Tirs.InitializeNew();
+	}
 };
 
 
@@ -262,6 +272,72 @@ struct srraceheadtintinfo_t
 		{
 			Tints[i]->CheckNew();
 		}
+	}
+
+	void InitializeNew()
+	{
+		Index.Initialize(SR_NAME_TINI, 2);
+		Index.InitializeNew();
+	}
+
+	void SetMaskFile (const char* pString)
+	{
+		if (pString == NULL || *pString == '\0')
+		{
+			delete pMaskFile;
+			pMaskFile = NULL;
+			return;
+		}
+
+		if (pMaskFile == NULL)
+		{
+			pMaskFile = new CSrStringSubrecord;
+			pMaskFile->Initialize(SR_NAME_TINT, 0);
+			pMaskFile->InitializeNew();
+		}
+
+		pMaskFile->SetString(pString);
+
+	}
+
+	void SetTinp (const char* pString)
+	{
+		if (pString == NULL || *pString == '\0')
+		{
+			delete pTinp;
+			pTinp = NULL;
+			return;
+		}
+
+		if (pTinp == NULL)
+		{
+			pTinp = new CSrWordSubrecord;
+			pTinp->Initialize(SR_NAME_TINP, 2);
+			pTinp->InitializeNew();
+		}
+
+		pTinp->SetValue((word) strtoul(pString, NULL, 0));
+
+	}
+
+	void SetColor (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pColor;
+			pColor = NULL;
+			return;
+		}
+
+		if (pColor == NULL)
+		{
+			pColor = new CSrFormidSubrecord;
+			pColor->Initialize(SR_NAME_TIND, 4);
+			pColor->InitializeNew();
+		}
+
+		pColor->SetValue(FormID);
+
 	}
 
 };
@@ -539,6 +615,46 @@ struct srraceinfo_t
 		HairColors.Destroy();
 		MovementNames.Destroy();
 		DecapitatedHeads.Destroy();
+	}
+
+	void CheckMaleHeadMarker (void)
+	{
+		if (pName0M != NULL) return;
+		int Count = 0;
+
+		Count += MaleHead.FeatureSets.GetSize();
+		Count += MaleHead.HairColors.GetSize();
+		Count += MaleHead.RacialPresets.GetSize();
+		Count += MaleHead.pHeadFeature != NULL;
+		Count += MaleHead.MPAData.GetSize();
+		Count += MaleHead.HeadData.GetSize();
+		Count += MaleHead.Tints.GetSize();
+
+		if (Count == 0) return;
+
+		pName0M = new CSrDataSubrecord;
+		pName0M->Initialize(SR_NAME_NAM0, 0);
+		pName0M->InitializeNew();
+	}
+
+	void CheckFemaleHeadMarker (void)
+	{
+		if (pName0F != NULL) return;
+		int Count = 0;
+
+		Count += FemaleHead.FeatureSets.GetSize();
+		Count += FemaleHead.HairColors.GetSize();
+		Count += FemaleHead.RacialPresets.GetSize();
+		Count += FemaleHead.pHeadFeature != NULL;
+		Count += FemaleHead.MPAData.GetSize();
+		Count += FemaleHead.HeadData.GetSize();
+		Count += FemaleHead.Tints.GetSize();
+
+		if (Count == 0) return;
+
+		pName0F = new CSrDataSubrecord;
+		pName0F->Initialize(SR_NAME_NAM0, 0);
+		pName0F->InitializeNew();
 	}
 
 	void CheckNew()
