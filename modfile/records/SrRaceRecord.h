@@ -158,6 +158,15 @@ struct srraceheaddata_t
 			Data.Initialize(SR_NAME_HEAD, 4);
 		}
 	}
+
+	void InitializeNew()
+	{
+		Index.Initialize(SR_NAME_INDX, 4);
+		Data.Initialize(SR_NAME_HEAD, 4);
+		Index.InitializeNew();
+		Data.InitializeNew();
+	}
+
 };
 
 
@@ -173,6 +182,14 @@ struct srraceheadmpadata_t
 			SystemLog.Printf("Warning: Race MPAV subrecord is not initialized!");
 			Data.Initialize(SR_NAME_MPAV, SR_MPAV_SUBRECORD_SIZE);
 		}
+	}
+
+	void InitializeNew (void)
+	{
+		Index.Initialize(SR_NAME_MPAI, 4);
+		Data.Initialize(SR_NAME_MPAV, SR_MPAV_SUBRECORD_SIZE);
+		Index.InitializeNew();
+		Data.InitializeNew();
 	}
 };
 
@@ -304,6 +321,23 @@ struct srraceheadinfo_t
 		for (dword i = 0; i < Tints.GetSize(); ++i) Tints[i]->CheckNew();
 		for (dword i = 0; i < MPAData.GetSize(); ++i) MPAData[i]->CheckNew();
 		for (dword i = 0; i < HeadData.GetSize(); ++i) HeadData[i]->CheckNew();
+	}
+
+	srraceheadmpadata_t* CreateMpa (void)
+	{
+		srraceheadmpadata_t* pMpa = MPAData.AddNew();
+		pMpa->InitializeNew();
+		return pMpa;
+	}
+
+	void AddHeadData (const dword Index, const srformid_t FormID)
+	{
+		if (FormID == 0) return;
+		srraceheaddata_t* pHeadData = HeadData.AddNew();
+		pHeadData->InitializeNew();
+		
+		pHeadData->Index.SetValue(Index);
+		pHeadData->Data.SetValue(FormID);
 	}
 
 	void AddRacePreset (const srformid_t FormID)
