@@ -87,8 +87,8 @@ BEGIN_SRSUBRECCREATE(CSrRaceRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TINT, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TINP, CSrWordSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TIND, CSrFormidSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINC, CSrDwordSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TINV, CSrDwordSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINC, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TINV, CSrFloatSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_TIRS, CSrWordSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM8, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrFormidSubrecord::Create)
@@ -1290,7 +1290,7 @@ bool CSrRaceRecord::CreateFromRaceInfo (srraceinfo_t& RaceInfo)
 
 		COPYARRAY(SR_NAME_RPRF, RaceInfo.FemaleHead.RacialPresets);
 		COPYARRAY(SR_NAME_AHCF, RaceInfo.FemaleHead.HairColors);
-		COPYARRAY(SR_NAME_FTSF, RaceInfo.MaleHead.FeatureSets);
+		COPYARRAY(SR_NAME_FTSF, RaceInfo.FemaleHead.FeatureSets);
 		if (RaceInfo.FemaleHead.pHeadFeature != NULL) AddNewSubrecord(SR_NAME_DFTF)->Copy(RaceInfo.FemaleHead.pHeadFeature);
 
 		for (dword i = 0; i < RaceInfo.FemaleHead.Tints.GetSize(); ++i)

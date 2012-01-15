@@ -179,8 +179,8 @@ struct srraceheadmpadata_t
 
 struct srraceheadtintdata_t
 {
-	CSrDwordSubrecord	Tinc;
-	CSrDwordSubrecord	Tinv;
+	CSrFormidSubrecord	Tinc;
+	CSrFloatSubrecord	Tinv;
 	CSrWordSubrecord	Tirs;
 
 	void CheckNew()
@@ -273,9 +273,11 @@ struct srraceheadinfo_t
 	CSrRaceFormidArray		FeatureSets;
 	CSrFormidSubrecord*		pHeadFeature;
 	CSrRaceHeadTintArray	Tints;
+	bool					IsMale;
 
-	srraceheadinfo_t()
+	srraceheadinfo_t(const bool MaleFlag)
 	{
+		IsMale = MaleFlag;
 		pHeadFeature = NULL;
 	}
 
@@ -302,6 +304,53 @@ struct srraceheadinfo_t
 		for (dword i = 0; i < Tints.GetSize(); ++i) Tints[i]->CheckNew();
 		for (dword i = 0; i < MPAData.GetSize(); ++i) MPAData[i]->CheckNew();
 		for (dword i = 0; i < HeadData.GetSize(); ++i) HeadData[i]->CheckNew();
+	}
+
+	void AddRacePreset (const srformid_t FormID)
+	{
+		if (FormID == 0) return;
+		CSrFormidSubrecord* pFormID = RacialPresets.AddNew();
+		pFormID->Initialize(IsMale ? SR_NAME_RPRM : SR_NAME_RPRF, 4);
+		pFormID->InitializeNew();
+		pFormID->SetValue(FormID);
+	}
+
+	void AddHairColor (const srformid_t FormID)
+	{
+		if (FormID == 0) return;
+		CSrFormidSubrecord* pFormID = HairColors.AddNew();
+		pFormID->Initialize(IsMale ? SR_NAME_AHCM : SR_NAME_AHCF, 4);
+		pFormID->InitializeNew();
+		pFormID->SetValue(FormID);
+	}
+
+	void AddFeatureSet (const srformid_t FormID)
+	{
+		if (FormID == 0) return;
+		CSrFormidSubrecord* pFormID = FeatureSets.AddNew();
+		pFormID->Initialize(IsMale ? SR_NAME_FTSM : SR_NAME_FTSF, 4);
+		pFormID->InitializeNew();
+		pFormID->SetValue(FormID);
+	}
+
+
+	void SetHeadFeature (const srformid_t FormID)
+	{
+		if (FormID == 0)
+		{
+			delete pHeadFeature;
+			pHeadFeature = NULL;
+			return;
+		}
+
+		if (pHeadFeature == NULL)
+		{
+			pHeadFeature = new CSrFormidSubrecord;
+			pHeadFeature->Initialize(IsMale ? SR_NAME_DFTM : SR_NAME_DFTF, 4);
+			pHeadFeature->InitializeNew();
+		}
+
+		pHeadFeature->SetValue(FormID);
 	}
 
 };
@@ -365,7 +414,7 @@ struct srraceinfo_t
 	CSrFormidSubrecord*		pFlyMove;
 	CSrFormidSubrecord*		pSneakMove;	
 
-	srraceinfo_t()
+	srraceinfo_t() : MaleHead(true), FemaleHead(false)
 	{
 		pTinl = NULL;
 		pMaterial = NULL;	
