@@ -143,7 +143,19 @@ public:
 	virtual byte*  GetData      (void) { return (byte *)(&m_Data); }
   
 		/* Initialize a new record */
-	void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_RACEDATA_SUBRECORD_SIZE; }
+	void InitializeNew (void) 
+	{
+		CSrSubrecord::InitializeNew(); 
+		memset(&m_Data, 0, sizeof(m_Data)); 
+		m_Data.Skills[0].ActorValue = -1;
+		m_Data.Skills[1].ActorValue = -1;
+		m_Data.Skills[2].ActorValue = -1;
+		m_Data.Skills[3].ActorValue = -1;
+		m_Data.Skills[4].ActorValue = -1;
+		m_Data.Skills[5].ActorValue = -1;
+		m_Data.Skills[6].ActorValue = -1;
+		m_RecordSize = SR_RACEDATA_SUBRECORD_SIZE; 
+	}
    
 };
 /*===========================================================================
