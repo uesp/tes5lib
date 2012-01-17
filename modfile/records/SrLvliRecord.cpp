@@ -271,6 +271,7 @@ void CSrLvliRecord::UpdateListCount (void)
 			if (Counter > SR_LVLO_MAXCOUNT) 
 			{
 				m_Subrecords.Delete(i);
+				if (m_Subrecords[i] != NULL && m_Subrecords[i]->GetRecordType() == SR_NAME_COED) m_Subrecords.Delete(i);
 				--i;
 			}
 		}

@@ -18,7 +18,6 @@
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrLvlnRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_COED, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODL, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLD, CSrByteSubrecord::Create)
@@ -58,7 +57,6 @@ END_SRFIELDMAP()
 CSrLvlnRecord::CSrLvlnRecord () 
 {
 	m_pModel = NULL;
-	m_pCoedData = NULL;
 	m_pObndData = NULL;
 	m_pChanceNone = NULL;
 	m_pFlags = NULL;
@@ -78,7 +76,6 @@ CSrLvlnRecord::CSrLvlnRecord ()
 void CSrLvlnRecord::Destroy (void) 
 {
 	m_pModel = NULL;
-	m_pCoedData = NULL;
 	m_pObndData = NULL;
 	m_pChanceNone = NULL;
 	m_pFlags = NULL;
@@ -181,11 +178,7 @@ void CSrLvlnRecord::InitializeNew (void)
  *=========================================================================*/
 void CSrLvlnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (pSubrecord->GetRecordType() == SR_NAME_COED)
-	{
-		m_pCoedData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODL)
+	if (pSubrecord->GetRecordType() == SR_NAME_MODL)
 	{
 		m_pModel = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
@@ -223,9 +216,7 @@ void CSrLvlnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrLvlnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pCoedData == pSubrecord)
-		m_pCoedData = NULL;
-	else if (m_pModel == pSubrecord)
+	if (m_pModel == pSubrecord)
 		m_pModel = NULL;
 	else if (m_pChanceNone == pSubrecord)
 		m_pChanceNone = NULL;
@@ -289,6 +280,7 @@ void CSrLvlnRecord::UpdateListCount (void)
 			if (Counter > SR_LVLO_MAXCOUNT) 
 			{
 				m_Subrecords.Delete(i);
+				if (m_Subrecords[i] != NULL && m_Subrecords[i]->GetRecordType() == SR_NAME_COED) m_Subrecords.Delete(i);
 				--i;
 			}
 		}

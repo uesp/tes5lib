@@ -39,7 +39,6 @@ class CSrLvlnRecord : public CSrIdRecord
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*			m_pCoedData;
   	CSrSubrecord*			m_pObndData;
 	CSrByteSubrecord*		m_pChanceNone;
 	CSrLvlfSubrecord*		m_pFlags;
