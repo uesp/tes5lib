@@ -20,6 +20,7 @@
 	#include "../subrecords/srlvlosubrecord.h"
 	#include "../subrecords/srbytesubrecord.h"
     #include "../subrecords/srlvlfsubrecord.h"
+	#include "../subrecords/srcoedsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

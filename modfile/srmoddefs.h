@@ -494,6 +494,7 @@
 	#define SRCLASS_CSrPhwtSubrecord			1058
 	#define SRCLASS_CSrMpavSubrecord			1059
 	#define SRCLASS_CSrSpedSubrecord			1060
+	#define SRCLASS_CSrCoedSubrecord			1061
   
 /*===========================================================================
  *		End of Class Type Definitions

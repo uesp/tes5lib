@@ -468,6 +468,9 @@
   #define SR_FIELD_LISTUNKNOWN14		408
   #define SR_FIELD_LISTUNKNOWN15		409
   #define SR_FIELD_LISTUNKNOWN16		410
+  #define SR_FIELD_LISTFACTION			411
+  #define SR_FIELD_LISTMINRANK			412
+  #define SR_FIELD_LISTCONDITION		413
 
 /*===========================================================================
  *		End of Field Types

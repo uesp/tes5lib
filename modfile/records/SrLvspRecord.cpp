@@ -22,6 +22,7 @@ BEGIN_SRSUBRECCREATE(CSrLvspRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLF, CSrLvlfSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LLCT, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LVLO, CSrLvloSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_COED, CSrCoedSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array

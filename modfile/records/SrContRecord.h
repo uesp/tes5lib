@@ -21,6 +21,7 @@
 	#include "../subrecords/srcontdatasubrecord.h"
 	#include "../subrecords/srdwordsubrecord.h"
 	#include "../subrecords/srcntosubrecord.h"
+	#include "../subrecords/srcoedsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

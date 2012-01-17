@@ -16,11 +16,12 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridrecord.h"
-  #include "../subrecords/srctdasubrecord.h"
-  #include "../subrecords/srformidsubrecord.h"
-  #include "../subrecords/srcntosubrecord.h"
-  #include "../subrecords/srdwordsubrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srctdasubrecord.h"
+	#include "../subrecords/srformidsubrecord.h"
+	#include "../subrecords/srcntosubrecord.h"
+	#include "../subrecords/srdwordsubrecord.h"
+	#include "../subrecords/srcoedsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

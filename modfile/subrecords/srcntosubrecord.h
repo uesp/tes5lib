@@ -22,6 +22,9 @@
  *=========================================================================*/
 
 
+#define SR_CNTO_SUBRECORD_SIZE 8
+
+
 /*===========================================================================
  *
  * Begin Class CSrCntoSubrecord Definition
@@ -43,8 +46,8 @@ protected:
 	/* Input/output the subrecord data */
   virtual bool ReadData  (CSrFile& File) { 
 		bool Result; 
-		SR_VERIFY_SUBRECORDSIZE_MAX(8) 
-		  if (m_RecordSize < 8)
+		SR_VERIFY_SUBRECORDSIZE_MAX(SR_CNTO_SUBRECORD_SIZE) 
+		  if (m_RecordSize < SR_CNTO_SUBRECORD_SIZE)
 		  {
 			  struct tmp_t {
 					dword formid;
@@ -68,7 +71,7 @@ protected:
 		  return Result; 
 		}
 
-  virtual bool WriteData (CSrFile& File) { bool Result; SR_VERIFY_SUBRECORDSIZE_MAX(8) Result = File.WriteDWord(m_FormID); Result &= File.WriteDWord(m_Count); return Result; }
+  virtual bool WriteData (CSrFile& File) { bool Result; SR_VERIFY_SUBRECORDSIZE_MAX(SR_CNTO_SUBRECORD_SIZE) Result = File.WriteDWord(m_FormID); Result &= File.WriteDWord(m_Count); return Result; }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -92,7 +95,7 @@ public:
 	/* Copy the content from an existing subrecord */
   virtual bool Copy (CSrSubrecord* pSubrecord) {
 	CSrCntoSubrecord* pSubrecord1 = SrCastClassNull(CSrCntoSubrecord, pSubrecord);
-	m_RecordSize = 8;
+	m_RecordSize = SR_CNTO_SUBRECORD_SIZE;
 
 	if (pSubrecord1 != NULL) {
 	  m_FormID = pSubrecord1->m_FormID;
@@ -112,7 +115,7 @@ public:
   virtual CSrSubrecord* CreateV (void) { return new CSrCntoSubrecord; }
 
 	/* Initialize a new record */
-  virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_FormID = m_Count = 0; m_RecordSize = 8; }
+  virtual void InitializeNew (void) { CSrSubrecord::InitializeNew();  m_FormID = m_Count = 0; m_RecordSize = SR_CNTO_SUBRECORD_SIZE; }
   	  
 	/* Get class members */
   srformid_t	GetFormID   (void) { return (m_FormID); }

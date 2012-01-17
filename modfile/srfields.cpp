@@ -430,6 +430,9 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_LISTUNKNOWN14,	"ListUnknown14")
 	ADD_STRINGVALUE( SR_FIELD_LISTUNKNOWN15,	"ListUnknown15")
 	ADD_STRINGVALUE( SR_FIELD_LISTUNKNOWN16,	"ListUnknown16")
+	ADD_STRINGVALUE( SR_FIELD_LISTFACTION,		"ListFaction")
+	ADD_STRINGVALUE( SR_FIELD_LISTMINRANK,		"ListMinRank")	
+	ADD_STRINGVALUE( SR_FIELD_LISTCONDITION,	"ListCondition")
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings
