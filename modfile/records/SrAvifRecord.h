@@ -19,7 +19,6 @@
 	#include "sridrecord.h"
 	#include "../subrecords/srlstringsubrecord.h"
 	#include "../subrecords/sravsksubrecord.h"	
-	#include "../subrecords/sranamsubrecord.h"	
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -162,7 +161,7 @@ protected:
 	CSrFloatSubrecord*		m_pVnamData;
 	CSrFormidSubrecord*		m_pSnamData;
 	CSrDwordSubrecord*		m_pInamData;
-	CSrAnamSubrecord*		m_pAnamData;
+	CSrStringSubrecord*		m_pAnamData;
 
 
 	static sravskdata_t s_NullAvskData;
@@ -185,6 +184,7 @@ public:
 		/* Get class members */
 	sravskdata_t& GetAvData (void) { return m_pAvData ? m_pAvData->GetAvskData() : s_NullAvskData; }
 	dword CountAvifSections (void) { return CountSubrecords(SR_NAME_PNAM); }
+	const char* GetAName    (void) { return m_pAnamData ? m_pAnamData->GetString().c_str() : ""; }
 
 	void CreateSectionInfo     (CSrAvifSectionArray& InfoArray);
 	void CreateFromSectionInfo (CSrAvifSectionArray& InfoArray);
@@ -197,9 +197,8 @@ public:
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 		/* Set class members */
-	void SetCname (const dword Value);
-
-
+	void SetAName (const char* pString);
+	
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_ITEMNAME(CSrAvifRecord)
 	DECLARE_SRFIELD_DESCRIPTION(CSrAvifRecord, SR_NAME_DESC)
@@ -208,8 +207,9 @@ public:
 	DECLARE_SRFIELD_FLOAT1(CSrAvifRecord, Unknown2, GetAvData().Unknown[1], GetAvData().Unknown[1])
 	DECLARE_SRFIELD_FLOAT1(CSrAvifRecord, Unknown3, GetAvData().Unknown[2], GetAvData().Unknown[2])
 	DECLARE_SRFIELD_FLOAT1(CSrAvifRecord, Unknown4, GetAvData().Unknown[3], GetAvData().Unknown[3])
-
+	
 	DECLARE_SRFIELD_DWORD1(CSrAvifRecord, Sections, CountAvifSections(), dword Tmp)
+	DECLARE_SRFIELD_METHOD(CSrAvifRecord, AName, GetAName, SetAName)
 	
 	DECLARE_SRFIELD_METHODDWORD(CSrAvifRecord, m_pCnamData, CName, SR_NAME_CNAM)
 

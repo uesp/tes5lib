@@ -44,7 +44,7 @@
 
 	struct sranamdata_t 
 	{
-		byte	Unknown[3];
+		dword	Unknown;
 	};
 
 #pragma pack(pop)
@@ -72,7 +72,7 @@ protected:
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
-	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_ANAM_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_ANAM_SUBRECORD_SIZE); }
+	virtual bool ReadData  (CSrFile& File) { m_Data.Unknown = 0; SR_VERIFY_SUBRECORDSIZE(SR_ANAM_SUBRECORD_SIZE) return File.Read(&m_Data, SR_ANAM_SUBRECORD_SIZE); }
 	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_ANAM_SUBRECORD_SIZE) return File.Write(&m_Data, SR_ANAM_SUBRECORD_SIZE); }
 
 
@@ -88,7 +88,10 @@ public:
 		m_RecordSize = SR_ANAM_SUBRECORD_SIZE;
 
 		if (pSubrecord1 != NULL) 
+		{
+			m_Data.Unknown = 0;
 			m_Data = pSubrecord1->m_Data;
+		}
 		else 
 			memset(&m_Data, 0, sizeof(m_Data));
 

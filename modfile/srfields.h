@@ -472,6 +472,13 @@
   #define SR_FIELD_LISTMINRANK			412
   #define SR_FIELD_LISTCONDITION		413
   #define SR_FIELD_SECTIONCOUNT			414
+  #define SR_FIELD_PNAME				415
+  #define SR_FIELD_XNAME				416
+  #define SR_FIELD_YNAME				417
+  #define SR_FIELD_HNAME				418
+  #define SR_FIELD_SNAME				419
+  #define SR_FIELD_INAME				420
+  #define SR_FIELD_ANAME				421
 
 /*===========================================================================
  *		End of Field Types

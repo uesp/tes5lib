@@ -33,7 +33,7 @@ BEGIN_SRSUBRECCREATE(CSrAvifRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VNAM, CSrFloatSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_INAM, CSrDwordSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_ANAM, CSrAnamSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ANAM, CSrStringSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -54,6 +54,7 @@ BEGIN_SRFIELDMAP(CSrAvifRecord, CSrIdRecord)
 	ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,		0, CSrAvifRecord, FieldUnknown4)
 	ADD_SRFIELDALL("Sections",		SR_FIELD_SECTIONCOUNT,	0, CSrAvifRecord, FieldSections)
 	ADD_SRFIELDALL("CName",			SR_FIELD_CNAME,			0, CSrAvifRecord, FieldCName)
+	ADD_SRFIELDALL("AName",			SR_FIELD_ANAME,			0, CSrAvifRecord, FieldAName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -188,7 +189,7 @@ void CSrAvifRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ANAM)
 	{
-		m_pAnamData = SrCastClass(CSrAnamSubrecord, pSubrecord);
+		m_pAnamData = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -241,6 +242,26 @@ void CSrAvifRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 /*===========================================================================
  *		End of Class Event CSrAvifRecord::OnDeleteSubrecord()
  *=========================================================================*/
+
+
+void CSrAvifRecord::SetAName (const char* pString)
+{
+
+	if (pString == NULL || *pString == '\0')
+	{
+		DeleteSubrecords(SR_NAME_ANAM);
+		m_pAnamData = NULL;
+		return;
+	}
+
+	if (m_pAnamData == NULL)
+	{
+		AddInitNewSubrecordAfter(SR_NAME_ANAM, SR_NAME_DESC);
+		if (m_pAnamData == NULL) return;
+	}
+
+	m_pAnamData->SetString(pString);
+}
 
 
 void CSrAvifRecord::CreateSectionInfo (CSrAvifSectionArray& InfoArray)
