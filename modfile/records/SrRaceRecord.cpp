@@ -110,7 +110,7 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrRaceRecord, CSrIdKeyRecord)
-	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrRaceRecord, FieldItemName)
+	ADD_SRFIELDALL("RaceName",		SR_FIELD_ITEMNAME,		0, CSrRaceRecord, FieldItemName)
 	ADD_SRFIELDALL("Description",	SR_FIELD_DESCRIPTION,	0, CSrRaceRecord, FieldDescription)
 	ADD_SRFIELDALL("SpellCount",	SR_FIELD_SPELLCOUNT,	0, CSrRaceRecord, FieldSpellCount)
 	ADD_SRFIELDALL("NakedArmor",	SR_FIELD_NAKEDARMOR,	0, CSrRaceRecord, FieldNakedArmor)
