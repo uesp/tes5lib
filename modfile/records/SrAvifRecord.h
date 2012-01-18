@@ -184,8 +184,6 @@ public:
 
 		/* Get class members */
 	sravskdata_t& GetAvData (void) { return m_pAvData ? m_pAvData->GetAvskData() : s_NullAvskData; }
-	dword         GetCname  (void) { return m_pCnamData ? m_pCnamData->GetValue() : 0; }  
-
 	dword CountAvifSections (void) { return CountSubrecords(SR_NAME_PNAM); }
 
 	void CreateSectionInfo     (CSrAvifSectionArray& InfoArray);
@@ -213,7 +211,7 @@ public:
 
 	DECLARE_SRFIELD_DWORD1(CSrAvifRecord, Sections, CountAvifSections(), dword Tmp)
 	
-	DECLARE_SRFIELD_METHODWORD(CSrAvifRecord, m_pCnamData, CName, SR_NAME_CNAM)
+	DECLARE_SRFIELD_METHODDWORD(CSrAvifRecord, m_pCnamData, CName, SR_NAME_CNAM)
 
 };
 /*===========================================================================
