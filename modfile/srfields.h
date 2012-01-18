@@ -471,6 +471,7 @@
   #define SR_FIELD_LISTFACTION			411
   #define SR_FIELD_LISTMINRANK			412
   #define SR_FIELD_LISTCONDITION		413
+  #define SR_FIELD_SECTIONCOUNT			414
 
 /*===========================================================================
  *		End of Field Types

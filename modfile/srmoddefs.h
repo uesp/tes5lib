@@ -495,6 +495,8 @@
 	#define SRCLASS_CSrMpavSubrecord			1059
 	#define SRCLASS_CSrSpedSubrecord			1060
 	#define SRCLASS_CSrCoedSubrecord			1061
+	#define SRCLASS_CSrAvskSubrecord			1062
+	#define SRCLASS_CSrAnamSubrecord			1063
   
 /*===========================================================================
  *		End of Class Type Definitions
