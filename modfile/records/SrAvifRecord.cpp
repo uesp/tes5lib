@@ -72,14 +72,6 @@ CSrAvifRecord::CSrAvifRecord ()
 	m_pCnamData = NULL;
 	m_pDescription = NULL;
 	m_pAvData = NULL;
-	m_pFnamData = NULL;
-	m_pXnamData = NULL;
-	m_pPnamData = NULL;
-	m_pYnamData = NULL;
-	m_pHnamData = NULL;
-	m_pVnamData = NULL;
-	m_pSnamData = NULL;
-	m_pInamData = NULL;
 	m_pAnamData = NULL;
 }
 /*===========================================================================
@@ -98,14 +90,6 @@ void CSrAvifRecord::Destroy (void)
 	m_pCnamData = NULL;
 	m_pDescription = NULL;
 	m_pAvData = NULL;
-	m_pFnamData = NULL;
-	m_pXnamData = NULL;
-	m_pPnamData = NULL;
-	m_pYnamData = NULL;
-	m_pHnamData = NULL;
-	m_pVnamData = NULL;
-	m_pSnamData = NULL;
-	m_pInamData = NULL;
 	m_pAnamData = NULL;
 
 	CSrIdRecord::Destroy();
@@ -143,10 +127,6 @@ void CSrAvifRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pAvData = SrCastClass(CSrAvskSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
-	{
-		m_pFnamData = SrCastClass(CSrDwordSubrecord, pSubrecord);
-	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
 		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
@@ -158,34 +138,6 @@ void CSrAvifRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
 		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_XNAM)
-	{
-		m_pXnamData = SrCastClass(CSrDwordSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_PNAM)
-	{
-		m_pPnamData = SrCastClass(CSrFormidSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_YNAM)
-	{
-		m_pYnamData = SrCastClass(CSrDwordSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_HNAM)
-	{
-		m_pHnamData = SrCastClass(CSrFloatSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_VNAM)
-	{
-		m_pVnamData = SrCastClass(CSrFloatSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_SNAM)
-	{
-		m_pSnamData = SrCastClass(CSrFormidSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_INAM)
-	{
-		m_pInamData = SrCastClass(CSrDwordSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ANAM)
 	{
@@ -211,28 +163,12 @@ void CSrAvifRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (m_pAvData == pSubrecord)
 		m_pAvData = NULL;
-	else if (m_pFnamData == pSubrecord)
-		m_pFnamData = NULL;
-	else if (m_pItemName == pSubrecord)
-		m_pItemName = NULL;
 	else if (m_pCnamData == pSubrecord)
 		m_pCnamData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pDescription == pSubrecord)
 		m_pDescription = NULL;
-	else if (m_pXnamData == pSubrecord)
-		m_pXnamData = NULL;
-	else if (m_pPnamData == pSubrecord)
-		m_pPnamData = NULL;
-	else if (m_pYnamData == pSubrecord)
-		m_pYnamData = NULL;
-	else if (m_pHnamData == pSubrecord)
-		m_pHnamData = NULL;
-	else if (m_pVnamData == pSubrecord)
-		m_pVnamData = NULL;
-	else if (m_pSnamData == pSubrecord)
-		m_pSnamData = NULL;
-	else if (m_pInamData == pSubrecord)
-		m_pInamData = NULL;
 	else if (m_pAnamData == pSubrecord)
 		m_pAnamData = NULL;
 	else

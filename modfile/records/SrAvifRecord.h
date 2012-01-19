@@ -36,11 +36,20 @@ struct sravifsection_t
 	CSrFloatSubrecord	VName;
 	CSrFormidSubrecord	SName;
 	CSrAvifCnamArray	CNames;
-	CSrFormidSubrecord	IName;
+	CSrDwordSubrecord	IName;
 
 	void Destroy()
 	{
 		CNames.Destroy();
+	}
+
+	CSrDwordSubrecord* AddCName (const dword Value)
+	{
+		CSrDwordSubrecord* pCName = CNames.AddNew();
+		pCName->Initialize(SR_NAME_CNAM, 4);
+		pCName->InitializeNew();
+		pCName->SetValue(Value);
+		return pCName;
 	}
 
 	void CheckNew()
@@ -150,17 +159,9 @@ class CSrAvifRecord : public CSrIdRecord
   /*---------- Begin Protected Class Members --------------------*/
 protected:
 	CSrAvskSubrecord*		m_pAvData;
-	CSrDwordSubrecord*		m_pFnamData;
 	CSrLStringSubrecord*	m_pItemName;
 	CSrDwordSubrecord*		m_pCnamData;
 	CSrLStringSubrecord*	m_pDescription;
-	CSrDwordSubrecord*		m_pXnamData;
-	CSrFormidSubrecord*		m_pPnamData;
-	CSrDwordSubrecord*		m_pYnamData;
-	CSrFloatSubrecord*		m_pHnamData;
-	CSrFloatSubrecord*		m_pVnamData;
-	CSrFormidSubrecord*		m_pSnamData;
-	CSrDwordSubrecord*		m_pInamData;
 	CSrStringSubrecord*		m_pAnamData;
 
 
