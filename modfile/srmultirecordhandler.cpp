@@ -2054,7 +2054,7 @@ int CSrMultiRecordHandler::OnPostSaveRecord (sreditrecinfo_t& EditInfo)
 
 		/* Update any indices if required */
 	if (EditInfo.NeedsIndex) {
-		if (!EditInfo.IsRenamed) RemoveFromIndex(EditInfo.pOldRecord);
+		if (!EditInfo.IsCopy) RemoveFromIndex(EditInfo.pOldRecord);
 		IndexRecord(EditInfo.pNewRecord);
 	}
 
