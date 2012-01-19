@@ -2049,23 +2049,26 @@ int CSrMultiRecordHandler::OnPreSaveRecord (sreditrecinfo_t& EditInfo) {
  * Class CSrMultiRecordHandler Event - int OnPostSaveRecord (EditInfo);
  *
  *=========================================================================*/
-int CSrMultiRecordHandler::OnPostSaveRecord (sreditrecinfo_t& EditInfo) {
+int CSrMultiRecordHandler::OnPostSaveRecord (sreditrecinfo_t& EditInfo) 
+{
 
-	/* Update any indices if required */
-  if (EditInfo.NeedsIndex) {
-    RemoveFromIndex(EditInfo.pOldRecord);
-    IndexRecord(EditInfo.pNewRecord);
-  }
+		/* Update any indices if required */
+	if (EditInfo.NeedsIndex) {
+		if (!EditInfo.IsRenamed) RemoveFromIndex(EditInfo.pOldRecord);
+		IndexRecord(EditInfo.pNewRecord);
+	}
 
-	/* Call update listeners */
-  if (EditInfo.IsNew || EditInfo.IsCopy) {
-    m_EventHandler.SendAddEvent(EditInfo.pNewRecord, EditInfo.pOldRecord);
-  }
-  else {
-    m_EventHandler.SendUpdateEvent(EditInfo.pNewRecord, EditInfo.pOldRecord);
-  }
+		/* Call update listeners */
+	if (EditInfo.IsNew || EditInfo.IsCopy) 
+	{
+		m_EventHandler.SendAddEvent(EditInfo.pNewRecord, EditInfo.pOldRecord);
+	}
+	else 
+	{
+		m_EventHandler.SendUpdateEvent(EditInfo.pNewRecord, EditInfo.pOldRecord);
+	}
 
-  return (SR_RESULT_OK);
+	return (SR_RESULT_OK);
 }
 /*===========================================================================
  *		End of Class Event CSrMultiRecordHandler::OnPostSaveRecord()
