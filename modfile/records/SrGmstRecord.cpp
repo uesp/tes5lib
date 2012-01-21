@@ -46,6 +46,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrGmstRecord::CSrGmstRecord () 
 {
+	m_pGlobalData = NULL;
 }
 /*===========================================================================
  *		End of Class CSrGmstRecord Constructor
@@ -132,7 +133,13 @@ void CSrGmstRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
 void CSrGmstRecord::UpdateGlobalType (void)
 {
-	if (m_pGlobalData == NULL || m_pEditorID == NULL) return;
+	if (m_pEditorID == NULL) return;
+
+	if (m_pGlobalData == NULL)
+	{
+		AddInitNewSubrecord(SR_NAME_DATA);
+		if (m_pGlobalData == NULL) return;
+	}
 
 	switch (m_pEditorID->GetString()[0])
 	{
@@ -274,7 +281,7 @@ END_SRSETFIELD()
 
 
 BEGIN_SRSETFIELD(CSrGmstRecord::SetFieldType)
-	AddSrGeneralError("Cannot directly set the type of a GMST record!");
+	//AddSrGeneralError("Cannot directly set the type of a GMST record!");
 END_SRSETFIELD()
 /*===========================================================================
  *		End of CSrGmstRecord Set Field Methods
