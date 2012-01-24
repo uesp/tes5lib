@@ -1629,11 +1629,22 @@ DEFINE_SRCOMPFIELDINT(CSrRecord, CompareFieldIgnored, IsIgnored)
 DEFINE_SRCOMPFIELDINT(CSrRecord, CompareFieldDeleted, IsDeleted)
 
 BEGIN_SRCOMPFIELD(CSrRecord::CompareFieldRecordFlags)
-	if (pRecord == NULL) return (1);
-	int IsActive1 = IsActive() ? 0x10000000 : 0;
-	int IsActive2 = pRecord->IsActive() ? 0x10000000 : 0;
+	if (pRecord == NULL) return 1;
 
-	return -((int)this->GetFlags() - (int) pRecord->GetFlags() + IsActive1 - IsActive2);
+	int IsActive1 = IsActive();
+	int IsActive2 = pRecord->IsActive();
+
+	if (IsActive1 == IsActive2)
+	{
+		if (GetFlags() == pRecord->GetFlags()) return 0;
+		if (GetFlags() <  pRecord->GetFlags()) return -1;
+		return 1;
+	}
+	else if (IsActive1 < IsActive2)
+		return -1;
+	else
+		return 1;
+
 END_SRCOMPFIELD()
 /*===========================================================================
  *		End of CSrRecord Compare Field Methods
