@@ -31,6 +31,146 @@
 
 /*===========================================================================
  *
+ * Begin Type Definitions
+ *
+ *=========================================================================*/
+
+struct srperksectioninfo_t
+{
+	CSrPrkeSubrecord		Prke;
+	CSrPerkDataSubrecord	Data;
+	CSrConditionArray		Conditions;
+	CSrByteSubrecord*		pEpft;
+	CSrLStringSubrecord*	pEpf2;
+	CSrDwordSubrecord*		pEpf3;
+	CSrEpfdSubrecord*		pEpfd;
+	CSrDataSubrecord		Prkf;
+
+	srperksectioninfo_t()
+	{
+		pEpft = NULL;
+		pEpf2 = NULL;
+		pEpf3 = NULL;
+		pEpfd = NULL;
+
+		InitializeNew();
+	}
+
+	~srperksectioninfo_t()
+	{
+		delete pEpft;
+		delete pEpf2;
+		delete pEpf3;
+		delete pEpfd;
+	}
+
+	void Destroy()
+	{
+		delete pEpft;
+		delete pEpf2;
+		delete pEpf3;
+		delete pEpfd;
+
+		pEpft = NULL;
+		pEpf2 = NULL;
+		pEpf3 = NULL;
+		pEpfd = NULL;
+
+		Conditions.Destroy();
+	}
+
+	dword CountSubsections (const dword PrkcType)
+	{
+		dword Count = 0;
+
+		for (dword i = 0; i < Conditions.GetSize(); ++i)
+		{
+			if (PrkcType == Conditions[i]->Condition.GetPrkc()) ++Count;
+		}
+
+		return Count;
+	}
+
+	dword CountConditions ()
+	{
+		return Conditions.GetSize();
+	}
+
+	void InitializeNew (void)
+	{
+		pEpft = NULL;
+		pEpf2 = NULL;
+		pEpf3 = NULL;
+		pEpfd = NULL;
+
+		Prke.Initialize(SR_NAME_PRKE, 3);
+		Prke.InitializeNew();
+
+		Data.Initialize(SR_NAME_DATA, 4);
+		Data.SetDataType(SR_PERKDATA_TYPE01);
+		Data.InitializeNew();
+
+		//Epft.Initialize(SR_NAME_EPFT, 1);
+		//Epft.InitializeNew();
+		//Epft.SetValue(SP_EPFDTYPE_ONEFLOAT);
+
+		//Epfd.Initialize(SR_NAME_EPFD, 4);
+		//Epfd.InitializeNew();
+		//Epfd.SetDataType(SP_EPFDTYPE_ONEFLOAT);
+
+		Prkf.Initialize(SR_NAME_PRKF, 0);
+		Prkf.InitializeNew();
+	}
+		
+	void CreateNewEpft (void)
+	{
+		if (pEpft) delete pEpft;
+		pEpft = new CSrByteSubrecord;
+
+		pEpft->Initialize(SR_NAME_EPFT, 1);
+		pEpft->InitializeNew();
+		pEpft->SetValue(SP_EPFDTYPE_ONEFLOAT);
+	}
+
+	void CreateNewEpf2 (void)
+	{
+		if (pEpf2) delete pEpf2;
+		pEpf2 = new CSrLStringSubrecord;
+
+		pEpf2->Initialize(SR_NAME_EPF2, 0);
+		pEpf2->InitializeNew();
+	}
+
+	void CreateNewEpf3 (void)
+	{
+		if (pEpf3) delete pEpf3;
+		pEpf3 = new CSrDwordSubrecord;
+
+		pEpf3->Initialize(SR_NAME_EPF3, 4);
+		pEpf3->InitializeNew();
+	}
+
+	void CreateNewEpfd (void)
+	{
+		if (pEpfd) delete pEpft;
+		pEpfd = new CSrEpfdSubrecord;
+
+		pEpfd->Initialize(SR_NAME_EPFD, 4);
+		pEpfd->InitializeNew();
+		pEpfd->SetDataType(SP_EPFDTYPE_ONEFLOAT);
+	}
+
+};
+
+typedef CSrPtrArray<srperksectioninfo_t> CSrPerkSectionArray;
+
+/*===========================================================================
+ *		End of Type Definitions
+ *=========================================================================*/
+
+
+/*===========================================================================
+ *
  * Begin Class CSrPerkRecord Definition
  *
  *
@@ -79,6 +219,8 @@ protected:
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
+	bool CreateInfo (srperksectioninfo_t& PerkInfo, const dword Index);
+
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
@@ -89,6 +231,9 @@ public:
 
     	/* Return a new instance of the class */
 	static CSrRecord* Create (void) { return new CSrPerkRecord; }
+
+	bool CreateInfo     (CSrPerkSectionArray& PerkInfoArray);
+	bool CreateFromInfo (CSrPerkSectionArray& PerkInfoArray);
 
 		/* Get class members */
 	srperkdata_t& GetPerkData       (void) { return m_pPerkData ? m_pPerkData->GetPerkData() : s_NullPerkData; }  

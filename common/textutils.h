@@ -36,7 +36,7 @@
   #define END_TEXTREPLACE() { 0, NULL } };
 
 	/* Shortcuts to help define a static string-value array */
-  #define BEGIN_STRINGVALUE(Name) extern const stringvalue_t Name[]; CSrStringValueMap Name##Map(Name); const stringvalue_t Name[] = {
+#define BEGIN_STRINGVALUE(Name) extern const stringvalue_t Name[]; CSrStringValueMap Name##Map(Name, #Name); const stringvalue_t Name[] = {
   #define ADD_STRINGVALUE(Value, String) { Value, String }, 
   #define END_STRINGVALUE() { 0, NULL } };
 
@@ -87,6 +87,7 @@ class CSrStringValueMap {
 private:
   CSrStringMap         m_StringMap;
   CSrValueMap          m_ValueMap;
+  CSString			   m_Name;
 
   const stringvalue_t* m_pStringValues;
 
@@ -102,10 +103,12 @@ protected:
 public:
 
 	/* Class Constructors/Destructors */
-  CSrStringValueMap(const stringvalue_t* pValues) {
-	m_pStringValues = pValues;
+  CSrStringValueMap(const stringvalue_t* pValues, const char* pName = "") : m_pStringValues(pValues), m_Name(pName)
+  {
 	Initialize();
   }
+
+
 
   ~CSrStringValueMap() { Destroy(); }
 
@@ -118,7 +121,7 @@ public:
   const SSCHAR* FindValue  (const int     Value)    { 
 	  const SSCHAR* pString = m_ValueMap.Lookup(Value); 
 	  if (pString) return pString;
-	   SystemLog.Printf("Unknown key value %d found!", Value);
+	   SystemLog.Printf("Map '%s': Unknown key value %d found!", m_Name.c_str(), Value);
 	   return NULL;
   }
 

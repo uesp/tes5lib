@@ -710,13 +710,12 @@
 	extern const stringvalue_t s_SrPerkDataUnknown1Types[];
 	extern const stringvalue_t s_SrPerkDataUnknown2Types[];
 	extern const stringvalue_t s_SrPerkDataUnknown3Types[];
-	extern const stringvalue_t s_SrPerkDataTypes[];
-	extern const stringvalue_t s_SrPrkcTypes[];
+	extern const stringvalue_t s_SrPrkcCustomTypes[];
 	extern const stringvalue_t s_SrEpftTypes[];
-	extern const stringvalue_t s_SrPerkDataEffectTypes[];
-	extern const stringvalue_t s_SrPerkDataApplyTypes[];
-	extern const stringvalue_t s_SrPerkDataUnknownTypes[];
+	extern const stringvalue_t s_SrPerkEffectTypes[];
+	extern const stringvalue_t s_SrPerkFunctionTypes[];
 	extern const stringvalue_t s_SrSopmContentTypes[];
+	extern const stringvalue_t s_SrPerkConditionTypes[];
 
 /*===========================================================================
  *		End of Type Definitions
@@ -786,25 +785,24 @@
 	bool GetSrPerkDataUnknown2TypeValue (int& Value, const SSCHAR* pString);
 	bool GetSrPerkDataUnknown3TypeValue (int& Value, const SSCHAR* pString);
 
-	const SSCHAR* GetSrPerkDataTypeString (const int Value);
-	const SSCHAR* GetSrPrkcTypeString (const int Value);
+	const SSCHAR* GetSrPrkcCustomTypeString (const int Value);
 	const SSCHAR* GetSrEpftTypeString (const int Value);
-	const SSCHAR* GetSrPerkDataEffectTypeString (const int Value);
-	const SSCHAR* GetSrPerkDataApplyTypeString (const int Value);
-	const SSCHAR* GetSrPerkDataUnknownTypeString (const int Value);
-
-	bool GetSrPerkDataTypeTypeValue (int& Value, const SSCHAR* pString);
-	bool GetSrPrkcTypeValue (int& Value, const SSCHAR* pString);
-	bool GetSrEpftTypeValue (int& Value, const SSCHAR* pString);
-	bool GetSrPerkDataEffectTypeValue (int& Value, const SSCHAR* pString);
-	bool GetSrPerkDataApplyTypeValue (int& Value, const SSCHAR* pString);
-	bool GetSrPerkDataUnknownTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrPerkEffectTypeString (const int Value);
+	const SSCHAR* GetSrPerkFunctionTypeString (const int Value);
 	
+	bool GetSrPrkcCustomTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrEpftTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkEffectTypeValue (int& Value, const SSCHAR* pString);
+	bool GetSrPerkFunctionTypeValue (int& Value, const SSCHAR* pString);
+		
 	const SSCHAR* GetSrSopmContentTypeString (const int Value);
 	bool GetSrSopmContentTypeValue (int& Value, const SSCHAR* pString);
 
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);
+
+	const SSCHAR* GetPerkConditionTypeString (const int Value);
+    bool GetSrPerkConditionTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

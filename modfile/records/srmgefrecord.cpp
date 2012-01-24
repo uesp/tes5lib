@@ -268,7 +268,7 @@ DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldDescription,		String = GetDescription()
 DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldFullName,			String = GetFullName())
 DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldSchool,			String = GetSrMagicSchoolString(GetEffectData().School) )
 DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldConditionCount,    String.Format("%d", GetConditionCount()) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldEffectType,		String = GetSrMagicTypeString(GetEffectData().EffectType) )
+DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldEffectType,		String = GetSrActorValueString(GetEffectData().EffectType) )
 DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldCastingDelay,      String.Format("%g", GetEffectData().CastingDelay) )
 DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldSkillLevel,        String.Format("%d", GetEffectData().SkillLevel) )
 DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldMagicFlags,        String.Format("0x%08X", GetEffectData().Flags) )
@@ -325,7 +325,7 @@ END_SRSETFIELD()
 
 BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldEffectType)
 	int EffectType;
-	bool Result = GetSrMagicTypeValue(EffectType, pString);
+	bool Result = GetSrActorValueValue(EffectType, pString);
 	if (!Result) return false;
 
 	GetEffectData().EffectType = EffectType;

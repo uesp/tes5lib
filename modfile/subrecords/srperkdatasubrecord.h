@@ -78,9 +78,9 @@
 		/* Section Type 0002 PERK data structure */
 	struct srperkdata02_t 
 	{
-		byte	Effect;
-		byte	ModType;
-		byte	Unknown;
+		byte	EffectType;
+		byte	FunctionType;
+		byte	CondTypeCount;
 	};
 
 #pragma pack(pop)

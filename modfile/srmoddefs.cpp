@@ -11,6 +11,7 @@
 	/* Include Files */
 #include "srmoddefs.h"
 #include "ctype.h"
+#include "subrecords/srepfdsubrecord.h"
 
 
 /*===========================================================================
@@ -452,6 +453,7 @@ BEGIN_STRINGVALUE(s_SrEffectLinkTypes)
     ADD_STRINGVALUE( 41,  "41"  )
     ADD_STRINGVALUE( 42,  "42"  )
     ADD_STRINGVALUE( 43,  "43"  )
+	ADD_STRINGVALUE( 44,  "44"  )
 END_STRINGVALUE()
 
 
@@ -496,116 +498,154 @@ BEGIN_STRINGVALUE(s_SrPerkDataUnknown3Types)
 END_STRINGVALUE()
 
 
-BEGIN_STRINGVALUE(s_SrPerkDataTypes)
-    ADD_STRINGVALUE( 0, "Quest")
-	ADD_STRINGVALUE( 1, "Spell")
-	ADD_STRINGVALUE( 2, "Complex")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrPrkcTypes)
-    ADD_STRINGVALUE( 0, "0")
-	ADD_STRINGVALUE( 1, "1")
-	ADD_STRINGVALUE( 2, "2")
+BEGIN_STRINGVALUE(s_SrPrkcCustomTypes)
+    ADD_STRINGVALUE( SRPERK_EFFECT_CONDOWNER,			"Owner")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDTARGET,			"Target")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDATTACKER,		"Attacker")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDATTACKERWEAPON,	"Attacker Weapon")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDSPELL,			"Spell")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDWEAPON,			"Weapon")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDITEM,			"Item")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDENCHANTMENT,		"Enchantment")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDLOCKEDREF,		"Locked Reference")
 END_STRINGVALUE()
 
 
 BEGIN_STRINGVALUE(s_SrEpftTypes)
-    ADD_STRINGVALUE( 1, "float")
-	ADD_STRINGVALUE( 2, "actorvalue")
-	ADD_STRINGVALUE( 4, "lstring(4)?")
-	ADD_STRINGVALUE( 5, "spell")
-	ADD_STRINGVALUE( 6, "gmst")
-	ADD_STRINGVALUE( 7, "lstring(7)?")
+    ADD_STRINGVALUE( 1, "OneFloat")
+	ADD_STRINGVALUE( 2, "TwoFloats")
+	ADD_STRINGVALUE( 3, "LevelList")
+	ADD_STRINGVALUE( 4, "Activate")
+	ADD_STRINGVALUE( 5, "Spell")
+	ADD_STRINGVALUE( 6, "ZString")
+	ADD_STRINGVALUE( 7, "LString")
 END_STRINGVALUE()
 
 
-BEGIN_STRINGVALUE(s_SrPerkDataEffectTypes)
-    ADD_STRINGVALUE( 0x00, "0x00?")
-	ADD_STRINGVALUE( 0x01, "Critical Chance")
-	ADD_STRINGVALUE( 0x02, "Critical Damage")
-	ADD_STRINGVALUE( 0x08, "Buy Price")
-	ADD_STRINGVALUE( 0x0E, "Activate Verb?")
-	ADD_STRINGVALUE( 0x12, "Backstab Dmg")
-	ADD_STRINGVALUE( 0x14, "Zoom Factor?")
-	ADD_STRINGVALUE( 0x15, "Recover Arrows")
-	ADD_STRINGVALUE( 0x16, "Skill Increase")
-	ADD_STRINGVALUE( 0x1A, "Bash Dmg")
-	ADD_STRINGVALUE( 0x1B, "Stamina Cost")
-	ADD_STRINGVALUE( 0x1C, "Power Attack Dmg")
-	ADD_STRINGVALUE( 0x1D, "Spell Magnitude")
-	ADD_STRINGVALUE( 0x1E, "Spell Duration")
-	ADD_STRINGVALUE( 0x20, "Encumberance")
-	ADD_STRINGVALUE( 0x21, "Stagger Chance")
-	ADD_STRINGVALUE( 0x22, "Enemy Stagger Chance")
-	ADD_STRINGVALUE( 0x23, "Damage?")
-	ADD_STRINGVALUE( 0x24, "Received Dmg")
-	ADD_STRINGVALUE( 0x25, "Ignore Armor")
-	ADD_STRINGVALUE( 0x26, "Spell Cost")
-	ADD_STRINGVALUE( 0x27, "Blocking Chance")
-	ADD_STRINGVALUE( 0x28, "Blocking Dmge")
-	ADD_STRINGVALUE( 0x29, "Incoming Spell Dmg")
-	ADD_STRINGVALUE( 0x2B, "Intimidation?")
-	ADD_STRINGVALUE( 0x2F, "Detection(0x2f)?")
-	ADD_STRINGVALUE( 0x30, "Detection(0x30)?")
-	ADD_STRINGVALUE( 0x31, "Soul Charge")
-	ADD_STRINGVALUE( 0x32, "Hit Chance?")
-	ADD_STRINGVALUE( 0x33, "Hit Cast Spell?")
-	ADD_STRINGVALUE( 0x34, "Bash Cast Spell?")
-	ADD_STRINGVALUE( 0x35, "Spell Cast spell?")
-	ADD_STRINGVALUE( 0x36, "Set GMST?")
-	ADD_STRINGVALUE( 0x37, "Casting Noise?")
-	ADD_STRINGVALUE( 0x38, "Pickpocket")
-	ADD_STRINGVALUE( 0x39, "Stealth")
-	ADD_STRINGVALUE( 0x3A, "Falling Dmg")
-	ADD_STRINGVALUE( 0x3B, "Lockpick Difficulty?")
-	ADD_STRINGVALUE( 0x3C, "Sell Price")
-	ADD_STRINGVALUE( 0x3D, "PP Weapons")
-	ADD_STRINGVALUE( 0x3F, "Lockpick Start?")
-	ADD_STRINGVALUE( 0x41, "Lockpicking")
-	ADD_STRINGVALUE( 0x42, "Alchemy")
-	ADD_STRINGVALUE( 0x43, "Is attacking?")
-	ADD_STRINGVALUE( 0x44, "Raise Dead Count")
-	ADD_STRINGVALUE( 0x45, "Sneak Cast Spell")
-	ADD_STRINGVALUE( 0x46, "Set Something?")
-	ADD_STRINGVALUE( 0x47, "Spell Absorb")
-	ADD_STRINGVALUE( 0x48, "Plant Effect Count?")
-	ADD_STRINGVALUE( 0x49, "Potion Purity?")
-	ADD_STRINGVALUE( 0x4A, "Door Access?")
-	ADD_STRINGVALUE( 0x4B, "Dual Casting?")
-	ADD_STRINGVALUE( 0x4C, "Armor Smithing")
-	ADD_STRINGVALUE( 0x4D, "Enchantment Effect")
-	ADD_STRINGVALUE( 0x4E, "Weapon Recharge?")
-	ADD_STRINGVALUE( 0x50, "Enchant Effect Count")
-	ADD_STRINGVALUE( 0x51, "Activate Verb?")
-	ADD_STRINGVALUE( 0x52, "Allow Shouts?")
-	ADD_STRINGVALUE( 0x53, "Poison Hit Count")
-	ADD_STRINGVALUE( 0x54, "PP Poison")
-	ADD_STRINGVALUE( 0x55, "Armor Rating")
-	ADD_STRINGVALUE( 0x56, "Lockpick Noise")
-	ADD_STRINGVALUE( 0x57, "Gather Plant Count")
-	ADD_STRINGVALUE( 0x58, "Summon Range")
-	ADD_STRINGVALUE( 0x59, "Duplicate Potion?")
-	ADD_STRINGVALUE( 0x5A, "Make Wax Key")
+BEGIN_STRINGVALUE(s_SrPerkEffectTypes)
+    ADD_STRINGVALUE( 0x00, "Calculate Weapon Damage")
+	ADD_STRINGVALUE( 0x01, "Calculate My Critical Hit Chance")
+	ADD_STRINGVALUE( 0x02, "Calculate My Critical Hit Damage")
+	ADD_STRINGVALUE( 0x03, "Calculate Mine Explode Chance")
+	ADD_STRINGVALUE( 0x04, "Adjust Limb Damage")
+	ADD_STRINGVALUE( 0x05, "Adjust Book Skill Points")
+	ADD_STRINGVALUE( 0x06, "Mod Recovered Health")
+	ADD_STRINGVALUE( 0x07, "Get Should Attack")
+	ADD_STRINGVALUE( 0x08, "Mod Buy Prices")
+	ADD_STRINGVALUE( 0x09, "Add Level List On Death")
+	ADD_STRINGVALUE( 0x0A, "Get Max Carry Weight")
+	ADD_STRINGVALUE( 0x0B, "Mod Addiction Chance")   
+		//0x0C not used in CK
+	ADD_STRINGVALUE( 0x0D, "Mod Positive Chem Duration")
+	ADD_STRINGVALUE( 0x0E, "Activate")
+	ADD_STRINGVALUE( 0x0F, "Ignore Running for Detection")
+	ADD_STRINGVALUE( 0x10, "Ignore Broken Lock")
+	ADD_STRINGVALUE( 0x11, "Mod Enemy Critical Hit Chance")
+	ADD_STRINGVALUE( 0x12, "Mod Sneak Attack Multiplier")
+	ADD_STRINGVALUE( 0x13, "Mod Max Placeable Mines")
+	ADD_STRINGVALUE( 0x14, "Mod Bow Zoom Factor")
+	ADD_STRINGVALUE( 0x15, "Mod Recover Arrow Chance")
+	ADD_STRINGVALUE( 0x16, "Mod Skill Use")
+	ADD_STRINGVALUE( 0x17, "Mod Telekinesis Range")
+	ADD_STRINGVALUE( 0x18, "Mod Telekinesis Damage Multipler")
+	ADD_STRINGVALUE( 0x19, "Mod Telekinesis Damage")
+	ADD_STRINGVALUE( 0x1A, "Mod Bashing Damage")
+	ADD_STRINGVALUE( 0x1B, "Mod Power Attack Stamina Cost")
+	ADD_STRINGVALUE( 0x1C, "Mod Power Attack Damage")
+	ADD_STRINGVALUE( 0x1D, "Mod Spell Magnitude")
+	ADD_STRINGVALUE( 0x1E, "Mod Spell Duration")
+	ADD_STRINGVALUE( 0x1F, "Mod Secondary Value Weight")
+	ADD_STRINGVALUE( 0x20, "Mod Armor Weight")
+	ADD_STRINGVALUE( 0x21, "Mod Incoming Stagger Chance")
+	ADD_STRINGVALUE( 0x22, "Mod Target Stagger Chance")
+	ADD_STRINGVALUE( 0x23, "Mod Attack Damage")
+	ADD_STRINGVALUE( 0x24, "Mod Incoming Damage")
+	ADD_STRINGVALUE( 0x25, "Mod Target Damage Resistance")
+	ADD_STRINGVALUE( 0x26, "Mod Spell Cost")
+	ADD_STRINGVALUE( 0x27, "Mod Percent Blocked")
+	ADD_STRINGVALUE( 0x28, "Mod Shield Deflect Arrow Chance")
+	ADD_STRINGVALUE( 0x29, "Mod Incoming Spell Magnitude")
+	ADD_STRINGVALUE( 0x2A, "Mod Incoming Spell Duration")
+	ADD_STRINGVALUE( 0x2B, "Mod Player Intimidation")
+	ADD_STRINGVALUE( 0x2C, "Mod Player Reputation")
+	ADD_STRINGVALUE( 0x2D, "Mod Favor Points")
+	ADD_STRINGVALUE( 0x2E, "Mod Bribe Amount")
+	ADD_STRINGVALUE( 0x2F, "Mod Detection for Light")
+	ADD_STRINGVALUE( 0x30, "Mod Detection for Movement")
+	ADD_STRINGVALUE( 0x31, "Mod Soul Gem Recharge")
+	ADD_STRINGVALUE( 0x32, "Set Sweep Attack")
+	ADD_STRINGVALUE( 0x33, "Apply Combat Hit Spell")
+	ADD_STRINGVALUE( 0x34, "Apply Bashing Spell")
+	ADD_STRINGVALUE( 0x35, "Apply Reanimate Spell")
+	ADD_STRINGVALUE( 0x36, "Set Game Setting")
+	ADD_STRINGVALUE( 0x37, "Mod Spell Casting Noise")
+	ADD_STRINGVALUE( 0x38, "Mod Pickpocket Chance")
+	ADD_STRINGVALUE( 0x39, "Mod Detection Sneak Skill")
+	ADD_STRINGVALUE( 0x3A, "Mod Falling Damage")
+	ADD_STRINGVALUE( 0x3B, "Mod Lockpick Sweet Spot")
+	ADD_STRINGVALUE( 0x3C, "Mod Sell Prices")
+	ADD_STRINGVALUE( 0x3D, "Can PickPocket Equipped Item")
+	ADD_STRINGVALUE( 0x3E, "Mod Lockpick Level Allowed")
+	ADD_STRINGVALUE( 0x3F, "Set Lockpick Start Position")
+	ADD_STRINGVALUE( 0x40, "Set Progression Picking")
+	ADD_STRINGVALUE( 0x41, "Make Lockpicks Unbreakable")
+	ADD_STRINGVALUE( 0x42, "Mod Alchemy Effectiveness")
+	ADD_STRINGVALUE( 0x43, "Apply Weapon Swing Spell")
+	ADD_STRINGVALUE( 0x44, "Mod Commanded Actor Limit")
+	ADD_STRINGVALUE( 0x45, "Apply Sneaking Spell")
+	ADD_STRINGVALUE( 0x46, "Mod Player Magic Slowdown")
+	ADD_STRINGVALUE( 0x47, "Mod Ward Magic Absorption Percent")
+	ADD_STRINGVALUE( 0x48, "Mod Ingredient Effects Learned")
+	ADD_STRINGVALUE( 0x49, "Purify Alchemy Ingredients")
+	ADD_STRINGVALUE( 0x4A, "Filter Activation")
+	ADD_STRINGVALUE( 0x4B, "Can Dual Cast Spell")
+	ADD_STRINGVALUE( 0x4C, "Mod Tempering Health")
+	ADD_STRINGVALUE( 0x4D, "Mod Enchantment Power")
+	ADD_STRINGVALUE( 0x4E, "Mod Soul Percent Captured to Weapon")
+	ADD_STRINGVALUE( 0x4F, "Mod Soul Gem Enchanting")
+	ADD_STRINGVALUE( 0x50, "Mod Number of Enchantments Allowed")
+	ADD_STRINGVALUE( 0x51, "Set Activate Label")
+	ADD_STRINGVALUE( 0x52, "Mod Permit Shouts")
+	ADD_STRINGVALUE( 0x53, "Mod Poison Dose Count")
+	ADD_STRINGVALUE( 0x54, "Should Apply Placed Item")
+	ADD_STRINGVALUE( 0x55, "Mod Armor Rating")
+	ADD_STRINGVALUE( 0x56, "Mod Lockpick Crime Chance")
+	ADD_STRINGVALUE( 0x57, "Mod Ingredients Harvested")
+	ADD_STRINGVALUE( 0x58, "Mod Spell Range to Location")
+	ADD_STRINGVALUE( 0x59, "Mod Potions Created Count")
+	ADD_STRINGVALUE( 0x5A, "Mod Lockpick Key Reward Chance")
 END_STRINGVALUE()
 
 
-BEGIN_STRINGVALUE(s_SrPerkDataApplyTypes)
-    ADD_STRINGVALUE( 1,  "=float")
-	ADD_STRINGVALUE( 2,  "+float")
-	ADD_STRINGVALUE( 3,  "*float")
-	ADD_STRINGVALUE( 9,  "lstring+spell")
-	ADD_STRINGVALUE( 10, "spell")
-	ADD_STRINGVALUE( 11, "gmst")
-	ADD_STRINGVALUE( 14, "actorvalue")
-	ADD_STRINGVALUE( 15, "lstring")
+BEGIN_STRINGVALUE(s_SrPerkFunctionTypes)
+    ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_SETVALUE,			"=Amount")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_ADDVALUE,			"+Amount")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_MULTVALUE,			"*Amount")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_ADDRANGEVALUE,		"+random(Min,Max)")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_AVADDMULTVALUE,		"+AV * Factor")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_ABSVALUE,			"=abs()")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_NEGABSVALUE,		"=-abs()")	
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_ADDLEVELLIST,		"LevelList")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_ACTIVATE,			"Activate")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_ADDSPELL,			"Spell")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_SETGMST,			"SelectText")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_AVMULTVALUE,		"=AV * Factor")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_AVMULTMULTVALUE,	"*AV * Factor")
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_AVADDMULTMULTVALUE,	"*(1 + AV*Factor)")	
+	ADD_STRINGVALUE( SRPERK_EFFECT_FUNCTION_SETTEXT,			"SetText")
 END_STRINGVALUE()
 
 
-BEGIN_STRINGVALUE(s_SrPerkDataUnknownTypes)
-    ADD_STRINGVALUE( 1, "1")
-	ADD_STRINGVALUE( 2, "2")
-	ADD_STRINGVALUE( 3, "3")
+BEGIN_STRINGVALUE(s_SrPerkConditionTypes)
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDOWNER,			"Owner")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDTARGET,			"Target")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDATTACKER,		"Attacker")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDATTACKERWEAPON,	"AttackerWeapon")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDSPELL,			"Spell")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDWEAPON,			"Weapon")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDITEM,			"Item")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDENCHANTMENT,		"Enchantment")
+	ADD_STRINGVALUE( SRPERK_EFFECT_CONDLOCKEDREF,		"LockedRef")
 END_STRINGVALUE()
 
 
@@ -665,14 +705,13 @@ const SSCHAR* GetSrPerkDataUnknown1TypeString (const int Value) { return s_SrPer
 const SSCHAR* GetSrPerkDataUnknown2TypeString (const int Value) { return s_SrPerkDataUnknown2TypesMap.FindValue(Value); }
 const SSCHAR* GetSrPerkDataUnknown3TypeString (const int Value) { return s_SrPerkDataUnknown3TypesMap.FindValue(Value); }
 
-const SSCHAR* GetSrPerkDataTypeString (const int Value) { return s_SrPerkDataTypesMap.FindValue(Value); }
-const SSCHAR* GetSrPrkcTypeString (const int Value) { return s_SrPrkcTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPrkcCustomTypeString (const int Value) { return s_SrPrkcCustomTypesMap.FindValue(Value); }
 const SSCHAR* GetSrEpftTypeString (const int Value) { return s_SrEpftTypesMap.FindValue(Value); }
-const SSCHAR* GetSrPerkDataEffectTypeString (const int Value) { return s_SrPerkDataEffectTypesMap.FindValue(Value); }
-const SSCHAR* GetSrPerkDataApplyTypeString (const int Value) { return s_SrPerkDataApplyTypesMap.FindValue(Value); }
-const SSCHAR* GetSrPerkDataUnknownTypeString (const int Value) { return s_SrPerkDataUnknownTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkEffectTypeString (const int Value) { return s_SrPerkEffectTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkFunctionTypeString (const int Value) { return s_SrPerkFunctionTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSopmContentTypeString (const int Value) { return s_SrSopmContentTypesMap.FindValue(Value); }
+const SSCHAR* GetPerkConditionTypeString (const int Value) { return s_SrPerkConditionTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -728,14 +767,13 @@ bool GetSrPerkDataUnknown1TypeValue (int& Value, const SSCHAR* pString) { return
 bool GetSrPerkDataUnknown2TypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknown2TypesMap.FindString(Value, pString); }
 bool GetSrPerkDataUnknown3TypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknown3TypesMap.FindString(Value, pString); }
 
-bool GetSrPerkDataTypeTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataTypesMap.FindString(Value, pString); }
-bool GetSrPrkcTypeValue (int& Value, const SSCHAR* pString) { return s_SrPrkcTypesMap.FindString(Value, pString); }
+bool GetSrPrkcCustomTypeValue (int& Value, const SSCHAR* pString) { return s_SrPrkcCustomTypesMap.FindString(Value, pString); }
 bool GetSrEpftTypeValue (int& Value, const SSCHAR* pString) { return s_SrEpftTypesMap.FindString(Value, pString); }
-bool GetSrPerkDataEffectTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataEffectTypesMap.FindString(Value, pString); }
-bool GetSrPerkDataApplyTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataApplyTypesMap.FindString(Value, pString); }
-bool GetSrPerkDataUnknownTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkDataUnknownTypesMap.FindString(Value, pString); }
+bool GetSrPerkEffectTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkEffectTypesMap.FindString(Value, pString); }
+bool GetSrPerkFunctionTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkFunctionTypesMap.FindString(Value, pString); }
 
 bool GetSrSopmContentTypeValue (int& Value, const SSCHAR* pString) { return s_SrSopmContentTypesMap.FindString(Value, pString); }
+bool GetSrPerkConditionTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkConditionTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {

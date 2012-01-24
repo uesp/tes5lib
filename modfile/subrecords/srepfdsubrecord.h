@@ -31,6 +31,7 @@
 		/* Fixed subrecord sizes */
 	#define SR_EPFD01_SUBRECORD_SIZE	4
 	#define SR_EPFD02_SUBRECORD_SIZE	8
+    #define SR_EPFD03_SUBRECORD_SIZE	4
 	#define SR_EPFD04_SUBRECORD_SIZE	4
 	#define SR_EPFD05_SUBRECORD_SIZE	4
 		/* Types 06/07 are variable sized */
@@ -41,12 +42,66 @@
 
 		/* EPFD data types. This should be the same value as in the prior EPFT byte subrecord */
 	#define SP_EPFDTYPE_UNKNOWN		0
-	#define SP_EPFDTYPE_FLOAT		1
-	#define SP_EPFDTYPE_ACTORVALUE	2
-	#define SP_EPFDTYPE_OTHER		4
-	#define SP_EPFDTYPE_FORMID		5	
+	#define SP_EPFDTYPE_ONEFLOAT	1
+	#define SP_EPFDTYPE_TWOFLOATS	2
+	#define SP_EPFDTYPE_LEVELLIST	3
+	#define SP_EPFDTYPE_ACTIVATE	4
+	#define SP_EPFDTYPE_SPELL		5
 	#define SP_EPFDTYPE_ZSTRING		6
 	#define SP_EPFDTYPE_LSTRING		7
+
+		/* Effect function types */
+	#define SRPERK_EFFECT_FUNCTION_SETVALUE				0x01
+	#define SRPERK_EFFECT_FUNCTION_ADDVALUE				0x02
+	#define SRPERK_EFFECT_FUNCTION_MULTVALUE			0x03
+	#define SRPERK_EFFECT_FUNCTION_ADDRANGEVALUE		0x04
+	#define SRPERK_EFFECT_FUNCTION_AVADDMULTVALUE		0x05
+	#define SRPERK_EFFECT_FUNCTION_ABSVALUE				0x06
+	#define SRPERK_EFFECT_FUNCTION_NEGABSVALUE			0x07
+	#define SRPERK_EFFECT_FUNCTION_ADDLEVELLIST			0x08
+	#define SRPERK_EFFECT_FUNCTION_ACTIVATE				0x09
+	#define SRPERK_EFFECT_FUNCTION_ADDSPELL				0x0A
+	#define SRPERK_EFFECT_FUNCTION_SETGMST				0x0B
+	#define SRPERK_EFFECT_FUNCTION_AVMULTVALUE			0x0C
+	#define SRPERK_EFFECT_FUNCTION_AVMULTMULTVALUE		0x0D
+	#define SRPERK_EFFECT_FUNCTION_AVADDMULTMULTVALUE	0x0E
+	#define SRPERK_EFFECT_FUNCTION_SETTEXT				0x0F
+    #define SRPERK_EFFECT_FUNCTION_MAX					0x0F
+
+    #define SRPERK_EFFECT_TYPE_MAX	0x5A
+
+		/* Flags for defining valid functions in the perk effect info structure */
+	#define SRPERK_EFFECT_FUNCFLAG_SETVALUE				0x0002  // 0x01
+	#define SRPERK_EFFECT_FUNCFLAG_ADDVALUE				0x0004  // 0x02
+	#define SRPERK_EFFECT_FUNCFLAG_MULTVALUE			0x0008  // 0x03
+	#define SRPERK_EFFECT_FUNCFLAG_RANGEVALUE			0x0010  // 0x04
+	#define SRPERK_EFFECT_FUNCFLAG_AVADDMULTVALUE		0x0020  // 0x05
+	#define SRPERK_EFFECT_FUNCFLAG_ABSVALUE				0x0040  // 0x06
+	#define SRPERK_EFFECT_FUNCFLAG_NEGABSVALUE			0x0080  // 0x07
+	#define SRPERK_EFFECT_FUNCFLAG_ADDLEVELLIST			0x0100  // 0x08
+	#define SRPERK_EFFECT_FUNCFLAG_ACTIVATE				0x0200  // 0x09
+	#define SRPERK_EFFECT_FUNCFLAG_ADDSPELL				0x0400  // 0x0A
+	#define SRPERK_EFFECT_FUNCFLAG_SETGMST				0x0800  // 0x0B
+	#define SRPERK_EFFECT_FUNCFLAG_AVMULTVALUE			0x1000  // 0x0C
+	#define SRPERK_EFFECT_FUNCFLAG_AVMULTMULTVALUE		0x2000  // 0x0D
+	#define SRPERK_EFFECT_FUNCFLAG_AVADDMULTMULTVALUE	0x4000  // 0x0E
+	#define SRPERK_EFFECT_FUNCFLAG_SETTEXT				0x8000  // 0x0F
+	#define SRPERK_EFFECT_FUNCFLAG_ALLVALUES			0x70FF
+	
+		/* Condition tab types for perk entries */
+	#define SRPERK_EFFECT_CONDNONE				0
+	#define SRPERK_EFFECT_CONDOWNER				1
+	#define SRPERK_EFFECT_CONDTARGET			2
+	#define SRPERK_EFFECT_CONDATTACKER			3
+	#define SRPERK_EFFECT_CONDATTACKERWEAPON	4
+	#define SRPERK_EFFECT_CONDSPELL				5
+	#define SRPERK_EFFECT_CONDWEAPON			6
+	#define SRPERK_EFFECT_CONDITEM				7
+	#define SRPERK_EFFECT_CONDENCHANTMENT		8
+	#define SRPERK_EFFECT_CONDLOCKEDREF			9
+	#define SRPERK_EFFECT_CONDMAX				9
+
+	#define SRPERK_EFFECT_MAXCONDTYPES		3
 
 /*===========================================================================
  *		End of Definitions
@@ -67,8 +122,13 @@
 
 	struct srepfddata02_t 
 	{
-		float	ActorValue;
-		float	Factor;
+		float	Value1;
+		float	Value2;
+	};
+
+	struct srepfddata03_t 
+	{
+		srformid_t	FormID;
 	};
 
 	struct srepfddata04_t 
@@ -100,6 +160,39 @@
 		}
 	};
 
+		/* Holds information on the perk effect types */
+	struct srperkeffectinfo_t
+	{
+		byte	EffectType;
+		byte	ConditionTypeCounts;
+		word	FunctionFlags;	
+		byte	ConditionTypes[SRPERK_EFFECT_MAXCONDTYPES];
+	
+		bool IsFunctionFlag (const word Flag) const
+		{
+			return (FunctionFlags & Flag) != 0;
+		}
+	
+		bool IsFunctionType (const word Type) const
+		{
+			return ((dword)FunctionFlags & ((dword)1 << (dword)Type)) != 0;
+		}
+	
+		byte GetConditionType (const dword Index) const
+		{
+			if (Index >= SRPERK_EFFECT_MAXCONDTYPES) return SRPERK_EFFECT_CONDNONE;
+			return ConditionTypes[Index];
+		}
+	
+	};
+
+		/* Holds static information about the Perk function types */
+	struct srperkfuncinfo_t
+	{
+		byte	FunctionType;
+		byte	EPFTType;
+	};
+
 /*===========================================================================
  *		End of Type Definitions
  *=========================================================================*/
@@ -119,6 +212,7 @@ class CSrEpfdSubrecord : public CSrSubrecord {
 protected:
 	srepfddata01_t	m_Data01;
 	srepfddata02_t	m_Data02;
+	srepfddata03_t  m_Data03;
 	srepfddata04_t	m_Data04;
 	srepfddata05_t	m_Data05;
 	srepfddata06_t	m_Data06;
@@ -151,6 +245,7 @@ public:
 
 	srepfddata01_t&  GetEpfdData01 (void) { return m_Data01; }
 	srepfddata02_t&  GetEpfdData02 (void) { return m_Data02; }
+	srepfddata03_t&  GetEpfdData03 (void) { return m_Data03; }
 	srepfddata04_t&  GetEpfdData04 (void) { return m_Data04; }
 	srepfddata05_t&  GetEpfdData05 (void) { return m_Data05; }
 	srepfddata06_t&  GetEpfdData06 (void) { return m_Data06; }
@@ -174,6 +269,10 @@ public:
 /*===========================================================================
  *		End of Class CSrEpfdSubrecord Definition
  *=========================================================================*/
+
+
+const srperkeffectinfo_t GetSrPerkEffectInfo   (const dword EffectType);
+const srperkfuncinfo_t   GetSrPerkFunctionInfo (const dword FuncType);
 
 
 #endif

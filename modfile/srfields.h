@@ -400,12 +400,12 @@
   #define SR_FIELD_NEXTPERK				339
   #define SR_FIELD_PERKSECTIONS         340
   #define SR_FIELD_PERKSECTYPE			341
-  #define SR_FIELD_PERKINDEX			342
+  #define SR_FIELD_PERKPRIORITY			342
   #define SR_FIELD_PERKSECDATATYPE		343
   #define SR_FIELD_PERKSECDATA			344
-  #define SR_FIELD_PERKEFFTYPE			345
+  #define SR_FIELD_PERKEFFECTTYPE		345
   #define SR_FIELD_PERKSEFFDATA			346
-  #define SR_FIELD_PERKAPPLYTYPE		347
+  #define SR_FIELD_PERKFUNCTIONTYPE		347
   #define SR_FIELD_PRKC					348
   #define SR_FIELD_IMAGESPACE			349
   #define SR_FIELD_X1					350
@@ -479,6 +479,7 @@
   #define SR_FIELD_SNAME				419
   #define SR_FIELD_INAME				420
   #define SR_FIELD_ANAME				421
+  #define SR_FIELD_PERKRANK				422
 
 /*===========================================================================
  *		End of Field Types

@@ -307,31 +307,114 @@ dword CSrPerkRecord::GetBaseConditionCount (void)
 }
 
 
-/*===========================================================================
- *
- * Begin CSrPerkRecord Get Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrPerkRecord Get Field Methods
- *=========================================================================*/
+bool CSrPerkRecord::CreateFromInfo (CSrPerkSectionArray& PerkInfoArray)
+{
+	return true;
+}
 
 
-/*===========================================================================
- *
- * Begin CSrPerkRecord Compare Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrPerkRecord Compare Field Methods
- *=========================================================================*/
+bool CSrPerkRecord::CreateInfo (CSrPerkSectionArray& PerkInfoArray)
+{
+	bool Result = true;
+
+	PerkInfoArray.Destroy();
+
+	for (dword i = 0; i < m_Subrecords.GetSize(); ++i)
+	{
+		if (m_Subrecords[i]->GetRecordType() == SR_NAME_PRKE)
+		{
+			Result &= CreateInfo(*PerkInfoArray.AddNew(), i);
+		}
+	}
+
+	return Result;
+}
 
 
-/*===========================================================================
- *
- * Begin CSrPerkRecord Set Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrPerkRecord Set Field Methods
- *=========================================================================*/
+bool CSrPerkRecord::CreateInfo (srperksectioninfo_t& PerkInfo, const dword Index)
+{
+	CSrPrkeSubrecord*    pSrcPrke;
+	CSrSubrecord*        pSubrecord;
+	CSrByteSubrecord*	 pCurrentPrkc = NULL;
+	srconditioninfo_t*   pCurrentCondInfo = NULL;
+
+	pSrcPrke = SrCastClassNull(CSrPrkeSubrecord, GetSubrecord(Index));
+	if (pSrcPrke == NULL) return false;
+
+	PerkInfo.Prke.Copy(pSrcPrke);
+
+	for (dword i = Index + 1; i < GetNumSubrecords(); ++i)
+	{
+		 pSubrecord = GetSubrecord(i);
+
+		 if (pSubrecord->GetRecordType() == SR_NAME_DATA)
+		 {
+			 PerkInfo.Data.Copy(pSubrecord);
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_PRKC)
+		 {
+			 pCurrentPrkc = SrCastClass(CSrByteSubrecord, pSubrecord);
+			 pCurrentCondInfo = NULL;
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_CTDA && pCurrentPrkc != NULL)
+		 {
+			pCurrentCondInfo = PerkInfo.Conditions.AddNew();
+			pCurrentCondInfo->Condition.Copy(pSubrecord);
+			pCurrentCondInfo->Condition.SetPrkc(pCurrentPrkc->GetValue());
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_CIS1 && pCurrentCondInfo != NULL)
+		 {
+			 pCurrentCondInfo->CopyParam1(pSubrecord);
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_CIS2 && pCurrentCondInfo != NULL)
+		 {
+			 pCurrentCondInfo->CopyParam2(pSubrecord);
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_EPFT)
+		 {
+			 pCurrentPrkc     = NULL;
+			 pCurrentCondInfo = NULL;
+
+			 CSrSubrecord* pTmp = pSubrecord->CreateCopy();
+			 PerkInfo.pEpft = SrCastClass(CSrByteSubrecord, pTmp);
+			 if (PerkInfo.pEpft == NULL) delete pTmp;
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_EPF2)
+		 {
+			 pCurrentPrkc     = NULL;
+			 pCurrentCondInfo = NULL;
+
+			 CSrSubrecord* pTmp = pSubrecord->CreateCopy();
+			 PerkInfo.pEpf2 = SrCastClass(CSrLStringSubrecord, pTmp);
+			 if (PerkInfo.pEpf2 == NULL) delete pTmp;
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_EPF3)
+		 {
+			 pCurrentPrkc     = NULL;
+			 pCurrentCondInfo = NULL;
+
+			 CSrSubrecord* pTmp = pSubrecord->CreateCopy();
+			 PerkInfo.pEpf3 = SrCastClass(CSrDwordSubrecord, pTmp);
+			 if (PerkInfo.pEpf3 == NULL) delete pTmp;
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_EPFD)
+		 {
+			 pCurrentPrkc     = NULL;
+			 pCurrentCondInfo = NULL;
+
+			 CSrSubrecord* pTmp = pSubrecord->CreateCopy();
+			 PerkInfo.pEpfd = SrCastClass(CSrEpfdSubrecord, pTmp);
+			 if (PerkInfo.pEpfd == NULL) delete pTmp;
+		 }
+		 else if (pSubrecord->GetRecordType() == SR_NAME_PRKF)
+		 {
+			 pCurrentPrkc     = NULL;
+			 pCurrentCondInfo = NULL;
+
+			 PerkInfo.Prkf.Copy(pSubrecord);
+			 break;
+		 }
+	}		
+
+	return true;
+}

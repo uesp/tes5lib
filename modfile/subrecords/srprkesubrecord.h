@@ -44,8 +44,9 @@
 
 	struct srprkedata_t 
 	{
-		word	Type;
-		byte	Index;
+		byte	Type;
+		byte	Rank;
+		byte	Priority;
 	};
 
 #pragma pack(pop)
