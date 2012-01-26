@@ -33,9 +33,11 @@
 
 	#define SR_CTDA_FUNCOFFSET 4096	
 
-	#define SR_CTDA_FLAG_OR				0x01
-	#define SR_CTDA_FLAG_RUNONTARGET	0x02
-	#define SR_CTDA_FLAG_USEGLOBAL		0x04
+	#define SR_CTDA_FLAG_OR					0x01
+	#define SR_CTDA_FLAG_USEQUESTALIASES	0x02
+	#define SR_CTDA_FLAG_USEGLOBAL			0x04
+	#define SR_CTDA_FLAG_USEPACKDATA		0x08
+	#define SR_CTDA_FLAG_SWAPSUBJECTTARGET	0x10
 
 /*===========================================================================
  *		End of Definitions
@@ -53,15 +55,19 @@
   {
 	byte		Flags		: 4;
 	byte		CompareType : 4;
-	byte		Unknown1[3] ;
-	float		Value;
+	byte		Unknown1[3];
+	union 
+	{
+		float		Value;
+		srformid_t	GlobalID;
+	};
 	word		Function;
-	word		Unknown2;
+	word		Padding;
 	long		Parameter1;
 	long		Parameter2;
-	dword		Unknown3;
-	srformid_t	RefID;
-	dword		Unknown4;
+	dword		RunOnType;
+	srformid_t	ReferenceID;
+	long		Parameter3;
   };
 
 #pragma pack(pop)
@@ -77,79 +83,91 @@
  * Description
  *
  *=========================================================================*/
-class CSrCtdaSubrecord : public CSrSubrecord {
-  DECLARE_SRCLASS(CSrCtdaSubrecord, CSrSubrecord)
+class CSrCtdaSubrecord : public CSrSubrecord 
+{
+	DECLARE_SRCLASS(CSrCtdaSubrecord, CSrSubrecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  srctdtdata_t	m_Data;
-  byte			m_Prkc;		/* Used as a helper with PERK records */
+	srctdtdata_t	m_Data;
+	byte			m_Prkc;		/* Used as a helper with PERK records */
 
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
-  bool IsRefParam1 (const int FunctionCode);
-  bool IsRefParam2 (const int FunctionCode);
+	static bool IsFormidParam1 (const int FunctionCode);
+	static bool IsFormidParam2 (const int FunctionCode);
+	static bool IsFormidParam3 (const int FunctionCode);
 
-	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_CTDA_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_CTDA_SUBRECORD_SIZE); }
-  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_CTDA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_CTDA_SUBRECORD_SIZE); }
+	bool IsFormidParam1 (void) { return IsFormidParam1(m_Data.Function); }
+	bool IsFormidParam2 (void) { return IsFormidParam2(m_Data.Function); }
+	bool IsFormidParam3 (void) { return IsFormidParam3(m_Data.Function); }
+
+	bool IsStringParam1 (void);
+	bool IsStringParam2 (void);
+	bool IsStringParam3 (void);
+
+		/* Input/output the subrecord data */
+	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_CTDA_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_CTDA_SUBRECORD_SIZE); }
+	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_CTDA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_CTDA_SUBRECORD_SIZE); }
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrCtdaSubrecord() { }
-  //virtual ~CSrCtdaSubrecord() { Destroy(); }
-  virtual void Destroy (void) { CSrSubrecord::Destroy(); }
+		/* Class Constructors/Destructors */
+	CSrCtdaSubrecord() { }
+	virtual void Destroy (void) { CSrSubrecord::Destroy(); }
 
-  	/* Change any matching formid in the subrecord */
-  virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID);
-  virtual dword CountUses (const srformid_t FormID);
+  		/* Change any matching formid in the subrecord */
+	virtual dword ChangeFormID (const srformid_t NewID, const srformid_t OldID);
+	virtual dword CountUses (const srformid_t FormID);
 
-	/* Field functions */
-  bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
-  bool GetField      (CSString& Buffer, const int FieldID);
+		/* Field functions */
+	bool CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord);
+	bool GetField      (CSString& Buffer, const int FieldID);
     
-	/* Copy the content from an existing subrecord */
-  virtual bool Copy (CSrSubrecord* pSubrecord) {
-	CSrCtdaSubrecord* pSubrecord1 = SrCastClassNull(CSrCtdaSubrecord, pSubrecord);
-	m_RecordSize = SR_CTDA_SUBRECORD_SIZE;
+		/* Copy the content from an existing subrecord */
+	virtual bool Copy (CSrSubrecord* pSubrecord) 
+	{
+		CSrCtdaSubrecord* pSubrecord1 = SrCastClassNull(CSrCtdaSubrecord, pSubrecord);
+		m_RecordSize = SR_CTDA_SUBRECORD_SIZE;
 	
-	if (pSubrecord1 != NULL) {
-	  m_Data = pSubrecord1->GetCtdtData();
-	  m_Prkc = pSubrecord1->m_Prkc;
-	}
-	else {
-	  memset(&m_Data, 0, sizeof(m_Data));
-	}
-	return (true);
-  }
+		if (pSubrecord1 != NULL) 
+		{
+			m_Data = pSubrecord1->GetCtdtData();
+			m_Prkc = pSubrecord1->m_Prkc;
+		}
+		else 
+		{
+			memset(&m_Data, 0, sizeof(m_Data));
+		}
 
-  	/* Create a class instance */
-  static CSrSubrecord* Create (void) { return (new CSrCtdaSubrecord); }
-  virtual CSrSubrecord* CreateV (void) { return new CSrCtdaSubrecord; }
+		return true;
+	}
+
+  		/* Create a class instance */
+	static  CSrSubrecord* Create  (void) { return new CSrCtdaSubrecord; }
+	virtual CSrSubrecord* CreateV (void) { return new CSrCtdaSubrecord; }
 
     	/* Fixup the modindex of formids */
-  virtual bool FixupFormID (CSrFormidFixupArray& FixupArray);
+	virtual bool FixupFormID (CSrFormidFixupArray& FixupArray);
 
-	/* Get class members */
-  srctdtdata_t& GetCtdtData (void) { return (m_Data); }
-  virtual byte*	GetData     (void) { return (byte *)(&m_Data); }
-  byte GetPrkc       (void) { return m_Prkc; }
+		/* Get class members */
+	srctdtdata_t& GetCtdtData (void) { return m_Data; }
+	virtual byte* GetData     (void) { return (byte *)&m_Data; }
+	byte		  GetPrkc     (void) { return m_Prkc; }
    
-	/* Initialize a new record */
-  void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_CTDA_SUBRECORD_SIZE; }
+		/* Initialize a new record */
+	void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_CTDA_SUBRECORD_SIZE; }
 
-	/* Set class members */
-  void SetPrkc (const byte Value) { m_Prkc = Value; }
+		/* Set class members */
+	void SetPrkc (const byte Value) { m_Prkc = Value; }
 
 };
 /*===========================================================================
  *		End of Class CSrCtdaSubrecord Definition
  *=========================================================================*/
-
 
 
 /*===========================================================================

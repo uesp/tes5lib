@@ -480,6 +480,8 @@
   #define SR_FIELD_INAME				420
   #define SR_FIELD_ANAME				421
   #define SR_FIELD_PERKRANK				422
+  #define SR_FIELD_PARAM3				423
+  #define SR_FIELD_RUNON				424
 
 /*===========================================================================
  *		End of Field Types

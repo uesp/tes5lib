@@ -442,7 +442,8 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_INAME,			"IName")
 	ADD_STRINGVALUE( SR_FIELD_ANAME,			"AName")
 	ADD_STRINGVALUE( SR_FIELD_PERKRANK,			"PerkRank")		
-	
+	ADD_STRINGVALUE( SR_FIELD_PARAM3,			"Param3")
+	ADD_STRINGVALUE( SR_FIELD_RUNON,			"RunOn")	
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings

@@ -126,6 +126,32 @@ public:
   virtual CSrRecord*   FindFormID   (const srformid_t FormID)  = 0;
   virtual CSrIdRecord* FindEditorID (const SSCHAR*    pString) = 0;
 
+  virtual CSrRecord* FindGeneralID (const SSCHAR* pString)
+  {
+	  CSString TmpName(pString);
+	  TmpName.Trim();
+
+	  CSrRecord* pRecord = FindEditorID(TmpName);
+	  if (pRecord != NULL) return pRecord;
+
+	  dword Value = strtoul(TmpName, NULL, 0);
+	  if (Value == 0) return NULL;
+	  return FindFormID((srformid_t) Value);
+  }
+
+  virtual srformid_t FindGeneralFormID (const SSCHAR* pString, const bool Validate = false)
+  {
+	  CSString TmpName(pString);
+	  TmpName.Trim();
+
+	  CSrRecord* pRecord = FindEditorID(TmpName);
+	  if (pRecord != NULL) return pRecord->GetFormID();
+
+	  dword Value = strtoul(TmpName, NULL, 0);
+	  if (Validate && FindFormID((srformid_t) Value) == NULL) return SR_FORMID_NULL;
+	  return Value;
+  }
+
   virtual CSrKywdRecord* FindKeyword (CSrFormidArray& FormIDs, const SSCHAR* pPrefix) 
   {
 	if (pPrefix == NULL) return NULL;

@@ -148,6 +148,7 @@
   	/* Check validation codes used in various places */
   #define SR_CHECKRESULT_OK			 0
   #define SR_CHECKRESULT_NOCHANGE	 1
+  #define SR_CHECKRESULT_UNKNOWN	 2
   #define SR_CHECKRESULT_ERROR		-1
 
 	/* Cache flags */
@@ -686,7 +687,73 @@
 	#define SR_RACE_MOVENAME_SNEK 0x4B41454E
 	#define SR_RACE_MOVENAME_BLD0 0x30444C42
 	#define SR_RACE_MOVENAME_SWIM 0x4D495753
+
+	#define SR_CONDITION_RUNON_SUBJECT		0
+	#define SR_CONDITION_RUNON_TARGET		1
+	#define SR_CONDITION_RUNON_REFERENCE	2
+	#define SR_CONDITION_RUNON_COMBATTARGET 3
+	#define SR_CONDITION_RUNON_LINKEDREF	4
+	#define SR_CONDITION_RUNON_QUESTALIAS	5
+	#define SR_CONDITION_RUNON_PACKAGEDATA	6
+	#define SR_CONDITION_RUNON_EVENTDATA	7
+
+	#define SR_FURNANIM_SIT  0x01
+	#define SR_FURNANIM_LEAN 0x02
+	#define SR_FURNANIM_LAY  0x04
+
+	#define SR_FURNENTRY_BEHIND	0x00020000
+	#define SR_FURNENTRY_FRONT	0x00010000
+	#define SR_FURNENTRY_LEFT	0x00080000
+	#define SR_FURNENTRY_RIGHT	0x00040000
+	#define SR_FURNENTRY_UP		0x00100000
+
+	#define SR_SKILLACTION_NORMAL		0 
+	#define SR_SKILLACTION_POWERATTACK	1
+	#define SR_SKILLACTION_BASH			2
+	#define SR_SKILLACTION_LPSUCCESS	3
+	#define SR_SKILLACTION_LPBROKEN		4
+
+	//#define SR_CRIME_ANY			0
+	#define SR_CRIME_STEAL			0
+	#define SR_CRIME_PICKPOCKET		1
+	#define SR_CRIME_WEREWOLFTRANS  2
+	#define SR_CRIME_ATTACK			3
+	#define SR_CRIME_MURDER			4
+	#define SR_CRIME_ESCAPE			5
+	#define SR_CRIME_TRESPASS		6
+
+	#define SR_WARDSTATE_NONE    0
+	#define SR_WARDSTATE_ABSORB  1
+	#define SR_WARDSTATE_BREAK   2
+
+	#define SR_AXIS_X ((int)'X')
+	#define SR_AXIS_Y ((int)'Y')
+	#define SR_AXIS_Z ((int)'Z')
+
+	#define SR_CASTSOURCE_LEFT    0
+	#define SR_CASTSOURCE_RIGHT   1
+	#define SR_CASTSOURCE_VOICE   2
+	#define SR_CASTSOURCE_INSTANT 3
+
+	#define SR_CRITICALSTAGE_NONE		0 
+	#define SR_CRITICALSTAGE_GOOSTART	1
+	#define SR_CRITICALSTAGE_GOOEND		2
+	#define SR_CRITICALSTAGE_DISTSTART	3
+	#define SR_CRITICALSTAGE_DISTEND	4
+
+	#define SR_GENDER_MALE 0
+	#define SR_GENDER_FEMALE 1
 	
+	extern const stringvalue_t s_SrGenderTypes[];	
+	extern const stringvalue_t s_SrCastSourceTypes[];	
+	extern const stringvalue_t s_SrCriticalStageTypes[];	
+	extern const stringvalue_t s_SrAxisTypes[];	
+	extern const stringvalue_t s_SrWardStateTypes[];	
+	extern const stringvalue_t s_SrCrimeTypes[];
+	extern const stringvalue_t s_SrSkillActionTypes[];
+	extern const stringvalue_t s_SrFurnitureAnimTypes[];
+	extern const stringvalue_t s_SrFurnitureEntryTypes[];
+	extern const stringvalue_t s_SrConditionRunonTypes[];
 	extern const stringvalue_t s_SrRaceMoveNames[];
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
@@ -801,8 +868,38 @@
 	const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags);
 	bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString);
 
-	const SSCHAR* GetPerkConditionTypeString (const int Value);
+	const SSCHAR* GetSrPerkConditionTypeString (const int Value);
     bool GetSrPerkConditionTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrConditionRunonTypeString (const int Value);
+	bool GetSrConditionRunonTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrFurnitureAnimTypeString (const int Value);
+	bool GetSrFurnitureAnimTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrFurnitureEntryTypeString (const int Value);
+	bool GetSrFurnitureEntryTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrSkillActionTypeString (const int Value);
+	bool GetSrSkillActionTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrCrimeTypeString (const int Value);
+	bool GetSrCrimeTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrWardStateTypeString (const int Value);
+	bool GetSrWardStateTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrAxisTypeString (const int Value);
+	bool GetSrAxisTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrCastSourceTypeString (const int Value);
+	bool GetSrCastSourceTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrCriticalStageTypeString (const int Value);
+	bool GetSrCriticalStageTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrGenderTypeString (const int Value);
+	bool GetSrGenderTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

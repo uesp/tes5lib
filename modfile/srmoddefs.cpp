@@ -665,6 +665,92 @@ BEGIN_STRINGVALUE(s_SrRaceMoveNames)
 	ADD_STRINGVALUE( SR_RACE_MOVENAME_SWIM,		"SWIM")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrConditionRunonTypes)
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_SUBJECT		,	"Subject")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_TARGET		,	"Target")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_REFERENCE	,	"Reference")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_COMBATTARGET,	"Combat Target")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_LINKEDREF	,	"Linked Reference")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_QUESTALIAS	,	"Quest Alias")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_PACKAGEDATA	,	"Package Data")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_EVENTDATA	,	"Event Data")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrFurnitureAnimTypes)
+	ADD_STRINGVALUE( SR_FURNANIM_SIT,		"Sit")
+	ADD_STRINGVALUE( SR_FURNANIM_LEAN,		"Lean")
+	ADD_STRINGVALUE( SR_FURNANIM_LAY,		"Lay")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrFurnitureEntryTypes)
+	ADD_STRINGVALUE( SR_FURNENTRY_BEHIND,	"Behind")
+	ADD_STRINGVALUE( SR_FURNENTRY_LEFT,		"Left")
+	ADD_STRINGVALUE( SR_FURNENTRY_FRONT,	"Front")
+	ADD_STRINGVALUE( SR_FURNENTRY_RIGHT,	"Right")
+	ADD_STRINGVALUE( SR_FURNENTRY_UP,		"Up")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrSkillActionTypes)
+	ADD_STRINGVALUE( SR_SKILLACTION_NORMAL,			"Normal")
+	ADD_STRINGVALUE( SR_SKILLACTION_POWERATTACK,	"Power Attack")
+	ADD_STRINGVALUE( SR_SKILLACTION_BASH,			"Bash")
+	ADD_STRINGVALUE( SR_SKILLACTION_LPSUCCESS,		"Lockpick Success")
+	ADD_STRINGVALUE( SR_SKILLACTION_LPBROKEN,		"Lockpick Broken")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrCrimeTypes)
+	//ADD_STRINGVALUE( SR_CRIME_ANY,				"Any")
+	ADD_STRINGVALUE( SR_CRIME_ATTACK,			"Attack")
+	ADD_STRINGVALUE( SR_CRIME_ESCAPE,			"Escape")
+	ADD_STRINGVALUE( SR_CRIME_MURDER,			"Murder")
+	ADD_STRINGVALUE( SR_CRIME_PICKPOCKET,		"PickPocket")
+	ADD_STRINGVALUE( SR_CRIME_STEAL,			"Steal")
+	ADD_STRINGVALUE( SR_CRIME_TRESPASS,			"Trespass")
+	ADD_STRINGVALUE( SR_CRIME_WEREWOLFTRANS,	"WerewolfTrans")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrWardStateTypes)
+	ADD_STRINGVALUE( SR_WARDSTATE_ABSORB,	"Absorb")
+	ADD_STRINGVALUE( SR_WARDSTATE_BREAK,	"Break")
+	ADD_STRINGVALUE( SR_WARDSTATE_NONE,		"None")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrAxisTypes)
+	ADD_STRINGVALUE( SR_AXIS_X,	"X")
+	ADD_STRINGVALUE( SR_AXIS_Y,	"Y")
+	ADD_STRINGVALUE( SR_AXIS_Z,	"Z")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrCastSourceTypes)
+	ADD_STRINGVALUE( SR_CASTSOURCE_LEFT,	"Left")
+	ADD_STRINGVALUE( SR_CASTSOURCE_RIGHT,	"Right")
+	ADD_STRINGVALUE( SR_CASTSOURCE_VOICE,	"Voice")
+	ADD_STRINGVALUE( SR_CASTSOURCE_INSTANT,	"Instant")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrCriticalStageTypes)
+	ADD_STRINGVALUE( SR_CRITICALSTAGE_NONE,			"None")
+	ADD_STRINGVALUE( SR_CRITICALSTAGE_DISTEND,		"Disintegrate End")
+	ADD_STRINGVALUE( SR_CRITICALSTAGE_DISTSTART,	"Disintegrate Start")
+	ADD_STRINGVALUE( SR_CRITICALSTAGE_GOOEND,		"Goo End")
+	ADD_STRINGVALUE( SR_CRITICALSTAGE_GOOSTART,		"Goo Start")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrGenderTypes)
+	ADD_STRINGVALUE( SR_GENDER_MALE,	"Make")
+	ADD_STRINGVALUE( SR_GENDER_FEMALE,	"Female")
+END_STRINGVALUE()
+
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -710,8 +796,18 @@ const SSCHAR* GetSrEpftTypeString (const int Value) { return s_SrEpftTypesMap.Fi
 const SSCHAR* GetSrPerkEffectTypeString (const int Value) { return s_SrPerkEffectTypesMap.FindValue(Value); }
 const SSCHAR* GetSrPerkFunctionTypeString (const int Value) { return s_SrPerkFunctionTypesMap.FindValue(Value); }
 
-const SSCHAR* GetSopmContentTypeString (const int Value) { return s_SrSopmContentTypesMap.FindValue(Value); }
-const SSCHAR* GetPerkConditionTypeString (const int Value) { return s_SrPerkConditionTypesMap.FindValue(Value); }
+const SSCHAR* GetSrSopmContentTypeString (const int Value) { return s_SrSopmContentTypesMap.FindValue(Value); }
+const SSCHAR* GetSrPerkConditionTypeString (const int Value) { return s_SrPerkConditionTypesMap.FindValue(Value); }
+const SSCHAR* GetSrConditionRunonTypeString (const int Value) { return s_SrConditionRunonTypesMap.FindValue(Value); }
+const SSCHAR* GetSrFurnitureAnimTypeString (const int Value) { return s_SrFurnitureAnimTypesMap.FindValue(Value); }
+const SSCHAR* GetSrFurnitureEntryTypeString (const int Value) { return s_SrFurnitureEntryTypesMap.FindValue(Value); }
+const SSCHAR* GetSrSkillActionTypeString (const int Value) { return s_SrSkillActionTypesMap.FindValue(Value); }
+const SSCHAR* GetSrCrimeTypeString (const int Value) { return s_SrCrimeTypesMap.FindValue(Value); }
+const SSCHAR* GetSrWardStateTypeString (const int Value) { return s_SrWardStateTypesMap.FindValue(Value); }
+const SSCHAR* GetSrAxisTypeString (const int Value) { return s_SrAxisTypesMap.FindValue(Value); }
+const SSCHAR* GetSrCastSourceTypeString (const int Value) { return s_SrCastSourceTypesMap.FindValue(Value); }
+const SSCHAR* GetSrCriticalStageTypeString (const int Value) { return s_SrCriticalStageTypesMap.FindValue(Value); }
+const SSCHAR* GetSrGenderTypeString (const int Value) { return s_SrGenderTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -774,6 +870,16 @@ bool GetSrPerkFunctionTypeValue (int& Value, const SSCHAR* pString) { return s_S
 
 bool GetSrSopmContentTypeValue (int& Value, const SSCHAR* pString) { return s_SrSopmContentTypesMap.FindString(Value, pString); }
 bool GetSrPerkConditionTypeValue (int& Value, const SSCHAR* pString) { return s_SrPerkConditionTypesMap.FindString(Value, pString); }
+bool GetSrConditionRunonTypeValue (int& Value, const SSCHAR* pString) { return s_SrConditionRunonTypesMap.FindString(Value, pString); }
+bool GetSrFurnitureAnimTypeValue (int& Value, const SSCHAR* pString) { return s_SrFurnitureAnimTypesMap.FindString(Value, pString); }
+bool GetSrFurnitureEntryTypeValue (int& Value, const SSCHAR* pString) { return s_SrFurnitureEntryTypesMap.FindString(Value, pString); }
+bool GetSrSkillActionTypeValue (int& Value, const SSCHAR* pString) { return s_SrSkillActionTypesMap.FindString(Value, pString); }
+bool GetSrCrimeTypeValue (int& Value, const SSCHAR* pString) { return s_SrCrimeTypesMap.FindString(Value, pString); }
+bool GetSrWardStateTypeValue (int& Value, const SSCHAR* pString) { return s_SrWardStateTypesMap.FindString(Value, pString); }
+bool GetSrAxisTypeValue (int& Value, const SSCHAR* pString) { return s_SrAxisTypesMap.FindString(Value, pString); }
+bool GetSrCastSourceTypeValue (int& Value, const SSCHAR* pString) { return s_SrCastSourceTypesMap.FindString(Value, pString); }
+bool GetSrCriticalStageTypeValue (int& Value, const SSCHAR* pString) { return s_SrCriticalStageTypesMap.FindString(Value, pString); }
+bool GetSrGenderTypeValue (int& Value, const SSCHAR* pString) { return s_SrGenderTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {
