@@ -135,6 +135,7 @@ public:
 
 	/* Operators */
   TObj* operator[] (const dword Index) { return GetAt(Index); }
+  const TObj* operator[] (const dword Index) const { return (IsValidIndex(Index) ? m_ppRecords[Index] : NULL); }
 
 };
 /*===========================================================================
