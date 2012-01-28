@@ -164,6 +164,25 @@ void CSrPerkRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 		m_pNextPerk = SrCastClass(CSrFormidSubrecord, pSubrecord);
 		m_pCurrentSection = NULL;
 	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_PRKE)
+	{
+		m_pLastEPFT = NULL;
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_PRKF)
+	{
+		m_pLastEPFT = NULL;
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_EPFT)
+	{
+		m_pLastEPFT = SrCastClass(CSrByteSubrecord, pSubrecord);
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_EPFD)
+	{
+		CSrEpfdSubrecord* pEpfd = SrCastClass(CSrEpfdSubrecord, pSubrecord);
+		if (m_pLastEPFT && pEpfd) pEpfd->SetDataType(m_pLastEPFT->GetValue());
+
+		m_pLastEPFT = NULL;
+	}
 	else
 	{
 		CSrIdRecord::OnAddSubrecord(pSubrecord);
