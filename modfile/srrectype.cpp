@@ -19,10 +19,11 @@
  *=========================================================================*/
 
 		/* Special names */
-  const srrectype_t SR_NAME_NULL = "\0\0\0\0";
+	const srrectype_t SR_NAME_NULL = "\0\0\0\0";
+	const srrectype_t SR_NAME_all = "all\0";
 
 		/* Special group name */
-  const srrectype_t SR_NAME_GRUP = "GRUP";  
+	const srrectype_t SR_NAME_GRUP = "GRUP";  
   
 		/* Known record names */
 	const srrectype_t SR_NAME_AACT = "AACT";

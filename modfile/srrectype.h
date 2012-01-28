@@ -93,6 +93,7 @@
 
 		/* Special names */
 	extern const srrectype_t SR_NAME_NULL;
+	extern const srrectype_t SR_NAME_all;
 
 		/* Special group name */
 	extern const srrectype_t SR_NAME_GRUP;

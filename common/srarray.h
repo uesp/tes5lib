@@ -114,7 +114,8 @@ public:
   void Sort (ARRAYSORTFUNC CompareFunc, const long Data);
 
 	/* Operators */
-  TObj& operator[] (const dword Index) { if (Index >= m_NumRecords) { Resize(Index + 1); m_NumRecords = Index + 1; } return m_pRecords[Index]; }
+  TObj& operator[] (const dword Index) { if (Index >= m_NumRecords) { throw("TSrArray::operator[] - Invalid Index!"); } return m_pRecords[Index]; }
+  const TObj& operator[] (const dword Index) const { if (Index >= m_NumRecords) { throw("TSrArray::operator[] const - Invalid Index!"); } return m_pRecords[Index]; }
 
 	/* Copy assignment */
   TSrArray<TObj>& operator= (const TSrArray<TObj>& Source);

@@ -31,6 +31,8 @@ BEGIN_SRSUBRECCREATE(CSrQustRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ALFL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ANAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CIS1, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_CIS2, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ENAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_QSDT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ALST, CSrDataSubrecord::Create)
@@ -70,7 +72,6 @@ BEGIN_SRSUBRECCREATE(CSrQustRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ALDN, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SCTX, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array

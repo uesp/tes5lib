@@ -189,6 +189,7 @@ public:
   virtual CSrRecord* GetNextRecord  (SRMAPPOS& RecordPos) = 0;
   virtual dword      GetNumRecords  (void) = 0;
   virtual CSrGroup*  GetTopGroup    (void) = 0;
+  virtual CSrRecordHandler* GetParent (void) { return NULL; }
 
   	/* Returns the next form ID not currently used by the file */
   virtual srformid_t    GetFreeFormID   (const byte ModIndex = 0) = 0;

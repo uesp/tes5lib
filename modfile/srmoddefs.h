@@ -112,6 +112,8 @@
 	(CSrGroup *) (((BaseRecord)->IsGroup()) ? ((BaseRecord)->IsClassType(CSrGroup::GetClassType()) ? (BaseRecord) : NULL) : NULL)
 	
 
+	typedef TSrArray<srrectype_t> CSrRecTypeArray;
+
 /*===========================================================================
  *		End of Class Type Definitions
  *=========================================================================*/
@@ -560,16 +562,18 @@
 
 		/* Condition operators */
   #define SR_CONDOP_EQUAL			0x00
-  #define SR_CONDOP_NOTEQUAL		0x02
-  #define SR_CONDOP_GREATER			0x04
-  #define SR_CONDOP_GREATEREQUAL	0x06
-  #define SR_CONDOP_LESS			0x08
-  #define SR_CONDOP_LESSEQUAL		0x0A
+  #define SR_CONDOP_NOTEQUAL		0x01
+  #define SR_CONDOP_GREATER			0x02
+  #define SR_CONDOP_GREATEREQUAL	0x03
+  #define SR_CONDOP_LESS			0x04
+  #define SR_CONDOP_LESSEQUAL		0x05
 
 		/* Condition flags */
-  #define SR_CONDFLAG_OR			0x01
-  #define SR_CONDFLAG_RUNONTARGET	0x02
-  #define SR_CONDFLAG_USEGLOBAL		0x04
+  #define SR_CTDA_FLAG_OR					0x01
+  #define SR_CTDA_FLAG_USEQUESTALIASES		0x02
+  #define SR_CTDA_FLAG_USEGLOBAL			0x04
+  #define SR_CTDA_FLAG_USEPACKDATA			0x08
+  #define SR_CTDA_FLAG_SWAPSUBJECTTARGET	0x10
 
   extern const stringvalue_t s_SrMagicSchools[];
   extern const stringvalue_t s_SrMagicTypes[];
@@ -912,6 +916,11 @@
 	bool SrIsValidLvlnRecord (const srrectype_t Type);
 	bool SrIsValidLvspRecord (const srrectype_t Type);
 	bool SrIsValidContainerRecord (const srrectype_t Type);
+
+	const CSrRecTypeArray& GetSrEquipableRecordTypes();
+	const CSrRecTypeArray& GetSrMagicItemRecordTypes();
+	const CSrRecTypeArray& GetSrKnowableRecordTypes();
+	const CSrRecTypeArray& GetSrReferenceRecordTypes();
 	
 
 /*===========================================================================

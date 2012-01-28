@@ -2136,7 +2136,7 @@ BEGIN_STRINGVALUE(s_SrFunctionParamTypes)
    ADD_STRINGVALUE( 4,  "Reference")
    ADD_STRINGVALUE( 5,  "Actor Value")
    ADD_STRINGVALUE( 6,  "Actor")
-   ADD_STRINGVALUE( 7,  "Spell Item")
+   ADD_STRINGVALUE( 7,  "Spell")
    ADD_STRINGVALUE( 8,  "Axis")
    ADD_STRINGVALUE( 9,  "Cell")
    ADD_STRINGVALUE( 10, "Animation Group")
@@ -2339,17 +2339,17 @@ bool IsSrFunctionParamFormID (const dword ParamType)
  *
  * Begin Function - bool IsSrFunctionParamString(ParamType);
  *
- * TODO: Ensure all FormID records are included below.
+ * TODO: Ensure all correct FormID records are included below.
  *
  *=========================================================================*/
 bool IsSrFunctionParamString (const dword ParamType)
 {
 	switch (ParamType)
 	{
-	case 0:
-	case 22:
-	case 40:
-	case 76:
+	case SR_FUNCPARAM_STRING:
+	case SR_FUNCPARAM_VARNAME:
+	case SR_FUNCPARAM_NOTE:
+	case SR_FUNCPARAM_VMVARNAME:
 		return true;
 	};
 
@@ -2376,15 +2376,14 @@ bool priv_SrCheckFuncParamFormid (CSString& String, const srrectype_t Type, CSrR
 }
 
 
-bool priv_SrCheckFuncParamRecTypes (CSString& String, const srrectype_t* pTypes, CSrRecordHandler* pRecordHandler)
+bool priv_SrCheckFuncParamRecTypes (CSString& String, const CSrRecTypeArray& Types, CSrRecordHandler* pRecordHandler)
 {
 	CSrRecord* pRecord = pRecordHandler->FindGeneralID(String);
-	if (pRecord == NULL || pTypes == NULL) return false;
+	if (pRecord == NULL) return false;
 
-	while (*pTypes != SR_NAME_NULL)
+	for (dword i = 0; i < Types.GetSize(); ++i)
 	{
-		if (pRecord->GetRecordType() == *pTypes) return true;
-		++pTypes;
+		if (pRecord->GetRecordType() == Types[i]) return true;
 	}
 
 	return false;
@@ -2393,11 +2392,6 @@ bool priv_SrCheckFuncParamRecTypes (CSString& String, const srrectype_t* pTypes,
 
 bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecordHandler* pRecordHandler)
 {
-	static const srrectype_t s_EquipableTypes[] = { SR_NAME_ARMO, SR_NAME_WEAP, SR_NAME_NULL };
-	static const srrectype_t s_MagicItemTypes[] = { SR_NAME_SPEL, SR_NAME_ENCH, SR_NAME_INGR, SR_NAME_SCRL, SR_NAME_ALCH, SR_NAME_NULL };
-	static const srrectype_t s_KnowableTypes[] = { SR_NAME_MGEF, SR_NAME_WOOP, SR_NAME_NULL };
-
-
 	CSString   StringValue(pString);
 	int        Value;
 	char*      pEndPtr;
@@ -2420,18 +2414,18 @@ bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecord
 		case SR_FUNCPARAM_REFERENCE		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_REFR, pRecordHandler);
 		case SR_FUNCPARAM_ACTORVALUE	 : return GetSrActorValueValue(Value, StringValue);
 		case SR_FUNCPARAM_ACTOR			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_NPC_, pRecordHandler);
-		case SR_FUNCPARAM_SPELLITEM		 : return false;
+		case SR_FUNCPARAM_SPELLITEM		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_SPEL, pRecordHandler);
 		case SR_FUNCPARAM_AXIS			 : return GetSrAxisTypeValue(Value, StringValue);
 		case SR_FUNCPARAM_CELL			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_CELL, pRecordHandler);
 		case SR_FUNCPARAM_ANIMGROUP		 : return false;
-		case SR_FUNCPARAM_MAGICITEM		 : return priv_SrCheckFuncParamRecTypes(StringValue, s_MagicItemTypes, pRecordHandler);
+		case SR_FUNCPARAM_MAGICITEM		 : return priv_SrCheckFuncParamRecTypes(StringValue, GetSrMagicItemRecordTypes(), pRecordHandler);
 		case SR_FUNCPARAM_SOUND			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_REFR, pRecordHandler);
 		case SR_FUNCPARAM_TOPIC			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_INFO, pRecordHandler);
 		case SR_FUNCPARAM_QUEST			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_QUST, pRecordHandler);
 		case SR_FUNCPARAM_RACE			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_RACE, pRecordHandler);
 		case SR_FUNCPARAM_CLASS			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_CLAS, pRecordHandler);
 		case SR_FUNCPARAM_FACTION		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_FACT, pRecordHandler);
-		case SR_FUNCPARAM_GENDER		 : return GetSrGenderTypeValue(Value, StringValue);;
+		case SR_FUNCPARAM_GENDER		 : return GetSrGenderTypeValue(Value, StringValue);
 		case SR_FUNCPARAM_GLOBAL		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_GLOB, pRecordHandler);
 		case SR_FUNCPARAM_FURNITURE		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_FURN, pRecordHandler);
 		case SR_FUNCPARAM_WEAPON		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_WEAP, pRecordHandler);
@@ -2465,12 +2459,12 @@ bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecord
 		case SR_FUNCPARAM_ENCOUNTERZONE	 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_ECZN, pRecordHandler);
 		case SR_FUNCPARAM_IDLE			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_IDLE, pRecordHandler);
 		case SR_FUNCPARAM_MESSAGE		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_MESG, pRecordHandler);
-		case SR_FUNCPARAM_EQUIPABLEITEM  : return priv_SrCheckFuncParamRecTypes(StringValue, s_EquipableTypes, pRecordHandler);
+		case SR_FUNCPARAM_EQUIPABLEITEM  : return priv_SrCheckFuncParamRecTypes(StringValue, GetSrEquipableRecordTypes(), pRecordHandler);
 		case SR_FUNCPARAM_ALIGNMENT		 : return false;
 		case SR_FUNCPARAM_EQUIPTYPE		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_ETYP, pRecordHandler);
 		case SR_FUNCPARAM_OBJECTID56	 : return false;	
 		case SR_FUNCPARAM_MUSIC			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_MUSC, pRecordHandler);
-		case SR_FUNCPARAM_CRITICALSTAGE	 : return GetSrCriticalStageTypeValue(Value, StringValue);;
+		case SR_FUNCPARAM_CRITICALSTAGE	 : return GetSrCriticalStageTypeValue(Value, StringValue);
 		case SR_FUNCPARAM_KEYWORD		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_KWDA, pRecordHandler);
 		case SR_FUNCPARAM_LOCREFTYPE	 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_LCTN, pRecordHandler);
 		case SR_FUNCPARAM_LOCATION		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_LCRT, pRecordHandler);
@@ -2480,7 +2474,7 @@ bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecord
 		case SR_FUNCPARAM_WORDOFPOWER	 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_WOOP, pRecordHandler);
 		case SR_FUNCPARAM_66			 : return false;	
 		case SR_FUNCPARAM_SCENE			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_SCEN, pRecordHandler);
-		case SR_FUNCPARAM_CASTSOURCE	 : return GetSrCastSourceTypeValue(Value, StringValue);;
+		case SR_FUNCPARAM_CASTSOURCE	 : return GetSrCastSourceTypeValue(Value, StringValue);
 		case SR_FUNCPARAM_ASSOCTYPE		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_ASTP, pRecordHandler);
 		case SR_FUNCPARAM_WARDSTATE		 : return GetSrWardStateTypeValue(Value, StringValue);
 		case SR_FUNCPARAM_PACKDATANULL	 : return false;
@@ -2493,9 +2487,366 @@ bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecord
 		case SR_FUNCPARAM_PACKDATALOC	 : return false;
 		case SR_FUNCPARAM_SOUNDCATE		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_SNCT, pRecordHandler);
 		case SR_FUNCPARAM_SKILLACTION	 : return GetSrSkillActionTypeValue(Value, StringValue);
-		case SR_FUNCPARAM_KNOWFORM		 : return priv_SrCheckFuncParamRecTypes(StringValue, s_KnowableTypes, pRecordHandler);
+		case SR_FUNCPARAM_KNOWFORM		 : return priv_SrCheckFuncParamRecTypes(StringValue, GetSrKnowableRecordTypes(), pRecordHandler);
 		case SR_FUNCPARAM_REGION		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_REGN, pRecordHandler);
 		case SR_FUNCPARAM_ACTION		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_AACT, pRecordHandler);
+		default:						
+			return false;
+	}
+
+	return true;
+}
+
+
+bool priv_SrFuncParamFormidToString (CSString& Output, const dword ParamValue, CSrRecordHandler* pRecordHandler)
+{
+	CSrRecord* pRecord = pRecordHandler->FindFormID(ParamValue);
+	CSrIdRecord* pIDRecord = SrCastClassNull(CSrIdRecord, pRecord);
+
+	if (pIDRecord)
+	{
+		Output = pIDRecord->GetEditorID();
+		return true;
+	}
+	
+	Output.Format("0x%08X", ParamValue);
+	return false;
+}
+
+
+bool SrFunctionParamToString (CSString& Output, const dword ParamType, const dword ParamValue, CSrRecordHandler* pRecordHandler)
+{
+	const char* pResult = NULL;
+
+	if (pRecordHandler == NULL) return false;
+
+	switch (ParamType)
+	{
+		case SR_FUNCPARAM_UNKNOWN		 : return false;
+		case SR_FUNCPARAM_STRING		 : 
+			return true;
+		case SR_FUNCPARAM_STAGE			 : 
+		case SR_FUNCPARAM_INTEGER		 : 
+			Output.Format("%d", ParamValue);
+			return true;
+		case SR_FUNCPARAM_FLOAT			 :
+			Output.Format("%g", *(float *)&ParamValue);
+			return true;
+		case SR_FUNCPARAM_OBJECTID3		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_REFERENCE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_ACTORVALUE	 : pResult = GetSrActorValueString((int) ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_ACTOR			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_SPELLITEM		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_AXIS			 : pResult = GetSrAxisTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_CELL			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_ANIMGROUP		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_MAGICITEM		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_SOUND			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_TOPIC			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_QUEST			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_RACE			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_CLASS			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_FACTION		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_GENDER		 : pResult = GetSrGenderTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_GLOBAL		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_FURNITURE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_WEAPON		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_VARNAME		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_MAPMARKER		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_ACTORBASE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_CONTAINER		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_WORLDSPACE	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_CRIME			 : pResult = GetSrCrimeTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_PACKAGE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_COMBATSTYLE	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_MAGICEFFECT	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_FORMTYPE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_WEATHER		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_34			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_OWNER			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_EFFECTSHADER	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_FORMLIST		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_38			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_PERK			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_NOTE			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_MISCSTAT		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_IMAGESPACEID	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_IMAGESPACE	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_44			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_45			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_EVENTFUNC		 :
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_EVENTMEMBER	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_DATA			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_VOICETYPE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_ENCOUNTERZONE	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_IDLE			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_MESSAGE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_EQUIPABLEITEM  : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_ALIGNMENT		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_EQUIPTYPE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_OBJECTID56	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_MUSIC			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_CRITICALSTAGE	 : pResult = GetSrCriticalStageTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_KEYWORD		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_LOCREFTYPE	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_LOCATION		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_FORM			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_QUESTALIAS	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_SHOUT			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_WORDOFPOWER	 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_66			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_SCENE			 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_CASTSOURCE	 : pResult = GetSrCastSourceTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_ASSOCTYPE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_WARDSTATE		 : pResult = GetSrWardStateTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_PACKDATANULL	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_PACKDATANUM	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_FURNANIM		 : pResult = GetSrFurnitureAnimTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_FURNENTRY		 : pResult = GetSrFurnitureEntryTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_75			 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_VMVARNAME		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_REFEFEFCT		 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_PACKDATALOC	 : 
+			Output.Format("0x%08X", ParamValue);
+			return true;
+		case SR_FUNCPARAM_SOUNDCATE		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_SKILLACTION	 : pResult = GetSrSkillActionTypeString(ParamValue); if (pResult == NULL) return false; Output = pResult; return true;
+		case SR_FUNCPARAM_KNOWFORM		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_REGION		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		case SR_FUNCPARAM_ACTION		 : return priv_SrFuncParamFormidToString(Output, ParamValue, pRecordHandler);
+		default:				
+			Output.Format("0x%08X", ParamValue);
+			return false;
+	}
+
+	return true;
+}
+
+
+bool priv_SrFuncParamFormidFromString (int& ParamValue, CSString& String, CSrRecordHandler* pRecordHandler)
+{
+	char*		pEndPtr;
+
+	if (String.IsEmpty())
+	{
+		ParamValue = 0;
+		return true;
+	}
+
+	CSrRecord* pRecord = pRecordHandler->FindGeneralID(String);
+
+	if (pRecord != NULL) 
+	{
+		ParamValue = pRecord->GetFormID();
+		return true;
+	}
+
+	ParamValue = strtoul(String, &pEndPtr, 0);
+	return *pEndPtr == '\0' || isspace(*pEndPtr);
+}
+
+
+bool SrFunctionParamFromString (int& ParamValue, const char* pString, const dword ParamType, CSrRecordHandler* pRecordHandler)
+{
+	CSString	StringValue(pString);
+	char*		pEndPtr;
+	float		fValue;
+
+	if (pString == NULL || pRecordHandler == NULL) return false;
+	StringValue.Trim();
+
+	switch (ParamType)
+	{
+		case SR_FUNCPARAM_UNKNOWN		 : return false;
+		case SR_FUNCPARAM_STRING		 : return false;
+		case SR_FUNCPARAM_STAGE			 : 
+		case SR_FUNCPARAM_INTEGER		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_FLOAT			 :
+			fValue = (float) strtod(StringValue, &pEndPtr);
+			ParamValue = *(dword *) &fValue;
+			return false;
+		case SR_FUNCPARAM_OBJECTID3		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_REFERENCE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_ACTORVALUE	 : return GetSrActorValueValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_ACTOR			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_SPELLITEM		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_AXIS			 : return GetSrAxisTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_CELL			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_ANIMGROUP		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_MAGICITEM		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_SOUND			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_TOPIC			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_QUEST			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_RACE			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_CLASS			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_FACTION		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_GENDER		 : return GetSrGenderTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_GLOBAL		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_FURNITURE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_WEAPON		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_VARNAME		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_MAPMARKER		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_ACTORBASE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_CONTAINER		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_WORLDSPACE	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_CRIME			 : return GetSrCrimeTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_PACKAGE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_COMBATSTYLE	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_MAGICEFFECT	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_FORMTYPE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_WEATHER		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_34			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_OWNER			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_EFFECTSHADER	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_FORMLIST		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_38			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_PERK			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_NOTE			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_MISCSTAT		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_IMAGESPACEID	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_IMAGESPACE	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_44			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_45			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_EVENTFUNC		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_EVENTMEMBER	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_DATA			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_VOICETYPE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_ENCOUNTERZONE	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_IDLE			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_MESSAGE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_EQUIPABLEITEM  : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_ALIGNMENT		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_EQUIPTYPE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_OBJECTID56	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;	
+		case SR_FUNCPARAM_MUSIC			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_CRITICALSTAGE	 : return GetSrCriticalStageTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_KEYWORD		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_LOCREFTYPE	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_LOCATION		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_FORM			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_QUESTALIAS	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_SHOUT			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_WORDOFPOWER	 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_66			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;	
+		case SR_FUNCPARAM_SCENE			 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_CASTSOURCE	 : return GetSrCastSourceTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_ASSOCTYPE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_WARDSTATE		 : return GetSrWardStateTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_PACKDATANULL	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_PACKDATANUM	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_FURNANIM		 : return GetSrFurnitureAnimTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_FURNENTRY		 : return GetSrFurnitureEntryTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_75			 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_VMVARNAME		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_REFEFEFCT		 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_PACKDATALOC	 : 
+			ParamValue = strtoul(StringValue, &pEndPtr, 0);
+			return false;
+		case SR_FUNCPARAM_SOUNDCATE		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_SKILLACTION	 : return GetSrSkillActionTypeValue(ParamValue, StringValue);
+		case SR_FUNCPARAM_KNOWFORM		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_REGION		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
+		case SR_FUNCPARAM_ACTION		 : return priv_SrFuncParamFormidFromString(ParamValue, StringValue, pRecordHandler);
 		default:						
 			return false;
 	}

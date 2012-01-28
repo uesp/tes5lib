@@ -180,6 +180,8 @@ struct srfunction_t
 
 	class CSrRecordHandler;
 	bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecordHandler* pRecordHandler);
+	bool SrFunctionParamToString (CSString& Output, const dword ParamType, const dword ParamValue, CSrRecordHandler* pRecordHandler);
+	bool SrFunctionParamFromString (int& ParamValue, const char* pString, const dword ParamType, CSrRecordHandler* pRecordHandler);
 /*===========================================================================
  *		End of Function Definitions
  *=========================================================================*/

@@ -33,12 +33,6 @@
 
 	#define SR_CTDA_FUNCOFFSET 4096	
 
-	#define SR_CTDA_FLAG_OR					0x01
-	#define SR_CTDA_FLAG_USEQUESTALIASES	0x02
-	#define SR_CTDA_FLAG_USEGLOBAL			0x04
-	#define SR_CTDA_FLAG_USEPACKDATA		0x08
-	#define SR_CTDA_FLAG_SWAPSUBJECTTARGET	0x10
-
 /*===========================================================================
  *		End of Definitions
  *=========================================================================*/
@@ -53,8 +47,8 @@
 
   struct srctdtdata_t 
   {
-	byte		Flags		: 4;
-	byte		CompareType : 4;
+	byte		Flags		: 5;
+	byte		CompareType : 3;
 	byte		Unknown1[3];
 	union 
 	{
@@ -63,11 +57,11 @@
 	};
 	word		Function;
 	word		Padding;
-	long		Parameter1;
-	long		Parameter2;
+	int			Parameter1;
+	int			Parameter2;
 	dword		RunOnType;
 	srformid_t	ReferenceID;
-	long		Parameter3;
+	int			Parameter3;
   };
 
 #pragma pack(pop)
@@ -157,6 +151,8 @@ public:
 	srctdtdata_t& GetCtdtData (void) { return m_Data; }
 	virtual byte* GetData     (void) { return (byte *)&m_Data; }
 	byte		  GetPrkc     (void) { return m_Prkc; }
+
+	bool IsUseGlobal (void) { return (m_Data.Flags &SR_CTDA_FLAG_USEGLOBAL) != 0; }
    
 		/* Initialize a new record */
 	void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_CTDA_SUBRECORD_SIZE; }
@@ -246,43 +242,52 @@ struct srconditioninfo_t
 		pParam2->Copy(pSubrecord);
 	}
 
-	bool SetIfValidParam1 (const char* pBuffer)
+	void DeleteParam1 (void)
 	{
-		if (pBuffer != NULL && pBuffer[0] == ':' && pBuffer[1] == ':')
-		{
-			if (pParam1 == NULL) 
-			{
-				pParam1 = new CSrStringSubrecord;
-				pParam1->Initialize(SR_NAME_CIS1, 0);
-			}
-
-			pParam1->SetString(pBuffer);
-			return true;
-		}
-
 		delete pParam1;
 		pParam1 = NULL;
-		return false;
 	}
 
-	bool SetIfValidParam2 (const char* pBuffer)
+	void DeleteParam2 (void)
 	{
-		if (pBuffer != NULL && pBuffer[0] == ':' && pBuffer[1] == ':')
-		{
-			if (pParam2 == NULL) 
-			{
-				pParam2 = new CSrStringSubrecord;
-				pParam2->Initialize(SR_NAME_CIS2, 0);
-			}
-
-			pParam2->SetString(pBuffer);
-			return true;
-		}
-
 		delete pParam2;
 		pParam2 = NULL;
-		return false;
+	}	
+
+	void DeleteParam (const dword Index)
+	{
+		if (Index == 0) DeleteParam1();
+		else if (Index == 1) DeleteParam2();
 	}
+
+	void SetParam1 (const char* pBuffer)
+	{
+		if (pParam1 == NULL) 
+		{
+			pParam1 = new CSrStringSubrecord;
+			pParam1->Initialize(SR_NAME_CIS1, 0);
+		}
+
+		pParam1->SetString(pBuffer);
+	}
+
+	void SetParam2 (const char* pBuffer)
+	{
+		if (pParam2 == NULL) 
+		{
+			pParam2 = new CSrStringSubrecord;
+			pParam2->Initialize(SR_NAME_CIS2, 0);
+		}
+
+		pParam2->SetString(pBuffer);
+	}
+
+	void SetParam (const dword Index, const char* pBuffer)
+	{
+		if (Index == 0) SetParam1(pBuffer);
+		else if (Index == 1) SetParam2(pBuffer);
+	}
+
 };
 
 typedef CSrPtrArray<srconditioninfo_t> CSrConditionArray;

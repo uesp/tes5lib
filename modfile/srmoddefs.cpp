@@ -671,7 +671,7 @@ BEGIN_STRINGVALUE(s_SrConditionRunonTypes)
 	ADD_STRINGVALUE( SR_CONDITION_RUNON_TARGET		,	"Target")
 	ADD_STRINGVALUE( SR_CONDITION_RUNON_REFERENCE	,	"Reference")
 	ADD_STRINGVALUE( SR_CONDITION_RUNON_COMBATTARGET,	"Combat Target")
-	ADD_STRINGVALUE( SR_CONDITION_RUNON_LINKEDREF	,	"Linked Reference")
+	ADD_STRINGVALUE( SR_CONDITION_RUNON_LINKEDREF	,	"Linked Ref")
 	ADD_STRINGVALUE( SR_CONDITION_RUNON_QUESTALIAS	,	"Quest Alias")
 	ADD_STRINGVALUE( SR_CONDITION_RUNON_PACKAGEDATA	,	"Package Data")
 	ADD_STRINGVALUE( SR_CONDITION_RUNON_EVENTDATA	,	"Event Data")
@@ -1325,4 +1325,72 @@ bool SrIsValidContainerRecord (const srrectype_t Type)
 	if (Type == SR_NAME_WEAP) return true;
 
 	return false;
+}
+
+
+
+const CSrRecTypeArray& GetSrEquipableRecordTypes()
+{
+	static CSrRecTypeArray s_Array;
+	static bool s_Init = false;
+
+	if (!s_Init)
+	{
+		s_Array.Add(SR_NAME_ARMO);
+		s_Array.Add(SR_NAME_WEAP);
+		s_Init = true;
+	}
+
+	return s_Array;
+}
+
+
+const CSrRecTypeArray& GetSrMagicItemRecordTypes()
+{
+	static CSrRecTypeArray s_Array;
+	static bool s_Init = false;
+
+	if (!s_Init)
+	{
+		s_Array.Add(SR_NAME_SPEL);
+		s_Array.Add(SR_NAME_ENCH);
+		s_Array.Add(SR_NAME_INGR);
+		s_Array.Add(SR_NAME_SCRL);
+		s_Array.Add(SR_NAME_ALCH);
+		s_Init = true;
+	}
+
+	return s_Array;
+}
+
+
+const CSrRecTypeArray& GetSrKnowableRecordTypes()
+{
+	static CSrRecTypeArray s_Array;
+	static bool s_Init = false;
+
+	if (!s_Init)
+	{
+		s_Array.Add(SR_NAME_MGEF);
+		s_Array.Add(SR_NAME_WOOP);
+		s_Init = true;
+	}
+
+	return s_Array;
+}
+
+
+const CSrRecTypeArray& GetSrReferenceRecordTypes()
+{
+	static CSrRecTypeArray s_Array;
+	static bool s_Init = false;
+
+	if (!s_Init)
+	{
+		s_Array.Add(SR_NAME_REFR);
+		//TODO: Add other types?
+		s_Init = true;
+	}
+
+	return s_Array;
 }
