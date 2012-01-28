@@ -419,6 +419,7 @@ bool CSrEpfdSubrecord::ReadData  (CSrFile& File)
 	return AddSrGeneralError("%08X: Unknown EPFD data type  %d!", File.Tell(), m_DataType);
 }
 
+
 bool CSrEpfdSubrecord::WriteData (CSrFile& File) 
 { 
 
@@ -435,7 +436,7 @@ bool CSrEpfdSubrecord::WriteData (CSrFile& File)
 			return File.Write(m_Data07.String.c_str(), m_Data07.String.GetLength() + 1); 
 	}
 
-	return AddSrGeneralError("Unknown EPFD data type %d!", m_DataType);
+	return AddSrGeneralError("WriteData(): Unknown EPFD data type %d!", m_DataType);
 }
 
 
