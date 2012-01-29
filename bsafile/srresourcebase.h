@@ -24,6 +24,10 @@
  *=========================================================================*/
 
 
+	#define SR_RESOURCE_SCRIPTEXTENSION "psc"
+	#define SR_RESOURCE_SCRIPTBASEPATH	"scripts\\source\\"
+
+
 /*===========================================================================
  *
  * Begin Class CSrResourceBase Definition
@@ -56,6 +60,22 @@ public:
 
   	/* Check the resource name */
   bool IsName (const char* pString) { return stricmp(m_Name, pString) == 0; }  
+
+  bool IsScript (void)
+  {
+	  if (IsFolder()) return false;
+	  if (!IsExtension(SR_RESOURCE_SCRIPTEXTENSION)) return false;
+
+	  CSString FullName = GetFullName();
+	  return (strnicmp(FullName, SR_RESOURCE_SCRIPTBASEPATH, strlen(SR_RESOURCE_SCRIPTBASEPATH)) == 0);
+  }
+
+  bool IsExtension (const char* pString)
+  {
+	  int Index = m_Name.FindCharR('.');
+	  if (Index < 0) return false;
+	  return stricmp(pString, m_Name.c_str() + Index + 1) == 0;
+  }
 
   long	      GetUserData     (void) { return (m_UserData); }
   void*	      GetUserDataPtr  (void) { return (m_pUserData); }

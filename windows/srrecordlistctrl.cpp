@@ -20,15 +20,14 @@
  *
  *=========================================================================*/
 #ifdef _DEBUG
-  #define new DEBUG_NEW
-  #undef THIS_FILE
-  static char THIS_FILE[] = __FILE__;
+	#define new DEBUG_NEW
+	#undef THIS_FILE
+	static char THIS_FILE[] = __FILE__;
 #endif
 
-  srreclistoptions_t CSrRecordListCtrl::m_Options;
+	srreclistoptions_t CSrRecordListCtrl::m_Options;
 
-  IMPLEMENT_DYNCREATE(CSrRecordListCtrl, CListCtrl);
-
+	IMPLEMENT_DYNCREATE(CSrRecordListCtrl, CListCtrl);
 /*===========================================================================
  *		End of Local Definitions
  *=========================================================================*/
@@ -2801,12 +2800,10 @@ void CSrRecordListCtrl::OnCaptureChanged (CWnd* pWnd) {
  * Class CSrRecordListCtrl Event - UINT OnGetDlgCode ();
  *
  *=========================================================================*/
-UINT CSrRecordListCtrl::OnGetDlgCode() {
-
-  return (CListCtrl::OnGetDlgCode() | DLGC_WANTCHARS );
-
-  return CListCtrl::OnGetDlgCode();
- }
+UINT CSrRecordListCtrl::OnGetDlgCode() 
+{
+	return (CListCtrl::OnGetDlgCode() | DLGC_WANTCHARS );
+}
 /*===========================================================================
  *		End of Class Event CSrRecordListCtrl::OnGetDlgCode()
  *=========================================================================*/

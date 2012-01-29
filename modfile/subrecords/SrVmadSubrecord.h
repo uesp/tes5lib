@@ -103,7 +103,7 @@ struct srvmadpropertydata_t
 			case SR_VMAD_PROPDATA_NULL:			
 				return true;
 			case SR_VMAD_PROPDATA_REFERENCE:		
-				if (Index + 8 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 8 bytes of data!");
+				if (Index + 8 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 8 bytes of data!");
 				memcpy(pData + Index, &CellID, 4);
 				Index += 4;
 				memcpy(pData + Index, &ReferenceID, 4);
@@ -111,25 +111,25 @@ struct srvmadpropertydata_t
 				break;
 			case SR_VMAD_PROPDATA_STRING:
 				Size = (word) String.GetLength() + 1;
-				if (Size >= SR_VMAD_MAXSTRINGLENGTH) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData(): Exceeded maximum string length of %d!", SR_VMAD_MAXSTRINGLENGTH);
-				if (Index + Size >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add %hd bytes of data!", Size);
+				if (Size > SR_VMAD_MAXSTRINGLENGTH) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData(): Exceeded maximum string length of %d!", SR_VMAD_MAXSTRINGLENGTH);
+				if (Index + Size > DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add %hd bytes of data!", Size);
 				memcpy(pData + Index, &Size, 2);
 				Index += 2;
 				memcpy(pData + Index, String.c_str(), Size);
 				Index += Size;
 				break;
 			case SR_VMAD_PROPDATA_INT:				
-				if (Index + 4 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 4 bytes of data!");
+				if (Index + 4 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 4 bytes of data!");
 				memcpy(pData + Index, &iValue, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_FLOAT:			
-				if (Index + 4 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 4 bytes of data!");
+				if (Index + 4 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 4 bytes of data!");
 				memcpy(pData + Index, &fValue, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_BOOL:				
-				if (Index + 1 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 1 byte of data!");
+				if (Index + 1 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 1 byte of data!");
 				memcpy(pData + Index, &bValue, 1);
 				Index += 1;
 				break;
@@ -149,38 +149,38 @@ struct srvmadpropertydata_t
 			case SR_VMAD_PROPDATA_NULL:			
 				return true;
 			case SR_VMAD_PROPDATA_REFERENCE:		
-				if (Index + 8 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 8 bytes of data!");
+				if (Index + 8 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 8 bytes of data!");
 				memcpy(&CellID, pData + Index, 4);
 				Index += 4;
 				memcpy(&ReferenceID, pData + Index, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_STRING:
-				if (Index + 2 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 2 bytes of data!");
+				if (Index + 2 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 2 bytes of data!");
 				memcpy(&Size, pData + Index, 2);
 				Index += 2;
 				String.Destroy();
 
 				if (Size > 0)
 				{
-					if (Index + Size >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse %hd bytes of data!", Size);
+					if (Index + Size > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse %hd bytes of data!", Size);
 					String.Copy((char*)(pData + Index), Size);
 					Index += Size;
 				}
 
 				break;
 			case SR_VMAD_PROPDATA_INT:				
-				if (Index + 4 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 4 bytes of data!");
+				if (Index + 4 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 4 bytes of data!");
 				memcpy(&iValue, pData + Index, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_FLOAT:			
-				if (Index + 4 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 4 bytes of data!");
+				if (Index + 4 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 4 bytes of data!");
 				memcpy(&fValue, pData + Index, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_BOOL:
-				if (Index + 1 >= DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 1 byte of data!");
+				if (Index + 1 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 1 byte of data!");
 				memcpy(&bValue, pData + Index, 1);
 				Index += 1;
 				break;
@@ -324,9 +324,9 @@ struct srvmadproperty_t
 		{
 			if (Count == 0) return AddSrGeneralError("srvmadproperty_t::CreateRawData(): Missing property data!");
 			Count = 1;
-			if (4 + Size + Index >= DataSize) return AddSrGeneralError("srvmadproperty_t::CreateRawData(): Failed to add %d bytes of data!", 4 + Size);
+			if (4 + Size + Index > DataSize) return AddSrGeneralError("srvmadproperty_t::CreateRawData(): Failed to add %d bytes of data!", 4 + Size);
 		}
-		else if (6 + Size + Index >= DataSize) 
+		else if (6 + Size + Index > DataSize) 
 		{
 			return AddSrGeneralError("srvmadproperty_t::CreateRawData(): Failed to add %d bytes of data!", 6 + Size);
 		}
@@ -367,19 +367,19 @@ struct srvmadproperty_t
 		Data.Destroy();
 		Name.Empty();
 
-		if (Index + 2 >= DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse 2 bytes of data!");
+		if (Index + 2 > DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse 2 bytes of data!");
 
 		memcpy(&Size, pData + Index, 2);
 		Index += 2;
 
 		if (Size > 0)
 		{
-			if (Index + Size >= DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse %hd bytes of data!", Size);
+			if (Index + Size > DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse %hd bytes of data!", Size);
 			Name.Copy((char *)(pData + Index), Size);
 			Index += Size;
 		}
 
-		if (Index + 2 >= DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse 2 bytes of data!");
+		if (Index + 2 > DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse 2 bytes of data!");
 
 		memcpy(&Type, pData + Index, 1);
 		Index += 1;
@@ -389,7 +389,7 @@ struct srvmadproperty_t
 
 		if (IsArray())
 		{
-			if (Index + 2 >= DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse 2 bytes of data!");
+			if (Index + 2 > DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse 2 bytes of data!");
 			memcpy(&Count, pData + Index, 2);
 			Index += 2;
 		}
@@ -522,7 +522,7 @@ struct srvmadscript_t
 		word Count = (word) Properties.GetSize();
 		word Size  = (word) Name.GetLength() + 1;
 
-		if (Index + 5 + Size >= DataSize) return AddSrGeneralError("srvmadscript_t::CreateRawData(): Failed to add %d bytes of data!", 5 + Size);
+		if (Index + 5 + Size > DataSize) return AddSrGeneralError("srvmadscript_t::CreateRawData(): Failed to add %d bytes of data!", 5 + Size);
 		if (Properties.GetSize() > SR_VMAD_MAXPROPERTYCOUNT) return AddSrGeneralError("srvmadscript_t::CreateRawData(): Exceeded maximum number of properties %d!", SR_VMAD_MAXPROPERTYCOUNT);
 		if (Name.GetLength() > SR_VMAD_MAXSTRINGLENGTH) return AddSrGeneralError("srvmadscript_t::CreateRawData(): Exceeded maximum string length of %d!", SR_VMAD_MAXSTRINGLENGTH);
 		
@@ -553,19 +553,19 @@ struct srvmadscript_t
 		Properties.Destroy();
 		Name.Empty();
 
-		if (Index + 2 >= DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse 2 bytes of data!");
+		if (Index + 2 > DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse 2 bytes of data!");
 
 		memcpy(&Size, pData + Index, 2);
 		Index += 2;
 
 		if (Size > 0)
 		{
-			if (Index + Size >= DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse %hd bytes of data!", Size);
+			if (Index + Size > DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse %hd bytes of data!", Size);
 			Name.Copy((char *) (pData + Index), Size);
 			Index += Size;
 		}
 
-		if (Index + 3 >= DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse 3 bytes of data!");
+		if (Index + 3 > DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse 3 bytes of data!");
 
 		memcpy(&Unknown, pData + Index, 1);
 		Index += 1;
@@ -687,7 +687,7 @@ struct srvmaddata_t
 	{
 		word Count = (word) Scripts.GetSize();
 
-		if (Index + 6 >= DataSize) return AddSrGeneralError("srvmaddata_t::CreateRawData(): Failed to add 6 bytes of data!");
+		if (Index + 6 > DataSize) return AddSrGeneralError("srvmaddata_t::CreateRawData(): Failed to add 6 bytes of data!");
 		if (Scripts.GetSize() > SR_VMAD_MAXSCRIPTCOUNT) return AddSrGeneralError("srvmaddata_t::CreateRawData(): Exceeded maximum number of scripts %d!", SR_VMAD_MAXSCRIPTCOUNT);
 
 		memcpy(pData + Index, &Version, 2);
@@ -713,7 +713,7 @@ struct srvmaddata_t
 
 		Scripts.Destroy();
 
-		if (Index + 6 >= DataSize) return AddSrGeneralError("srvmaddata_t::ParseRawData(): Failed to parse 6 bytes of data!");
+		if (Index + 6 > DataSize) return AddSrGeneralError("srvmaddata_t::ParseRawData(): Failed to parse 6 bytes of data!");
 
 		memcpy(&Version, pData + Index, 2);
 		Index += 2;

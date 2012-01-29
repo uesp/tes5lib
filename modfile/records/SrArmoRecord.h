@@ -20,6 +20,7 @@
 	#include "../subrecords/srarmodatasubrecord.h"
 	#include "../subrecords/srlstringsubrecord.h"
 	#include "../subrecords/srbodtsubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -43,6 +44,7 @@ protected:
 	
 	CSrFormidSubrecord*		m_pImpactData;	
 	CSrBodtSubrecord*		m_pBodyData;
+	CSrVmadSubrecord*		m_pScriptData;
 	CSrArmoDataSubrecord*	m_pArmorData;
 	CSrDwordSubrecord*		m_pArmorRating;
 	CSrFormidSubrecord*		m_pEnchantment;

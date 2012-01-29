@@ -186,7 +186,11 @@ public:
   int RemoveMatchingChars (ISCHARFUNC BadCharFunc);
 
 	/* Keep the end of the string before any of the characters in the given string */
-  CSString& ReverseTruncate (const SSCHAR* pString);
+  CSString& ReverseTruncateAt (const SSCHAR* pString);
+  CSString& ReverseTruncateAt (const SSCHAR MatchChar);
+
+  CSString& TruncateAt (const SSCHAR MatchChar);
+  CSString& TruncateAt (const SSCHAR* pString);
 
 	/* Seperate a string of the form: Variable = Value */
   bool SeperateVarValue   (CSString& Variable, CSString& Value, const SSCHAR SeperatorChar = '=', const SSCHAR CommentChar = '#');

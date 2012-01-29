@@ -6,6 +6,95 @@
  *
  * Implements the CSrVmadSubrecord class for handling VMAD subrecords.
  *
+Sound Property NewProperty  Auto  
+{doc}
+
+Int[] Property NewProperty  Auto  
+Int Property NewProperty = 123 Auto  
+Int Property NewProperty1  Auto Hidden 
+
+	Hidden
+	Conditional?
+	Array
+	Documentation String
+ Property Types:
+Action
+Activator
+Actor
+ActorBase
+Alias
+Ammo
+Apparatus
+Armor
+AssociationType
+Book
+Bool
+Cell
+Class
+Recipe
+Container
+Door
+EffectShader
+Enchantment
+EncounterZone
+Explosion
+Faction
+Float
+Flora
+Form
+FormList
+Furniture
+Global
+Hazard
+Idle
+ImageSpaceModifier
+ImpactDataSet
+Ingrediant
+Int
+Key
+Keyword
+LeveledActor
+LeveledItem
+LeveledSpell
+Light
+Location
+LocationAlias
+LocationRefType
+MagicEffect
+Message
+Misc
+MusicType
+Reference
+Outfit
+Package
+Perk
+Potion
+Projectile
+Quest
+Race
+ReferenceAlias
+Scene
+Scroll
+ShaderParticleGeometry
+Shout
+SoulGem
+Sound
+SoundCategory
+Spell
+Static
+String
+TalkingActivator
+Topic
+TopicInfo
+VisualEffect
+VoiceType
+Weapon
+Weather
+WordOfPower
+WorldSpace
+
+
+
  *=========================================================================*/
 
 #include "srvmadsubrecord.h"

@@ -42,7 +42,7 @@ BEGIN_SRSUBRECCREATE(CSrArmoRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MOD4, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MOD2, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MO2T, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -71,7 +71,6 @@ BEGIN_SRFIELDMAP(CSrArmoRecord, CSrIdKeyRecord)
 	ADD_SRFIELDALL("Template",		SR_FIELD_TEMPLATE,		0, CSrArmoRecord, FieldTemplate)
 	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrArmoRecord, FieldMaterial)
 	ADD_SRFIELDALL("ImpactData",	SR_FIELD_IMPACTDATA,	0, CSrArmoRecord, FieldImpactData)
-	//ADD_SRFIELDALL("UserData",		SR_FIELD_USERDATA,		0, CSrArmoRecord, FieldUserData)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -85,6 +84,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrArmoRecord::CSrArmoRecord () 
 {
+	m_pScriptData = NULL;
 	m_pItemName = NULL;
 	m_pDescription = NULL;
 	m_pImpactData = NULL;	
@@ -118,6 +118,7 @@ CSrArmoRecord::CSrArmoRecord ()
  *=========================================================================*/
 void CSrArmoRecord::Destroy (void) 
 {
+	m_pScriptData = NULL;
 	m_pItemName = NULL;
 	m_pDescription = NULL;
 	m_pImpactData = NULL;	
@@ -189,6 +190,10 @@ void CSrArmoRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
 		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
+	{
+		m_pScriptData = SrCastClass(CSrVmadSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
 	{
@@ -306,6 +311,8 @@ void CSrArmoRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pDescription = NULL;
 	else if (m_pArmorData == pSubrecord)
 		m_pArmorData = NULL;
+	else if (m_pScriptData == pSubrecord)
+		m_pScriptData = NULL;
 	else if (m_pArmorRating == pSubrecord)
 		m_pArmorRating = NULL;
 	else if (m_pEnchantment == pSubrecord)

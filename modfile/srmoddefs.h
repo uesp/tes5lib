@@ -500,6 +500,7 @@
 	#define SRCLASS_CSrCoedSubrecord			1061
 	#define SRCLASS_CSrAvskSubrecord			1062
 	#define SRCLASS_CSrAnamSubrecord			1063
+	#define SRCLASS_CSrVmadSubrecord			1064
   
 /*===========================================================================
  *		End of Class Type Definitions

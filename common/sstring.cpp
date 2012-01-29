@@ -702,44 +702,127 @@ int CSString::RemoveMatchingChars (ISCHARFUNC BadCharFunc) {
 
 /*===========================================================================
  *
- * Class CSString Method - CSString& ReverseTruncate (pString);
+ * Class CSString Method - CSString& ReverseTruncateAt (pString);
  *
  * Truncate the string at the first occurence of one of the characters
  * in the given string starting at the end of the string. The end of the
  * string is saved.
  *
  *=========================================================================*/
-CSString& CSString::ReverseTruncate (const SSCHAR* pString) {
-  const SSCHAR* pParse;
-  SSCHAR	Char;
-  int		Index;
+CSString& CSString::ReverseTruncateAt (const SSCHAR* pString) 
+{
+	const SSCHAR*	pParse;
+	SSCHAR			Char;
+	int				Index;
 
-	/* Ignore invalid input */
-  if (pString == NULL)         return (*this);
-  if (IsEmpty())               return (*this);
-  if (pString[0] == NULL_CHAR) return (*this);
-  Index = GetLength() - 1;
+		/* Ignore invalid input */
+	if (pString == NULL)         return (*this);
+	if (IsEmpty())               return (*this);
+	if (pString[0] == NULL_CHAR) return (*this);
+	Index = GetLength() - 1;
 
-  while (Index >= 0) {
-    pParse = pString;
-    Char = m_pString[Index];
+	while (Index >= 0) 
+	{
+		pParse = pString;
+		Char = m_pString[Index];
 
-    while (*pParse != NULL_CHAR) {
-      if (Char == *pParse) {
-        Delete(0, Index + 1);
-        return (*this);
-      }
-      ++pParse;
-    }
+		while (*pParse != NULL_CHAR) 
+		{
+			if (Char == *pParse) 
+			{
+				Delete(0, Index + 1);
+				return (*this);
+			}
+			++pParse;
+		}
 
-    --Index;
-  }
+		--Index;
+	}
 
-  return (*this);
+	return (*this);
 }
 /*===========================================================================
- *		End of Class Method CSString::ReverseTruncate()
+ *		End of Class Method CSString::ReverseTruncateAt()
  *=========================================================================*/
+
+
+CSString& CSString::ReverseTruncateAt (const SSCHAR MatchChar) 
+{
+	int	Index;
+
+	if (IsEmpty()) return (*this);
+	Index = GetLength() - 1;
+
+	while (Index >= 0) 
+	{
+
+		if (m_pString[Index] == MatchChar) 
+		{
+			Delete(0, Index + 1);
+			return (*this);
+		}
+
+		--Index;
+	}
+
+	return (*this);
+}
+
+
+CSString& CSString::TruncateAt (const SSCHAR MatchChar)
+{
+	int	Index = 0;
+	int Length = GetLength();
+
+	if (IsEmpty()) return (*this);
+
+	while (Index < Length) 
+	{
+
+		if (m_pString[Index] == MatchChar) 
+		{
+			Truncate(Index);
+			return (*this);
+		}
+
+		++Index;
+	}
+
+	return (*this);
+}
+
+
+CSString& CSString::TruncateAt (const SSCHAR* pString)
+{
+	const SSCHAR*	pParse;
+	SSCHAR			Char;
+	int				Index = 0;
+	int             Length = GetLength();
+
+	if (pString == NULL)         return (*this);
+	if (IsEmpty())               return (*this);
+	if (pString[0] == NULL_CHAR) return (*this);
+
+	while (Index < Length) 
+	{
+		pParse = pString;
+		Char   = m_pString[Index];
+
+		while (*pParse != NULL_CHAR) 
+		{
+			if (Char == *pParse) 
+			{
+				Truncate(Index);
+				return (*this);
+			}
+			++pParse;
+		}
+
+		++Index;
+	}
+
+	return (*this);
+}
 
 
 /*===========================================================================
