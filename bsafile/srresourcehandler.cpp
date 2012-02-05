@@ -211,12 +211,21 @@ bool CSrResourceHandler::AddBsaFile (CSrBsaFile* pBsaFile) {
  * Class CSrResourceHandler Method - CSrResourceFile* FindFile (pFilename);
  *
  *=========================================================================*/
-CSrResourceFile* CSrResourceHandler::FindFile (const char* pFilename) {
-  return m_RootFolder.FindFullFile(pFilename);
+CSrResourceFile* CSrResourceHandler::FindFile (const char* pFilename) 
+{
+	return m_RootFolder.FindFullFile(pFilename);
 }
 /*===========================================================================
  *		End of Class Method CSrResourceHandler::FindFile()
  *=========================================================================*/
+
+
+CSrScriptFile* CSrResourceHandler::FindScriptFile (const char* pFilename)
+{
+	CSrResourceFile* pFile = m_RootFolder.FindFullFile(pFilename);
+	if (pFile == NULL) return NULL;
+	return pFile->GetScriptFile();
+}
 
 
 /*===========================================================================
@@ -224,8 +233,9 @@ CSrResourceFile* CSrResourceHandler::FindFile (const char* pFilename) {
  * Class CSrResourceHandler Method - CSrResourceBase* FindName (pFilename);
  *
  *=========================================================================*/
-CSrResourceBase* CSrResourceHandler::FindName (const char* pFilename) {
-  return m_RootFolder.FindFullName(pFilename);
+CSrResourceBase* CSrResourceHandler::FindName (const char* pFilename) 
+{
+	return m_RootFolder.FindFullName(pFilename);
 }
 /*===========================================================================
  *		End of Class Method CSrResourceHandler::FindName()

@@ -27,6 +27,8 @@
 	#define SR_RESOURCE_SCRIPTEXTENSION "psc"
 	#define SR_RESOURCE_SCRIPTBASEPATH	"scripts\\source\\"
 
+	class CSrScriptFile;
+
 
 /*===========================================================================
  *
@@ -54,6 +56,8 @@ public:
   CSrResourceBase() { m_UserData = 0; m_pUserData = NULL; }
   virtual ~CSrResourceBase() { Destroy();  }
   virtual void Destroy (void) { m_Name.Empty();  }
+
+  virtual CSrScriptFile* GetScriptFile (void) { return NULL; }
 
 	/* Abstract methods */
   virtual bool IsFolder (void) const = 0;

@@ -134,7 +134,6 @@ CSrResourceBase* CSrResourceFolder::FindFullName (const char* pFilename) {
  *=========================================================================*/
 
 
-
 /*===========================================================================
  *
  * Class CSrResourceFolder Method - CSrResourceFolder* FindSubFolder (pPath);
@@ -184,6 +183,18 @@ CSrResourceFile* CSrResourceFolder::GetFileCreate (const char* pFilename) {
 	/* Find an existing folder */
   pFile = FindFile(pFilename);
   if (pFile != NULL) return (pFile);
+
+		/* Create a script if required */
+  if (SrCheckExtension(pFilename, "psc"))
+  {
+	    CSrResourceScript* pScriptFile = new CSrResourceScript;
+		m_Resources.SetAt(pFilename, pScriptFile);
+
+		pScriptFile->SetParent(this);
+		pScriptFile->SetName(pFilename);
+  
+		return pScriptFile;
+  }
 
 	/* Create a new one */
   pFile = new CSrResourceFile;

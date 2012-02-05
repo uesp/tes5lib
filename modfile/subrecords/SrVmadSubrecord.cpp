@@ -153,11 +153,23 @@ bool CSrVmadSubrecord::CreateRawData (void)
 }
 
 
+srvmadscript_t* CSrVmadSubrecord::FindScript (const char* pScriptName)
+{
+
+	for (dword i = 0; i < m_Data.Scripts.GetSize(); ++i)
+	{
+		if (stricmp(m_Data.Scripts[i]->Name, pScriptName) == 0) return m_Data.Scripts[i];
+	}
+
+	return NULL;
+}
+
+
 void CSrVmadSubrecord::InitializeNew (void) 
 { 
 	CSrSubrecord::InitializeNew(); 
 	m_Data.Destroy(); 
-	m_RecordSize = 0; 
+	m_RecordSize = 6; 
 	UpdateRawData();
 }
 

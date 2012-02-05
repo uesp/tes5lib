@@ -746,9 +746,23 @@
 	#define SR_CRITICALSTAGE_DISTSTART	3
 	#define SR_CRITICALSTAGE_DISTEND	4
 
-	#define SR_GENDER_MALE 0
+	#define SR_GENDER_MALE   0
 	#define SR_GENDER_FEMALE 1
 	
+		/* Types of script property data */
+	#define SR_VMAD_PROPDATA_NULL			0
+	#define SR_VMAD_PROPDATA_REFERENCE		1
+	#define SR_VMAD_PROPDATA_STRING			2
+	#define SR_VMAD_PROPDATA_INT			3
+	#define SR_VMAD_PROPDATA_FLOAT			4
+	#define SR_VMAD_PROPDATA_BOOL			5
+	#define SR_VMAD_PROPDATA_ARRAYREFERENCE	11
+	#define SR_VMAD_PROPDATA_ARRAYSTRING	12	
+	#define SR_VMAD_PROPDATA_ARRAYINT		13
+	#define SR_VMAD_PROPDATA_ARRAYFLOAT		14
+	#define SR_VMAD_PROPDATA_ARRAYBOOL		15
+	
+	extern const stringvalue_t s_SrScriptPropertyTypes[];	
 	extern const stringvalue_t s_SrGenderTypes[];	
 	extern const stringvalue_t s_SrCastSourceTypes[];	
 	extern const stringvalue_t s_SrCriticalStageTypes[];	
@@ -905,6 +919,9 @@
 
 	const SSCHAR* GetSrGenderTypeString (const int Value);
 	bool GetSrGenderTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrScriptPropertyTypeString (const int Value);
+	bool GetSrScriptPropertyTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

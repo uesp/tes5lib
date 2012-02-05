@@ -747,8 +747,22 @@ END_STRINGVALUE()
 
 
 BEGIN_STRINGVALUE(s_SrGenderTypes)
-	ADD_STRINGVALUE( SR_GENDER_MALE,	"Make")
+	ADD_STRINGVALUE( SR_GENDER_MALE,	"Male")
 	ADD_STRINGVALUE( SR_GENDER_FEMALE,	"Female")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrScriptPropertyTypes)
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_REFERENCE		,	"Object")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_STRING			,	"String")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_INT			,	"Int")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_FLOAT			,	"Float")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_BOOL			,	"Bool")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYREFERENCE	,	"Object[]")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYSTRING	,	"String[]")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYINT		,	"Int[]")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYFLOAT		,	"Float[]")
+	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYBOOL		,	"Bool[]")
 END_STRINGVALUE()
 
 /*===========================================================================
@@ -808,6 +822,7 @@ const SSCHAR* GetSrAxisTypeString (const int Value) { return s_SrAxisTypesMap.Fi
 const SSCHAR* GetSrCastSourceTypeString (const int Value) { return s_SrCastSourceTypesMap.FindValue(Value); }
 const SSCHAR* GetSrCriticalStageTypeString (const int Value) { return s_SrCriticalStageTypesMap.FindValue(Value); }
 const SSCHAR* GetSrGenderTypeString (const int Value) { return s_SrGenderTypesMap.FindValue(Value); }
+const SSCHAR* GetSrScriptPropertyTypeString (const int Value) { return s_SrScriptPropertyTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -880,6 +895,7 @@ bool GetSrAxisTypeValue (int& Value, const SSCHAR* pString) { return s_SrAxisTyp
 bool GetSrCastSourceTypeValue (int& Value, const SSCHAR* pString) { return s_SrCastSourceTypesMap.FindString(Value, pString); }
 bool GetSrCriticalStageTypeValue (int& Value, const SSCHAR* pString) { return s_SrCriticalStageTypesMap.FindString(Value, pString); }
 bool GetSrGenderTypeValue (int& Value, const SSCHAR* pString) { return s_SrGenderTypesMap.FindString(Value, pString); }
+bool GetSrScriptPropertyTypeValue (int& Value, const SSCHAR* pString) { return s_SrScriptPropertyTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {

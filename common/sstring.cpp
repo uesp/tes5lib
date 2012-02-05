@@ -390,6 +390,28 @@ void CSString::Empty (void) {
  *=========================================================================*/
 
 
+bool CSString::EndsWith (const char* pString)
+{
+	if (pString == NULL) return false;
+
+	int Length = strlen(pString);
+	if (Length > GetLength()) return false;
+
+	return strcmp(m_pString + GetLength() - Length, pString) == 0;
+}
+
+
+bool CSString::EndsWithI (const char* pString)
+{
+	if (pString == NULL) return false;
+
+	int Length = strlen(pString);
+	if (Length > GetLength()) return false;
+
+	return stricmp(m_pString + GetLength() - Length, pString) == 0;
+}
+
+
 /*===========================================================================
  *
  * Class CSString Method - void Escape (void);
@@ -819,6 +841,64 @@ CSString& CSString::TruncateAt (const SSCHAR* pString)
 		}
 
 		++Index;
+	}
+
+	return (*this);
+}
+
+
+CSString& CSString::TruncateAtR (const SSCHAR MatchChar)
+{
+	int	Index = 0;
+	int Length = GetLength();
+
+	if (IsEmpty()) return (*this);
+	Index = Length - 1;
+
+	while (Index >= 0) 
+	{
+
+		if (m_pString[Index] == MatchChar) 
+		{
+			Truncate(Index);
+			return (*this);
+		}
+
+		--Index;
+	}
+
+	return (*this);
+}
+
+
+CSString& CSString::TruncateAtR (const SSCHAR* pString)
+{
+	const SSCHAR*	pParse;
+	SSCHAR			Char;
+	int				Index = 0;
+	int             Length = GetLength();
+
+	if (pString == NULL)         return (*this);
+	if (IsEmpty())               return (*this);
+	if (pString[0] == NULL_CHAR) return (*this);
+	Index = Length - 1;
+
+	while (Index >= 0) 
+	{
+		pParse = pString;
+		Char   = m_pString[Index];
+
+		while (*pParse != NULL_CHAR) 
+		{
+			if (Char == *pParse) 
+			{
+				Truncate(Index);
+				return (*this);
+			}
+			++pParse;
+		}
+
+		--Index;
 	}
 
 	return (*this);

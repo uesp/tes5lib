@@ -98,8 +98,6 @@ public:
   void  Add    (TObj* pRecord);
   TObj* AddNew (void);
 
-
-
 	/* Delete elements */
   virtual bool  Delete   (const dword Index);
   virtual bool  Delete   (TObj* pRecord);
@@ -123,6 +121,8 @@ public:
   int InsertAfter (TObj* pRecord, TObj* pAfter, const int Offset = 0);
 
     void MoveToEnd (const dword Index);
+	int MoveUp   (TObj* pRecord);
+	int MoveDown (TObj* pRecord);
 
 	/* Update a record */
   void SetAt (const dword Index, TObj* pRecord) { if (IsValidIndex(Index)) m_ppRecords[Index] = pRecord; }
@@ -604,6 +604,35 @@ void CSrPtrArray< TObj >::MoveToEnd (const dword Index)
 
 	memmove(m_ppRecords + Index, m_ppRecords + Index + 1, sizeof(m_ppRecords[0]) * (m_NumRecords - Index));
 	m_ppRecords[m_NumRecords - 1] = pRecord;
+}
+
+
+template <class TObj>
+int CSrPtrArray< TObj >::MoveUp (TObj* pRecord)
+{
+	int ListIndex = Find(pRecord);
+	if (ListIndex <= 0) return ListIndex;
+	
+	TObj* pTmp  = m_ppRecords[ListIndex - 1];
+	m_ppRecords[ListIndex-1] = pRecord;
+	m_ppRecords[ListIndex]   = pTmp ;
+
+	return ListIndex - 1;
+}
+
+
+template <class TObj>
+int CSrPtrArray< TObj >::MoveDown (TObj* pRecord)
+{
+	int ListIndex = Find(pRecord);
+	if (ListIndex < 0) return -1;
+    if (ListIndex >= (int) m_NumRecords) return -1;
+
+	TObj* pTmp = m_ppRecords[ListIndex + 1];
+	m_ppRecords[ListIndex+1] = pRecord;
+	m_ppRecords[ListIndex]   = pTmp ;
+
+	return ListIndex + 1;
 }
 
 

@@ -71,6 +71,7 @@ BEGIN_SRFIELDMAP(CSrArmoRecord, CSrIdKeyRecord)
 	ADD_SRFIELDALL("Template",		SR_FIELD_TEMPLATE,		0, CSrArmoRecord, FieldTemplate)
 	ADD_SRFIELDALL("Material",		SR_FIELD_MATERIAL,		0, CSrArmoRecord, FieldMaterial)
 	ADD_SRFIELDALL("ImpactData",	SR_FIELD_IMPACTDATA,	0, CSrArmoRecord, FieldImpactData)
+	ADD_SRFIELDALL("ScriptCount",	SR_FIELD_SCRIPTCOUNT,	0, CSrArmoRecord, FieldScriptCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map

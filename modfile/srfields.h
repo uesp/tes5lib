@@ -482,6 +482,7 @@
   #define SR_FIELD_PERKRANK				422
   #define SR_FIELD_PARAM3				423
   #define SR_FIELD_RUNON				424
+  #define SR_FIELD_SCRIPTCOUNT			425
 
 /*===========================================================================
  *		End of Field Types

@@ -146,6 +146,9 @@ public:
 	/* Empties the string contents */
   void Empty (void);
 
+    bool EndsWith  (const char* pString);
+	bool EndsWithI (const char* pString);
+
 	/* Encode/decode */
   void Escape   (void);
   void Unescape (void);
@@ -191,6 +194,9 @@ public:
 
   CSString& TruncateAt (const SSCHAR MatchChar);
   CSString& TruncateAt (const SSCHAR* pString);
+
+  CSString& TruncateAtR (const SSCHAR MatchChar);
+  CSString& TruncateAtR (const SSCHAR* pString);
 
 	/* Seperate a string of the form: Variable = Value */
   bool SeperateVarValue   (CSString& Variable, CSString& Value, const SSCHAR SeperatorChar = '=', const SSCHAR CommentChar = '#');

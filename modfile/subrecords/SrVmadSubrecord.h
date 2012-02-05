@@ -30,19 +30,6 @@
 
 		/* Default/latest version value */
 	#define SR_VMAD_VERSIONLATEST	5
-	
-		/* Types of property data */
-	#define SR_VMAD_PROPDATA_NULL			0
-	#define SR_VMAD_PROPDATA_REFERENCE		1
-	#define SR_VMAD_PROPDATA_STRING			2
-	#define SR_VMAD_PROPDATA_INT			3
-	#define SR_VMAD_PROPDATA_FLOAT			4
-	#define SR_VMAD_PROPDATA_BOOL			5
-	#define SR_VMAD_PROPDATA_ARRAYREFERENCE	11
-	#define SR_VMAD_PROPDATA_ARRAYSTRING	12	
-	#define SR_VMAD_PROPDATA_ARRAYINT		13
-	#define SR_VMAD_PROPDATA_ARRAYFLOAT		14
-	#define SR_VMAD_PROPDATA_ARRAYBOOL		15
 
 		/* Arbitrary sanity limits */
 	#define SR_VMAD_MAXSCRIPTCOUNT   1000		
@@ -66,20 +53,21 @@ struct srvmadpropertydata_t
 	
 	union
 	{
-		srformid_t	CellID;
+		word		wValue;
 		int			iValue;
 		float		fValue;
 		bool		bValue;
 	};
 
-	srformid_t	ReferenceID;
+	word		QuestAlias;
+	srformid_t	FormID;
 	byte		Type;
 
-	srvmadpropertydata_t() : Type(SR_VMAD_PROPDATA_NULL), ReferenceID(0), CellID(0)
+	srvmadpropertydata_t() : Type(SR_VMAD_PROPDATA_NULL), wValue(0), QuestAlias(0), FormID(0)
 	{
 	}
 
-	dword ComputeSize (void)
+	dword ComputeSize (void) const
 	{
 		switch (Type)
 		{
@@ -104,9 +92,11 @@ struct srvmadpropertydata_t
 				return true;
 			case SR_VMAD_PROPDATA_REFERENCE:		
 				if (Index + 8 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::CreateRawData() Failed to add 8 bytes of data!");
-				memcpy(pData + Index, &CellID, 4);
-				Index += 4;
-				memcpy(pData + Index, &ReferenceID, 4);
+				memcpy(pData + Index, &wValue, 2);
+				Index += 2;
+				memcpy(pData + Index, &QuestAlias, 2);
+				Index += 2;
+				memcpy(pData + Index, &FormID, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_STRING:
@@ -150,9 +140,11 @@ struct srvmadpropertydata_t
 				return true;
 			case SR_VMAD_PROPDATA_REFERENCE:		
 				if (Index + 8 > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse 8 bytes of data!");
-				memcpy(&CellID, pData + Index, 4);
-				Index += 4;
-				memcpy(&ReferenceID, pData + Index, 4);
+				memcpy(&wValue, pData + Index, 2);
+				Index += 2;
+				memcpy(&QuestAlias, pData + Index, 2);
+				Index += 2;
+				memcpy(&FormID, pData + Index, 4);
 				Index += 4;
 				break;
 			case SR_VMAD_PROPDATA_STRING:
@@ -165,6 +157,7 @@ struct srvmadpropertydata_t
 				{
 					if (Index + Size > DataSize) return AddSrGeneralError("srvmadpropertydata_t::ParseRawData() Failed to parse %hd bytes of data!", Size);
 					String.Copy((char*)(pData + Index), Size);
+					String.UpdateLength();
 					Index += Size;
 				}
 
@@ -190,12 +183,11 @@ struct srvmadpropertydata_t
 	}
 
 
-	dword CountUses (const srformid_t FormID)  
+	dword CountUses (const srformid_t InFormID)  
 	{ 
 		if (Type != SR_VMAD_PROPDATA_REFERENCE) return 0;
 
-		if (CellID      == FormID) return 1;
-		if (ReferenceID == FormID) return 1;
+		if (FormID == InFormID) return 1;
 		return 0;
 	}
 
@@ -204,15 +196,9 @@ struct srvmadpropertydata_t
 	{ 
 		if (Type != SR_VMAD_PROPDATA_REFERENCE) return 0;
 
-		if (CellID == OldFormID) 
+		if (FormID == OldFormID) 
 		{
-			CellID = NewFormID;
-			return 1;
-		}
-
-		if (ReferenceID == OldFormID) 
-		{
-			ReferenceID = NewFormID;
+			FormID = NewFormID;
 			return 1;
 		}
 
@@ -225,8 +211,7 @@ struct srvmadpropertydata_t
 		if (Type != SR_VMAD_PROPDATA_REFERENCE) return 0;
 		bool  Result;
 
-		Result  = SrFixupFormid(CellID, CellID, FixupArray);
-		Result &= SrFixupFormid(ReferenceID, ReferenceID, FixupArray);
+		Result  = SrFixupFormid(FormID, FormID, FixupArray);
 
 		return (Result);
 	}
@@ -288,7 +273,7 @@ struct srvmadproperty_t
 		}
 	}
 
-	dword ComputeSize (void)
+	dword ComputeSize (void) const
 	{
 		dword Size = 2;
 
@@ -310,7 +295,7 @@ struct srvmadproperty_t
 		return Size;
 	}
 
-	bool IsArray (void)
+	bool IsArray (void) const
 	{
 		return (Type > 10);
 	}
@@ -376,6 +361,7 @@ struct srvmadproperty_t
 		{
 			if (Index + Size > DataSize) return AddSrGeneralError("srvmadproperty_t::ParseRawData(): Failed to parse %hd bytes of data!", Size);
 			Name.Copy((char *)(pData + Index), Size);
+			Name.UpdateLength();
 			Index += Size;
 		}
 
@@ -503,7 +489,7 @@ struct srvmadscript_t
 		}
 	}
 
-	dword ComputeSize (void)
+	dword ComputeSize (void) const
 	{
 		dword Size = 1 + 2;
 
@@ -558,10 +544,11 @@ struct srvmadscript_t
 		memcpy(&Size, pData + Index, 2);
 		Index += 2;
 
-		if (Size > 0)
+		if (Size >= 0)
 		{
 			if (Index + Size > DataSize) return AddSrGeneralError("srvmadscript_t::ParseRawData(): Failed to parse %hd bytes of data!", Size);
 			Name.Copy((char *) (pData + Index), Size);
+			Name.UpdateLength();
 			Index += Size;
 		}
 
@@ -671,7 +658,7 @@ struct srvmaddata_t
 		Scripts.Destroy();
 	}
 
-	dword ComputeSize (void)
+	dword ComputeSize (void) const
 	{
 		dword Size = 2 + 2 + 2;
 
@@ -811,11 +798,13 @@ public:
 	static  CSrSubrecord* Create  (void) { return new CSrVmadSubrecord; }
 	virtual CSrSubrecord* CreateV (void) { return new CSrVmadSubrecord; }
 
+	srvmadscript_t* FindScript (const char* pScriptName);
+
 	dword GetScriptCount (void) { return m_Data.Scripts.GetSize(); }
 	srvmaddata_t& GetScriptData (void) { return m_Data; }
 
-	virtual dword GetRecordSize (void) { return m_Data.ComputeSize(); }
-	virtual byte* GetData       (void) { return m_pRawData; }
+	virtual dword GetRecordSize (void) const { return m_RecordSize; }
+	virtual byte* GetData       (void)       { return m_pRawData; }
 
 	virtual dword CountUses    (const srformid_t FormID)  { return m_Data.CountUses(FormID); }
 	virtual dword ChangeFormID (const srformid_t NewFormID, const srformid_t OldFormID)  { return m_Data.ChangeFormID(NewFormID, OldFormID); }
@@ -823,7 +812,11 @@ public:
 
 	virtual void InitializeNew (void);
 
-	void UpdateRawData (void) { CreateRawData(); }
+	void UpdateRawData (void) 
+	{
+		CreateRawData(); 
+		m_RecordSize = m_RawDataSize;
+	}
 
 };
 /*===========================================================================

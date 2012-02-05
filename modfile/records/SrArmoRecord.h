@@ -93,6 +93,9 @@ public:
   const char* GetArmorType (void) { return GetSrArmorTypeString(GetBodtData().ArmorType); }
   dword GetBodyFlags (void) { return GetBodtData().BodyParts; }
 
+  CSrVmadSubrecord* GetScriptData (void) { return m_pScriptData; }
+  dword GetScriptCount (void) { return m_pScriptData ? m_pScriptData->GetScriptCount() : 0; } 
+
 		/* Initialize a new record */
   void InitializeNew (void);
 
@@ -108,6 +111,8 @@ public:
 
   DECLARE_SRFIELD_DESCRIPTION(CSrArmoRecord, SR_NAME_DESC)
   DECLARE_SRFIELD_ITEMNAME(CSrArmoRecord)
+
+  DECLARE_SRFIELD_DWORD1(CSrArmoRecord, ScriptCount, GetScriptCount(), dword Tmp)
   
   DECLARE_SRFIELD_METHOD(CSrArmoRecord, Type, GetArmorType, SetArmorType)
   DECLARE_SRFIELD_DWORD(CSrArmoRecord, Rating, GetArmorRating, SetArmorRating)

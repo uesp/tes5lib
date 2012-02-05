@@ -62,6 +62,8 @@ public:
   CSrResourceFile* FindFile (const char* pFilename);
   CSrResourceBase* FindName (const char* pFilename);
 
+  CSrScriptFile* FindScriptFile (const char* pFilename);
+
 	/* Get class members */
   CSrResourceFolder& GetRootFolder (void) { return m_RootFolder; }
   const char*        GetBasePath   (void) { return m_BasePath; }
