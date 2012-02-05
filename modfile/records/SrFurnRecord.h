@@ -16,7 +16,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sritem1record.h"
+	#include "sritem1record.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -46,7 +47,7 @@ protected:
 	CSrSubrecord*		m_pEnamData;
 	CSrSubrecord*		m_pNam0Data;
 	CSrSubrecord*		m_pDestData;
-	CSrSubrecord*		m_pVmadData;
+	CSrVmadSubrecord*	m_pVmadData;
 	CSrSubrecord*		m_pXmrkData;
 	CSrSubrecord*		m_pModsData;
 	CSrSubrecord*		m_pDstdData;

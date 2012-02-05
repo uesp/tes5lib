@@ -29,7 +29,7 @@ BEGIN_SRSUBRECCREATE(CSrMgefRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS1, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS2, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrMgefSnddSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array

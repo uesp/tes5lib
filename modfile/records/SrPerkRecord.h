@@ -24,6 +24,7 @@
 	#include "../subrecords/srprkesubrecord.h"
 	#include "../subrecords/srepfdsubrecord.h"
 	#include "../subrecords/srarraysubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

@@ -30,7 +30,7 @@ BEGIN_SRSUBRECCREATE(CSrFurnRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM0, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DEST, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XMRK, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DSTD, CSrDataSubrecord::Create)
@@ -147,7 +147,7 @@ void CSrFurnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{
-		m_pVmadData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pVmadData = SrCastClass(CSrVmadSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XMRK)
 	{

@@ -20,6 +20,7 @@
 	#include "../subrecords/srweapdatasubrecord.h"
 	#include "../subrecords/srcrdtsubrecord.h"
 	#include "../subrecords/srweapdnamsubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

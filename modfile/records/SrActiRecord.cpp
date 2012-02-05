@@ -28,7 +28,7 @@ BEGIN_SRSUBRECCREATE(CSrActiRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDwordSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_KNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DEST, CSrActiDestSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DSTD, CSrDataSubrecord::Create)
@@ -174,7 +174,7 @@ void CSrActiRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{
-		m_pVmadData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pVmadData = SrCastClass(CSrVmadSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
 	{

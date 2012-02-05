@@ -22,7 +22,7 @@ srperkdata_t CSrPerkRecord::s_NullPerkData = { 0, 0, 0 };
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrPerkRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)	
+	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)	
 	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrPerkDataSubrecord::Create)	
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)

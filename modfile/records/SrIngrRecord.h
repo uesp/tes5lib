@@ -21,6 +21,7 @@
 	#include "../subrecords/sringrdatasubrecord.h"
 	#include "../subrecords/srefitsubrecord.h"
 	#include "../subrecords/srctdasubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

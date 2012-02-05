@@ -28,7 +28,7 @@ BEGIN_SRSUBRECCREATE(CSrBookRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_INAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CNAM, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -160,7 +160,7 @@ void CSrBookRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{
-		m_pVmadData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pVmadData = SrCastClass(CSrVmadSubrecord, pSubrecord);
 	}
 	else
 	{

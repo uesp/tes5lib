@@ -18,6 +18,7 @@
  *=========================================================================*/
 	#include "sritem1record.h"
 	#include "../subrecords/sractidestsubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -44,7 +45,7 @@ protected:
 	CSrDwordSubrecord*		m_pPnamData;
 	CSrFormidSubrecord*		m_pKeyword;
 	CSrActiDestSubrecord*	m_pDestructionData;
-	CSrSubrecord*			m_pVmadData;
+	CSrVmadSubrecord*			m_pVmadData;
 	CSrSubrecord*			m_pModtData;
 	CSrSubrecord*			m_pModsData;
 	CSrSubrecord*			m_pDstdData;

@@ -16,11 +16,12 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridkeyrecord.h"
-  #include "../subrecords/srmgefdatasubrecord.h"
-  #include "../subrecords/srlstringsubrecord.h"
-  #include "../subrecords/srctdasubrecord.h"
-  #include "../subrecords/srmgefsnddsubrecord.h"
+	#include "sridkeyrecord.h"
+	#include "../subrecords/srmgefdatasubrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
+	#include "../subrecords/srctdasubrecord.h"
+	#include "../subrecords/srmgefsnddsubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

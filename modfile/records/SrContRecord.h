@@ -22,6 +22,7 @@
 	#include "../subrecords/srdwordsubrecord.h"
 	#include "../subrecords/srcntosubrecord.h"
 	#include "../subrecords/srcoedsubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -53,7 +54,7 @@ protected:
 	CSrFormidSubrecord*		m_pCloseSound;
 	CSrSubrecord*			m_pCoedData;
 	CSrSubrecord*			m_pModsData;
-	CSrSubrecord*			m_pVmadData;
+	CSrVmadSubrecord*		m_pVmadData;
 
 	static srcontdata_t		s_NullContData;
 

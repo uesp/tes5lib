@@ -18,6 +18,7 @@
  *=========================================================================*/
 	#include "sritem1record.h"
 	#include "../subrecords/srmiscdatasubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -37,7 +38,7 @@ class CSrMiscRecord : public CSrItem1Record
   /*---------- Begin Protected Class Members --------------------*/
 protected:
 	CSrSubrecord*			m_pObndData;
-	CSrSubrecord*			m_pVmadData;
+	CSrVmadSubrecord*			m_pVmadData;
 	CSrSubrecord*			m_pModtData;
 	CSrMiscDataSubrecord*	m_pMiscData;
 	CSrSubrecord*			m_pModsData;

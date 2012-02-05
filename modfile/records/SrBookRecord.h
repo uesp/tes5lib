@@ -19,6 +19,7 @@
 	#include "sritem1record.h"
 	#include "../subrecords/srbookdatasubrecord.h"
 	#include "../subrecords/srlstringsubrecord.h"
+	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -44,7 +45,7 @@ protected:
 	CSrFormidSubrecord*		m_pStatic;
 	CSrLStringSubrecord*	m_pCnamData;
 	CSrFormidSubrecord*		m_pPickupSound;
-	CSrSubrecord*			m_pVmadData;
+	CSrVmadSubrecord*		m_pVmadData;
 
 	static srbookdata_t s_NullBookData;
 
