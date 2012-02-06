@@ -146,10 +146,6 @@
 	const srrectype_t SR_NAME_WOOP = "WOOP";
 	const srrectype_t SR_NAME_WRLD = "WRLD";
 	const srrectype_t SR_NAME_WTHR = "WTHR";
-
-
-	
-  
 /*===========================================================================
  *		End of Standard Record Names
  *=========================================================================*/

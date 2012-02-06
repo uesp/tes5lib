@@ -149,12 +149,11 @@
 	#include "records/SrWrldrecord.h"
 	#include "records/SrWthrrecord.h"
 
+	#include "groups/srfilegroup.h"
 
-  #include "groups/srfilegroup.h"
+	#include "srrecordhandler.h"
 
-  #include "srrecordhandler.h"
-
-  #include "../strings/srstringfile.h"
+	#include "../strings/srstringfile.h"
 
 /*===========================================================================
  *		End of Required Includes
