@@ -13,5 +13,6 @@ struct srrectypeinfo_t
 
 
 const srrectypeinfo_t* GetSrRecTypeInfo (const srrectype_t RecordType);
+const char* GetSrRecTypeName (const srrectype_t RecordType);
 
 #endif
