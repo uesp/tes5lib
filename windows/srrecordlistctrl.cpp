@@ -1655,6 +1655,24 @@ int CSrRecordListCtrl::GetSelectedItem (void) {
  *=========================================================================*/
 
 
+void CSrRecordListCtrl::GetSelectedRecords (CSrRefRecordArray& Records)
+{
+	POSITION ListPos;
+	int      ListIndex;
+
+	ListPos = GetFirstSelectedItemPosition();
+	if (ListPos == NULL) return;
+  
+	while (ListPos)
+	{
+		ListIndex = GetNextSelectedItem(ListPos);
+		CSrRecord* pRecord = GetRecord(ListIndex);
+		if (pRecord) Records.Add(pRecord);
+	} 	
+	
+}
+
+
 /*===========================================================================
  *
  * Class CSrRecordListCtrl Method - srreclistinfo_t* InitializeColumns (Type, ListInit, pFieldMap, Flags, SortField);

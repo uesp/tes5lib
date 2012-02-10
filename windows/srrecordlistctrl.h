@@ -404,6 +404,8 @@ public:
   virtual srrlcustomdata_t*  GetSelectedCustomData (void);
   virtual int                GetSelectedItem       (void);
 
+  void GetSelectedRecords (CSrRefRecordArray& Records);
+
   srfilterextra_t& GetExtraFilter (void) { return m_ExtraFilter; }
 
 	/* Access the static options member */
