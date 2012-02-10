@@ -171,6 +171,22 @@ struct srnewscriptpropertyinfo_t
 	bool		Hidden;
 	bool		Array;
 };
+
+
+struct srscriptinfo_t
+{
+	CSString	Name;
+	bool		Hidden;
+	bool		Conditional;
+	bool		HasSource;
+
+	srscriptinfo_t() : Hidden(false), Conditional(false), HasSource(false)
+	{
+	}
+};
+
+typedef CSrPtrArray<srscriptinfo_t> CSrScriptInfoArray;
+typedef TGenRefPtrMap<const char*, srscriptinfo_t, const char*> CSrScriptInfoMap;
 /*===========================================================================
  *		End of Type Definitions
  *=========================================================================*/
