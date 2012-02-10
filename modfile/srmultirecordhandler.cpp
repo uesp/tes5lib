@@ -145,19 +145,22 @@ CSrEspFile* CSrMultiRecordHandler::AddMaster (void) {
  * Class CSrMultiRecordHandler Method - dword ChangeFormIDIndex (NewID, OldID, StartMasterIndex);
  *
  *=========================================================================*/
-dword CSrMultiRecordHandler::ChangeFormIDIndex (const srformid_t NewID, const srformid_t OldID, const dword StartMasterIndex) {
-  dword Index;
-  dword Count = 0;
+dword CSrMultiRecordHandler::ChangeFormIDIndex (const srformid_t NewID, const srformid_t OldID, const dword StartMasterIndex) 
+{
+	dword Index;
+	dword Count = 0;
 
-  for (Index = StartMasterIndex; Index < m_MasterFiles.GetSize(); ++Index) {
-    Count += m_MasterFiles[Index]->ChangeFormID(NewID, OldID);
-  }
+	for (Index = StartMasterIndex; Index < m_MasterFiles.GetSize(); ++Index) 
+	{
+		Count += m_MasterFiles[Index]->ChangeFormID(NewID, OldID);
+	}
 
-  if (StartMasterIndex <= m_MasterFiles.GetSize()) {
-    Count += m_ActiveFile.ChangeFormID(NewID, OldID);
-  }
+	if (StartMasterIndex <= m_MasterFiles.GetSize()) 
+	{
+		Count += m_ActiveFile.ChangeFormID(NewID, OldID);
+	}
 
-  return (Count);
+	return (Count);
 }
 /*===========================================================================
  *		End of Class Method CSrMultiRecordHandler::ChangeFormIDIndex()
@@ -169,23 +172,187 @@ dword CSrMultiRecordHandler::ChangeFormIDIndex (const srformid_t NewID, const sr
  * Class CSrMultiRecordHandler Method - dword ChangeEditorIDIndex (pNewID, pOldID, StartModIndex);
  *
  *=========================================================================*/
-dword CSrMultiRecordHandler::ChangeEditorIDIndex (const SSCHAR* pNewID, const SSCHAR* pOldID, const dword StartModIndex) {
-  dword Index;
-  dword Count = 0;
+dword CSrMultiRecordHandler::ChangeEditorIDIndex (const SSCHAR* pNewID, const SSCHAR* pOldID, const dword StartModIndex) 
+{
+	dword Index;
+	dword Count = 0;
 
-  for (Index = StartModIndex; Index < m_MasterFiles.GetSize(); ++Index) {
-    Count += m_MasterFiles[Index]->ChangeEditorID(pNewID, pOldID);
-  }
+	for (Index = StartModIndex; Index < m_MasterFiles.GetSize(); ++Index) 
+	{
+		Count += m_MasterFiles[Index]->ChangeEditorID(pNewID, pOldID);
+	}
 
-  if (StartModIndex <= m_MasterFiles.GetSize()) {
-    Count += m_ActiveFile.ChangeEditorID(pNewID, pOldID);
-  }
+	if (StartModIndex <= m_MasterFiles.GetSize()) 
+	{
+		Count += m_ActiveFile.ChangeEditorID(pNewID, pOldID);
+	}
 
-  return (Count);
+	return (Count);
 }
 /*===========================================================================
  *		End of Class Method CSrMultiRecordHandler::ChangeEditorIDIndex()
  *=========================================================================*/
+
+
+bool CSrMultiRecordHandler::ChangeRecordFormID (CSrRecord* pRecord, const srformid_t NewFormID)
+{
+	srformid_t OldFormID;
+
+	if (pRecord == NULL) return false;
+	OldFormID = pRecord->GetFormID();
+	
+	if (FindFormID(NewFormID) != NULL)
+	{
+		AddSrGeneralError("Cannot change the formid of 0x%08X to 0x%08X as it already exists!", OldFormID, NewFormID);
+		return false;
+	}
+
+	m_EventHandler.SendPreUpdateEvent(pRecord);
+	CreateUndoUpdate(pRecord);
+	
+	CSrRecord* pNewRecord = MakeRecordActivePriv(pRecord, true);
+	if (pNewRecord == NULL) return false;
+
+	RemoveFromIndex(pNewRecord);
+	pNewRecord->SetFormID(NewFormID);
+	IndexRecord(pNewRecord);
+
+	m_EventHandler.SendUpdateEvent(pNewRecord, pRecord);
+	
+	for (dword i = 0; i < m_MasterFiles.GetSize(); ++i) 
+	{
+		ChangeFormID(m_MasterFiles[i]->GetTopGroup(), NewFormID, OldFormID);
+	}
+
+	ChangeFormID(m_ActiveFile.GetTopGroup(), NewFormID, OldFormID);
+	return true;
+}
+
+
+bool CSrMultiRecordHandler::ChangeModIndex (CSrRecord* pRecord, const byte ModIndex)
+{
+	byte       CurModIndex;
+	srformid_t NewFormID;
+	srformid_t OldFormID;
+
+	if (pRecord == NULL) return false;
+
+	CurModIndex = pRecord->GetFormID() >> 24;
+	if (CurModIndex == ModIndex) return true;
+
+	OldFormID = pRecord->GetFormID();
+	NewFormID = (OldFormID & 0x00ffffff) | (ModIndex << 24);
+
+	if (FindFormID(NewFormID) != NULL)
+	{
+		AddSrGeneralError("Cannot change the formid of 0x%08X to 0x%08X as it already exists!", OldFormID, NewFormID);
+		return false;
+	}
+
+	m_EventHandler.SendPreUpdateEvent(pRecord);
+	CreateUndoUpdate(pRecord);
+	
+	CSrRecord* pNewRecord = MakeRecordActivePriv(pRecord, true);
+	if (pNewRecord == NULL) return false;
+
+	RemoveFromIndex(pNewRecord);
+	pNewRecord->SetFormID(NewFormID);
+	IndexRecord(pNewRecord);
+
+	m_EventHandler.SendUpdateEvent(pNewRecord, pRecord);
+	
+	for (dword i = 0; i < m_MasterFiles.GetSize(); ++i) 
+	{
+		ChangeFormID(m_MasterFiles[i]->GetTopGroup(), NewFormID, OldFormID);
+	}
+
+	ChangeFormID(m_ActiveFile.GetTopGroup(), NewFormID, OldFormID);
+	return true;
+}
+
+
+bool CSrMultiRecordHandler::AssignNewFormID (CSrRecord* pRecord, const byte ModIndex)
+{
+	byte       CurModIndex;
+	srformid_t NewFormID;
+	srformid_t OldFormID;
+
+	if (pRecord == NULL) return false;
+
+	CurModIndex = pRecord->GetFormID() >> 24;
+	if (CurModIndex == ModIndex) return true;
+
+	OldFormID = pRecord->GetFormID();
+	NewFormID = GetFreeFormID(ModIndex);
+	if (NewFormID == OldFormID) return false;
+		
+	m_EventHandler.SendPreUpdateEvent(pRecord);
+	CreateUndoUpdate(pRecord);
+	
+	CSrRecord* pNewRecord = MakeRecordActivePriv(pRecord, true);
+	if (pNewRecord == NULL) return false;
+
+	RemoveFromIndex(pNewRecord);
+	pNewRecord->SetFormID(NewFormID);
+	IndexRecord(pNewRecord);
+
+	m_EventHandler.SendUpdateEvent(pNewRecord, pRecord);
+	
+	for (dword i = 0; i < m_MasterFiles.GetSize(); ++i) 
+	{
+		ChangeFormID(m_MasterFiles[i]->GetTopGroup(), NewFormID, OldFormID);
+	}
+
+	ChangeFormID(m_ActiveFile.GetTopGroup(), NewFormID, OldFormID);
+	return true;
+}
+
+
+dword CSrMultiRecordHandler::ChangeFormID (CSrGroup* pGroup, const srformid_t NewID, const srformid_t OldID)
+{
+	dword Count;
+
+	if (pGroup == NULL) return 0;
+
+	for (dword i = 0; i < pGroup->GetNumRecords(); ++i)
+	{
+		CSrBaseRecord* pBaseRecord = pGroup->GetRecord(i);
+		CSrGroup*      pSubGroup   = SrCastClass(CSrGroup, pBaseRecord);
+		CSrRecord*     pRecord     = SrCastClass(CSrRecord, pBaseRecord);
+
+		if (pSubGroup != NULL)
+		{
+			Count += ChangeFormID(pSubGroup, NewID, OldID);
+		}
+		else if (pRecord != NULL)
+		{
+			Count += ChangeFormID(pRecord, NewID, OldID);
+		}
+
+	}
+
+	return Count;
+}
+
+
+dword CSrMultiRecordHandler::ChangeFormID (CSrRecord* pRecord, const srformid_t NewID, const srformid_t OldID)
+{
+	dword Count = 0;
+
+	if (pRecord == NULL) return 0;
+	if (pRecord->CountUses(OldID) == 0) return 0;
+
+	m_EventHandler.SendPreUpdateEvent(pRecord);
+	CreateUndoUpdate(pRecord);
+	
+	CSrRecord* pNewRecord = MakeRecordActivePriv(pRecord, true);
+	if (pNewRecord == NULL) return false;
+		
+	Count = pNewRecord->ChangeFormID(NewID, OldID);
+	m_EventHandler.SendUpdateEvent(pNewRecord, pRecord);		
+
+	return Count;
+}
 
 
 /*===========================================================================
@@ -1790,7 +1957,8 @@ bool CSrMultiRecordHandler::MoveNewRecord (CSrRecord* pRecord) {
  * accessible method.
  *
  *=========================================================================*/
-CSrRecord* CSrMultiRecordHandler::MakeRecordActivePriv (CSrRecord* pRecord, const bool IndexRecord) {
+CSrRecord* CSrMultiRecordHandler::MakeRecordActivePriv (CSrRecord* pRecord, const bool IndexRecord) 
+{
   CSrRecord*		pNewRecord;
   CSrRefGroupArray	GroupArray;
   CSrGroup*			pMatchGroup;
@@ -2840,7 +3008,8 @@ void CSrMultiRecordHandler::TrimUndoItems (void) {
  * are updated as needed. False is returned on any error.
  *
  *=========================================================================*/
-bool CSrMultiRecordHandler::MakeRecordActive (CSrRecord* pRecord) {
+bool CSrMultiRecordHandler::MakeRecordActive (CSrRecord* pRecord) 
+{
   CSrRecord* pNewRecord;
 
 	/* Ignore invalid input */
