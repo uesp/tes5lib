@@ -803,7 +803,7 @@ public:
 	dword GetScriptCount (void) { return m_Data.Scripts.GetSize(); }
 	srvmaddata_t& GetScriptData (void) { return m_Data; }
 
-	virtual dword GetRecordSize (void) const { return m_RecordSize; }
+	virtual dword GetRecordSize (void) const { return m_Data.ComputeSize(); }
 	virtual byte* GetData       (void)       { return m_pRawData; }
 
 	virtual dword CountUses    (const srformid_t FormID)  { return m_Data.CountUses(FormID); }
