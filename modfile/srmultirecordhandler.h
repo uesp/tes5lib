@@ -273,6 +273,13 @@ public:
   virtual dword ChangeFormIDIndex   (const srformid_t NewID, const srformid_t OldID, const dword StartModIndex);
   virtual dword ChangeEditorIDIndex (const SSCHAR*   pNewID, const SSCHAR*   pOldID, const dword StartModIndex);
 
+  bool ChangeRecordFormID (CSrRecord* pRecord, const srformid_t NewID);
+
+  dword ChangeFormID    (CSrRecord* pRecord, const srformid_t NewID, const srformid_t OldID);
+  dword ChangeFormID    (CSrGroup* pGroup, const srformid_t NewID, const srformid_t OldID);
+  bool  ChangeModIndex  (CSrRecord* pRecord, const byte ModIndex);
+  bool  AssignNewFormID (CSrRecord* pRecord, const byte ModIndex);
+
 	/* Removes the given record from the active file */
   CSrRecord* CleanRecord (CSrRecord* pRecord);
 
