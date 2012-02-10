@@ -28,6 +28,7 @@
 	#define SR_RESOURCE_SCRIPTBASEPATH	"scripts\\source\\"
 
 	class CSrScriptFile;
+	struct srscriptinfo_t;
 
 
 /*===========================================================================
@@ -57,7 +58,8 @@ public:
   virtual ~CSrResourceBase() { Destroy();  }
   virtual void Destroy (void) { m_Name.Empty();  }
 
-  virtual CSrScriptFile* GetScriptFile (void) { return NULL; }
+  virtual CSrScriptFile*  GetScriptFile (void) { return NULL; }
+  virtual srscriptinfo_t* GetScriptInfo (void) { return NULL; }
 
 	/* Abstract methods */
   virtual bool IsFolder (void) const = 0;

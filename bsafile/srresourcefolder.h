@@ -19,6 +19,7 @@
   #include "srresourcebase.h"
   #include "srresourcefile.h"
   #include "srresourcescript.h"
+  #include "srresourcecompiledscript.h"
   #include "srbsafile.h"
   #include "../common/dl_map.h"
 /*===========================================================================

@@ -20,10 +20,10 @@
  *=========================================================================*/
 CSrResourceFolder::CSrResourceFolder() 
 {
-  m_pParent        = NULL;
-  m_pParentHandler = NULL;
+	m_pParent        = NULL;
+	m_pParentHandler = NULL;
 
-  m_Resources.InitHashTable(203);
+	m_Resources.InitHashTable(1203);
 }
 /*===========================================================================
  *		End of Class CSrResourceFolder Constructor
@@ -54,7 +54,8 @@ void CSrResourceFolder::Destroy (void)
  * Class CSrResourceFolder Method - CSrResourceFile* FindFile (pFilename);
  *
  *=========================================================================*/
-CSrResourceFile* CSrResourceFolder::FindFile (const char* pFilename) {
+CSrResourceFile* CSrResourceFolder::FindFile (const char* pFilename) 
+{
   CSrResourceBase*   pBase;
 
   pBase = m_Resources.Lookup(pFilename);
@@ -184,7 +185,7 @@ CSrResourceFile* CSrResourceFolder::GetFileCreate (const char* pFilename) {
   pFile = FindFile(pFilename);
   if (pFile != NULL) return (pFile);
 
-		/* Create a script if required */
+		/* Create a source or compiled script file object if required */
   if (SrCheckExtension(pFilename, "psc"))
   {
 	    CSrResourceScript* pScriptFile = new CSrResourceScript;
@@ -194,6 +195,17 @@ CSrResourceFile* CSrResourceFolder::GetFileCreate (const char* pFilename) {
 		pScriptFile->SetName(pFilename);
   
 		return pScriptFile;
+  }
+  else if (SrCheckExtension(pFilename, "pex"))
+  {
+	    CSrResourceCompiledScript* pScript = new CSrResourceCompiledScript;
+		m_Resources.SetAt(pFilename, pScript);
+
+		pScript->SetParent(this);
+		pScript->SetName(pFilename);
+		pScript->InitScriptInfo();
+  
+		return pScript;
   }
 
 	/* Create a new one */
