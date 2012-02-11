@@ -143,6 +143,7 @@
   #define SR_FIND_ADDRECORDS		0x0100	
   #define SR_FIND_NOHEADER			0x0200
   #define SR_FIND_FORMID			0x0400
+  #define SR_FIND_INCLUDESCRIPTS	0x0800
 
 	/* Main game master file */
   #define SR_GAME_MASTER "skyrim.esm"
@@ -196,14 +197,17 @@
 	dword			FileCount;
 	dword			GroupCount;
 	dword			RecordCount;
+	dword			ScriptCount;
 	dword			SubrecordCount;
 
 	dword			FoundSubrecords;
 	dword			FoundRecords;
+	dword			FoundScripts;
 
 	srrectype_t*	pExcludeRecords;	/* Optional list of record types to exclude from the search */
 
 	CSrRefPtrArray<CSrRecord>*	pFindRecords;
+	CSStringArray				FindScripts;
 
 	srfinddata_t()
 	{
@@ -216,6 +220,8 @@
 		SubrecordCount	 = 0;
 		FoundSubrecords  = 0;
 		FoundRecords     = 0;
+		FoundScripts     = 0;
+		ScriptCount      = 0;
 		pExcludeRecords	 = NULL;
 		pFindRecords     = NULL;
 	}
