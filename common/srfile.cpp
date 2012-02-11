@@ -200,7 +200,7 @@ bool CSrFile::Open (const SSCHAR* pFilename, const SSCHAR* pFileMode) {
   if (pFilename == NULL) return AddSrUserError(SRERR_USER_NULL, "Input filename cannot be NULL!");
   if (pFileMode == NULL) return AddSrUserError(SRERR_USER_NULL, "Input file mode cannot be NULL!");
 
-  SystemLog.Printf("Opening '%s' in mode '%s'...", pFilename, pFileMode);
+  //SystemLog.Printf("Opening '%s' in mode '%s'...", pFilename, pFileMode);
 
 	/* Attempt to open the file */
   m_pFile = fopen(pFilename, pFileMode);
