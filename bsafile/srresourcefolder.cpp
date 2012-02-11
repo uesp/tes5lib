@@ -188,7 +188,7 @@ CSrResourceFile* CSrResourceFolder::GetFileCreate (const char* pFilename) {
 		/* Create a source or compiled script file object if required */
   if (SrCheckExtension(pFilename, "psc"))
   {
-	    CSrResourceScript* pScriptFile = new CSrResourceScript;
+	    CSrResourceScript* pScriptFile = CSrResourceBase::CSrResourceScriptAllocator.CreateObject();
 		m_Resources.SetAt(pFilename, pScriptFile);
 
 		pScriptFile->SetParent(this);
@@ -198,7 +198,7 @@ CSrResourceFile* CSrResourceFolder::GetFileCreate (const char* pFilename) {
   }
   else if (SrCheckExtension(pFilename, "pex"))
   {
-	    CSrResourceCompiledScript* pScript = new CSrResourceCompiledScript;
+	    CSrResourceCompiledScript* pScript = CSrResourceBase::CSrResourceCompiledScriptAllocator.CreateObject();
 		m_Resources.SetAt(pFilename, pScript);
 
 		pScript->SetParent(this);
@@ -209,7 +209,7 @@ CSrResourceFile* CSrResourceFolder::GetFileCreate (const char* pFilename) {
   }
 
 	/* Create a new one */
-  pFile = new CSrResourceFile;
+  pFile = CSrResourceBase::CSrResourceFileAllocator.CreateObject();
   m_Resources.SetAt(pFilename, pFile);
 
   pFile->SetParent(this);
@@ -241,7 +241,7 @@ CSrResourceFolder* CSrResourceFolder::GetFolderCreate (const char* pPath) {
   if (pFolder != NULL) return (pFolder);
 
 	/* Create a new one */
-  pFolder = new CSrResourceFolder;
+  pFolder = CSrResourceBase::CSrResourceFolderAllocator.CreateObject();
   m_Resources.SetAt(pPath, pFolder);
 
   pFolder->SetParentHandler(m_pParentHandler);

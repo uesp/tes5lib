@@ -37,7 +37,7 @@
   class CSrResourceHandler;
 
   	/* File/folder map */
-  typedef TGenPtrMap<CSString, CSrResourceBase, const char*> CSrResourceMap;
+  typedef TGenRefPtrMap<CSString, CSrResourceBase, const char*> CSrResourceMap;
 
 /*===========================================================================
  *		End of Type Definitions
@@ -54,7 +54,6 @@ class CSrResourceFolder : public CSrResourceBase
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  //CSrResourceArray	m_Resources;		/* Child resources */
   CSrResourceMap		m_Resources;
 
   CSrResourceFolder*	m_pParent;

@@ -230,6 +230,8 @@ int CSrResourceInstance::GetResourceType (void) {
   if (stricmp(pParse, "pcx")   == 0) return (SR_RESOURCETYPE_IMAGE);
   if (stricmp(pParse, "wav")   == 0) return (SR_RESOURCETYPE_SOUND);
   if (stricmp(pParse, "mp3")   == 0) return (SR_RESOURCETYPE_SOUND);
+  if (stricmp(pParse, "psc")   == 0) return (SR_RESOURCETYPE_SCRIPT);
+  if (stricmp(pParse, "pex")   == 0) return (SR_RESOURCETYPE_COMPILEDSCRIPT);  
 
   return (SR_RESOURCETYPE_UNKNOWN);
 }

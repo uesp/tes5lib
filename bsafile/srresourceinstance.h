@@ -29,14 +29,16 @@
  *
  *=========================================================================*/
 
-	/* Resource types */
-  #define SR_RESOURCETYPE_UNKNOWN 0
-  #define SR_RESOURCETYPE_TEXT	  1
-  #define SR_RESOURCETYPE_HTML	  2
-  #define SR_RESOURCETYPE_XML	  3
-  #define SR_RESOURCETYPE_IMAGE	  4
-  #define SR_RESOURCETYPE_NIF	  5
-  #define SR_RESOURCETYPE_SOUND	  6
+		/* Resource types */
+	#define SR_RESOURCETYPE_UNKNOWN			0
+	#define SR_RESOURCETYPE_TEXT			1
+	#define SR_RESOURCETYPE_HTML			2
+	#define SR_RESOURCETYPE_XML				3
+	#define SR_RESOURCETYPE_IMAGE			4
+	#define SR_RESOURCETYPE_NIF				5
+	#define SR_RESOURCETYPE_SOUND			6
+	#define SR_RESOURCETYPE_SCRIPT			7
+	#define SR_RESOURCETYPE_COMPILEDSCRIPT	8
 
 /*===========================================================================
  *		End of Definitions
@@ -69,7 +71,7 @@ class CSrResourceInstance
 protected:
   CSrBsaFileRecord*	m_pBsaRecord;		/* Parent record if in a BSA file */
 
-  CSString		m_Filename;		/* Just the filename for a non-BSA file */
+  CSString		m_Filename;			/* Just the filename for a non-BSA file */
   CSString		m_FullFilename;		/* Complete path+filename for a non-BSA file */
 
   int64			m_Filesize;

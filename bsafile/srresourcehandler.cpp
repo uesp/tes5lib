@@ -242,3 +242,11 @@ CSrResourceBase* CSrResourceHandler::FindName (const char* pFilename)
  *=========================================================================*/
 
 
+
+CSrResourceFolder* CSrResourceHandler::GetScriptsFolder (void)
+{
+	CSrResourceBase* pBasePath = FindName("scripts\\source\\");
+	if (pBasePath == NULL || !pBasePath->IsFolder()) return NULL;
+
+	return (CSrResourceFolder *) pBasePath;
+}

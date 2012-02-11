@@ -16,9 +16,10 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "../common/srerrorhandler.h"
-  #include "../common/srptrarray.h"
-  #include "../common/sstring.h"
+	#include "../common/srerrorhandler.h"
+	#include "../common/srptrarray.h"
+	#include "../common/sstring.h"
+	#include "../common/SrBlockAllocator.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -29,6 +30,12 @@
 
 	class CSrScriptFile;
 	struct srscriptinfo_t;
+
+	class CSrResourceFolder;
+	class CSrResourceFile;
+	class CSrResourceScript;
+	class CSrResourceCompiledScript;
+	class CSrResourceInstance;
 
 
 /*===========================================================================
@@ -45,6 +52,12 @@ protected:
   long		m_UserData;
   void*		m_pUserData;
 
+  static TSrBlockAllocator<CSrResourceFolder>			CSrResourceFolderAllocator;
+  static TSrBlockAllocator<CSrResourceFile>				CSrResourceFileAllocator;
+  static TSrBlockAllocator<CSrResourceScript>			CSrResourceScriptAllocator;
+  static TSrBlockAllocator<CSrResourceCompiledScript>	CSrResourceCompiledScriptAllocator;
+  static TSrBlockAllocator<CSrResourceInstance>			CSrResourceInstanceAllocator;
+  
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:

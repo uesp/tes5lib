@@ -46,10 +46,10 @@ class CSrResourceFile : public CSrResourceBase {
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  CSrResourceInstanceArray	m_Instances;
-  int						m_ResourceType;
+  CSrRefResourceInstanceArray	m_Instances;
+  int							m_ResourceType;
   
-  CSrResourceFolder*		m_pParent;
+  CSrResourceFolder*			m_pParent;
 
 
   /*---------- Begin Protected Class Methods --------------------*/

@@ -13,6 +13,13 @@
 #include "srresourcefolder.h"
 
 
+TSrBlockAllocator<CSrResourceFolder>			CSrResourceBase::CSrResourceFolderAllocator;
+TSrBlockAllocator<CSrResourceFile>				CSrResourceBase::CSrResourceFileAllocator;
+TSrBlockAllocator<CSrResourceScript>			CSrResourceBase::CSrResourceScriptAllocator;
+TSrBlockAllocator<CSrResourceCompiledScript>	CSrResourceBase::CSrResourceCompiledScriptAllocator;
+TSrBlockAllocator<CSrResourceInstance>			CSrResourceBase::CSrResourceInstanceAllocator;
+
+
 /*===========================================================================
  *
  * Class CSrResourceFile Constructor
@@ -54,17 +61,17 @@ void CSrResourceFile::Destroy (void)
  *=========================================================================*/
 CSrResourceInstance* CSrResourceFile::AddInstance (CSrBsaFileRecord* pRecord) 
 {
-  CSrResourceInstance* pInstance;
+	CSrResourceInstance* pInstance;
 
-  pInstance = new CSrResourceInstance;
-  m_Instances.Add(pInstance);
+	pInstance = CSrResourceBase::CSrResourceInstanceAllocator.CreateObject();
+	m_Instances.Add(pInstance);
 
-  pInstance->SetParent(this);
-  pInstance->SetBsaRecord(pRecord);
+	pInstance->SetParent(this);
+	pInstance->SetBsaRecord(pRecord);
 
-  if (m_Instances.GetSize() == 1) m_ResourceType = pInstance->GetResourceType();
-  pInstance->UpdateFileInfo();
-  return (pInstance);
+	if (m_Instances.GetSize() == 1) m_ResourceType = pInstance->GetResourceType();
+	pInstance->UpdateFileInfo();
+	return (pInstance);
 }
 /*===========================================================================
  *		End of Class Method CSrResourceFile::AddInstance()
@@ -78,17 +85,17 @@ CSrResourceInstance* CSrResourceFile::AddInstance (CSrBsaFileRecord* pRecord)
  *=========================================================================*/
 CSrResourceInstance* CSrResourceFile::AddInstance (const char* pFilename) 
 {
-  CSrResourceInstance* pInstance;
+	CSrResourceInstance* pInstance;
 
-  pInstance = new CSrResourceInstance;
-  m_Instances.Add(pInstance);
+	pInstance = CSrResourceBase::CSrResourceInstanceAllocator.CreateObject();
+	m_Instances.Add(pInstance);
 
-  pInstance->SetParent(this);
-  pInstance->SetFilename(pFilename);
+	pInstance->SetParent(this);
+	pInstance->SetFilename(pFilename);
 
-  if (m_Instances.GetSize() == 1) m_ResourceType = pInstance->GetResourceType();
-  pInstance->UpdateFileInfo();
-  return (pInstance);
+	if (m_Instances.GetSize() == 1) m_ResourceType = pInstance->GetResourceType();
+	pInstance->UpdateFileInfo();
+	return (pInstance);
 }
 /*===========================================================================
  *		End of Class Method CSrResourceFile::AddInstance()
