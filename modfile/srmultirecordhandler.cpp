@@ -1116,14 +1116,14 @@ int CSrMultiRecordHandler::FindModIndex (const SSCHAR* pFilename) {
 
   for (Index = 0; Index < m_MasterFiles.GetSize(); ++Index) {
     Buffer = m_MasterFiles[Index]->GetFilename();
-    Buffer.ReverseTruncateAt(":\\/");
+    Buffer.ReverseTruncateAtR(":\\/");
 
     if (Buffer.IsEmpty()) continue;
     if (Buffer.CompareNoCase(pFilename) == 0) return (Index);
   }
 
   Buffer = m_ActiveFile.GetFilename();
-  Buffer.ReverseTruncateAt(":\\/");
+  Buffer.ReverseTruncateAtR(":\\/");
   if (Buffer.IsEmpty()) return (-1);
   if (Buffer.CompareNoCase(pFilename) == 0) return (Index);
 
@@ -1772,7 +1772,7 @@ bool CSrMultiRecordHandler::LoadMasterFile (const SSCHAR* pFilename, const dword
 
 	/* Extract just the filename from the input full filename */
   Buffer = pFilename;
-  Buffer.ReverseTruncateAt("\\:/");
+  Buffer.ReverseTruncateAtR("\\:/");
 
 	/* Special case for caching Skyrim.esm */
   if (ModIndex == 0 && Buffer.CompareNoCase(SR_GAME_MASTER) == 0) {
@@ -2360,7 +2360,7 @@ bool CSrMultiRecordHandler::SetActiveMasters (void) {
 	/* Add all masters in their current order */
   for (Index = 0; Index < m_MasterFiles.GetSize(); ++Index) {
     Buffer = m_MasterFiles[Index]->GetFilename();
-    Buffer.ReverseTruncateAt(":\\/");
+    Buffer.ReverseTruncateAtR(":\\/");
     pHeader->AddMaster(Buffer, 0);
   }
 

@@ -149,6 +149,10 @@ public:
     bool EndsWith  (const char* pString);
 	bool EndsWithI (const char* pString);
 
+	bool StartsWith  (const char* pString);
+	bool StartsWithI (const char* pString);
+	
+
 	/* Encode/decode */
   void Escape   (void);
   void Unescape (void);
@@ -156,6 +160,8 @@ public:
 	/* Search for sub-strings */
   int Find      (const SSCHAR* pSearch);
   int FindI     (const SSCHAR* pSearch);
+  int FindR     (const SSCHAR* pSearch);
+  int FindRI    (const SSCHAR* pSearch);
   int FindChar  (const SSCHAR  Char) const;
   int FindChar  (const SSCHAR  Char, const int StartIndex) const;
   int FindCharR (const SSCHAR  Char) const;
@@ -189,8 +195,10 @@ public:
   int RemoveMatchingChars (ISCHARFUNC BadCharFunc);
 
 	/* Keep the end of the string before any of the characters in the given string */
-  CSString& ReverseTruncateAt (const SSCHAR* pString);
-  CSString& ReverseTruncateAt (const SSCHAR MatchChar);
+  CSString& ReverseTruncateAt  (const SSCHAR* pString);
+  CSString& ReverseTruncateAt  (const SSCHAR MatchChar);
+  CSString& ReverseTruncateAtR (const SSCHAR* pString);
+  CSString& ReverseTruncateAtR (const SSCHAR MatchChar);
 
   CSString& TruncateAt (const SSCHAR MatchChar);
   CSString& TruncateAt (const SSCHAR* pString);
@@ -230,6 +238,9 @@ public:
   const CSString& operator+= (const SSCHAR     Char);
   const CSString& operator+= (const SSCHAR*    pString);
   const CSString& Append     (const SSCHAR* pString, const int Length);
+
+  const CSString& Prepend (const SSCHAR* pString, const int Length);
+  const CSString& Prepend (const SSCHAR Char);
 
 	/* Addition operators, friend functions */
   friend CSString operator+ (const CSString&  String1, const CSString&  String2);

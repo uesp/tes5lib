@@ -99,32 +99,12 @@
   struct srmultirecoptions_t 
   {
 	srundooptions_t Undo;
-
-	bool		EnableBackup;
-
-	bool		EnableBackupOnSave;
-	int			MaxBackupCount;
-	int			MaxBackupSize;
-	CSString	BackupPath;
-	CSString	FullBackupPath;
-
-	bool		EnableAutoBackup;
-	int			AutoBackupTime;
-
+		
 	bool		EnableCaching;
 
 
-	srmultirecoptions_t() {
-		BackupPath     = "backup\\";
-		EnableBackup   = true;
-
-		EnableBackupOnSave = true;
-		MaxBackupCount     = 0;
-		MaxBackupSize      = 0;
-
-		EnableAutoBackup   = false;
-		AutoBackupTime     = 10;
-
+	srmultirecoptions_t() 
+	{
 		EnableCaching      = true;
 	}
 };

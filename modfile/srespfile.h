@@ -310,7 +310,7 @@ public:
   
 	/* Set class members */
   void SetParent   (CSrRecordHandler* pParent) { m_pParent  = pParent; }
-  void SetFilename (const SSCHAR*     pString) { m_Filename = pString;  m_ShortFilename = m_Filename;  m_ShortFilename.ReverseTruncateAt("\\:/"); }
+  void SetFilename (const SSCHAR*     pString) { m_Filename = pString;  m_ShortFilename = m_Filename;  m_ShortFilename.ReverseTruncateAtR("\\:/"); }
   void SetModIndex (const byte        Value)   { m_ModIndex = Value; }
   
   	/* CSrRecordHandler virtual methds, just pass onto parent handler */

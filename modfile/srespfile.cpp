@@ -15,6 +15,7 @@
 #include "srrecordhandler.h"
 #include "../common/srtime.h"
 #include <direct.h>
+#include "common/srutils.h"
 
 
 /*===========================================================================

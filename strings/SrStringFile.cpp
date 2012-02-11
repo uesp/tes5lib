@@ -10,6 +10,7 @@
 	/* Include Files */
 #include "srstringfile.h"
 #include "common/srtime.h"
+#include "common/srutils.h"
 
 
 /*===========================================================================
@@ -414,56 +415,5 @@ bool CSrStringFile::WriteBStrings(CSrFile& File)
 }
 
 
-CSString CreateSrStringPathname (const char* pFilename)
-{
-	CSString	Pathname(pFilename);
-	int			Index;
-
-	Index = Pathname.FindCharR('\\');
-
-	if (Index > 0) 
-	{
-		Pathname.Truncate(Index);
-		Pathname += "\\";
-	}
-	else
-	{
-		Pathname.Empty();
-	}
-
-	Pathname += "Strings\\";
-	return Pathname;
-}
 
 
-CSString CreateSrStringFilename (const char* pFilename, const char* pExtension)
-{
-	CSString	  BaseFilename(pFilename);
-	CSString	  Pathname(pFilename);
-	CSString	  Extension(pExtension);
-	CSString	  Filename;
-	int           Index;
-
-	Index = Pathname.FindCharR('\\');
-
-	if (Index > 0) 
-	{
-		Pathname.Truncate(Index);
-		Pathname += "\\";
-		BaseFilename.Delete(0, Index+1);
-	}
-	else
-	{
-		Pathname.Empty();
-	}
-
-	Pathname += "Strings\\";
-
-	Index = BaseFilename.FindCharR('.');
-	if (Index > 0) BaseFilename.Truncate(Index);
-
-	Filename = Pathname + BaseFilename;
-	Filename += "_" + g_SrLanguage + "." + Extension;
-	
-	return Filename;
-}

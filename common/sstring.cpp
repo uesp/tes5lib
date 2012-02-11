@@ -395,6 +395,7 @@ bool CSString::EndsWith (const char* pString)
 	if (pString == NULL) return false;
 
 	int Length = strlen(pString);
+	if (Length == 0) return false;
 	if (Length > GetLength()) return false;
 
 	return strcmp(m_pString + GetLength() - Length, pString) == 0;
@@ -406,9 +407,34 @@ bool CSString::EndsWithI (const char* pString)
 	if (pString == NULL) return false;
 
 	int Length = strlen(pString);
+	if (Length == 0) return false;
 	if (Length > GetLength()) return false;
 
 	return stricmp(m_pString + GetLength() - Length, pString) == 0;
+}
+
+
+bool CSString::StartsWith (const char* pString)
+{
+	if (pString == NULL) return false;
+
+	int Length = strlen(pString);
+	if (Length == 0) return false;
+	if (Length > GetLength()) return false;
+	
+	return strncmp(m_pString, pString, Length) == 0;
+}
+
+
+bool CSString::StartsWithI (const char* pString)
+{
+	if (pString == NULL) return false;
+
+	int Length = strlen(pString);
+	if (Length == 0) return false;
+	if (Length > GetLength()) return false;
+	
+	return strnicmp(m_pString, pString, Length) == 0;
 }
 
 
@@ -497,6 +523,60 @@ int CSString::FindI (const SSCHAR* pString) {
 /*===========================================================================
  *		End of Class Method int CSString::FindI()
  *=========================================================================*/
+
+
+int CSString::FindR (const SSCHAR* pString) 
+{
+	if (pString == NULL || *pString == NULL_CHAR) return -1;
+	int Length = strlen(pString);
+	int Index = GetLength() - Length - 1;
+
+	while (Index >= 0)
+	{
+		if (m_pString[Index] == pString[0])
+		{
+			int j = 0;
+
+			for (j = 1; j < Length; ++j)
+			{
+				if (m_pString[Index+j] != pString[j]) break;
+			}
+
+			if (j == Length) return Index;
+		}
+
+		--Index;
+	}
+
+	return -1;
+ }
+
+
+int CSString::FindRI (const SSCHAR* pString) 
+{
+	if (pString == NULL || *pString == NULL_CHAR) return -1;
+	int Length = strlen(pString);
+	int Index = GetLength() - Length - 1;
+
+	while (Index >= 0)
+	{
+		if (tolower(m_pString[Index]) == tolower(pString[0]))
+		{
+			int j = 0;
+
+			for (j = 1; j < Length; ++j)
+			{
+				if (tolower(m_pString[Index+j]) != tolower(pString[j])) break;
+			}
+
+			if (j == Length) return Index;
+		}
+
+		--Index;
+	}
+	
+	return -1;
+ }
 
 
 /*===========================================================================
@@ -724,14 +804,14 @@ int CSString::RemoveMatchingChars (ISCHARFUNC BadCharFunc) {
 
 /*===========================================================================
  *
- * Class CSString Method - CSString& ReverseTruncateAt (pString);
+ * Class CSString Method - CSString& ReverseTruncateAtR (pString);
  *
  * Truncate the string at the first occurence of one of the characters
  * in the given string starting at the end of the string. The end of the
  * string is saved.
  *
  *=========================================================================*/
-CSString& CSString::ReverseTruncateAt (const SSCHAR* pString) 
+CSString& CSString::ReverseTruncateAtR (const SSCHAR* pString) 
 {
 	const SSCHAR*	pParse;
 	SSCHAR			Char;
@@ -764,11 +844,68 @@ CSString& CSString::ReverseTruncateAt (const SSCHAR* pString)
 	return (*this);
 }
 /*===========================================================================
- *		End of Class Method CSString::ReverseTruncateAt()
+ *		End of Class Method CSString::ReverseTruncateAtR()
  *=========================================================================*/
 
 
+CSString& CSString::ReverseTruncateAt (const SSCHAR* pString) 
+{
+	const SSCHAR*	pParse;
+	SSCHAR			Char;
+	int				Index;
+
+		/* Ignore invalid input */
+	if (pString == NULL)         return (*this);
+	if (IsEmpty())               return (*this);
+	if (pString[0] == NULL_CHAR) return (*this);
+	Index = 0;
+
+	while (Index < GetLength()) 
+	{
+		pParse = pString;
+		Char = m_pString[Index];
+
+		while (*pParse != NULL_CHAR) 
+		{
+			if (Char == *pParse) 
+			{
+				Delete(0, Index + 1);
+				return (*this);
+			}
+			++pParse;
+		}
+
+		++Index;
+	}
+
+	return (*this);
+}
+
+
 CSString& CSString::ReverseTruncateAt (const SSCHAR MatchChar) 
+{
+	int	Index;
+
+	if (IsEmpty()) return (*this);
+	Index = 0;
+
+	while (Index < GetLength()) 
+	{
+
+		if (m_pString[Index] == MatchChar) 
+		{
+			Delete(0, Index + 1);
+			return (*this);
+		}
+
+		++Index;
+	}
+
+	return (*this);
+}
+
+
+CSString& CSString::ReverseTruncateAtR (const SSCHAR MatchChar) 
 {
 	int	Index;
 
@@ -1347,6 +1484,74 @@ const CSString& CSString::Append (const SSCHAR* pString, const int Length) {
 /*===========================================================================
  *		End of Class Method CSString::operator+=()
  *=========================================================================*/
+
+
+const CSString& CSString::Prepend (const SSCHAR* pString, const int Length)
+{
+	CSStringData*	pData;
+	int				OldLength;
+
+	if (pString == NULL || Length <= 0) return *this;
+	OldLength = GetLength();
+
+		/* Ensure an allocated buffer of the correct length */
+	if (OldLength + Length >= GetData()->AllocLength) 
+	{
+		pData = GetData();
+		AllocCopy(Length + OldLength);
+
+		memmove(m_pString + Length, m_pString, OldLength * sizeof(SSCHAR));
+		memcpy(m_pString, pString, Length * sizeof(SSCHAR));
+		GetData()->Length += Length;
+		m_pString[GetLength()] = NULL_CHAR;		
+
+			/* Free the old string data */
+		if (pData != s_pSDataNull) delete [] (byte *) pData;
+	}
+	else 
+	{
+		memmove(m_pString + Length, m_pString, OldLength * sizeof(SSCHAR));
+		memcpy(m_pString, pString, Length * sizeof(SSCHAR));
+		GetData()->Length += Length;
+		m_pString[GetLength()] = NULL_CHAR;
+	}
+
+	return *this;
+}
+
+
+const CSString& CSString::Prepend (const SSCHAR Char)
+{
+	CSStringData*	pData;
+	int				OldLength;
+	int				Length = 1;
+
+	OldLength = GetLength();
+
+		/* Ensure an allocated buffer of the correct length */
+	if (OldLength + Length >= GetData()->AllocLength) 
+	{
+		pData = GetData();
+		AllocCopy(Length + OldLength);
+
+		memmove(m_pString + Length, m_pString, OldLength * sizeof(SSCHAR));
+		m_pString[0] = Char;
+		GetData()->Length += Length;
+		m_pString[GetLength()] = NULL_CHAR;		
+
+			/* Free the old string data */
+		if (pData != s_pSDataNull) delete [] (byte *) pData;
+	}
+	else 
+	{
+		memmove(m_pString + Length, m_pString, OldLength * sizeof(SSCHAR));
+		m_pString[0] = Char;
+		GetData()->Length += Length;
+		m_pString[GetLength()] = NULL_CHAR;
+	}
+
+	return *this;
+}
 
 
 /*===========================================================================
