@@ -21,6 +21,7 @@
 		/* Special names */
 	const srrectype_t SR_NAME_NULL = "\0\0\0\0";
 	const srrectype_t SR_NAME_all = "all\0";
+	const srrectype_t SR_NAME_SCRI = "SCRI";
 
 		/* Special group name */
 	const srrectype_t SR_NAME_GRUP = "GRUP";  

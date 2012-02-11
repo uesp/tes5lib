@@ -384,6 +384,41 @@ void CSrScriptFile::UpdateName (void)
 		m_ScriptName.Copy(m_Filename.c_str() + Index + 1, m_Filename.GetLength() - Index - 1);
 
 	m_ScriptName.TruncateAt('.');
+	m_ScriptRecord.SetScriptName(m_ScriptName);
 }
 
 
+dword CSrScriptFile::Find (srfinddata_t& FindData)
+{
+	const char* pResult;
+
+	++FindData.ScriptCount;
+
+	if (FindData.pData == NULL || FindData.DataSize <= 0) return 0;
+	if (!IsLoaded()) return 0;
+
+	if ((FindData.Flags & SR_FIND_FORMID) != 0)
+	{
+		return 0;
+	}
+	else if ((FindData.Flags & SR_FIND_COMPARETEXT) != 0)
+	{
+		if ((FindData.Flags & SR_FIND_CASESENSITIVE) != 0)
+			pResult = stristr(m_ScriptText.c_str(), (const SSCHAR *)FindData.pData);
+		else
+			pResult = strstr(m_ScriptText.c_str(), (const SSCHAR *)FindData.pData);
+
+		if (pResult == NULL) return 0;
+	}
+	else
+	{
+		int FindIndex = memcmp(m_ScriptText.c_str(), FindData.pData, FindData.DataSize);
+		if (FindIndex < 0) return 0;
+	}
+
+	*(FindData.FindScripts.AddNew()) = m_ScriptName;
+	if (FindData.pFindRecords) FindData.pFindRecords->Add(&m_ScriptRecord);
+	++FindData.FoundScripts;
+
+	return 1;
+}

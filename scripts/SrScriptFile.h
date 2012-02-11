@@ -30,6 +30,7 @@
 	#include "common/srblockallocator.h"
 	#include "SrScriptTokens.h"
 	#include "modfile/subrecords/srvmadsubrecord.h"
+	#include "srscriptrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -125,7 +126,7 @@ protected:
 	int			m_Line;
 	int			m_Character;
 	int			m_UserData;
-
+	
 public:
 
 	const char* MakeErrorString (void) { return m_ErrorText; }
@@ -211,6 +212,8 @@ protected:
 
 	CSrScriptPropertyArray	m_Properties;
 
+	CSrScriptRecord	m_ScriptRecord;
+
 protected:
 	void UpdateName (void);
 
@@ -233,6 +236,8 @@ public:
 	void Destroy (void);
 
 	srscriptproperty_t*  AddProperty (const srnewscriptpropertyinfo_t NewProperty);
+
+	dword Find (srfinddata_t& FindData);
 
 	bool IsFilename   (const char* pFilename)   const { return stricmp(m_Filename, pFilename) == 0; }
 	bool IsScriptName (const char* pScriptName) const { return stricmp(m_ScriptName, pScriptName) == 0; }

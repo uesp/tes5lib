@@ -313,6 +313,7 @@
     #define SRCLASS_CSrIdKeyRecord	102
 	#define SRCLASS_CSrItem1Record	104
 	#define SRCLASS_CSrItem2Record	105
+    #define SRCLASS_CSrScriptRecord	106
     
 	#define SRCLASS_CSrAactRecord    200
 	#define SRCLASS_CSrAchrRecord    201
