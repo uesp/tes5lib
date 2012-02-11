@@ -30,8 +30,8 @@
  * Description
  *
  *=========================================================================*/
-class CSrFileGroup : public CSrGroup {
-  //DECLARE_OBCLASS(CSrFileGroup, CSrGroup)
+class CSrFileGroup : public CSrGroup 
+{
 
   /*---------- Begin Private Class Members ----------------------*/
 private:
@@ -44,18 +44,16 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrFileGroup(const bool UseRef = false) : CSrGroup(UseRef) { }
-  //virtual ~CSrFileGroup() { Destroy(); }
-  //virtual void Destroy (void);
+		/* Class Constructors/Destructors */
+	CSrFileGroup(const bool UseRef = false) : CSrGroup(UseRef) { m_Header.GroupType = SR_GROUP_NONE; }
+  
+		/* Return a new class instance */
+	static CSrGroup* Create (void) { return (new CSrFileGroup); }
 
-	/* Return a new class instance */
-  static CSrGroup* Create (void) { return (new CSrFileGroup); }
+		/* Override to just output records with no group header */
+	virtual bool Write (CSrFile& File, CSrCallback* pCallback);
 
-	/* Override to just output records with no group header */
-  virtual bool Write (CSrFile& File, CSrCallback* pCallback);
-
- };
+};
 /*===========================================================================
  *		End of Class CSrFileGroup Definition
  *=========================================================================*/

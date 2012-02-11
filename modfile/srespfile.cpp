@@ -34,6 +34,7 @@ CSrEspFile::CSrEspFile (void)
 
   m_Records.SetParent(NULL);
   m_Records.SetParentGroup(NULL);
+  m_Records.GetHeader().GroupType = SR_GROUP_NONE;
 }
 /*===========================================================================
  *		End of Class CSrEspFile Constructor
@@ -72,6 +73,7 @@ void CSrEspFile::Destroy (void)
   m_File.Close();
 
   m_Records.Destroy();
+  m_Records.GetHeader().GroupType = SR_GROUP_NONE;
 }
 /*===========================================================================
  *		End of Class Method CSrEspFile::Destroy()
@@ -672,6 +674,8 @@ bool CSrEspFile::Save (const SSCHAR* pFilename, CSrCallback* pCallback)
   bool      Result;
 
   SrStartTimer(Timer);
+
+  UpdateFormCount();
   
   Result = CSrRecord::InitIOBuffers();
   if (!Result) return (false);
@@ -836,4 +840,48 @@ void CSrEspFile::UpdateStringMap (void)
 	m_NextStringID = 1;
 
 	UpdateStringMap(&m_Records);	
+}
+
+
+dword CSrEspFile::UpdateFormCount (CSrGroup* pGroup)
+{
+	CSrBaseRecord* pBaseRecord;
+	CSrGroup*      pSubGroup;
+	dword          Count = 0;
+
+		/* Special case for type groups */
+	if (pGroup->GetType() == SR_GROUP_TYPE)
+	{
+		return pGroup->GetNumRecords();
+	}
+
+	for (dword i = 0; i < pGroup->GetNumRecords(); ++i)
+	{
+		pBaseRecord = pGroup->GetRecord(i);
+
+		if (pBaseRecord->IsGroup())
+		{
+			pSubGroup = SrCastClass(CSrGroup, pBaseRecord);
+			++Count;
+			if (pSubGroup != NULL) Count += UpdateFormCount(pSubGroup);
+		}
+		else
+		{
+			++Count;
+		}
+	}
+
+	return Count;
+}
+
+
+dword CSrEspFile::UpdateFormCount (void)
+{
+	dword Count = UpdateFormCount(&m_Records);
+
+		/* Remove the TES4 record from the count */
+	if (Count > 0) --Count;
+
+	if (m_pHeader) m_pHeader->SetRecordCount(Count);
+	return Count;
 }

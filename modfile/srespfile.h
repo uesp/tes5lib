@@ -238,6 +238,9 @@ protected:
   void UpdateStringMap (CSrGroup* pGroup);
   void UpdateStringMap (CSrRecord* pRecord);
 
+  dword UpdateFormCount (CSrGroup* pGroup);
+  dword UpdateFormCount (void);
+
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
