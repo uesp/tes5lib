@@ -608,12 +608,14 @@
 	#define DECLARE_SRFIELD_EDITORID1(Class, Name, Type) DECLARE_SRFIELD_EDITORID(Class, Name, Get##Name, Set##Name) \
 														 DECLARE_SRMETHOD_FORMID(Name, m_p##Name, Type)
 
-
 	#define DECLARE_SRMETHOD_FORMID1(Name, Expr) const char* Get##Name (void) { \
 							return CSrRecord::GetEditorIDHelper(Expr); } \
 						void Set##Name (const char* pEditorID) { \
 							SetSubrecordFormID(Expr, pEditorID); }
 
+
+	#define DECLARE_SRFIELD_EDITORID2(Class, Name, Expr) DECLARE_SRFIELD_EDITORID(Class, Name, Get##Name, Set##Name) \
+														 DECLARE_SRMETHOD_FORMID1(Name, Expr)
 
 /*===========================================================================
  *		End of Definitions

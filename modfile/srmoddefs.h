@@ -568,6 +568,12 @@
   #define SR_MAGIC_TYPE_DRAIN			0x2C
   #define SR_MAGIC_TYPE_NONE			-1
 
+	#define SR_MAGIC_DELIVERY_SELF				0x00
+	#define SR_MAGIC_DELIVERY_TOUCH				0x01
+	#define SR_MAGIC_DELIVERY_AIMED				0x02
+	#define SR_MAGIC_DELIVERY_TARGETACTOR		0x03
+	#define SR_MAGIC_DELIVERY_TARGETLOCATION	0x04
+
 		/* Condition operators */
   #define SR_CONDOP_EQUAL			0x00
   #define SR_CONDOP_NOTEQUAL		0x01
@@ -582,10 +588,6 @@
   #define SR_CTDA_FLAG_USEGLOBAL			0x04
   #define SR_CTDA_FLAG_USEPACKDATA			0x08
   #define SR_CTDA_FLAG_SWAPSUBJECTTARGET	0x10
-
-  extern const stringvalue_t s_SrMagicSchools[];
-  extern const stringvalue_t s_SrMagicTypes[];
-  extern const stringvalue_t s_SrConditionOperators[];
 
 			/* Spell Types */
 	#define SR_SPELL_TYPE_SPELL			0
@@ -768,7 +770,70 @@
 	#define SR_VMAD_PROPDATA_ARRAYINT		13
 	#define SR_VMAD_PROPDATA_ARRAYFLOAT		14
 	#define SR_VMAD_PROPDATA_ARRAYBOOL		15
-	
+
+	#define SR_SOUND_VOLUME_LOUD		0
+	#define SR_SOUND_VOLUME_NORMAL		1
+	#define SR_SOUND_VOLUME_SILENT		2
+	#define SR_SOUND_VOLUME_VERYLOUD	3
+
+	#define SR_MAGICSOUND_SHEATH	0
+	#define SR_MAGICSOUND_CHARGE	1
+	#define SR_MAGICSOUND_READY		2
+	#define SR_MAGICSOUND_RELEASE	3
+	#define SR_MAGICSOUND_CASTLOOP	4
+	#define SR_MAGICSOUND_ONHIT		5
+
+	#define SR_MAGICEFFECT_VALUEMOD			0
+	#define SR_MAGICEFFECT_SCRIPT			1
+	#define SR_MAGICEFFECT_DISPEL			2
+	#define SR_MAGICEFFECT_CUREDISEASE		3
+	#define SR_MAGICEFFECT_ABSORB			4
+	#define SR_MAGICEFFECT_DUALVALUEMOD		5
+	#define SR_MAGICEFFECT_CALM				6
+	#define SR_MAGICEFFECT_DEMORALIZE		7
+	#define SR_MAGICEFFECT_FRENZY			8
+	#define SR_MAGICEFFECT_DISARM			9
+	#define SR_MAGICEFFECT_COMMANDSUMMON	10
+	#define SR_MAGICEFFECT_INVISIBILITY		11
+	#define SR_MAGICEFFECT_LIGHT			12
+	#define SR_MAGICEFFECT_LOCK				15
+	#define SR_MAGICEFFECT_OPEN				16
+	#define SR_MAGICEFFECT_BOUNDWEAPON		17
+	#define SR_MAGICEFFECT_SUMMONCREATURE	18
+	#define SR_MAGICEFFECT_DETECTLIFE		19
+	#define SR_MAGICEFFECT_TELEKINESIS		20
+	#define SR_MAGICEFFECT_PARALYSIS		21
+	#define SR_MAGICEFFECT_RENANIMATE		22
+	#define SR_MAGICEFFECT_SOULTRAP			23
+	#define SR_MAGICEFFECT_TURNUNDEAD		24
+	#define SR_MAGICEFFECT_GUIDE			25
+	#define SR_MAGICEFFECT_WEREWOLFFEED		26
+	#define SR_MAGICEFFECT_CUREPARALYSIS	27
+	#define SR_MAGICEFFECT_CUREADDICTION	28
+	#define SR_MAGICEFFECT_CUREPOISON		29
+	#define SR_MAGICEFFECT_CONCUSSION		30
+	#define SR_MAGICEFFECT_VALUEANDPARTS	31
+	#define SR_MAGICEFFECT_ACCUMULATEMAG	32
+	#define SR_MAGICEFFECT_STAGGER			33
+	#define SR_MAGICEFFECT_PEAKVALUEMOD		34
+	#define SR_MAGICEFFECT_CLOAK			35
+	#define SR_MAGICEFFECT_WEREWOLF			36
+	#define SR_MAGICEFFECT_SLOWTIME			37
+	#define SR_MAGICEFFECT_RALLY			38
+	#define SR_MAGICEFFECT_ENHANCEWEAPON	39
+	#define SR_MAGICEFFECT_SPAWNHAZARD		40
+	#define SR_MAGICEFFECT_ETHEREALIZE		41
+	#define SR_MAGICEFFECT_BANISH			42
+	#define SR_MAGICEFFECT_SPAWNSCRIPTREF	43
+	#define SR_MAGICEFFECT_DISGUISE			44
+
+	extern const stringvalue_t s_SrMagicEffectTypes[];
+	extern const stringvalue_t s_SrMagicSoundTypes[];
+	extern const stringvalue_t s_SrSoundVolumes[];
+	extern const stringvalue_t s_SrMagicDeliveryTypes[];
+	extern const stringvalue_t s_SrMagicSchools[];
+	extern const stringvalue_t s_SrMagicResistTypes[];
+	extern const stringvalue_t s_SrConditionOperators[];
 	extern const stringvalue_t s_SrScriptPropertyTypes[];	
 	extern const stringvalue_t s_SrGenderTypes[];	
 	extern const stringvalue_t s_SrCastSourceTypes[];	
@@ -797,7 +862,6 @@
 	extern const stringvalue_t s_SrEffectCastTypes[];
 	extern const stringvalue_t s_SrActorValues[];
 	extern const stringvalue_t s_SrActorSkillValues[];
-	extern const stringvalue_t s_SrEffectLinkTypes[];
 	extern const stringvalue_t s_SrWeaponTypes[];
 	extern const stringvalue_t s_SrSoulGemTypes[];
 	extern const stringvalue_t s_SrPerkDataUnknown1Types[];
@@ -807,6 +871,7 @@
 	extern const stringvalue_t s_SrEpftTypes[];
 	extern const stringvalue_t s_SrPerkEffectTypes[];
 	extern const stringvalue_t s_SrPerkFunctionTypes[];
+	
 	extern const stringvalue_t s_SrSopmContentTypes[];
 	extern const stringvalue_t s_SrPerkConditionTypes[];
 
@@ -821,7 +886,8 @@
  *
  *=========================================================================*/
   	const SSCHAR* GetSrMagicSchoolString		(const int Value);
-	const SSCHAR* GetSrMagicTypeString			(const int Value);
+	const SSCHAR* GetSrMagicResistTypeString	(const int Value);
+	const SSCHAR* GetSrMagicDeliveryTypeString	(const int Value);
 	const SSCHAR* GetSrConditionOperatorString	(const int Value);
 
 	const SSCHAR* GetSrSpellTypeString		(const int Value);
@@ -829,7 +895,8 @@
 	const SSCHAR* GetSrSpellCastAnimString	(const int Value);
 
 	bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString);
-	bool GetSrMagicTypeValue			(int& Value, const SSCHAR* pString);
+	bool GetSrMagicResistTypeValue		(int& Value, const SSCHAR* pString);
+	bool GetSrMagicDeliveryTypeValue	(int& Value, const SSCHAR* pString);
 	bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString);
 
 	bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString);
@@ -864,8 +931,8 @@
 	bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrActorValueString (const int Value);
 	bool GetSrActorValueValue (int& Value, const SSCHAR* pString);
-	const SSCHAR* GetSrEffectLinkTypeString (const int Value);
-	bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString);
+	const SSCHAR* GetSrMagicEffectTypeString (const int Value);
+	bool GetSrMagicEffectTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrWeaponTypeString (const int Value);
 	bool GetSrWeaponTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrSoulGemTypeString (const int Value);
@@ -929,6 +996,12 @@
 
 	const SSCHAR* GetSrScriptPropertyTypeString (const int Value);
 	bool GetSrScriptPropertyTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrSoundVolumeString (const int Value);
+	bool GetSrSoundVolumeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrMagicSoundTypeString (const int Value);
+	bool GetSrMagicSoundTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

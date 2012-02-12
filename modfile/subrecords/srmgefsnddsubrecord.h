@@ -26,7 +26,7 @@
 
 struct srmgefsndddata_t
 {
-	dword		Value;
+	dword		Type;
 	srformid_t  SoundID;
 };
 

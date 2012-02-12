@@ -272,6 +272,7 @@
 	const srrectype_t SR_NAME_EPF3 = "EPF3";
 	const srrectype_t SR_NAME_EPFD = "EPFD";
 	const srrectype_t SR_NAME_EPFT = "EPFT";
+	const srrectype_t SR_NAME_ESCE = "ESCE";	
 	const srrectype_t SR_NAME_ETYP = "ETYP";
 	const srrectype_t SR_NAME_F0TX = "F0TX";
 	const srrectype_t SR_NAME_FCHT = "FCHT";

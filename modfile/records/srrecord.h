@@ -28,6 +28,7 @@
   #include "../subrecords/srfloatsubrecord.h"
   #include "srbaserecord.h"
   #include "srrecordfield.h"
+  #include "../srrectypeinfo.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/

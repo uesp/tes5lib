@@ -195,9 +195,9 @@ bool CSrMgefSnddSubrecord::WriteData (CSrFile& File) {
  *=========================================================================*/
 
 
-void CSrMgefSnddSubrecord::SetValue (const dword Index, const dword Value, const srformid_t FormID)
+void CSrMgefSnddSubrecord::SetValue (const dword Index, const dword Type, const srformid_t FormID)
 {
 	if (m_Values.GetSize() < Index) return;
-	m_Values[Index].Value   = Value;
+	m_Values[Index].Type    = Type;
 	m_Values[Index].SoundID = FormID;
 }

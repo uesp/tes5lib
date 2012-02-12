@@ -305,20 +305,20 @@
   #define SR_FIELD_UNKNOWN20			244
   #define SR_FIELD_UNKNOWN21			245
   #define SR_FIELD_LIGHT				246
-  #define SR_FIELD_SHADER1			    247
-  #define SR_FIELD_SHADER2			    248
-  #define SR_FIELD_ART1				    249
-  #define SR_FIELD_ART2				    250
-  #define SR_FIELD_IMPACTSET1			251
-  #define SR_FIELD_SECONDSPELL		    252
-  #define SR_FIELD_EFFECTPLAYRATE	    253
+  #define SR_FIELD_HITSHADER		    247
+  #define SR_FIELD_ENCHANTSHADER	    248
+  #define SR_FIELD_CASTINGART		    249
+  #define SR_FIELD_HITEFFECTART		    250
+  #define SR_FIELD_IMPACTSET			251
+  #define SR_FIELD_EFFECTOBJECT		    252
+  #define SR_FIELD_SKILLUSAGEMULT	    253
   #define SR_FIELD_UNKNOWN8				254
-  #define SR_FIELD_ART3				    255
-  #define SR_FIELD_ART4				    256
+  #define SR_FIELD_ENCHANTART		    255
+  #define SR_FIELD_EQUIPABILITY		    256
   #define SR_FIELD_RECOVER				257
   #define SR_FIELD_DUALCAST			    258
   #define SR_FIELD_EXPLOSION		    259
-  #define SR_FIELD_IMPACTSET2			260
+  #define SR_FIELD_IMAGESPACEMOD		260
   #define SR_FIELD_DETRIMENTAL			261
   #define SR_FIELD_PERCENTMAG			262
   #define SR_FIELD_SELFONLY				263
@@ -342,7 +342,7 @@
   #define SR_FIELD_WNAM					281
   #define SR_FIELD_INAM					282
   #define SR_FIELD_DNAM					283
-  #define SR_FIELD_IMPACTSET			284
+		/* Duplicated renamed field 284 was removed */
   #define SR_FIELD_FIRESOUND			285
   #define SR_FIELD_BOUNDSOUND			286
   #define SR_FIELD_SHEATHSOUND			287
@@ -483,7 +483,31 @@
   #define SR_FIELD_PARAM3				423
   #define SR_FIELD_RUNON				424
   #define SR_FIELD_SCRIPTCOUNT			425
-
+	#define SR_FIELD_DELIVERYTYPE		426
+	#define SR_FIELD_RESISTTYPE			427
+	#define SR_FIELD_TAPERWEIGHT		428
+	#define SR_FIELD_TAPERDURATION		429
+	#define SR_FIELD_TAPERCURVE			430
+	#define SR_FIELD_SECONDAVWEIGHT		431
+	#define SR_FIELD_SOUNDVOLUME		432
+	#define SR_FIELD_DUALCASTSCALE		433
+	#define SR_FIELD_NOHITEVENT			434
+	#define SR_FIELD_NOMAGNITUDE		435
+	#define SR_FIELD_NORECAST			436
+	#define SR_FIELD_GORYVISUAL			437
+	#define SR_FIELD_HIDEINUI			438
+	#define SR_FIELD_POWERMAGNITUDE		439
+	#define SR_FIELD_PAINLESS			440
+	#define SR_FIELD_POWERDURATION		441
+	#define SR_FIELD_NOHITEFFECT		442
+	#define SR_FIELD_NODEATHDISPELL		443
+	#define SR_FIELD_NODURATION			444
+	#define	SR_FIELD_MENU				445
+	#define SR_FIELD_COUNTEREFFECTCOUNT	446
+	#define SR_FIELD_SNAPTONAVMESH		447
+	#define SR_FIELD_SCRIPTAIDATASCORE	448
+	#define SR_FIELD_SCRIPTAIDATADELAY	449
+	#define SR_FIELD_DISPELEFFECTS		450
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/

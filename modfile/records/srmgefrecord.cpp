@@ -30,6 +30,8 @@ BEGIN_SRSUBRECCREATE(CSrMgefRecord, CSrIdKeyRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS2, CSrStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SNDD, CSrMgefSnddSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrFormidSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ESCE, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -42,66 +44,71 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrMgefRecord, CSrIdKeyRecord)
-	ADD_SRFIELDALL("FullName",			SR_FIELD_FULLNAME,			0, CSrMgefRecord, FieldFullName)
+	ADD_SRFIELDALL("FullName",			SR_FIELD_FULLNAME,			0, CSrMgefRecord, FieldItemName)
 	ADD_SRFIELDALL("Description",		SR_FIELD_DESCRIPTION,		0, CSrMgefRecord, FieldDescription)
 	ADD_SRFIELDALL("School",			SR_FIELD_SCHOOL,			0, CSrMgefRecord, FieldSchool)
+	ADD_SRFIELDALL("CastType",			SR_FIELD_CASTTYPE,			0, CSrMgefRecord, FieldCastType)
+	ADD_SRFIELDALL("DeliveryType",		SR_FIELD_DELIVERYTYPE,		0, CSrMgefRecord, FieldDeliveryType)
+	ADD_SRFIELDALL("ResistType",		SR_FIELD_RESISTTYPE,		0, CSrMgefRecord, FieldResistType)
 	ADD_SRFIELDALL("EffectType",		SR_FIELD_EFFECTTYPE,		0, CSrMgefRecord, FieldEffectType)
+	ADD_SRFIELDALL("SoundCount",		SR_FIELD_SOUNDCOUNT,		0, CSrMgefRecord, FieldSoundCount)
+	ADD_SRFIELDALL("SoundVolume",		SR_FIELD_SOUNDVOLUME,		0, CSrMgefRecord, FieldSoundVolume)
 	ADD_SRFIELDALL("ConditionCount",	SR_FIELD_CONDITIONCOUNT,	0, CSrMgefRecord, FieldConditionCount)
+	ADD_SRFIELDALL("CounterEffectCount",SR_FIELD_COUNTEREFFECTCOUNT,0, CSrMgefRecord, FieldCounterEffectCount)
 	ADD_SRFIELDALL("SkillLevel",		SR_FIELD_SKILLLEVEL,		0, CSrMgefRecord, FieldSkillLevel)
 	ADD_SRFIELDALL("CastingDelay",		SR_FIELD_CASTINGDELAY,		0, CSrMgefRecord, FieldCastingDelay)
 	ADD_SRFIELDALL("BaseCost",			SR_FIELD_BASECOST,			0, CSrMgefRecord, FieldBaseCost)
+	ADD_SRFIELDALL("Area",				SR_FIELD_AREA,				0, CSrMgefRecord, FieldArea)
 	ADD_SRFIELDALL("MagicFlags",		SR_FIELD_MAGICFLAGS,		0, CSrMgefRecord, FieldMagicFlags)
-	ADD_SRFIELDALL("Unknown1",			SR_FIELD_UNKNOWN1,			0, CSrMgefRecord, FieldUnknown1)
-	ADD_SRFIELDALL("Unknown2",			SR_FIELD_UNKNOWN2,			0, CSrMgefRecord, FieldUnknown2)
-	ADD_SRFIELDALL("Unknown3",			SR_FIELD_UNKNOWN3,			0, CSrMgefRecord, FieldUnknown3)
-	ADD_SRFIELDALL("Unknown4",			SR_FIELD_UNKNOWN4,			0, CSrMgefRecord, FieldUnknown4)
-	ADD_SRFIELDALL("Unknown5",			SR_FIELD_UNKNOWN5,			0, CSrMgefRecord, FieldUnknown5)
-	ADD_SRFIELDALL("Unknown6",			SR_FIELD_UNKNOWN6,			0, CSrMgefRecord, FieldUnknown6)
-	ADD_SRFIELDALL("Unknown7",			SR_FIELD_UNKNOWN7,			0, CSrMgefRecord, FieldUnknown7)
-	ADD_SRFIELDALL("Unknown8",			SR_FIELD_UNKNOWN8,			0, CSrMgefRecord, FieldUnknown8)
-	ADD_SRFIELDALL("Unknown9",			SR_FIELD_UNKNOWN9,			0, CSrMgefRecord, FieldUnknown9)
-	ADD_SRFIELDALL("Unknown10",			SR_FIELD_UNKNOWN10,			0, CSrMgefRecord, FieldUnknown10)
-	ADD_SRFIELDALL("Unknown11",			SR_FIELD_UNKNOWN11,			0, CSrMgefRecord, FieldUnknown11)
-	ADD_SRFIELDALL("Unknown12",			SR_FIELD_UNKNOWN12,			0, CSrMgefRecord, FieldUnknown12)
-	ADD_SRFIELDALL("Unknown13",			SR_FIELD_UNKNOWN13,			0, CSrMgefRecord, FieldUnknown13)
-	ADD_SRFIELDALL("Unknown14",			SR_FIELD_UNKNOWN14,			0, CSrMgefRecord, FieldUnknown14)
-	ADD_SRFIELDALL("Unknown15",			SR_FIELD_UNKNOWN15,			0, CSrMgefRecord, FieldUnknown15)
+	ADD_SRFIELDALL("TaperWeight",		SR_FIELD_TAPERWEIGHT,		0, CSrMgefRecord, FieldTaperWeight)
+	ADD_SRFIELDALL("TaperDuration",		SR_FIELD_TAPERDURATION,		0, CSrMgefRecord, FieldTaperDuration)
+	ADD_SRFIELDALL("TaperCurve",		SR_FIELD_TAPERCURVE,		0, CSrMgefRecord, FieldTaperCurve)
+	ADD_SRFIELDALL("CastingDelay",		SR_FIELD_CASTINGDELAY,		0, CSrMgefRecord, FieldCastingDelay)
+	ADD_SRFIELDALL("DualCastScale",		SR_FIELD_DUALCASTSCALE,		0, CSrMgefRecord, FieldDualCastScale)
+
 	ADD_SRFIELDALL("Light",				SR_FIELD_LIGHT,				0, CSrMgefRecord, FieldLight)
-	ADD_SRFIELDALL("Shader1",			SR_FIELD_SHADER1,			0, CSrMgefRecord, FieldShader1)
-	ADD_SRFIELDALL("Shader2",			SR_FIELD_SHADER2,			0, CSrMgefRecord, FieldShader2)
-	ADD_SRFIELDALL("Art1",				SR_FIELD_ART1,				0, CSrMgefRecord, FieldArt1)
-	ADD_SRFIELDALL("Art2",				SR_FIELD_ART2,				0, CSrMgefRecord, FieldArt2)	
-	ADD_SRFIELDALL("Art3",				SR_FIELD_ART3,				0, CSrMgefRecord, FieldArt3)	
-	ADD_SRFIELDALL("Art4",				SR_FIELD_ART4,				0, CSrMgefRecord, FieldArt4)	
-	ADD_SRFIELDALL("ImpactSet1",		SR_FIELD_IMPACTSET1,		0, CSrMgefRecord, FieldImpactSet1)
-	ADD_SRFIELDALL("ImpactSet2",		SR_FIELD_IMPACTSET2,		0, CSrMgefRecord, FieldImpactSet2)
+	ADD_SRFIELDALL("HitShader",			SR_FIELD_HITSHADER,			0, CSrMgefRecord, FieldHitShader)
+	ADD_SRFIELDALL("EnchantShader",		SR_FIELD_ENCHANTSHADER,		0, CSrMgefRecord, FieldEnchantShader)
+	ADD_SRFIELDALL("CastingArt",		SR_FIELD_CASTINGART,		0, CSrMgefRecord, FieldCastingArt)
+	ADD_SRFIELDALL("HitEffectArt",		SR_FIELD_HITEFFECTART,		0, CSrMgefRecord, FieldHitEffectArt)	
+	ADD_SRFIELDALL("EnchantArt",		SR_FIELD_ENCHANTART,		0, CSrMgefRecord, FieldEnchantArt)	
+	ADD_SRFIELDALL("EquipAbility",		SR_FIELD_EQUIPABILITY,		0, CSrMgefRecord, FieldEquipAbility)	
+	ADD_SRFIELDALL("ImpactSet",			SR_FIELD_IMPACTSET,			0, CSrMgefRecord, FieldImpactSet)
+	ADD_SRFIELDALL("ImageSpaceMod",		SR_FIELD_IMAGESPACEMOD,		0, CSrMgefRecord, FieldImageSpaceMod)
 	ADD_SRFIELDALL("Perk",				SR_FIELD_PERK,				0, CSrMgefRecord, FieldPerk)
 	ADD_SRFIELDALL("Explosion",			SR_FIELD_EXPLOSION,			0, CSrMgefRecord, FieldExplosion)
-	ADD_SRFIELDALL("DualCast",			SR_FIELD_DUALCAST,			0, CSrMgefRecord, FieldDual)
-	ADD_SRFIELDALL("SecondSpell",		SR_FIELD_SECONDSPELL,		0, CSrMgefRecord, FieldSecondSpell)
-	ADD_SRFIELDALL("EffectPlayRate",	SR_FIELD_EFFECTPLAYRATE,	0, CSrMgefRecord, FieldEffectPlayRate)
+	ADD_SRFIELDALL("DualCast",			SR_FIELD_DUALCAST,			0, CSrMgefRecord, FieldDualCast)
+	ADD_SRFIELDALL("EffectObject",		SR_FIELD_EFFECTOBJECT,		0, CSrMgefRecord, FieldEffectObject)
 	ADD_SRFIELDALL("Projectile",		SR_FIELD_PROJECTILE,		0, CSrMgefRecord, FieldProjectile)
+	ADD_SRFIELDALL("Menu",				SR_FIELD_MENU,				0, CSrMgefRecord, FieldMenu)
+
+	ADD_SRFIELDALL("SkillUsageMult",	SR_FIELD_SKILLUSAGEMULT,	0, CSrMgefRecord, FieldSkillUsageMult)
 	ADD_SRFIELDALL("ActorValue",		SR_FIELD_ACTORVALUE,		0, CSrMgefRecord, FieldActorValue)
-	ADD_SRFIELDALL("CastType",			SR_FIELD_CASTTYPE,			0, CSrMgefRecord, FieldCastType)
+	ADD_SRFIELDALL("ActorValue2",		SR_FIELD_ACTORVALUE2,		0, CSrMgefRecord, FieldActorValue2)
+	ADD_SRFIELDALL("SecondAVWeight",	SR_FIELD_SECONDAVWEIGHT,	0, CSrMgefRecord, FieldSecondAVWeight)
+	ADD_SRFIELDALL("ScriptAIDataScore",	SR_FIELD_SCRIPTAIDATASCORE,	0, CSrMgefRecord, FieldScriptAIDataScore)
+	ADD_SRFIELDALL("ScriptAIDataDelay",	SR_FIELD_SCRIPTAIDATADELAY,	0, CSrMgefRecord, FieldScriptAIDataDelay)
+	
 	ADD_SRFIELDALL("Hostile",			SR_FIELD_HOSTILE,			0, CSrMgefRecord, FieldHostile)
 	ADD_SRFIELDALL("Recover",			SR_FIELD_RECOVER,			0, CSrMgefRecord, FieldRecover)
 	ADD_SRFIELDALL("Detrimental",		SR_FIELD_DETRIMENTAL,		0, CSrMgefRecord, FieldDetrimental)
-	ADD_SRFIELDALL("PercentMag",		SR_FIELD_PERCENTMAG,		0, CSrMgefRecord, FieldPercentMag)
-	ADD_SRFIELDALL("SelfOnly",			SR_FIELD_SELFONLY,			0, CSrMgefRecord, FieldSelfOnly)
-	ADD_SRFIELDALL("NoDuration",		SR_FIELD_NOAREA,			0, CSrMgefRecord, FieldNoArea)
+	ADD_SRFIELDALL("NoHitEvent",		SR_FIELD_NOHITEVENT,		0, CSrMgefRecord, FieldNoHitEvent)
+	ADD_SRFIELDALL("SnapToNavMesh",		SR_FIELD_SNAPTONAVMESH,		0, CSrMgefRecord, FieldSnapToNavMesh)
+	ADD_SRFIELDALL("DispelEffects",		SR_FIELD_DISPELEFFECTS,		0, CSrMgefRecord, FieldDispelEffects)
+	ADD_SRFIELDALL("NoDuration",		SR_FIELD_NODURATION,		0, CSrMgefRecord, FieldNoDuration)
+	ADD_SRFIELDALL("NoArea",			SR_FIELD_NOAREA,			0, CSrMgefRecord, FieldNoArea)
+	ADD_SRFIELDALL("NoMagnitude",		SR_FIELD_NOMAGNITUDE,		0, CSrMgefRecord, FieldNoMagnitude)
 	ADD_SRFIELDALL("FXPersist",			SR_FIELD_FXPERSIST,			0, CSrMgefRecord, FieldFXPersist)
-	ADD_SRFIELDALL("Bound",				SR_FIELD_BOUND,				0, CSrMgefRecord, FieldBound)
+	ADD_SRFIELDALL("NoRecast",			SR_FIELD_NORECAST,			0, CSrMgefRecord, FieldNoRecast)
+	ADD_SRFIELDALL("GoryVisual",		SR_FIELD_GORYVISUAL,		0, CSrMgefRecord, FieldGoryVisual)
+	ADD_SRFIELDALL("HideInUI",			SR_FIELD_HIDEINUI,			0, CSrMgefRecord, FieldHideInUI)
+	ADD_SRFIELDALL("PowerMagnitude",	SR_FIELD_POWERMAGNITUDE,	0, CSrMgefRecord, FieldPowerMagnitude)
+	ADD_SRFIELDALL("Painless",			SR_FIELD_PAINLESS,			0, CSrMgefRecord, FieldPainless)
+	ADD_SRFIELDALL("PowerDuration",		SR_FIELD_POWERDURATION,		0, CSrMgefRecord, FieldPowerDuration)
+	ADD_SRFIELDALL("NoHitEffect",		SR_FIELD_NOHITEFFECT,		0, CSrMgefRecord, FieldNoHitEffect)
+	ADD_SRFIELDALL("NoDeathDispell",	SR_FIELD_NODEATHDISPELL,	0, CSrMgefRecord, FieldNoDeathDispell)
 	ADD_SRFIELDALL("Ward",				SR_FIELD_WARD,				0, CSrMgefRecord, FieldWard)
 	ADD_SRFIELDALL("UnknownFlag1",		SR_FIELD_UNKNOWNFLAG1,		0, CSrMgefRecord, FieldUnknownFlag1)
-	ADD_SRFIELDALL("UnknownFlag2",		SR_FIELD_UNKNOWNFLAG2,		0, CSrMgefRecord, FieldUnknownFlag2)
-	ADD_SRFIELDALL("UnknownFlag3",		SR_FIELD_UNKNOWNFLAG3,		0, CSrMgefRecord, FieldUnknownFlag3)
-	ADD_SRFIELDALL("UnknownFlag4",		SR_FIELD_UNKNOWNFLAG4,		0, CSrMgefRecord, FieldUnknownFlag4)
-	ADD_SRFIELDALL("UnknownFlag5",		SR_FIELD_UNKNOWNFLAG5,		0, CSrMgefRecord, FieldUnknownFlag5)
-	ADD_SRFIELDALL("UnknownFlag6",		SR_FIELD_UNKNOWNFLAG6,		0, CSrMgefRecord, FieldUnknownFlag6)
-	ADD_SRFIELDALL("UnknownFlag7",		SR_FIELD_UNKNOWNFLAG7,		0, CSrMgefRecord, FieldUnknownFlag7)
-	ADD_SRFIELDALL("UnknownFlag8",		SR_FIELD_UNKNOWNFLAG8,		0, CSrMgefRecord, FieldUnknownFlag8)
-	ADD_SRFIELDALL("UnknownFlag9",		SR_FIELD_UNKNOWNFLAG9,		0, CSrMgefRecord, FieldUnknownFlag9)
-	ADD_SRFIELDALL("SoundCount",		SR_FIELD_SOUNDCOUNT,		0, CSrMgefRecord, FieldSoundCount)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CSrMgefRecord Field Map
@@ -115,10 +122,11 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrMgefRecord::CSrMgefRecord () 
 {
-  m_pData			= NULL;
-  m_pFullName		= NULL;
-  m_pDescription	= NULL;
-  m_pSoundData      = NULL;
+	m_pData			= NULL;
+	m_pItemName		= NULL;
+	m_pDescription	= NULL;
+	m_pSoundData    = NULL;
+	m_pMenu         = NULL;
 }
 /*===========================================================================
  *		End of Class CSrMgefRecord Constructor
@@ -132,12 +140,13 @@ CSrMgefRecord::CSrMgefRecord ()
  *=========================================================================*/
 void CSrMgefRecord::Destroy (void) 
 {
-  m_pData        = NULL;
-  m_pFullName    = NULL;
-  m_pDescription = NULL;
-  m_pSoundData   = NULL;
+	m_pData        = NULL;
+	m_pItemName    = NULL;
+	m_pDescription = NULL;
+	m_pSoundData   = NULL;
+	m_pMenu        = NULL;
 
-  CSrIdKeyRecord::Destroy();
+	CSrIdKeyRecord::Destroy();
 }
 /*===========================================================================
  *		End of Class Method CSrMgefRecord::Destroy()
@@ -156,7 +165,7 @@ void CSrMgefRecord::InitializeNew (void)
   CSrIdKeyRecord::InitializeNew();
 
   AddNewSubrecord(SR_NAME_FULL);
-  if (m_pFullName != NULL) m_pFullName->InitializeNew();
+  if (m_pItemName != NULL) m_pItemName->InitializeNew();
 
   AddNewSubrecord(SR_NAME_DATA);
   if (m_pData != NULL) m_pData->InitializeNew();
@@ -178,27 +187,31 @@ void CSrMgefRecord::InitializeNew (void)
 void CSrMgefRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) 
 {
 
-  if (pSubrecord->GetRecordType() == SR_NAME_DATA) 
-  {
-    m_pData = SrCastClass(CSrMgefDataSubrecord, pSubrecord);
-  }
-  else if (pSubrecord->GetRecordType() == SR_NAME_FULL) 
-  {
-    m_pFullName = SrCastClass(CSrLStringSubrecord, pSubrecord);
-  }
-  else if (pSubrecord->GetRecordType() == SR_NAME_DNAM) 
-  {
-    m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
-  }
-  else if (pSubrecord->GetRecordType() == SR_NAME_SNDD) 
-  {
-    m_pSoundData = SrCastClass(CSrMgefSnddSubrecord, pSubrecord);
-  }
-  else 
-  {
-    CSrIdKeyRecord::OnAddSubrecord(pSubrecord);
-  }
-
+	if (pSubrecord->GetRecordType() == SR_NAME_DATA) 
+	{
+		m_pData = SrCastClass(CSrMgefDataSubrecord, pSubrecord);
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_FULL) 
+	{
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_DNAM) 
+	{
+		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_SNDD) 
+	{
+		m_pSoundData = SrCastClass(CSrMgefSnddSubrecord, pSubrecord);
+	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_MDOB) 
+	{
+		m_pMenu = SrCastClass(CSrFormidSubrecord, pSubrecord);
+	}
+	else 
+	{
+		CSrIdKeyRecord::OnAddSubrecord(pSubrecord);
+	}
+	
 }
 /*===========================================================================
  *		End of Class Event CSrMgefRecord::OnAddSubRecord()
@@ -213,16 +226,18 @@ void CSrMgefRecord::OnAddSubrecord (CSrSubrecord* pSubrecord)
 void CSrMgefRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) 
 {
 
-  if (m_pData == pSubrecord) 
-    m_pData = NULL;
-  else if (m_pFullName == pSubrecord) 
-    m_pFullName = NULL;
-  else if (m_pDescription == pSubrecord) 
-    m_pDescription = NULL;
-  else if (m_pSoundData == pSubrecord) 
-    m_pSoundData = NULL;
-  else 
-    CSrIdKeyRecord::OnDeleteSubrecord(pSubrecord);  
+	if (m_pData == pSubrecord) 
+	    m_pData = NULL;
+	else if (m_pItemName == pSubrecord) 
+		m_pItemName = NULL;
+	else if (m_pDescription == pSubrecord) 
+		m_pDescription = NULL;
+	else if (m_pSoundData == pSubrecord) 
+		m_pSoundData = NULL;
+	else if (m_pMenu == pSubrecord) 
+		m_pMenu = NULL;
+	else 
+		CSrIdKeyRecord::OnDeleteSubrecord(pSubrecord);  
 
 }
 /*===========================================================================
@@ -234,18 +249,25 @@ void CSrMgefRecord::SetSounds (CSrMgefSnddArray& Sounds)
 {
 	if (m_pSoundData == NULL)
 	{
+		if (Sounds.GetSize() == 0) return;
+
 		AddNewSubrecord(SR_NAME_SNDD);
 		if (m_pSoundData == NULL) return;
 		m_pSoundData->InitializeNew();
+	}
+	else if (Sounds.GetSize() == 0) 
+	{
+		DeleteSubrecords(SR_NAME_SNDD);
+		return;
 	}
 
 	m_pSoundData->GetSnddArray() = Sounds;
 }
 
 
-srrectype_t CSrMgefRecord::GetSecondRecordType (const int Unknown7)
+srrectype_t CSrMgefRecord::GetEffectObjectRecordType (const int EffectType)
 {
-	switch (Unknown7)
+	switch (EffectType)
 	{
 		case 12: return SR_NAME_LIGH;
 		case 17: return SR_NAME_WEAP;
@@ -261,119 +283,4 @@ srrectype_t CSrMgefRecord::GetSecondRecordType (const int Unknown7)
 	return SR_NAME_NULL;
 }
 
-/*===========================================================================
- *
- * Begin CSrMgefRecord Get Field Methods
- *
- *=========================================================================*/
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldDescription,		String = GetDescription())
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldFullName,			String = GetFullName())
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldSchool,			String = GetSrMagicSchoolString(GetEffectData().School) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldConditionCount,    String.Format("%d", GetConditionCount()) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldEffectType,		String = GetSrActorValueString(GetEffectData().EffectType) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldCastingDelay,      String.Format("%g", GetEffectData().CastingDelay) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldSkillLevel,        String.Format("%d", GetEffectData().SkillLevel) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldMagicFlags,        String.Format("0x%08X", GetEffectData().Flags) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldBaseCost,          String.Format("%g", GetEffectData().BaseCost) )
-DEFINE_SRGETFIELD(CSrMgefRecord::GetFieldUserData,          String.Format("0x%08X", GetEffectData().Flags & 0xf0000000) )
-/*===========================================================================
- *		End of CSrMgefRecord Get Field Methods
- *=========================================================================*/
-
-  
-/*===========================================================================
- *
- * Begin CSrMgefRecord Compare Field Methods
- *
- *=========================================================================*/
-DEFINE_SRCOMPFIELDSTRING(CSrMgefRecord, CompareFieldDescription,	GetDescription)
-DEFINE_SRCOMPFIELDSTRING(CSrMgefRecord, CompareFieldFullName,		GetFullName)
-DEFINE_SRCOMPFIELDDWORD(CSrMgefRecord,  CompareFieldSchool,			GetSchool)
-DEFINE_SRCOMPFIELDDWORD(CSrMgefRecord,  CompareFieldEffectType,		GetEffectType)
-DEFINE_SRCOMPFIELDDWORD(CSrMgefRecord,  CompareFieldConditionCount, GetConditionCount)
-DEFINE_SRCOMPFIELDFLOAT1(CSrMgefRecord, CompareFieldCastingDelay,   GetEffectData().CastingDelay, 1)
-DEFINE_SRCOMPFIELDDWORD1(CSrMgefRecord, CompareFieldSkillLevel,     GetEffectData().SkillLevel)
-DEFINE_SRCOMPFIELDDWORD1(CSrMgefRecord, CompareFieldMagicFlags,     GetEffectData().Flags)
-DEFINE_SRCOMPFIELDFLOAT1(CSrMgefRecord, CompareFieldBaseCost,       GetEffectData().BaseCost, 1)
-DEFINE_SRCOMPFIELDDWORD1(CSrMgefRecord, CompareFieldUserData,       GetEffectData().Flags & 0xf0000000)
-/*===========================================================================
- *		End of CSrMgefRecord Compare Field Methods
- *=========================================================================*/
-
- 
-/*===========================================================================
- *
- * Begin CSrMgefRecord Set Field Methods
- *
- *=========================================================================*/
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldDescription)
-  SetDescription(pString);
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldFullName)
-  SetFullName(pString);
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldSchool)
-	int School;
-	bool Result = GetSrMagicSchoolValue(School, pString);
-	if (!Result) return false;
-
-	GetEffectData().School = School;
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldEffectType)
-	int EffectType;
-	bool Result = GetSrActorValueValue(EffectType, pString);
-	if (!Result) return false;
-
-	GetEffectData().EffectType = EffectType;
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldConditionCount)
-  AddSrGeneralError("Cannot set the condition count directly!");
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldCastingDelay)
-  float Value;
-
-  if (!SrFieldConvertFloat(pString, Value)) return (false);
-  GetEffectData().CastingDelay = Value;
-END_SRSETFIELD()
-
-		
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldSkillLevel)
-  dword Value;
-
-  if (!SrFieldConvertDword(pString, Value)) return (false);
-  GetEffectData().SkillLevel = Value;
-END_SRSETFIELD()	
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldMagicFlags)
-  dword Value;
-
-  if (!SrFieldConvertDword(pString, Value)) return (false);
-  GetEffectData().Flags = Value;
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldBaseCost)
-  float Value;
-
-  if (!SrFieldConvertFloat(pString, Value)) return (false);
-  GetEffectData().BaseCost = Value;
-END_SRSETFIELD()
-
-
-BEGIN_SRSETFIELD(CSrMgefRecord::SetFieldUserData)
-END_SRSETFIELD()
-/*===========================================================================
- *		End of CSrMgefRecord Set Field Methods
- *=========================================================================*/
 

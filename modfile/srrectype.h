@@ -338,6 +338,7 @@
 	extern const srrectype_t SR_NAME_EPF3;
 	extern const srrectype_t SR_NAME_EPFD;
 	extern const srrectype_t SR_NAME_EPFT;
+	extern const srrectype_t SR_NAME_ESCE;	
 	extern const srrectype_t SR_NAME_ETYP;
 	extern const srrectype_t SR_NAME_F0TX;
 	extern const srrectype_t SR_NAME_FCHT;

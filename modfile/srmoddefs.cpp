@@ -39,15 +39,24 @@ BEGIN_STRINGVALUE(s_SrMagicSchools)
 	ADD_STRINGVALUE( SR_MAGIC_SCHOOL_NONE,			"None")
 END_STRINGVALUE()
 
-
-BEGIN_STRINGVALUE(s_SrMagicTypes)
-	ADD_STRINGVALUE( SR_MAGIC_TYPE_EXTRADMG,	"Extra Damage")
+	/* Note: Same as AV but assumed to be limited in scope */
+BEGIN_STRINGVALUE(s_SrMagicResistTypes)
+	ADD_STRINGVALUE( SR_MAGIC_TYPE_EXTRADMG,	"Damage")
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_POISON,		"Poison")
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_FIRE,		"Fire")
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_SHOCK,		"Shock")
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_FROST,		"Frost")
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_DRAIN,		"Drain")
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_NONE,		"None")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrMagicDeliveryTypes)
+	ADD_STRINGVALUE( SR_MAGIC_DELIVERY_SELF,			"Self")
+	ADD_STRINGVALUE( SR_MAGIC_DELIVERY_TOUCH,			"Touch")
+	ADD_STRINGVALUE( SR_MAGIC_DELIVERY_AIMED,			"Aimed")
+	ADD_STRINGVALUE( SR_MAGIC_DELIVERY_TARGETACTOR,		"Target Actor")
+	ADD_STRINGVALUE( SR_MAGIC_DELIVERY_TARGETLOCATION,	"Target Location")
 END_STRINGVALUE()
 
 
@@ -406,55 +415,6 @@ BEGIN_STRINGVALUE(s_SrActorSkillValues)
 END_STRINGVALUE()
 
 
-BEGIN_STRINGVALUE(s_SrEffectLinkTypes)
-    ADD_STRINGVALUE( 0,  "0"  )
-    ADD_STRINGVALUE( 1,  "1"  )
-    ADD_STRINGVALUE( 2,  "2"  )
-    ADD_STRINGVALUE( 3,  "3"  )
-    ADD_STRINGVALUE( 4,  "4"  )
-    ADD_STRINGVALUE( 5,  "5"  )
-    ADD_STRINGVALUE( 6,  "6"  )
-    ADD_STRINGVALUE( 7,  "7"  )
-    ADD_STRINGVALUE( 8,  "8"  )
-    ADD_STRINGVALUE( 9,  "9"  )
-    ADD_STRINGVALUE( 10,  "10"  )
-    ADD_STRINGVALUE( 11,  "11"  )
-    ADD_STRINGVALUE( 12,  "Light"  )
-    ADD_STRINGVALUE( 13,  "13"  )
-    ADD_STRINGVALUE( 14,  "14"  )
-    ADD_STRINGVALUE( 15,  "15"  )
-    ADD_STRINGVALUE( 16,  "16"  )
-    ADD_STRINGVALUE( 17,  "Weapon"  )
-    ADD_STRINGVALUE( 18,  "NPC"  )
-    ADD_STRINGVALUE( 19,  "19"  )
-    ADD_STRINGVALUE( 20,  "20"  )
-    ADD_STRINGVALUE( 21,  "21"  )
-    ADD_STRINGVALUE( 22,  "22"  )
-    ADD_STRINGVALUE( 23,  "23"  )
-    ADD_STRINGVALUE( 24,  "24"  )
-    ADD_STRINGVALUE( 25,  "Hazard (25)"  )
-    ADD_STRINGVALUE( 26,  "26"  )
-    ADD_STRINGVALUE( 27,  "27"  )
-    ADD_STRINGVALUE( 28,  "28"  )
-    ADD_STRINGVALUE( 29,  "29"  )
-    ADD_STRINGVALUE( 30,  "30"  )
-    ADD_STRINGVALUE( 31,  "31"  )
-    ADD_STRINGVALUE( 32,  "32"  )
-    ADD_STRINGVALUE( 33,  "33"  )
-    ADD_STRINGVALUE( 34,  "Keyword"  )
-    ADD_STRINGVALUE( 35,  "Spell"  )
-    ADD_STRINGVALUE( 36,  "Race"  )
-    ADD_STRINGVALUE( 37,  "37"  )
-    ADD_STRINGVALUE( 38,  "38"  )
-    ADD_STRINGVALUE( 39,  "Enchantment"  )
-    ADD_STRINGVALUE( 40,  "Hazard (40)"  )
-    ADD_STRINGVALUE( 41,  "41"  )
-    ADD_STRINGVALUE( 42,  "42"  )
-    ADD_STRINGVALUE( 43,  "43"  )
-	ADD_STRINGVALUE( 44,  "44"  )
-END_STRINGVALUE()
-
-
 BEGIN_STRINGVALUE(s_SrWeaponTypes)
     ADD_STRINGVALUE( SR_WEAPON_PROJECTILE	, "Projectile")
     ADD_STRINGVALUE( SR_WEAPON_1HSWORD		, "1HSword")
@@ -751,18 +711,82 @@ END_STRINGVALUE()
 
 
 BEGIN_STRINGVALUE(s_SrScriptPropertyTypes)
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_REFERENCE		,	"Object")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_STRING			,	"String")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_INT			,	"Int")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_FLOAT			,	"Float")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_BOOL			,	"Bool")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYREFERENCE	,	"Object[]")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYSTRING	,	"String[]")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYINT		,	"Int[]")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYFLOAT		,	"Float[]")
-	ADD_STRINGVALUE(SR_VMAD_PROPDATA_ARRAYBOOL		,	"Bool[]")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_REFERENCE		,	"Object")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_STRING		,	"String")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_INT			,	"Int")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_FLOAT			,	"Float")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_BOOL			,	"Bool")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_ARRAYREFERENCE,	"Object[]")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_ARRAYSTRING	,	"String[]")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_ARRAYINT		,	"Int[]")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_ARRAYFLOAT	,	"Float[]")
+	ADD_STRINGVALUE( SR_VMAD_PROPDATA_ARRAYBOOL		,	"Bool[]")
 END_STRINGVALUE()
 
+
+BEGIN_STRINGVALUE(s_SrSoundVolumes)
+	ADD_STRINGVALUE( SR_SOUND_VOLUME_SILENT	 , "Silent")
+	ADD_STRINGVALUE( SR_SOUND_VOLUME_NORMAL	 , "Normal")
+	ADD_STRINGVALUE( SR_SOUND_VOLUME_LOUD	 , "Loud")
+	ADD_STRINGVALUE( SR_SOUND_VOLUME_VERYLOUD, "Very Loud")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrMagicSoundTypes)
+	ADD_STRINGVALUE( SR_MAGICSOUND_SHEATH,		"Sheath/Draw")
+	ADD_STRINGVALUE( SR_MAGICSOUND_CHARGE,		"Charge")
+	ADD_STRINGVALUE( SR_MAGICSOUND_READY,		"Ready")	
+	ADD_STRINGVALUE( SR_MAGICSOUND_RELEASE,		"Release")
+	ADD_STRINGVALUE( SR_MAGICSOUND_CASTLOOP,	"CastLoop")
+	ADD_STRINGVALUE( SR_MAGICSOUND_ONHIT,		"OnHit")
+END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrMagicEffectTypes)
+	ADD_STRINGVALUE( SR_MAGICEFFECT_VALUEMOD			, "ActorValue Mod" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_SCRIPT				, "Script" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_DISPEL				, "Dispel" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CUREDISEASE			, "Cure Disease" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_ABSORB				, "Absorb" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_DUALVALUEMOD		, "Dual ActorValue Mod" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CALM				, "Calm" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_DEMORALIZE			, "Demoralize" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_FRENZY				, "Frenzy" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_DISARM				, "Disarm" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_COMMANDSUMMON		, "Command Summoned" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_INVISIBILITY		, "Invisibility" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_LIGHT				, "Light" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_LOCK				, "Lock" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_OPEN				, "Open" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_BOUNDWEAPON			, "Bound Weapon" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_SUMMONCREATURE		, "Summon Creature" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_DETECTLIFE			, "Detect Life" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_TELEKINESIS			, "Telekinesis" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_PARALYSIS			, "Paralysis" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_RENANIMATE			, "Reanimate" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_SOULTRAP			, "Soul Trap" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_TURNUNDEAD			, "Turn Undead" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_GUIDE				, "Guide" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_WEREWOLFFEED		, "Werewolf Feed" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CUREPARALYSIS		, "Cure Paralysis" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CUREADDICTION		, "Cure Additiction" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CUREPOISON			, "Cure Poison" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CONCUSSION			, "Concussion" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_VALUEANDPARTS		, "Value and Parts" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_ACCUMULATEMAG		, "Accumulate Magnitude" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_STAGGER				, "Stagger" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_PEAKVALUEMOD		, "Peak Value Mod" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_CLOAK				, "Cloak" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_WEREWOLF			, "Werewolf" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_SLOWTIME			, "Slow Time" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_RALLY				, "Rally" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_ENHANCEWEAPON		, "Enhance Weapon" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_SPAWNHAZARD			, "Spawn Hazard" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_ETHEREALIZE			, "Etherealize" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_BANISH				, "Banish" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_SPAWNSCRIPTREF		, "Spawn Scripted Ref" )
+	ADD_STRINGVALUE( SR_MAGICEFFECT_DISGUISE			, "Disguise" )
+END_STRINGVALUE()
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -774,7 +798,8 @@ END_STRINGVALUE()
  *
  *=========================================================================*/
 const SSCHAR* GetSrMagicSchoolString		(const int Value) { return s_SrMagicSchoolsMap.FindValue(Value); }
-const SSCHAR* GetSrMagicTypeString			(const int Value) { return s_SrMagicTypesMap.FindValue(Value); }
+const SSCHAR* GetSrMagicResistTypeString	(const int Value) { return s_SrMagicResistTypesMap.FindValue(Value); }
+const SSCHAR* GetSrMagicDeliveryTypeString	(const int Value) { return s_SrMagicDeliveryTypesMap.FindValue(Value); }
 const SSCHAR* GetSrConditionOperatorString	(const int Value) { return s_SrConditionOperatorsMap.FindValue(Value); }
 
 const SSCHAR* GetSrSpellTypeString		(const int Value) { return s_SrSpellTypesMap.FindValue(Value); }
@@ -795,7 +820,6 @@ const SSCHAR* GetSrContainerTypeString	(const int Value) { return s_SrContainerT
 const SSCHAR* GetSrLightTypeString   	(const int Value) { return s_SrLightTypesMap.FindValue(Value); }
 const SSCHAR* GetSrEffectCastTypeString (const int Value) { return s_SrEffectCastTypesMap.FindValue(Value); }
 const SSCHAR* GetSrActorValueString     (const int Value) { return s_SrActorValuesMap.FindValue(Value); }
-const SSCHAR* GetSrEffectLinkTypeString (const int Value) { return s_SrEffectLinkTypesMap.FindValue(Value); }
 const SSCHAR* GetSrWeaponTypeString     (const int Value) { return s_SrWeaponTypesMap.FindValue(Value); }
 const SSCHAR* GetSrSoulGemTypeString    (const int Value) { return s_SrSoulGemTypesMap.FindValue(Value); }
 
@@ -821,6 +845,9 @@ const SSCHAR* GetSrCastSourceTypeString (const int Value) { return s_SrCastSourc
 const SSCHAR* GetSrCriticalStageTypeString (const int Value) { return s_SrCriticalStageTypesMap.FindValue(Value); }
 const SSCHAR* GetSrGenderTypeString (const int Value) { return s_SrGenderTypesMap.FindValue(Value); }
 const SSCHAR* GetSrScriptPropertyTypeString (const int Value) { return s_SrScriptPropertyTypesMap.FindValue(Value); }
+const SSCHAR* GetSrSoundVolumeString (const int Value) { return s_SrSoundVolumesMap.FindValue(Value); }
+const SSCHAR* GetSrMagicSoundTypeString (const int Value) { return s_SrMagicSoundTypesMap.FindValue(Value); }
+const SSCHAR* GetSrMagicEffectTypeString (const int Value) { return s_SrMagicEffectTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -847,7 +874,8 @@ CSString GetSrBodyPartFlagString	(const dword Value)
 
 
 bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString) { return s_SrMagicSchoolsMap.FindString(Value, pString); }
-bool GetSrMagicTypeValue			(int& Value, const SSCHAR* pString) { return s_SrMagicTypesMap.FindString(Value, pString); }
+bool GetSrMagicResistTypeValue		(int& Value, const SSCHAR* pString) { return s_SrMagicResistTypesMap.FindString(Value, pString); }
+bool GetSrMagicDeliveryTypeValue	(int& Value, const SSCHAR* pString) { return s_SrMagicDeliveryTypesMap.FindString(Value, pString); }
 bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString) { return s_SrConditionOperatorsMap.FindString(Value, pString); }
 
 bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString) { return s_SrSpellTypesMap.FindString(Value, pString); }
@@ -868,7 +896,6 @@ bool GetSrContainerTypeValue  (int& Value, const SSCHAR* pString) { return s_SrC
 bool GetSrLightTypeValue      (int& Value, const SSCHAR* pString) { return s_SrLightTypesMap.FindString(Value, pString); }
 bool GetSrEffectCastTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectCastTypesMap.FindString(Value, pString); }
 bool GetSrActorValueValue     (int& Value, const SSCHAR* pString) { return s_SrActorValuesMap.FindString(Value, pString); }
-bool GetSrEffectLinkTypeValue (int& Value, const SSCHAR* pString) { return s_SrEffectLinkTypesMap.FindString(Value, pString); }
 bool GetSrWeaponTypeValue     (int& Value, const SSCHAR* pString) { return s_SrWeaponTypesMap.FindString(Value, pString); }
 bool GetSrSoulGemTypeValue    (int& Value, const SSCHAR* pString) { return s_SrSoulGemTypesMap.FindString(Value, pString); }
 
@@ -894,6 +921,9 @@ bool GetSrCastSourceTypeValue (int& Value, const SSCHAR* pString) { return s_SrC
 bool GetSrCriticalStageTypeValue (int& Value, const SSCHAR* pString) { return s_SrCriticalStageTypesMap.FindString(Value, pString); }
 bool GetSrGenderTypeValue (int& Value, const SSCHAR* pString) { return s_SrGenderTypesMap.FindString(Value, pString); }
 bool GetSrScriptPropertyTypeValue (int& Value, const SSCHAR* pString) { return s_SrScriptPropertyTypesMap.FindString(Value, pString); }
+bool GetSrSoundVolumeValue (int& Value, const SSCHAR* pString) { return s_SrSoundVolumesMap.FindString(Value, pString); }
+bool GetSrMagicSoundTypeValue (int& Value, const SSCHAR* pString) { return s_SrMagicSoundTypesMap.FindString(Value, pString); }
+bool GetSrMagicEffectTypeValue (int& Value, const SSCHAR* pString) { return s_SrMagicEffectTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {
