@@ -25,7 +25,7 @@
 srfunction_t g_SrFunctions[] =
 {
 	 { 0x0000, "GameMode",                         "",                     0x02000000, "", 0, { } }, 
-     { 0x0001, "MenuMode",                         "",                     0x02000000, "", 1, {
+     { 0x0001, "MenuMode",                         "",                     0x22000000, "", 1, {
                { 0x0001, 1 },  } }, 
      { 0x0002, "OnActivate",                       "",                     0x03000000, "", 1, {
                { 0x0006, 1 },  } }, 
@@ -820,7 +820,7 @@ srfunction_t g_SrFunctions[] =
      { 0x103D, "GetAlarmed",                       "",                     0x29000000, "", 0, { } }, 
      { 0x103E, "IsRaining",                        "",                     0x28000000, "", 0, { } }, 
      { 0x103F, "GetAttacked",                      "",                     0x29000000, "", 0, { } }, 
-     { 0x1040, "GetIsCreature",                    "",                     0x09000001, "", 0, { } }, 
+     { 0x1040, "GetIsCreature",                    "",                     0x29000001, "", 0, { } }, 
      { 0x1041, "GetLockLevel",                     "",                     0x29000000, "", 0, { } }, 
      { 0x1042, "GetShouldAttack",                  "",                     0x29000000, "", 1, {
                { 0x0006, 0 },  } }, 
@@ -907,7 +907,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 1 }, 
                { 0x0001, 1 }, 
                { 0x0001, 1 },  } }, 
-     { 0x1062, "GetPlayerControlsDisabled",        "gpc",                  0x08000000, "8 optional (0/1) values. movement|fighting|pov|looking|sneaking|menu|activate|journal ex: 1 0 0 1 0 0 0 0", 8, {
+     { 0x1062, "GetPlayerControlsDisabled",        "gpc",                  0x28000000, "8 optional (0/1) values. movement|fighting|pov|looking|sneaking|menu|activate|journal ex: 1 0 0 1 0 0 0 0", 8, {
                { 0x0001, 1 }, 
                { 0x0001, 1 }, 
                { 0x0001, 1 }, 
@@ -927,14 +927,14 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 0 },  } }, 
      { 0x1069, "IsActionRef",                      "",                     0x09000000, "", 1, {
                { 0x0004, 0 },  } }, 
-     { 0x106A, "IsFacingUp",                       "",                     0x09000000, "", 0, { } }, 
+     { 0x106A, "IsFacingUp",                       "",                     0x29000000, "", 0, { } }, 
      { 0x106B, "GetKnockedState",                  "",                     0x29000000, "", 0, { } }, 
      { 0x106C, "GetWeaponAnimType",                "",                     0x29000000, "", 0, { } }, 
      { 0x106D, "IsWeaponSkillType",                "",                     0x29000000, "", 1, {
                { 0x0005, 0 },  } }, 
-     { 0x106E, "GetCurrentAIPackage",              "",                     0x09000000, "", 0, { } }, 
+     { 0x106E, "GetCurrentAIPackage",              "",                     0x29000000, "", 0, { } }, 
      { 0x106F, "IsWaiting",                        "",                     0x29000000, "", 0, { } }, 
-     { 0x1070, "IsIdlePlaying",                    "",                     0x09000000, "", 0, { } }, 
+     { 0x1070, "IsIdlePlaying",                    "",                     0x29000000, "", 0, { } }, 
      { 0x1071, "CompleteQuest",                    "",                     0x08000000, "", 1, {
                { 0x000E, 0 },  } }, 
      { 0x1072, "Lock",                             "",                     0x09000000, "", 2, {
@@ -966,7 +966,7 @@ srfunction_t g_SrFunctions[] =
      { 0x107B, "IsGreetingPlayer",                 "",                     0x29000000, "", 0, { } }, 
      { 0x107C, "StartMisterSandMan",               "",                     0x09000000, "", 1, {
                { 0x0006, 0 },  } }, 
-     { 0x107D, "IsGuard",                          "",                     0x09000000, "", 0, { } }, 
+     { 0x107D, "IsGuard",                          "",                     0x29000000, "", 0, { } }, 
      { 0x107E, "StartCannibal",                    "",                     0x09000000, "", 1, {
                { 0x0006, 0 },  } }, 
      { 0x107F, "HasBeenEaten",                     "",                     0x29000000, "", 0, { } }, 
@@ -998,15 +998,15 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 1 },  } }, 
      { 0x108D, "IsTalking",                        "",                     0x29000000, "", 0, { } }, 
      { 0x108E, "GetWalkSpeed",                     "GetWalk",              0x19000000, "", 0, { } }, 
-     { 0x108F, "GetCurrentAIProcedure",            "",                     0x09000000, "", 0, { } }, 
+     { 0x108F, "GetCurrentAIProcedure",            "",                     0x29000000, "", 0, { } }, 
      { 0x1090, "GetTrespassWarningLevel",          "",                     0x29000000, "", 0, { } }, 
      { 0x1091, "IsTrespassing",                    "",                     0x29000000, "", 0, { } }, 
-     { 0x1092, "IsInMyOwnedCell",                  "",                     0x09000000, "", 0, { } }, 
+     { 0x1092, "IsInMyOwnedCell",                  "",                     0x29000000, "", 0, { } }, 
      { 0x1093, "GetWindSpeed",                     "",                     0x28000000, "", 0, { } }, 
      { 0x1094, "GetCurrentWeatherPercent",         "getweatherpct",        0x18000000, "", 0, { } }, 
      { 0x1095, "GetIsCurrentWeather",              "getweather",           0x18000000, "", 1, {
                { 0x0021, 0 },  } }, 
-     { 0x1096, "IsContinuingPackagePCNear",        "",                     0x09000000, "", 0, { } }, 
+     { 0x1096, "IsContinuingPackagePCNear",        "",                     0x29000000, "", 0, { } }, 
      { 0x1097, "SetCrimeFaction",                  "",                     0x09000000, "", 1, {
                { 0x0011, 0 },  } }, 
      { 0x1098, "GetIsCrimeFaction",                "",                     0x29000000, "", 1, {
@@ -1025,9 +1025,9 @@ srfunction_t g_SrFunctions[] =
      { 0x10A0, "GetFurnitureMarkerID",             "",                     0x09000000, "", 0, { } }, 
      { 0x10A1, "GetIsCurrentPackage",              "",                     0x29000000, "", 1, {
                { 0x001D, 0 },  } }, 
-     { 0x10A2, "IsCurrentFurnitureRef",            "",                     0x09000000, "", 1, {
+     { 0x10A2, "IsCurrentFurnitureRef",            "",                     0x29000000, "", 1, {
                { 0x0004, 0 },  } }, 
-     { 0x10A3, "IsCurrentFurnitureObj",            "",                     0x09000000, "", 1, {
+     { 0x10A3, "IsCurrentFurnitureObj",            "",                     0x29000000, "", 1, {
                { 0x0014, 0 },  } }, 
      { 0x10A4, "SetSize",                          "CSize",                0x09000000, "Shrink/Grow an actor. [player.shrink 0.0 or radius]", 1, {
                { 0x0002, 0 },  } }, 
@@ -1056,8 +1056,8 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 1 },  } }, 
      { 0x10AE, "WakeUpPC",                         "",                     0x08000000, "", 1, {
                { 0x0001, 1 },  } }, 
-     { 0x10AF, "IsPCSleeping",                     "",                     0x08000000, "", 0, { } }, 
-     { 0x10B0, "IsPCAMurderer",                    "",                     0x08000000, "", 0, { } }, 
+     { 0x10AF, "IsPCSleeping",                     "",                     0x28000000, "", 0, { } }, 
+     { 0x10B0, "IsPCAMurderer",                    "",                     0x28000000, "", 0, { } }, 
      { 0x10B1, "SetCombatStyle",                   "setcs",                0x09000000, "", 1, {
                { 0x001E, 1 },  } }, 
      { 0x10B2, "PlaySound3D",                      "",                     0x08000000, "", 1, {
@@ -1131,13 +1131,13 @@ srfunction_t g_SrFunctions[] =
      { 0x10D5, "AdvancePCLevel",                   "AdvLevel",             0x08000000, "", 0, { } }, 
      { 0x10D6, "HasMagicEffect",                   "",                     0x29000000, "", 1, {
                { 0x001F, 0 },  } }, 
-     { 0x10D7, "GetDefaultOpen",                   "",                     0x09000000, "Returns 1 if this object is open by default.", 0, { } }, 
+     { 0x10D7, "GetDefaultOpen",                   "",                     0x29000000, "Returns 1 if this object is open by default.", 0, { } }, 
      { 0x10D8, "SetDefaultOpen",                   "",                     0x09000000, "A value of 1 will make the object open by default.", 1, {
                { 0x0001, 0 },  } }, 
      { 0x10D9, "ShowClassMenu",                    "",                     0x08000000, "", 0, { } }, 
      { 0x10DA, "ShowRaceMenu",                     "SetPlayerRace",        0x08000000, "ShowRaceMenu no parameter will bring up the race menu. SetPlayerRace raceID will change the players race to raceID and reload the players geometry.", 1, {
                { 0x000F, 1 },  } }, 
-     { 0x10DB, "GetAnimAction",                    "",                     0x09000000, "Return the actors current anim action.", 0, { } }, 
+     { 0x10DB, "GetAnimAction",                    "",                     0x29000000, "Return the actors current anim action.", 0, { } }, 
      { 0x10DC, "ShowNameMenu",                     "",                     0x08000000, "", 0, { } }, 
      { 0x10DD, "SetOpenState",                     "",                     0x09000000, "A value of 1 will make the object open.", 1, {
                { 0x0001, 0 },  } }, 
@@ -1182,7 +1182,7 @@ srfunction_t g_SrFunctions[] =
      { 0x10F5, "ForceFlee",                        "Flee",                 0x09000100, "Forces a actor to flee if destination or cell is passed in uses them", 2, {
                { 0x0009, 1 }, 
                { 0x0004, 1 },  } }, 
-     { 0x10F6, "GetIsUsedItem",                    "",                     0x08000000, "", 1, {
+     { 0x10F6, "GetIsUsedItem",                    "",                     0x28000000, "", 1, {
                { 0x0038, 0 },  } }, 
      { 0x10F7, "GetIsUsedItemType",                "",                     0x28000000, "", 1, {
                { 0x0020, 0 },  } }, 
@@ -1219,8 +1219,8 @@ srfunction_t g_SrFunctions[] =
      { 0x1108, "HasSpell",                         "",                     0x29000000, "", 1, {
                { 0x0007, 0 },  } }, 
      { 0x1109, "IsTimePassing",                    "",                     0x28000000, "", 0, { } }, 
-     { 0x110A, "IsPleasant",                       "",                     0x08000000, "", 0, { } }, 
-     { 0x110B, "IsCloudy",                         "",                     0x08000000, "", 0, { } }, 
+     { 0x110A, "IsPleasant",                       "",                     0x28000000, "", 0, { } }, 
+     { 0x110B, "IsCloudy",                         "",                     0x28000000, "", 0, { } }, 
      { 0x110C, "TrapUpdate",                       "",                     0x08000000, "", 0, { } }, 
      { 0x110D, "ShowQuestObjectives",              "SQO",                  0x08000000, "Shows the list of current quest objectives", 1, {
                { 0x000E, 1 },  } }, 
@@ -1250,11 +1250,11 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 1 },  } }, 
      { 0x1115, "GetBaseActorValue",                "GetBaseAV",            0x19000000, "Get a base actor value. [player.getbaseav luck]", 1, {
                { 0x0005, 0 },  } }, 
-     { 0x1116, "IsOwner",                          "",                     0x09000000, "get the ownership of the ref", 1, {
+     { 0x1116, "IsOwner",                          "",                     0x29000000, "get the ownership of the ref", 1, {
                { 0x0023, 1 },  } }, 
      { 0x1117, "SetOwnership",                     "",                     0x09000000, "", 1, {
                { 0x0023, 1 },  } }, 
-     { 0x1118, "IsCellOwner",                      "",                     0x09000000, "get the ownership of the ref", 2, {
+     { 0x1118, "IsCellOwner",                      "",                     0x29000000, "get the ownership of the ref", 2, {
                { 0x0009, 0 }, 
                { 0x0023, 1 },  } }, 
      { 0x1119, "SetCellOwnership",                 "",                     0x08000000, "", 2, {
@@ -1266,11 +1266,11 @@ srfunction_t g_SrFunctions[] =
                { 0x0034, 0 },  } }, 
      { 0x111C, "SetActorFullName",                 "",                     0x09000000, "", 1, {
                { 0x0034, 0 },  } }, 
-     { 0x111D, "IsLeftUp",                         "",                     0x09000000, "", 0, { } }, 
+     { 0x111D, "IsLeftUp",                         "",                     0x29000000, "", 0, { } }, 
      { 0x111E, "IsSneaking",                       "",                     0x29000000, "", 0, { } }, 
      { 0x111F, "IsRunning",                        "",                     0x29000000, "", 0, { } }, 
      { 0x1120, "GetFriendHit",                     "",                     0x29000000, "", 0, { } }, 
-     { 0x1121, "IsInCombat",                       "",                     0x09000000, "", 1, {
+     { 0x1121, "IsInCombat",                       "",                     0x29000000, "", 1, {
                { 0x0001, 1 },  } }, 
      { 0x1122, "SetPackDuration",                  "SPDur",                0x09000000, "", 1, {
                { 0x0002, 0 },  } }, 
@@ -1385,7 +1385,7 @@ srfunction_t g_SrFunctions[] =
      { 0x1164, "ShowDialogSubtitles",              "",                     0x08000000, "", 1, {
                { 0x0001, 1 },  } }, 
      { 0x1165, "SetPlayerResistingArrest",         "",                     0x09000000, "", 0, { } }, 
-     { 0x1166, "IsPlayerMovingIntoNewSpace",       "",                     0x08000000, "", 0, { } }, 
+     { 0x1166, "IsPlayerMovingIntoNewSpace",       "",                     0x28000000, "", 0, { } }, 
      { 0x1167, "GetInCurrentLoc",                  "",                     0x29000000, "", 1, {
                { 0x003D, 0 },  } }, 
      { 0x1168, "GetInCurrentLocAlias",             "",                     0x29000000, "", 1, {
@@ -1400,8 +1400,8 @@ srfunction_t g_SrFunctions[] =
      { 0x116D, "IsChild",                          "",                     0x29000001, "", 0, { } }, 
      { 0x116E, "GetStolenItemValueNoCrime",        "",                     0x28000000, "", 1, {
                { 0x0011, 0 },  } }, 
-     { 0x116F, "GetLastPlayerAction",              "",                     0x08000000, "", 0, { } }, 
-     { 0x1170, "IsPlayerActionActive",             "",                     0x08000000, "", 1, {
+     { 0x116F, "GetLastPlayerAction",              "",                     0x28000000, "", 0, { } }, 
+     { 0x1170, "IsPlayerActionActive",             "",                     0x28000000, "", 1, {
                { 0x0001, 0 },  } }, 
      { 0x1171, "SetTalkingActivatorActor",         "",                     0x09000000, "", 1, {
                { 0x0006, 1 },  } }, 
@@ -1409,7 +1409,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0006, 0 },  } }, 
      { 0x1173, "ShowBarterMenu",                   "sbm",                  0x09000000, "", 1, {
                { 0x0001, 1 },  } }, 
-     { 0x1174, "IsInList",                         "",                     0x09000001, "", 1, {
+     { 0x1174, "IsInList",                         "",                     0x29000001, "", 1, {
                { 0x0025, 0 },  } }, 
      { 0x1175, "GetStolenItemValue",               "",                     0x28000000, "", 1, {
                { 0x0011, 0 },  } }, 
@@ -1426,7 +1426,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0028, 0 },  } }, 
      { 0x117C, "RemoveNote",                       "RN",                   0x08000000, "", 1, {
                { 0x0028, 0 },  } }, 
-     { 0x117D, "GetHasNote",                       "GetN",                 0x08000000, "", 1, {
+     { 0x117D, "GetHasNote",                       "GetN",                 0x28000000, "", 1, {
                { 0x0028, 0 },  } }, 
      { 0x117E, "AddToFaction",                     "Addfac",               0x09000000, "", 2, {
                { 0x0011, 0 }, 
@@ -1453,8 +1453,8 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 0 },  } }, 
      { 0x1185, "SetGlobalTimeMultiplier",          "sgtm",                 0x08000000, "", 1, {
                { 0x0002, 0 },  } }, 
-     { 0x1186, "GetHitLocation",                   "",                     0x09000000, "What BGSBodyPart::LIMB_ENUM was hit. -1 = none, 0 = torso, ...", 0, { } }, 
-     { 0x1187, "IsPC1stPerson",                    "pc1st",                0x08000000, "Is the player playing in 1st person mode?", 0, { } }, 
+     { 0x1186, "GetHitLocation",                   "",                     0x29000000, "What BGSBodyPart::LIMB_ENUM was hit. -1 = none, 0 = torso, ...", 0, { } }, 
+     { 0x1187, "IsPC1stPerson",                    "pc1st",                0x28000000, "Is the player playing in 1st person mode?", 0, { } }, 
      { 0x1188, "PurgeCellBuffers",                 "pcb",                  0x08000000, "Forcibly unloads all unattached cells in cell buffers.", 0, { } }, 
      { 0x1189, "PushActorAway",                    "",                     0x09000000, "", 2, {
                { 0x0004, 0 }, 
@@ -1462,8 +1462,8 @@ srfunction_t g_SrFunctions[] =
      { 0x118A, "SetActorsAI",                      "",                     0x09000000, "", 1, {
                { 0x0001, 0 },  } }, 
      { 0x118B, "ClearOwnership",                   "",                     0x09000000, "", 0, { } }, 
-     { 0x118C, "GetCauseofDeath",                  "",                     0x09000000, "What killed the actor", 0, { } }, 
-     { 0x118D, "IsLimbGone",                       "",                     0x09000000, "Is BGSBodyPart::LIMB_ENUM been dismembered", 1, {
+     { 0x118C, "GetCauseofDeath",                  "",                     0x29000000, "What killed the actor", 0, { } }, 
+     { 0x118D, "IsLimbGone",                       "",                     0x29000000, "Is BGSBodyPart::LIMB_ENUM been dismembered", 1, {
                { 0x0001, 0 },  } }, 
      { 0x118E, "IsWeaponInList",                   "",                     0x29000000, "Is the current weapon in the form list", 1, {
                { 0x0025, 0 },  } }, 
@@ -1488,7 +1488,7 @@ srfunction_t g_SrFunctions[] =
      { 0x1197, "GetVATSValue",                     "",                     0x28000000, "", 2, {
                { 0x0001, 0 }, 
                { 0x0001, 1 },  } }, 
-     { 0x1198, "IsKiller",                         "",                     0x09000000, "", 1, {
+     { 0x1198, "IsKiller",                         "",                     0x29000000, "", 1, {
                { 0x0006, 0 },  } }, 
      { 0x1199, "IsKillerObject",                   "",                     0x29000000, "", 1, {
                { 0x0025, 0 },  } }, 
@@ -1507,10 +1507,10 @@ srfunction_t g_SrFunctions[] =
                { 0x0004, 1 },  } }, 
      { 0x119C, "EvaluateSpellConditions",          "esc",                  0x09000000, "", 0, { } }, 
      { 0x119D, "ToggleMotionBlur",                 "tmb",                  0x08000000, "Toggle Motion Blur for the selected reference", 0, { } }, 
-     { 0x119E, "Exists",                           "",                     0x09000000, "", 1, {
+     { 0x119E, "Exists",                           "",                     0x29000000, "", 1, {
                { 0x0004, 0 },  } }, 
-     { 0x119F, "GetGroupMemberCount",              "",                     0x09000000, "", 0, { } }, 
-     { 0x11A0, "GetGroupTargetCount",              "",                     0x09000000, "", 0, { } }, 
+     { 0x119F, "GetGroupMemberCount",              "",                     0x29000000, "", 0, { } }, 
+     { 0x11A0, "GetGroupTargetCount",              "",                     0x29000000, "", 0, { } }, 
      { 0x11A1, "SetObjectiveCompleted",            "",                     0x08000000, "Set objective completion status: 0-Off, 1-On", 3, {
                { 0x000E, 0 }, 
                { 0x0001, 0 }, 
@@ -1541,7 +1541,7 @@ srfunction_t g_SrFunctions[] =
      { 0x11AC, "CompleteAllObjectives",            "",                     0x08000000, "Complete all of a quest's objectives", 1, {
                { 0x000E, 0 },  } },
      { 0x11AD, "IsScenePackageRunning",            "",                     0x29000000, "", 0, { } }, 
-     { 0x11AE, "GetHealthPercentage",              "",                     0x09000000, "", 0, { } }, 
+     { 0x11AE, "GetHealthPercentage",              "",                     0x29000000, "", 0, { } }, 
      { 0x11AF, "SetAudioMultithreading",           "SAM",                  0x08000000, "", 1, {
                { 0x0001, 0 },  } }, 
      { 0x11B0, "GetIsObjectType",                  "",                     0x29000000, "", 1, {
@@ -1553,7 +1553,7 @@ srfunction_t g_SrFunctions[] =
      { 0x11B2, "GetDialogueEmotion",               "",                     0x29000000, "", 0, { } }, 
      { 0x11B3, "GetDialogueEmotionValue",          "",                     0x29000000, "", 0, { } }, 
      { 0x11B4, "ExitGame",                         "exit",                 0x08000100, "", 0, { } }, 
-     { 0x11B5, "GetIsCreatureType",                "",                     0x09000001, "", 1, {
+     { 0x11B5, "GetIsCreatureType",                "",                     0x29000001, "", 1, {
                { 0x0001, 0 },  } }, 
      { 0x11B6, "PlayerCreatePotion",               "",                     0x08000000, "", 3, {
                { 0x001F, 0 }, 
@@ -1589,8 +1589,8 @@ srfunction_t g_SrFunctions[] =
                { 0x0004, 0 },  } }, 
      { 0x11C4, "SetPlayerTeammate",                "",                     0x09000000, "", 1, {
                { 0x0001, 0 },  } }, 
-     { 0x11C5, "GetPlayerTeammate",                "",                     0x09000000, "", 0, { } }, 
-     { 0x11C6, "GetPlayerTeammateCount",           "",                     0x08000000, "", 0, { } }, 
+     { 0x11C5, "GetPlayerTeammate",                "",                     0x29000000, "", 0, { } }, 
+     { 0x11C6, "GetPlayerTeammateCount",           "",                     0x28000000, "", 0, { } }, 
      { 0x11C7, "OpenActorContainer",               "",                     0x09000000, "", 1, {
                { 0x0001, 1 },  } }, 
      { 0x11C8, "ClearFactionPlayerEnemyFlag",      "",                     0x08000000, "", 1, {
@@ -1607,7 +1607,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 1 }, 
                { 0x0011, 1 },  } }, 
      { 0x11CE, "GetPlayerGrabbedRef",              "",                     0x08000000, "", 0, { } }, 
-     { 0x11CF, "IsPlayerGrabbedRef",               "",                     0x08000000, "", 1, {
+     { 0x11CF, "IsPlayerGrabbedRef",               "",                     0x28000000, "", 1, {
                { 0x0004, 0 },  } }, 
      { 0x11D0, "PlaceLeveledActorAtMe",            "",                     0x08000000, "", 3, {
                { 0x0015, 0 }, 
@@ -1622,11 +1622,11 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 0 },  } }, 
      { 0x11D5, "StartRadioConversation",           "",                     0x09000000, "", 1, {
                { 0x000D, 1 },  } }, 
-     { 0x11D6, "GetDestructionStage",              "",                     0x09000000, "", 0, { } }, 
+     { 0x11D6, "GetDestructionStage",              "",                     0x29000000, "", 0, { } }, 
      { 0x11D7, "ClearDestruction",                 "",                     0x09000000, "", 0, { } }, 
      { 0x11D8, "CastImmediateOnSelf",              "cios",                 0x09000000, "", 1, {
                { 0x000B, 0 },  } }, 
-     { 0x11D9, "GetIsAlignment",                   "",                     0x09000000, "", 1, {
+     { 0x11D9, "GetIsAlignment",                   "",                     0x29000000, "", 1, {
                { 0x0036, 0 },  } }, 
      { 0x11DA, "ResetQuest",                       "",                     0x08000000, "", 1, {
                { 0x000E, 0 },  } }, 
@@ -1670,7 +1670,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0051, 0 },  } }, 
      { 0x11EE, "GetPermanentActorValue",           "GetPermAV",            0x19000000, "Get an actor value ignoring temporary modifiers. [player.getav luck]", 1, {
                { 0x0005, 0 },  } }, 
-     { 0x11EF, "GetKillingBlowLimb",               "",                     0x09000000, "Which BGSBodyPart::LIMB_ENUM received the killing blow", 0, { } }, 
+     { 0x11EF, "GetKillingBlowLimb",               "",                     0x29000000, "Which BGSBodyPart::LIMB_ENUM received the killing blow", 0, { } }, 
      { 0x11F0, "GoToJail",                         "",                     0x09000000, "", 3, {
                { 0x0011, 1 }, 
                { 0x0001, 1 }, 
@@ -1714,7 +1714,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0004, 1 },  } }, 
      { 0x1206, "GetVATSFrontAreaFree",             "",                     0x29000000, "", 1, {
                { 0x0004, 1 },  } }, 
-     { 0x1207, "GetIsLockBroken",                  "",                     0x09000000, "", 0, { } }, 
+     { 0x1207, "GetIsLockBroken",                  "",                     0x29000000, "", 0, { } }, 
      { 0x1208, "IsPS3",                            "",                     0x28000000, "", 0, { } }, 
      { 0x1209, "IsWin32",                          "",                     0x28000000, "", 0, { } }, 
      { 0x120A, "GetVATSRightTargetVisible",        "",                     0x29000000, "", 1, {
