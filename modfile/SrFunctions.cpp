@@ -835,7 +835,7 @@ srfunction_t g_SrFunctions[] =
      { 0x1047, "GetInFaction",                     "",                     0x29000001, "", 1, {
                { 0x0011, 0 },  } }, 
      { 0x1048, "GetIsID",                          "",                     0x29000001, "", 1, {
-               { 0x0015, 0 },  } }, 
+               { 62, 0 },  } }, 
      { 0x1049, "GetFactionRank",                   "",                     0x29000000, "", 1, {
                { 0x0011, 0 },  } }, 
      { 0x104A, "GetGlobalValue",                   "",                     0x28000000, "", 1, {
@@ -1293,7 +1293,7 @@ srfunction_t g_SrFunctions[] =
                { 0x0001, 1 },  } }, 
      { 0x112A, "EnableLinkedPathPoints",           "",                     0x09000000, "", 0, { } }, 
      { 0x112B, "DisableLinkedPathPoints",          "",                     0x09000000, "", 0, { } }, 
-     { 0x112C, "IsInInterior",                     "",                     0x09000000, "", 0, { } }, 
+     { 0x112C, "IsInInterior",                     "",                     0x29000000, "", 0, { } }, 
      { 0x112D, "ForceWeather",                     "fw",                   0x08000000, "Forces the active weather to the specified type, without transition.", 2, {
                { 0x0021, 0 }, 
                { 0x0001, 1 },  } }, 
@@ -1379,7 +1379,7 @@ srfunction_t g_SrFunctions[] =
      { 0x115F, "StartMasterFileSeekData",          "",                     0x08000000, "", 0, { } }, 
      { 0x1160, "DumpMasterFileSeekData",           "",                     0x08000000, "", 0, { } }, 
      { 0x1161, "IsActor",                          "",                     0x29000000, "", 0, { } }, 
-     { 0x1162, "IsEssential",                      "",                     0x09000000, "", 0, { } }, 
+     { 0x1162, "IsEssential",                      "",                     0x29000000, "", 0, { } }, 
      { 0x1163, "PreloadMagicEffect",               "",                     0x09000000, "", 1, {
                { 0x001F, 0 },  } }, 
      { 0x1164, "ShowDialogSubtitles",              "",                     0x08000000, "", 1, {
@@ -1397,7 +1397,7 @@ srfunction_t g_SrFunctions[] =
                { 0x003B, 1 },  } }, 
      { 0x116C, "DamageObject",                     "do",                   0x09000000, "", 1, {
                { 0x0002, 0 },  } }, 
-     { 0x116D, "IsChild",                          "",                     0x09000001, "", 0, { } }, 
+     { 0x116D, "IsChild",                          "",                     0x29000001, "", 0, { } }, 
      { 0x116E, "GetStolenItemValueNoCrime",        "",                     0x28000000, "", 1, {
                { 0x0011, 0 },  } }, 
      { 0x116F, "GetLastPlayerAction",              "",                     0x08000000, "", 0, { } }, 
@@ -2465,7 +2465,7 @@ bool SrCheckFunctionParam (const char* pString, const dword ParamType, CSrRecord
 		case SR_FUNCPARAM_OBJECTID56	 : return false;	
 		case SR_FUNCPARAM_MUSIC			 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_MUSC, pRecordHandler);
 		case SR_FUNCPARAM_CRITICALSTAGE	 : return GetSrCriticalStageTypeValue(Value, StringValue);
-		case SR_FUNCPARAM_KEYWORD		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_KWDA, pRecordHandler);
+		case SR_FUNCPARAM_KEYWORD		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_KYWD, pRecordHandler);
 		case SR_FUNCPARAM_LOCREFTYPE	 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_LCTN, pRecordHandler);
 		case SR_FUNCPARAM_LOCATION		 : return priv_SrCheckFuncParamFormid(StringValue, SR_NAME_LCRT, pRecordHandler);
 		case SR_FUNCPARAM_FORM			 : return false;
