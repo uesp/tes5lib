@@ -231,7 +231,7 @@ public:
 
 		m_Data.ActorValue  = -1;
 		m_Data.ActorValue2 = -1;
-		m_Data.ResistType = 39;
+		m_Data.ResistType = 0x27;
 		m_Data.School = SR_MAGIC_SCHOOL_ALTERATION;
 	}
 
