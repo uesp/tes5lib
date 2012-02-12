@@ -1736,6 +1736,7 @@ bool CSrMultiRecordHandler::IndexRecords (CSrCallback* pCallback) {
 
 	/* Add special pseudo-records */
   m_FormIdMap.SetAt(&m_PlayerRef);
+  m_EditorIdMap.SetAt(&m_PlayerRef);
 
 	/* Index all masters */
   for (Index = 0; Index < m_MasterFiles.GetSize(); ++Index) {

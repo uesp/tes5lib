@@ -344,6 +344,7 @@ bool CSrSimpleRecordHandler::IndexRecords (CSrCallback* pCallback)
 
   	/* Add special pseudo-records */
   m_FormIdMap.SetAt(&m_PlayerRef);
+  m_EditorIdMap.SetAt(&m_PlayerRef);
   
 	/* Index all records in the file */
   m_EspFile.ForEachRecord(l_IndexCallback, 0, this);
