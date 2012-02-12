@@ -87,7 +87,7 @@ public:
   const char*   GetActorValue     (void) { return GetSrActorValueString(GetEffectData().ActorValue); }
   const char*   GetActorValue2    (void) { return GetSrActorValueString(GetEffectData().ActorValue2); }
   const char*   GetEffectType     (void) { return GetSrMagicEffectTypeString(GetEffectData().EffectType); }
-  const char*   GetResistType     (void) { return GetSrActorValueString(GetEffectData().ResistType); }
+  const char*   GetResistType     (void) { return GetSrMagicResistTypeString(GetEffectData().ResistType); }
   const char*   GetSchool         (void) { return GetSrMagicSchoolString(GetEffectData().School); }
   const char*   GetDeliveryType   (void) { return GetSrMagicDeliveryTypeString(GetEffectData().DeliveryType); }
   const char*   GetSoundVolume    (void) { return GetSrSoundVolumeString(GetEffectData().SoundVolume); }
@@ -105,7 +105,7 @@ public:
   void SetActorValue   (const char* pString) { GetSrActorValueValue(GetEffectData().ActorValue, pString); }
   void SetActorValue2  (const char* pString) { GetSrActorValueValue(GetEffectData().ActorValue2, pString); }
   void SetEffectType   (const char* pString) { GetSrMagicEffectTypeValue(GetEffectData().EffectType, pString); }
-  void SetResistType   (const char* pString) { GetSrActorValueValue(GetEffectData().ResistType, pString); }
+  void SetResistType   (const char* pString) { GetSrMagicResistTypeValue(GetEffectData().ResistType, pString); }
   void SetSchool       (const char* pString) { GetSrMagicSchoolValue(GetEffectData().School, pString); }
   void SetDeliveryType (const char* pString) { GetSrMagicDeliveryTypeValue(GetEffectData().DeliveryType, pString); }
   void SetSoundVolume  (const char* pString) { GetSrSoundVolumeValue(GetEffectData().SoundVolume, pString); }
