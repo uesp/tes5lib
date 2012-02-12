@@ -341,6 +341,7 @@
 	const srrectype_t SR_NAME_MDOB = "MDOB";
 	const srrectype_t SR_NAME_MHDT = "MHDT";
 	const srrectype_t SR_NAME_MIAD = "MIAD";
+	const srrectype_t SR_NAME_MICO = "MICO";	
 	const srrectype_t SR_NAME_MNAM = "MNAM";
 	const srrectype_t SR_NAME_MO2S = "MO2S";
 	const srrectype_t SR_NAME_MO2T = "MO2T";

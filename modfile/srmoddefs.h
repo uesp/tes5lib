@@ -637,13 +637,7 @@
     #define SR_ARMORTYPE_NONE  2
     #define SR_ARMORTYPE_LIGHT 0
     #define SR_ARMORTYPE_HEAVY 1
-
-    #define SR_POTIONTYPE_0			0x00000000
-    #define SR_POTIONTYPE_1			0x00000001
-    #define SR_POTIONTYPE_2			0x00000002
-    #define SR_POTIONTYPE_FOOD		0x00000003
-	#define SR_POTIONTYPE_HARMFUL	0x00020000
-
+      
 	#define SR_SKILL_ONEHAND 		6 
 	#define SR_SKILL_TWOHAND 		7 
 	#define SR_SKILL_MARKSMAN 		8 
@@ -827,6 +821,11 @@
 	#define SR_MAGICEFFECT_SPAWNSCRIPTREF	43
 	#define SR_MAGICEFFECT_DISGUISE			44
 
+		/* Enchantment types */
+	#define SR_ENCHANTTYPE_ENCHANT	0x06
+	#define SR_ENCHANTTYPE_STAFF	0x0C
+
+	extern const stringvalue_t s_SrEnchantmentTypes[];
 	extern const stringvalue_t s_SrMagicEffectTypes[];
 	extern const stringvalue_t s_SrMagicSoundTypes[];
 	extern const stringvalue_t s_SrSoundVolumes[];
@@ -849,13 +848,8 @@
     extern const stringvalue_t s_SrSpellTypes[];
 	extern const stringvalue_t s_SrSpellCastAnims[];
 	extern const stringvalue_t s_SrSpellCastTypes[];
-	extern const stringvalue_t s_SrEnchantTypeA[];
-	extern const stringvalue_t s_SrEnchantTypeB[];
-	extern const stringvalue_t s_SrEnchantTypeC[];
-	extern const stringvalue_t s_SrEnchantTypeD[];
 	extern const stringvalue_t s_SrBodyParts[];
 	extern const stringvalue_t s_SrArmorTypes[];
-	extern const stringvalue_t s_SrPotionTypes[];
 	extern const stringvalue_t s_SrSkillTypes[];
 	extern const stringvalue_t s_SrContainerTypes[];
 	extern const stringvalue_t s_SrLightTypes[];
@@ -903,24 +897,12 @@
 	bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString);
 	bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString);
 
-	const SSCHAR* GetSrEnchantTypeAString	(const int Value);
-	const SSCHAR* GetSrEnchantTypeBString	(const int Value);
-	const SSCHAR* GetSrEnchantTypeCString	(const int Value);
-	const SSCHAR* GetSrEnchantTypeDString	(const int Value);
-
-	bool GetSrEnchantTypeAValue	(int& Value, const SSCHAR* pString);
-	bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString);
-	bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString);
-	bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString);
-
 	const SSCHAR* GetSrBodyPartString		(const int Value);
 	bool GetSrBodyPartValue	(int& Value, const SSCHAR* pString);
 	CSString GetSrBodyPartFlagString	(const dword Value);
 	bool GetSrBodyPartFlagValue	(dword& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrArmorTypeString		(const int Value);
 	bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString);
-	const SSCHAR* GetSrPotionTypeString		(const int Value);
-	bool GetSrPotionTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrSkillTypeString		(const int Value);
 	bool GetSrSkillTypeValue (int& Value, const SSCHAR* pString);
 	const SSCHAR* GetSrContainerTypeString	(const int Value);
@@ -1002,6 +984,9 @@
 
 	const SSCHAR* GetSrMagicSoundTypeString (const int Value);
 	bool GetSrMagicSoundTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrEnchantmentTypeString (const int Value);
+	bool GetSrEnchantmentTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

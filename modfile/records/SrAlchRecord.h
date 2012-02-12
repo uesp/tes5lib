@@ -33,19 +33,18 @@
  *=========================================================================*/
 class CSrAlchRecord : public CSrItem1Record 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrAlchRecord, CSrItem1Record)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrAlchRecord, CSrItem1Record)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*			m_pBoundsData;
-	CSrSubrecord*			m_pModtData;
+	CSrStringSubrecord*		m_pMessageIcon;
 	CSrEnitAlchSubrecord*	m_pEnitData;
 	CSrAlchDataSubrecord*	m_pAlchData;
 	CSrFormidSubrecord*		m_pPickupSound;
 	CSrFormidSubrecord*		m_pDropSound;
-	CSrSubrecord*			m_pModsData;
+	CSrFormidSubrecord*		m_pEquipType;
 
 	static sralchdata_t     s_NullAlchData;
 	static srenitalchdata_t s_NullAlchEnitData;
@@ -68,10 +67,12 @@ public:
 		/* Get class members */
 	sralchdata_t&     GetAlchData (void) { return m_pAlchData ? m_pAlchData->GetAlchData() : s_NullAlchData; }
 	srenitalchdata_t& GetEnitData (void) { return m_pEnitData ? m_pEnitData->GetAlchData() : s_NullAlchEnitData; }
-	dword GetEffectCount (void) { return CountSubrecords(SR_NAME_EFID); }  
-	const char* GetPotionType (void) { return GetSrPotionTypeString(GetEnitData().Type); }
+	bool			  IsAutoCalc  (void) { return m_pEnitData ? m_pEnitData->IsAutoCalc() : false; }
+	bool			  IsFood      (void) { return m_pEnitData ? m_pEnitData->IsFood()     : false; }
+	bool			  IsMedicine  (void) { return m_pEnitData ? m_pEnitData->IsMedicine() : false; }
+	bool			  IsPoison    (void) { return m_pEnitData ? m_pEnitData->IsPoison()   : false; }
 
-	const char* GetUseSound (void) { return CSrRecord::GetEditorIDHelper(GetEnitData().UseSoundID); } 
+	dword GetEffectCount (void) { return CountSubrecords(SR_NAME_EFID); }  
 
 		/* Initialize a new record */
 	void InitializeNew (void);
@@ -80,22 +81,29 @@ public:
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-	void SetPotionType (const char* pString) { GetSrPotionTypeValue(GetEnitData().Type, pString); }
+		/* Set class members */
+	void SetAutoCalc (const bool Flag) { if (m_pEnitData) m_pEnitData->SetAutoCalc(Flag); }
+	void SetMedicine (const bool Flag) { if (m_pEnitData) m_pEnitData->SetMedicine(Flag); }
+	void SetFood     (const bool Flag) { if (m_pEnitData) m_pEnitData->SetFood(Flag); }
+	void SetPoison   (const bool Flag) { if (m_pEnitData) m_pEnitData->SetPoison(Flag); }
 
-	void SetUseSound (const char* pString);
+	DECLARE_SRFIELD_EDITORID2(CSrAlchRecord, Addiction, GetEnitData().AddictionID)
+	DECLARE_SRFIELD_EDITORID2(CSrAlchRecord, UseSound, GetEnitData().UseSoundID)
+	DECLARE_SRFIELD_EDITORID1(CSrAlchRecord, DropSound, SR_NAME_ZNAM)
+	DECLARE_SRFIELD_EDITORID1(CSrAlchRecord, EquipType, SR_NAME_ETYP)
+	DECLARE_SRFIELD_EDITORID1(CSrAlchRecord, PickupSound, SR_NAME_YNAM)
 
+	DECLARE_SRFIELD_STRING(CSrAlchRecord, m_pMessageIcon, MessageIcon, SR_NAME_MICO)
 
-	DECLARE_SRFIELD_EDITORID(CSrAlchRecord, UseSound,  GetUseSound,  SetUseSound)
-
-	DECLARE_SRFIELD_METHOD(CSrAlchRecord, Type, GetPotionType, SetPotionType)
+	DECLARE_SRFIELD_DWORDFLAG1(CSrAlchRecord, Flags, GetEnitData().Flags, GetEnitData().Flags)
 	DECLARE_SRFIELD_DWORD1(CSrAlchRecord, Value, GetEnitData().Value, GetEnitData().Value)
+	DECLARE_SRFIELD_DWORD1(CSrAlchRecord, AddictionChance, GetEnitData().AddictionChance, GetEnitData().AddictionChance)
 	DECLARE_SRFIELD_FLOAT1(CSrAlchRecord, Weight, GetAlchData().Weight, GetAlchData().Weight)
 
-	DECLARE_SRFIELD_EDITORID(CSrAlchRecord, PickupSound,  GetPickupSound,  SetPickupSound)
-	DECLARE_SRMETHOD_FORMID(PickupSound, m_pPickupSound, SR_NAME_YNAM)
-
-	DECLARE_SRFIELD_EDITORID(CSrAlchRecord, DropSound,  GetDropSound,  SetDropSound)
-	DECLARE_SRMETHOD_FORMID(DropSound, m_pDropSound, SR_NAME_ZNAM)
+	DECLARE_SRFIELD_BOOL(CSrAlchRecord, AutoCalc, IsAutoCalc, SetAutoCalc)
+	DECLARE_SRFIELD_BOOL(CSrAlchRecord, Food,     IsFood,     SetFood)
+	DECLARE_SRFIELD_BOOL(CSrAlchRecord, Medicine, IsMedicine, SetMedicine)
+	DECLARE_SRFIELD_BOOL(CSrAlchRecord, Poison,   IsPoison,   SetPoison)
 
 	DECLARE_SRFIELD_DWORD1(CSrAlchRecord, EffectCount, GetEffectCount(), dword Tmp);
 

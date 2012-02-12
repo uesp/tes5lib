@@ -407,6 +407,7 @@
 	extern const srrectype_t SR_NAME_MDOB;
 	extern const srrectype_t SR_NAME_MHDT;
 	extern const srrectype_t SR_NAME_MIAD;
+	extern const srrectype_t SR_NAME_MICO;	
 	extern const srrectype_t SR_NAME_MNAM;
 	extern const srrectype_t SR_NAME_MO2S;
 	extern const srrectype_t SR_NAME_MO2T;

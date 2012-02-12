@@ -69,7 +69,6 @@ public:
 
 	/* Class Constructors/Destructors */
   CSrItem1Record();
-  //virtual ~CSrItem1Record() { Destroy(); }
   virtual void Destroy (void);
 
   	/* Return a new instance of the class */

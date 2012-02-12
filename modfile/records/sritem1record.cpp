@@ -38,7 +38,7 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrItem1Record, CSrIdKeyRecord)
-	ADD_SRFIELDALL("Item Name", SR_FIELD_ITEMNAME, 0, CSrItem1Record, FieldItemName)
+	ADD_SRFIELDALL("ItemName",  SR_FIELD_ITEMNAME, 0, CSrItem1Record, FieldItemName)
 	ADD_SRFIELDALL("Model",     SR_FIELD_MODEL,    0, CSrItem1Record, FieldModel)
 	ADD_SRFIELDALL("Icon",      SR_FIELD_ICON,     0, CSrItem1Record, FieldIcon)
 END_SRFIELDMAP()

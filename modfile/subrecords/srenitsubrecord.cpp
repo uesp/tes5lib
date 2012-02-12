@@ -46,11 +46,12 @@ void CSrEnitSubrecord::Destroy (void)
  *=========================================================================*/
 void CSrEnitSubrecord::InitializeNew (void) 
 {
-  CSrSubrecord::InitializeNew();
+	CSrSubrecord::InitializeNew();
 
-  memset(&m_Data, 0, sizeof(m_Data));
+	memset(&m_Data, 0, sizeof(m_Data));
+	m_Data.EnchantType = SR_ENCHANTTYPE_ENCHANT;
 
-  m_RecordSize = SRENIT_SUBRECORD_SIZE;
+	m_RecordSize = SRENIT_SUBRECORD_SIZE;
 }
 /*===========================================================================
  *		End of Class Method CSrEnitSubrecord::InitializeNew()

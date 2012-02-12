@@ -98,35 +98,6 @@ BEGIN_STRINGVALUE(s_SrSpellCastTypes)
 END_STRINGVALUE()
 
 
-BEGIN_STRINGVALUE(s_SrEnchantTypeA)
-	ADD_STRINGVALUE( 0,		"0")
-	ADD_STRINGVALUE( 1,		"1")
-	ADD_STRINGVALUE( 4,		"4")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrEnchantTypeB)
-	ADD_STRINGVALUE( 0,		"0")
-	ADD_STRINGVALUE( 1,		"1")
-	ADD_STRINGVALUE( 2,		"2")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrEnchantTypeC)
-	ADD_STRINGVALUE( 0,		"0")
-	ADD_STRINGVALUE( 1,		"1")
-	ADD_STRINGVALUE( 2,		"2")
-	ADD_STRINGVALUE( 3,		"3")
-	ADD_STRINGVALUE( 4,		"4")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrEnchantTypeD)
-	ADD_STRINGVALUE( 6,		"6")
-	ADD_STRINGVALUE( 12,	"12")
-END_STRINGVALUE()
-
-
 BEGIN_STRINGVALUE(s_SrBodyParts)
 	ADD_STRINGVALUE( SR_BODYPARTS_SKIN				,	"Skin")
 	ADD_STRINGVALUE( SR_BODYPARTS_HEAD				,	"Head")
@@ -156,15 +127,6 @@ BEGIN_STRINGVALUE(s_SrArmorTypes)
 	ADD_STRINGVALUE( SR_ARMORTYPE_NONE,		"None")
 	ADD_STRINGVALUE( SR_ARMORTYPE_LIGHT,	"Light")
 	ADD_STRINGVALUE( SR_ARMORTYPE_HEAVY,	"Heavy")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrPotionTypes)
-	ADD_STRINGVALUE( SR_POTIONTYPE_0,		"0x0000")
-	ADD_STRINGVALUE( SR_POTIONTYPE_1,		"0x0001")
-	ADD_STRINGVALUE( SR_POTIONTYPE_2,		"0x0002")
-	ADD_STRINGVALUE( SR_POTIONTYPE_FOOD,	"Food")
-	ADD_STRINGVALUE( SR_POTIONTYPE_HARMFUL,	"Harmful")
 END_STRINGVALUE()
 
 
@@ -787,6 +749,12 @@ BEGIN_STRINGVALUE(s_SrMagicEffectTypes)
 	ADD_STRINGVALUE( SR_MAGICEFFECT_SPAWNSCRIPTREF		, "Spawn Scripted Ref" )
 	ADD_STRINGVALUE( SR_MAGICEFFECT_DISGUISE			, "Disguise" )
 END_STRINGVALUE()
+
+
+BEGIN_STRINGVALUE(s_SrEnchantmentTypes)
+	ADD_STRINGVALUE( SR_ENCHANTTYPE_ENCHANT,	"Enchantment")
+	ADD_STRINGVALUE( SR_ENCHANTTYPE_STAFF,		"Staff")
+END_STRINGVALUE()
 /*===========================================================================
  *		End of Constant String Tables
  *=========================================================================*/
@@ -806,15 +774,11 @@ const SSCHAR* GetSrSpellTypeString		(const int Value) { return s_SrSpellTypesMap
 const SSCHAR* GetSrSpellCastTypeString	(const int Value) { return s_SrSpellCastTypesMap.FindValue(Value); }
 const SSCHAR* GetSrSpellCastAnimString	(const int Value) { return s_SrSpellCastAnimsMap.FindValue(Value); }
 
-const SSCHAR* GetSrEnchantTypeAString	(const int Value) { return s_SrEnchantTypeAMap.FindValue(Value); }
-const SSCHAR* GetSrEnchantTypeBString	(const int Value) { return s_SrEnchantTypeBMap.FindValue(Value); }
-const SSCHAR* GetSrEnchantTypeCString	(const int Value) { return s_SrEnchantTypeCMap.FindValue(Value); }
-const SSCHAR* GetSrEnchantTypeDString	(const int Value) { return s_SrEnchantTypeDMap.FindValue(Value); }
+const SSCHAR* GetSrEnchantmentTypeString	(const int Value) { return s_SrEnchantmentTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.FindValue(Value); }
 const SSCHAR* GetSrArmorTypeString		(const int Value) { return s_SrArmorTypesMap.FindValue(Value); }
 
-const SSCHAR* GetSrPotionTypeString		(const int Value) { return s_SrPotionTypesMap.FindValue(Value); }
 const SSCHAR* GetSrSkillTypeString		(const int Value) { return s_SrSkillTypesMap.FindValue(Value); }
 const SSCHAR* GetSrContainerTypeString	(const int Value) { return s_SrContainerTypesMap.FindValue(Value); }
 const SSCHAR* GetSrLightTypeString   	(const int Value) { return s_SrLightTypesMap.FindValue(Value); }
@@ -882,15 +846,11 @@ bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString) { return s_SrSpell
 bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastTypesMap.FindString(Value, pString); }
 bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastAnimsMap.FindString(Value, pString); }
 
-bool GetSrEnchantTypeAValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeAMap.FindString(Value, pString); }
-bool GetSrEnchantTypeBValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeBMap.FindString(Value, pString); }
-bool GetSrEnchantTypeCValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeCMap.FindString(Value, pString); }
-bool GetSrEnchantTypeDValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantTypeDMap.FindString(Value, pString); }
+bool GetSrEnchantmentTypeValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantmentTypesMap.FindString(Value, pString); }
 
 bool GetSrBodyPartValue	 (int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }
 bool GetSrArmorTypeValue (int& Value, const SSCHAR* pString) { return s_SrArmorTypesMap.FindString(Value, pString); }
 
-bool GetSrPotionTypeValue     (int& Value, const SSCHAR* pString) { return s_SrPotionTypesMap.FindString(Value, pString); }
 bool GetSrSkillTypeValue      (int& Value, const SSCHAR* pString) { return s_SrSkillTypesMap.FindString(Value, pString); }
 bool GetSrContainerTypeValue  (int& Value, const SSCHAR* pString) { return s_SrContainerTypesMap.FindString(Value, pString); }
 bool GetSrLightTypeValue      (int& Value, const SSCHAR* pString) { return s_SrLightTypesMap.FindString(Value, pString); }

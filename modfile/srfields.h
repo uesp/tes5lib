@@ -508,6 +508,14 @@
 	#define SR_FIELD_SCRIPTAIDATASCORE	448
 	#define SR_FIELD_SCRIPTAIDATADELAY	449
 	#define SR_FIELD_DISPELEFFECTS		450
+	#define SR_FIELD_CHARGETIME			451
+	#define SR_FIELD_ENCHANTTYPE		452
+	#define SR_FIELD_EXTENDDURATION		453
+	#define SR_FIELD_ADDICTION			454
+	#define SR_FIELD_ADDICTIONCHANCE	455
+	#define SR_FIELD_POISON				456
+	#define SR_FIELD_MEDICINE			457
+	#define SR_FIELD_MESSAGEICON		458
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/
