@@ -33,6 +33,8 @@ BEGIN_SRSUBRECCREATE(CSrIngrRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_YNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ZNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MICO, CSrStringSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrFormidSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -50,7 +52,13 @@ BEGIN_SRFIELDMAP(CSrIngrRecord, CSrItem1Record)
 	ADD_SRFIELDALL("PickupSound",		SR_FIELD_PICKUPSOUND,		0, CSrIngrRecord, FieldPickupSound)
 	ADD_SRFIELDALL("DropSound",			SR_FIELD_DROPSOUND,			0, CSrIngrRecord, FieldDropSound)
 	ADD_SRFIELDALL("EffectCount",		SR_FIELD_EFFECTCOUNT,		0, CSrIngrRecord, FieldEffectCount)
-	ADD_SRFIELDALL("Unknown",			SR_FIELD_UNKNOWN1,			0, CSrIngrRecord, FieldUnknown)
+	ADD_SRFIELDALL("BaseCost",			SR_FIELD_BASECOST,			0, CSrIngrRecord, FieldBaseCost)
+	ADD_SRFIELDALL("Flags",				SR_FIELD_FLAGS,				0, CSrIngrRecord, FieldFlags)
+	ADD_SRFIELDALL("MessageIcon",		SR_FIELD_MESSAGEICON,		0, CSrIngrRecord, FieldMessageIcon)
+	ADD_SRFIELDALL("AutoCalc",			SR_FIELD_AUTOCALC,			0, CSrIngrRecord, FieldAutoCalc)
+	ADD_SRFIELDALL("Food",				SR_FIELD_FOOD,				0, CSrIngrRecord, FieldFood)
+	ADD_SRFIELDALL("ReferencePersist",	SR_FIELD_REFERENCEPERSIST,	0, CSrIngrRecord, FieldReferencePersist)
+	ADD_SRFIELDALL("EquipSlot",			SR_FIELD_EQUIPSLOT,			0, CSrIngrRecord, FieldEquipType)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -64,12 +72,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrIngrRecord::CSrIngrRecord () 
 {
-	m_pBoundsData = NULL;
+	m_pMessageIcon = NULL;
 	m_pEnitData = NULL;
 	m_pIngrData = NULL;
 	m_pModtData = NULL;
 	m_pPickupSound = NULL;
 	m_pDropSound = NULL;
+	m_pEquipType = NULL;
 }
 /*===========================================================================
  *		End of Class CSrIngrRecord Constructor
@@ -83,7 +92,8 @@ CSrIngrRecord::CSrIngrRecord ()
  *=========================================================================*/
 void CSrIngrRecord::Destroy (void) 
 {
-	m_pBoundsData = NULL;
+	m_pEquipType = NULL;
+	m_pMessageIcon = NULL;
 	m_pEnitData = NULL;
 	m_pIngrData = NULL;
 	m_pModtData = NULL;
@@ -122,11 +132,12 @@ void CSrIngrRecord::InitializeNew (void)
  * Class CSrIngrRecord Event - void OnAddSubrecord (pSubrecord);
  *
  *=========================================================================*/
-void CSrIngrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
+void CSrIngrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) 
+{
 
-	if (pSubrecord->GetRecordType() == SR_NAME_OBND)
+	if (pSubrecord->GetRecordType() == SR_NAME_MICO)
 	{
-		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMessageIcon = SrCastClass(CSrStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_ENIT)
 	{
@@ -148,6 +159,10 @@ void CSrIngrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	{
 		m_pDropSound = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
+	else if (pSubrecord->GetRecordType() == SR_NAME_ETYP)
+	{
+		m_pEquipType = SrCastClass(CSrFormidSubrecord, pSubrecord);
+	}
 	else
 	{
 		CSrItem1Record::OnAddSubrecord(pSubrecord);
@@ -164,10 +179,11 @@ void CSrIngrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  * Class CSrIngrRecord Event - void OnDeleteSubrecord (pSubrecord);
  *
  *=========================================================================*/
-void CSrIngrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
+void CSrIngrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) 
+{
 
-	if (m_pBoundsData == pSubrecord)
-		m_pBoundsData = NULL;
+	if (m_pMessageIcon == pSubrecord)
+		m_pMessageIcon = NULL;
 	else if (m_pEnitData == pSubrecord)
 		m_pEnitData = NULL;
 	else if (m_pIngrData == pSubrecord)
@@ -178,6 +194,8 @@ void CSrIngrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pPickupSound = NULL;
 	else if (m_pDropSound == pSubrecord)
 		m_pDropSound = NULL;
+	else if (m_pEquipType == pSubrecord)
+		m_pEquipType = NULL;
 	else
 		CSrItem1Record::OnDeleteSubrecord(pSubrecord);
 
@@ -186,32 +204,3 @@ void CSrIngrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *		End of Class Event CSrIngrRecord::OnDeleteSubrecord()
  *=========================================================================*/
 
-
-/*===========================================================================
- *
- * Begin CSrIngrRecord Get Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrIngrRecord Get Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrIngrRecord Compare Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrIngrRecord Compare Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrIngrRecord Set Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrIngrRecord Set Field Methods
- *=========================================================================*/

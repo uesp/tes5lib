@@ -477,6 +477,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_POISON,			"Poison")
 	ADD_STRINGVALUE( SR_FIELD_MEDICINE,			"Medicine")
 	ADD_STRINGVALUE( SR_FIELD_MESSAGEICON,		"MessageIcon")	
+	ADD_STRINGVALUE( SR_FIELD_REFERENCEPERSIST,	"ReferencePersist")
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings

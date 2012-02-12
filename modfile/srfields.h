@@ -516,6 +516,7 @@
 	#define SR_FIELD_POISON				456
 	#define SR_FIELD_MEDICINE			457
 	#define SR_FIELD_MESSAGEICON		458
+	#define SR_FIELD_REFERENCEPERSIST	459
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/

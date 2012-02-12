@@ -34,18 +34,19 @@
  *=========================================================================*/
 class CSrIngrRecord : public CSrItem1Record 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrIngrRecord, CSrItem1Record)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrIngrRecord, CSrItem1Record)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrSubrecord*			m_pBoundsData;
 	CSrIngrEnitSubrecord*	m_pEnitData;
 	CSrIngrDataSubrecord*	m_pIngrData;
 	CSrSubrecord*			m_pModtData;
 	CSrFormidSubrecord*		m_pPickupSound;
+	CSrFormidSubrecord*		m_pEquipType;
 	CSrFormidSubrecord*		m_pDropSound;
+	CSrStringSubrecord*		m_pMessageIcon;
 
 	static sringrdata_t     s_NullIngrData;
 	static sringrenitdata_t s_NullIngrEnitData;
@@ -68,6 +69,11 @@ public:
 		/* Get class members */
 	sringrdata_t&     GetIngrData (void) { return m_pIngrData ? m_pIngrData->GetIngrData() : s_NullIngrData; }
 	sringrenitdata_t& GetEnitData (void) { return m_pEnitData ? m_pEnitData->GetIngrData() : s_NullIngrEnitData; }
+
+	bool IsAutoCalc         (void) { return m_pEnitData ? m_pEnitData->IsAutoCalc()         : false ; }
+	bool IsFood             (void) { return m_pEnitData ? m_pEnitData->IsFood()             : false ; }
+	bool IsReferencePersist (void) { return m_pEnitData ? m_pEnitData->IsReferencePersist() : false ; }
+
 	dword GetEffectCount (void) { return CountSubrecords(SR_NAME_EFID); }  
 
 		/* Initialize a new record */
@@ -77,17 +83,26 @@ public:
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, Unknown, GetEnitData().Unknown, GetEnitData().Unknown)
+		/* Set class members */
+	void SetAutoCalc         (const bool Flag) { if (m_pEnitData) m_pEnitData->SetAutoCalc(Flag); }
+	void SetFood             (const bool Flag) { if (m_pEnitData) m_pEnitData->SetFood(Flag); }
+	void SetReferencePersist (const bool Flag) { if (m_pEnitData) m_pEnitData->SetReferencePersist(Flag); }
 
 		/* Begin field method definitions */
+	DECLARE_SRFIELD_DWORDFLAG1(CSrIngrRecord, Flags, GetEnitData().Flags, GetEnitData().Flags)
+	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, BaseCost, GetEnitData().BaseCost, GetEnitData().BaseCost)
 	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, Value, GetIngrData().Value, GetIngrData().Value)
 	DECLARE_SRFIELD_FLOAT1(CSrIngrRecord, Weight, GetIngrData().Weight, GetIngrData().Weight)
 
-	DECLARE_SRFIELD_EDITORID(CSrIngrRecord, PickupSound,  GetPickupSound,  SetPickupSound)
-	DECLARE_SRMETHOD_FORMID(PickupSound, m_pPickupSound, SR_NAME_YNAM)
+	DECLARE_SRFIELD_BOOL(CSrIngrRecord, AutoCalc, IsAutoCalc, SetAutoCalc)
+	DECLARE_SRFIELD_BOOL(CSrIngrRecord, Food, IsFood, SetFood)
+	DECLARE_SRFIELD_BOOL(CSrIngrRecord, ReferencePersist, IsReferencePersist, SetReferencePersist)
 
-	DECLARE_SRFIELD_EDITORID(CSrIngrRecord, DropSound,  GetDropSound,  SetDropSound)
-	DECLARE_SRMETHOD_FORMID(DropSound, m_pDropSound, SR_NAME_ZNAM)
+	DECLARE_SRFIELD_STRING(CSrIngrRecord, m_pMessageIcon, MessageIcon, SR_NAME_MICO)
+
+	DECLARE_SRFIELD_EDITORID1(CSrIngrRecord, PickupSound, SR_NAME_YNAM)
+	DECLARE_SRFIELD_EDITORID1(CSrIngrRecord, DropSound, SR_NAME_ZNAM)
+	DECLARE_SRFIELD_EDITORID1(CSrIngrRecord, EquipType, SR_NAME_ETYP)
 
 	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, EffectCount, GetEffectCount(), dword Tmp);
 
