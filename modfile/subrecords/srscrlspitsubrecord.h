@@ -149,11 +149,11 @@ public:
 	srscrlspitdata_t& GetScrollData	(void) { return (m_Data); }
 	virtual byte* GetData			(void) { return (byte *)(&m_Data); }
 
-	bool          IsAutoCalc			(void) { return !CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_MANUALCALC); }
-	bool          IsAreaIgnoresLOS		(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_AREAIGNORESLOS); }
-	bool          IsNoAbsorbReflect		(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_NOABSORBREFLECT); }		
-	bool          IsScriptAlwaysApplies	(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_SCRIPTALWAYSAPPLIES); }
-	bool          IsForceExplode    	(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_FORCEEXPLODE); }
+	bool IsAutoCalc				(void) { return !CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_MANUALCALC); }
+	bool IsAreaIgnoresLOS		(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_AREAIGNORESLOS); }
+	bool IsNoAbsorbReflect		(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_NOABSORBREFLECT); }		
+	bool IsScriptAlwaysApplies	(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_SCRIPTALWAYSAPPLIES); }
+	bool IsForceExplode    		(void) { return  CheckFlagBits(m_Data.Flags, SRSCRLSPIT_FLAG_FORCEEXPLODE); }
 
   		/* Get a string representation of a subrecord field */
 	bool GetField (CSString& Buffer, const int FieldID)

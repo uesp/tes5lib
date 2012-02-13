@@ -522,6 +522,8 @@
 	#define SR_FIELD_PCSTARTSPELL		462
 	#define SR_FIELD_NOABSORBREFLECT	463
 	#define SR_FIELD_NODUALCASTMODS		464
+	#define SR_FIELD_SCRIPTALWAYSAPPLIES	465
+	#define SR_FIELD_FORCEEXPLODE			466
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/
