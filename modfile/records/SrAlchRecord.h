@@ -95,7 +95,7 @@ public:
 
 	DECLARE_SRFIELD_STRING(CSrAlchRecord, m_pMessageIcon, MessageIcon, SR_NAME_MICO)
 
-	DECLARE_SRFIELD_DWORDFLAG1(CSrAlchRecord, Flags, GetEnitData().Flags, GetEnitData().Flags)
+	DECLARE_SRFIELD_DWORDFLAG1(CSrAlchRecord, MagicFlags, GetEnitData().Flags, GetEnitData().Flags)
 	DECLARE_SRFIELD_DWORD1(CSrAlchRecord, Value, GetEnitData().Value, GetEnitData().Value)
 	DECLARE_SRFIELD_DWORD1(CSrAlchRecord, AddictionChance, GetEnitData().AddictionChance, GetEnitData().AddictionChance)
 	DECLARE_SRFIELD_FLOAT1(CSrAlchRecord, Weight, GetAlchData().Weight, GetAlchData().Weight)

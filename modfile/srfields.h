@@ -517,6 +517,11 @@
 	#define SR_FIELD_MEDICINE			457
 	#define SR_FIELD_MESSAGEICON		458
 	#define SR_FIELD_REFERENCEPERSIST	459
+	#define SR_FIELD_INVENTORYMODEL		460
+	#define SR_FIELD_AREAIGNORESLOS		461
+	#define SR_FIELD_PCSTARTSPELL		462
+	#define SR_FIELD_NOABSORBREFLECT	463
+	#define SR_FIELD_NODUALCASTMODS		464
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/

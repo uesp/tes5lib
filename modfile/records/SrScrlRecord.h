@@ -18,7 +18,7 @@
  *=========================================================================*/
 	#include "sritem1record.h"
 	#include "../subrecords/srlstringsubrecord.h"
-	#include "../subrecords/srspitsubrecord.h"
+	#include "../subrecords/srscrlspitsubrecord.h"
 	#include "../subrecords/srscrldatasubrecord.h"
 	#include "../subrecords/srefitsubrecord.h"
 	#include "../subrecords/srctdasubrecord.h"
@@ -34,22 +34,20 @@
  *=========================================================================*/
 class CSrScrlRecord : public CSrItem1Record 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrScrlRecord, CSrItem1Record)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrScrlRecord, CSrItem1Record)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	CSrFormidSubrecord*		m_pEquipmentSlot;
-	CSrSubrecord*			m_pBoundsData;
+	CSrFormidSubrecord*		m_pEquipSlot;
 	CSrLStringSubrecord*	m_pDescription;
-	CSrSubrecord*			m_pMdobData;
-	CSrSubrecord*			m_pModtData;
+	CSrFormidSubrecord*		m_pInventoryModel;
 	CSrScrlDataSubrecord*	m_pScrlData;
-	CSrSpitSubrecord*		m_pSpitData;
+	CSrScrlSpitSubrecord*	m_pSpitData;
 
-	static srscrldata_t	s_NullScrollData;
-	static srspitdata_t	s_NullSpitData;
+	static srscrldata_t	    s_NullScrollData;
+	static srscrlspitdata_t	s_NullSpitData;
 	
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -67,11 +65,12 @@ public:
 	static CSrRecord* Create (void) { return new CSrScrlRecord; }
 	
 		/* Get class members */
-	srscrldata_t& GetScrollData (void) { return m_pScrlData ? m_pScrlData->GetScrlData() : s_NullScrollData; }
-	srspitdata_t& GetSpitData   (void) { return m_pSpitData ? m_pSpitData->GetSpellData() : s_NullSpitData; }
+	srscrldata_t&     GetScrollData (void) { return m_pScrlData ? m_pScrlData->GetScrlData()   : s_NullScrollData; }
+	srscrlspitdata_t& GetSpitData   (void) { return m_pSpitData ? m_pSpitData->GetScrollData() : s_NullSpitData; }
 	dword GetEffectCount (void) { return CountSubrecords(SR_NAME_EFID); }
-	const char* GetCastAnim (void) { return GetSrSpellCastAnimString(GetSpitData().CastAnim); }
-	const char* GetCastType (void) { return GetSrSpellCastTypeString(GetSpitData().CastType); }
+
+	const char* GetDeliveryType (void) { return GetSrMagicDeliveryTypeString(GetSpitData().TargetType); }
+	const char* GetCastType     (void) { return GetSrEffectCastTypeString(GetSpitData().CastType); }
 
   		/* Initialize a new record */
 	void InitializeNew (void);
@@ -80,9 +79,9 @@ public:
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-	void SetCastAnim (const char* pString) { GetSrSpellCastAnimValue(GetSpitData().CastAnim, pString); }
-	void SetCastType (const char* pString) { GetSrSpellCastTypeValue(GetSpitData().CastType, pString); }
-
+		/* Set class members */
+	void SetDeliveryType (const char* pString) { GetSrMagicDeliveryTypeValue(GetSpitData().TargetType, pString); }
+	void SetCastType     (const char* pString) { GetSrEffectCastTypeValue(GetSpitData().CastType, pString); }
 	
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_DESCRIPTION(CSrScrlRecord, SR_NAME_DESC)
@@ -90,15 +89,15 @@ public:
 	DECLARE_SRFIELD_DWORD1(CSrScrlRecord, EffectCount, GetEffectCount(), dword Tmp);
 	DECLARE_SRFIELD_DWORD1(CSrScrlRecord, Value, GetScrollData().Value, GetScrollData().Value)
 	DECLARE_SRFIELD_FLOAT1(CSrScrlRecord, Weight, GetScrollData().Weight, GetScrollData().Weight)
+	DECLARE_SRFIELD_DWORD1(CSrScrlRecord, BaseCost, GetSpitData().BaseCost, GetSpitData().BaseCost)
+	DECLARE_SRFIELD_FLOAT1(CSrScrlRecord, ChargeTime, GetSpitData().ChargeTime, GetSpitData().ChargeTime)
+	DECLARE_SRFIELD_DWORD1(CSrScrlRecord, CastDuration, GetSpitData().CastDuration, GetSpitData().CastDuration)
 
-	DECLARE_SRFIELD_DWORD1(CSrScrlRecord, Cost, GetSpitData().BaseCost, GetSpitData().BaseCost)
-	DECLARE_SRFIELD_FLOAT1(CSrScrlRecord, CastTime, GetSpitData().CastTime, GetSpitData().CastTime)
-
-	DECLARE_SRFIELD_METHOD(CSrScrlRecord, CastAnim, GetCastAnim, SetCastAnim)
+	DECLARE_SRFIELD_METHOD(CSrScrlRecord, DeliveryType, GetDeliveryType, SetDeliveryType)
 	DECLARE_SRFIELD_METHOD(CSrScrlRecord, CastType, GetCastType, SetCastType)
 	
-	DECLARE_SRFIELD_EDITORID(CSrScrlRecord, EquipSlot, GetEquipSlot, SetEquipSlot)
-	DECLARE_SRMETHOD_FORMID(EquipSlot, m_pEquipmentSlot, SR_NAME_ETYP)
+	DECLARE_SRFIELD_EDITORID1(CSrScrlRecord, EquipSlot, SR_NAME_ETYP)
+	DECLARE_SRFIELD_EDITORID1(CSrScrlRecord, InventoryModel, SR_NAME_MDOB)
 	
 };
 /*===========================================================================

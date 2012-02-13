@@ -89,7 +89,7 @@ public:
 	void SetReferencePersist (const bool Flag) { if (m_pEnitData) m_pEnitData->SetReferencePersist(Flag); }
 
 		/* Begin field method definitions */
-	DECLARE_SRFIELD_DWORDFLAG1(CSrIngrRecord, Flags, GetEnitData().Flags, GetEnitData().Flags)
+	DECLARE_SRFIELD_DWORDFLAG1(CSrIngrRecord, MagicFlags, GetEnitData().Flags, GetEnitData().Flags)
 	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, BaseCost, GetEnitData().BaseCost, GetEnitData().BaseCost)
 	DECLARE_SRFIELD_DWORD1(CSrIngrRecord, Value, GetIngrData().Value, GetIngrData().Value)
 	DECLARE_SRFIELD_FLOAT1(CSrIngrRecord, Weight, GetIngrData().Weight, GetIngrData().Weight)

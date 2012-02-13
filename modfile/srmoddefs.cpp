@@ -73,28 +73,11 @@ END_STRINGVALUE()
 BEGIN_STRINGVALUE(s_SrSpellTypes)
 	ADD_STRINGVALUE( SR_SPELL_TYPE_SPELL,		"Spell")
 	ADD_STRINGVALUE( SR_SPELL_TYPE_DISEASE,		"Disease")
-	ADD_STRINGVALUE( SR_SPELL_TYPE_POWER,		"Destruction")
+	ADD_STRINGVALUE( SR_SPELL_TYPE_POWER,		"Power")
 	ADD_STRINGVALUE( SR_SPELL_TYPE_LESSERPOWER,	"Lesser Power")
 	ADD_STRINGVALUE( SR_SPELL_TYPE_ABILITY,		"Ability")
 	ADD_STRINGVALUE( SR_SPELL_TYPE_POISON,		"Poison")
 	ADD_STRINGVALUE( SR_SPELL_TYPE_VOICE,		"Voice")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrSpellCastAnims)
-	ADD_STRINGVALUE( SR_SPELL_CASTANIM_NONE,		"None")
-	ADD_STRINGVALUE( SR_SPELL_CASTANIM_PROJECTILE,	"Projectile")
-	ADD_STRINGVALUE( SR_SPELL_CASTANIM_SUSTAINED,	"Sustained")
-	ADD_STRINGVALUE( SR_SPELL_CASTANIM_3,			"3")
-END_STRINGVALUE()
-
-
-BEGIN_STRINGVALUE(s_SrSpellCastTypes)
-	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_0,		"CastType0")
-	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_1,		"CastType1")
-	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_2,		"CastType2")
-	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_3,		"CastType3")
-	ADD_STRINGVALUE( SR_SPELL_CASTTYPE_4,		"CastType4")
 END_STRINGVALUE()
 
 
@@ -771,9 +754,6 @@ const SSCHAR* GetSrMagicDeliveryTypeString	(const int Value) { return s_SrMagicD
 const SSCHAR* GetSrConditionOperatorString	(const int Value) { return s_SrConditionOperatorsMap.FindValue(Value); }
 
 const SSCHAR* GetSrSpellTypeString		(const int Value) { return s_SrSpellTypesMap.FindValue(Value); }
-const SSCHAR* GetSrSpellCastTypeString	(const int Value) { return s_SrSpellCastTypesMap.FindValue(Value); }
-const SSCHAR* GetSrSpellCastAnimString	(const int Value) { return s_SrSpellCastAnimsMap.FindValue(Value); }
-
 const SSCHAR* GetSrEnchantmentTypeString	(const int Value) { return s_SrEnchantmentTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrBodyPartString		(const int Value) { return s_SrBodyPartsMap.FindValue(Value); }
@@ -843,9 +823,6 @@ bool GetSrMagicDeliveryTypeValue	(int& Value, const SSCHAR* pString) { return s_
 bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString) { return s_SrConditionOperatorsMap.FindString(Value, pString); }
 
 bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString) { return s_SrSpellTypesMap.FindString(Value, pString); }
-bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastTypesMap.FindString(Value, pString); }
-bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString) { return s_SrSpellCastAnimsMap.FindString(Value, pString); }
-
 bool GetSrEnchantmentTypeValue	(int& Value, const SSCHAR* pString) { return s_SrEnchantmentTypesMap.FindString(Value, pString); }
 
 bool GetSrBodyPartValue	 (int& Value, const SSCHAR* pString) { return s_SrBodyPartsMap.FindString(Value, pString); }

@@ -88,7 +88,7 @@ public:
 	DECLARE_SRFIELD_DWORD1(CSrEnchRecord, EnchantCost, GetEnchantData().EnchantCost, GetEnchantData().EnchantCost)
 	DECLARE_SRFIELD_FLOAT1(CSrEnchRecord, ChargeTime, GetEnchantData().ChargeTime, GetEnchantData().ChargeTime)
 
-	DECLARE_SRFIELD_DWORDFLAG1(CSrEnchRecord, Flags, GetEnchantData().Flags, GetEnchantData().Flags)
+	DECLARE_SRFIELD_DWORDFLAG1(CSrEnchRecord, MagicFlags, GetEnchantData().Flags, GetEnchantData().Flags)
 
 	DECLARE_SRFIELD_BOOL(CSrEnchRecord, AutoCalc, IsAutoCalc, SetAutoCalc)
 	DECLARE_SRFIELD_BOOL(CSrEnchRecord, ExtendDuration, IsExtendDuration, SetExtendDuration)

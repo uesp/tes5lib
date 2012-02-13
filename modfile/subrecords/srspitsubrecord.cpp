@@ -46,11 +46,11 @@ void CSrSpitSubrecord::Destroy (void)
  *=========================================================================*/
 void CSrSpitSubrecord::InitializeNew (void) 
 {
-  CSrSubrecord::InitializeNew();
+	CSrSubrecord::InitializeNew();
 
-  memset(&m_Data, 0, sizeof(m_Data));
+	memset(&m_Data, 0, sizeof(m_Data));
 
-  m_RecordSize = SRSPIT_SUBRECORD_SIZE;
+	m_RecordSize = SRSPIT_SUBRECORD_SIZE;
 }
 /*===========================================================================
  *		End of Class Method CSrSpitSubrecord::InitializeNew()
@@ -64,40 +64,41 @@ void CSrSpitSubrecord::InitializeNew (void)
  *=========================================================================*/
 bool CSrSpitSubrecord::CompareFields (int& Result, const int FieldID, CSrSubrecord* pSubrecord) 
 {
-  CSrSpitSubrecord* pSpellData = SrCastClass(CSrSpitSubrecord, pSubrecord);
+	CSrSpitSubrecord* pSpellData = SrCastClass(CSrSpitSubrecord, pSubrecord);
 
-  if (pSpellData != NULL) {
+	if (pSpellData != NULL) 
+	{
 	  
-    switch (FieldID) {
-	  case SR_FIELD_PERK:
-        Result = (int)m_Data.PerkID - (int)pSpellData->m_Data.PerkID;
-		return (true);
-	  case SR_FIELD_SPELLFLAGS:
-        Result = (int)m_Data.Flags - (int)pSpellData->m_Data.Flags;
-		return (true);
-      case SR_FIELD_CASTTIME:
-        Result = (int)m_Data.CastTime - (int)pSpellData->m_Data.CastTime;
-		return (true);
-	  case SR_FIELD_CASTANIM:
-        Result = (int)m_Data.CastAnim - (int)pSpellData->m_Data.CastAnim;
-		return (true);
-	  case SR_FIELD_CASTTYPE:
-        Result = (int)m_Data.CastType - (int)pSpellData->m_Data.CastType;
-		return (true);
-      case SR_FIELD_COST:
-		  Result = (int)m_Data.BaseCost - (int)pSpellData->m_Data.BaseCost;
-		return (true);
-      case SR_FIELD_AUTOCALC:
-        Result = (int)IsAutoCalc() - (int)pSpellData->IsAutoCalc();
-		return (true);
-      case SR_FIELD_SPELLTYPE:
-		Result = (int)m_Data.SpellType - (int)pSpellData->m_Data.SpellType;
-		return (true);
-     }
-   }
+		switch (FieldID) 
+		{
+		  case SR_FIELD_PERK:
+		    Result = (int)m_Data.PerkID - (int)pSpellData->m_Data.PerkID;
+			return (true);
+		  case SR_FIELD_SPELLFLAGS:
+		    Result = (int)m_Data.Flags - (int)pSpellData->m_Data.Flags;
+			return (true);
+		  case SR_FIELD_CASTTIME:
+		    Result = (int)m_Data.ChargeTime - (int)pSpellData->m_Data.ChargeTime;
+			return (true);
+		  case SR_FIELD_DELIVERYTYPE:
+		    Result = (int)m_Data.TargetType - (int)pSpellData->m_Data.TargetType;
+			return (true);
+		  case SR_FIELD_CASTTYPE:
+		    Result = (int)m_Data.CastType - (int)pSpellData->m_Data.CastType;
+			return (true);
+		  case SR_FIELD_COST:
+			  Result = (int)m_Data.BaseCost - (int)pSpellData->m_Data.BaseCost;
+			return (true);
+		  case SR_FIELD_AUTOCALC:
+		    Result = (int)IsAutoCalc() - (int)pSpellData->IsAutoCalc();
+			return (true);
+		  case SR_FIELD_SPELLTYPE:
+			Result = (int)m_Data.SpellType - (int)pSpellData->m_Data.SpellType;
+			return (true);
+		}
+	}
 
-	/* Check subrecord */
-  return CSrSubrecord::CompareFields(Result, FieldID, pSubrecord);
+	return CSrSubrecord::CompareFields(Result, FieldID, pSubrecord);
 }
 /*===========================================================================
  *		End of Class Method CSrSpitSubrecord::CompareFields()
@@ -112,35 +113,36 @@ bool CSrSpitSubrecord::CompareFields (int& Result, const int FieldID, CSrSubreco
 bool CSrSpitSubrecord::GetField (CSString& Buffer, const int FieldID) 
 {
   
-  switch (FieldID) {
-    case SR_FIELD_PERK:
-        Buffer.Format("%u", m_Data.PerkID);
+	switch (FieldID) 
+	{
+	  case SR_FIELD_PERK:
+	      Buffer.Format("%u", m_Data.PerkID);
 		return (true);
-    case SR_FIELD_CASTTYPE:
-        Buffer.Format("%u", m_Data.CastType);
+	  case SR_FIELD_CASTTYPE:
+	      Buffer.Format("%u", m_Data.CastType);
 		return (true);
-    case SR_FIELD_CASTTIME:
-        Buffer.Format("%u", m_Data.CastTime);
+	  case SR_FIELD_CASTTIME:
+	      Buffer.Format("%u", m_Data.ChargeTime);
 		return (true);
-    case SR_FIELD_CASTANIM:
-        Buffer.Format("%u", m_Data.CastAnim);
+	  case SR_FIELD_DELIVERYTYPE:
+	      Buffer.Format("%u", m_Data.TargetType);
 		return (true);
-    case SR_FIELD_SPELLFLAGS:
-        Buffer.Format("%u", m_Data.Flags);
+	  case SR_FIELD_SPELLFLAGS:
+	      Buffer.Format("%u", m_Data.Flags);
 		return (true);
-    case SR_FIELD_COST:
-        Buffer.Format("%u", m_Data.BaseCost);
+	  case SR_FIELD_COST:
+	      Buffer.Format("%u", m_Data.BaseCost);
 		return (true);
-    case SR_FIELD_AUTOCALC:
-        Buffer.Format("%s", BooleanToString(IsAutoCalc()));
+	  case SR_FIELD_AUTOCALC:
+	      Buffer.Format("%s", BooleanToString(IsAutoCalc()));
 		return (true);
-    case SR_FIELD_SPELLTYPE:
-        Buffer.Format("%d", m_Data.SpellType);
+	  case SR_FIELD_SPELLTYPE:
+	      Buffer.Format("%d", m_Data.SpellType);
 		return (true);
-   }
+	}
 
-  return CSrSubrecord::GetField(Buffer, FieldID);
- }
+	return CSrSubrecord::GetField(Buffer, FieldID);
+}
 /*===========================================================================
  *		End of Class Method CSrSpitSubrecord::GetField()
  *=========================================================================*/

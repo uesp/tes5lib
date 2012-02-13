@@ -508,6 +508,7 @@
 	#define SRCLASS_CSrAvskSubrecord			1062
 	#define SRCLASS_CSrAnamSubrecord			1063
 	#define SRCLASS_CSrVmadSubrecord			1064
+	#define SRCLASS_CSrScrlSpitSubrecord		1065
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -846,8 +847,6 @@
 	extern const stringvalue_t s_SrConditionRunonTypes[];
 	extern const stringvalue_t s_SrRaceMoveNames[];
     extern const stringvalue_t s_SrSpellTypes[];
-	extern const stringvalue_t s_SrSpellCastAnims[];
-	extern const stringvalue_t s_SrSpellCastTypes[];
 	extern const stringvalue_t s_SrBodyParts[];
 	extern const stringvalue_t s_SrArmorTypes[];
 	extern const stringvalue_t s_SrSkillTypes[];
@@ -885,18 +884,14 @@
 	const SSCHAR* GetSrConditionOperatorString	(const int Value);
 
 	const SSCHAR* GetSrSpellTypeString		(const int Value);
-	const SSCHAR* GetSrSpellCastTypeString	(const int Value);
-	const SSCHAR* GetSrSpellCastAnimString	(const int Value);
-
+	
 	bool GetSrMagicSchoolValue			(int& Value, const SSCHAR* pString);
 	bool GetSrMagicResistTypeValue		(int& Value, const SSCHAR* pString);
 	bool GetSrMagicDeliveryTypeValue	(int& Value, const SSCHAR* pString);
 	bool GetSrConditionOperatorValue	(int& Value, const SSCHAR* pString);
 
 	bool GetSrSpellTypeValue		(int& Value, const SSCHAR* pString);
-	bool GetSrSpellCastTypeValue	(int& Value, const SSCHAR* pString);
-	bool GetSrSpellCastAnimValue	(int& Value, const SSCHAR* pString);
-
+	
 	const SSCHAR* GetSrBodyPartString		(const int Value);
 	bool GetSrBodyPartValue	(int& Value, const SSCHAR* pString);
 	CSString GetSrBodyPartFlagString	(const dword Value);

@@ -13,8 +13,8 @@
 #include "../srrecordhandler.h"
 
 
-srscrldata_t CSrScrlRecord::s_NullScrollData;
-srspitdata_t CSrScrlRecord::s_NullSpitData;
+srscrldata_t     CSrScrlRecord::s_NullScrollData;
+srscrlspitdata_t CSrScrlRecord::s_NullSpitData;
 
 
 /*===========================================================================
@@ -26,10 +26,9 @@ BEGIN_SRSUBRECCREATE(CSrScrlRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_ETYP, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFID, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DESC, CSrLStringSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MDOB, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrScrlDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_SPIT, CSrSpitSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_SPIT, CSrScrlSpitSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_EFIT, CSrEfitSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CTDA, CSrCtdaSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CIS1, CSrStringSubrecord::Create)
@@ -52,10 +51,10 @@ BEGIN_SRFIELDMAP(CSrScrlRecord, CSrItem1Record)
 	ADD_SRFIELDALL("EquipSlot",		SR_FIELD_EQUIPSLOT,		0, CSrScrlRecord, FieldEquipSlot)
 	ADD_SRFIELDALL("Weight",		SR_FIELD_WEIGHT,		0, CSrScrlRecord, FieldWeight)
 	ADD_SRFIELDALL("Value",			SR_FIELD_VALUE,			0, CSrScrlRecord, FieldValue)
-	ADD_SRFIELDALL("CastTime",		SR_FIELD_CASTTIME,		0, CSrScrlRecord, FieldCastTime)
-	ADD_SRFIELDALL("CastAnim",		SR_FIELD_CASTANIM,		0, CSrScrlRecord, FieldCastAnim)
+	ADD_SRFIELDALL("CastDuration",	SR_FIELD_CASTTIME,		0, CSrScrlRecord, FieldCastDuration)
+	ADD_SRFIELDALL("DeliveryType",	SR_FIELD_CASTANIM,		0, CSrScrlRecord, FieldDeliveryType)
 	ADD_SRFIELDALL("CastType",		SR_FIELD_CASTTYPE,		0, CSrScrlRecord, FieldCastType)
-	ADD_SRFIELDALL("Cost",			SR_FIELD_COST,			0, CSrScrlRecord, FieldCost)
+	ADD_SRFIELDALL("BaseCost",		SR_FIELD_BASECOST,		0, CSrScrlRecord, FieldBaseCost)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -69,13 +68,11 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrScrlRecord::CSrScrlRecord () 
 {
-	m_pEquipmentSlot = NULL;
-	m_pBoundsData = NULL;
+	m_pEquipSlot = NULL;
 	m_pDescription = NULL;
-	m_pMdobData = NULL;
-	m_pModtData = NULL;
 	m_pScrlData = NULL;
 	m_pSpitData = NULL;
+	m_pInventoryModel = NULL;
 }
 /*===========================================================================
  *		End of Class CSrScrlRecord Constructor
@@ -89,13 +86,11 @@ CSrScrlRecord::CSrScrlRecord ()
  *=========================================================================*/
 void CSrScrlRecord::Destroy (void) 
 {
-	m_pEquipmentSlot = NULL;
-	m_pBoundsData = NULL;
+	m_pEquipSlot = NULL;
 	m_pDescription = NULL;
-	m_pMdobData = NULL;
-	m_pModtData = NULL;
 	m_pScrlData = NULL;
 	m_pSpitData = NULL;
+	m_pInventoryModel = NULL;
 
 	CSrItem1Record::Destroy();
 }
@@ -123,7 +118,7 @@ void CSrScrlRecord::InitializeNew (void)
 	if (m_pDescription != NULL) m_pDescription->InitializeNew();
 
 	AddNewSubrecord(SR_NAME_ETYP);
-	if (m_pEquipmentSlot != NULL) m_pEquipmentSlot->InitializeNew();
+	if (m_pEquipSlot != NULL) m_pEquipSlot->InitializeNew();
 
 }
 /*===========================================================================
@@ -140,23 +135,15 @@ void CSrScrlRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_ETYP)
 	{
-		m_pEquipmentSlot = SrCastClass(CSrFormidSubrecord, pSubrecord);
+		m_pEquipSlot = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_OBND)
+	else if (pSubrecord->GetRecordType() == SR_NAME_MDOB)
 	{
-		m_pBoundsData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pInventoryModel = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DESC)
 	{
 		m_pDescription = SrCastClass(CSrLStringSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MDOB)
-	{
-		m_pMdobData = SrCastClass(CSrDataSubrecord, pSubrecord);
-	}
-	else if (pSubrecord->GetRecordType() == SR_NAME_MODT)
-	{
-		m_pModtData = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
@@ -164,7 +151,7 @@ void CSrScrlRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_SPIT)
 	{
-		m_pSpitData = SrCastClass(CSrSpitSubrecord, pSubrecord);
+		m_pSpitData = SrCastClass(CSrScrlSpitSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -184,16 +171,12 @@ void CSrScrlRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrScrlRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pEquipmentSlot == pSubrecord)
-		m_pEquipmentSlot = NULL;
-	else if (m_pBoundsData == pSubrecord)
-		m_pBoundsData = NULL;
+	if (m_pEquipSlot == pSubrecord)
+		m_pEquipSlot = NULL;
+	else if (m_pInventoryModel == pSubrecord)
+		m_pInventoryModel = NULL;
 	else if (m_pDescription == pSubrecord)
 		m_pDescription = NULL;
-	else if (m_pMdobData == pSubrecord)
-		m_pMdobData = NULL;
-	else if (m_pModtData == pSubrecord)
-		m_pModtData = NULL;
 	else if (m_pScrlData == pSubrecord)
 		m_pScrlData = NULL;
 	else if (m_pSpitData == pSubrecord)
@@ -204,34 +187,4 @@ void CSrScrlRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 }
 /*===========================================================================
  *		End of Class Event CSrScrlRecord::OnDeleteSubrecord()
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrScrlRecord Get Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrScrlRecord Get Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrScrlRecord Compare Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrScrlRecord Compare Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrScrlRecord Set Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrScrlRecord Set Field Methods
  *=========================================================================*/
