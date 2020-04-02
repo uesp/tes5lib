@@ -1,14 +1,14 @@
 /*===========================================================================
  *
- * File:		SrCrdtSubrecord.H
+ * File:		SrRefrdatasubrecord.H
  * Author:		Dave Humphrey (dave@uesp.net)
- * Created On:	21 December 2011
+ * Created On:	15 February 2012
  *
  * Description
  *
  *=========================================================================*/
-#ifndef __SRCRDTSUBRECORD_H
-#define __SRCRDTSUBRECORD_H
+#ifndef __SRREFRDATASUBRECORD_H
+#define __SRREFRDATASUBRECORD_H
 
 
 /*===========================================================================
@@ -16,7 +16,7 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "srsubrecord.h"
+	#include "srsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -28,7 +28,7 @@
  *
  *=========================================================================*/
 
-  #define SR_CRDT_SUBRECORD_SIZE	24
+  #define SR_REFRDATA_SUBRECORD_SIZE	24
 
 /*===========================================================================
  *		End of Definitions
@@ -42,15 +42,16 @@
  *=========================================================================*/
 #pragma pack(push, 1)
 
-  struct srcrdtdata_t 
-  {
-	  dword Unknown1;
-	  float Unknown2;
-	  int   Unknown3;
-	  dword Unknown4;
-	  dword Unknown5;
-	  dword Unknown6;
-  };
+	struct srrefrdata_t 
+	{
+		float		X;
+		float		Y;
+		float		Z;
+		float		rX;
+		float		rY;
+		float		rZ;
+
+	};
 
 #pragma pack(pop)
 /*===========================================================================
@@ -60,66 +61,67 @@
 
 /*===========================================================================
  *
- * Begin Class CSrCrdtSubrecord Definition
+ * Begin Class CSrRefrDataSubrecord Definition
  *
  * Description
  *
  *=========================================================================*/
-class CSrCrdtSubrecord : public CSrSubrecord {
-  DECLARE_SRCLASS(CSrCrdtSubrecord, CSrSubrecord)
+class CSrRefrDataSubrecord : public CSrSubrecord 
+{
+	DECLARE_SRCLASS(CSrRefrDataSubrecord, CSrSubrecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-	srcrdtdata_t	m_Data;
+	srrefrdata_t	m_Data;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
-	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { m_Data.Unknown4 = 0; SR_VERIFY_SUBRECORDSIZE_MAX(SR_CRDT_SUBRECORD_SIZE) return File.Read(&m_Data,  m_RecordSize); }
-  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_CRDT_SUBRECORD_SIZE) return File.Write(&m_Data, m_RecordSize); }
+		/* Input/output the subrecord data */
+	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_REFRDATA_SUBRECORD_SIZE) return File.Read(&m_Data, SR_REFRDATA_SUBRECORD_SIZE); }
+	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_REFRDATA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_REFRDATA_SUBRECORD_SIZE); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrCrdtSubrecord() { }
-  virtual void Destroy (void) { CSrSubrecord::Destroy(); }
+		/* Class Constructors/Destructors */
+	CSrRefrDataSubrecord() { }
+	virtual void Destroy (void) { CSrSubrecord::Destroy(); }
 
- 	/* Copy the content from an existing subrecord */
-  virtual bool Copy (CSrSubrecord* pSubrecord) {
-	CSrCrdtSubrecord* pSubrecord1 = SrCastClassNull(CSrCrdtSubrecord, pSubrecord);
-	m_RecordSize = SR_CRDT_SUBRECORD_SIZE;
+ 		/* Copy the content from an existing subrecord */
+	virtual bool Copy (CSrSubrecord* pSubrecord) 
+	{
+		CSrRefrDataSubrecord* pSubrecord1 = SrCastClassNull(CSrRefrDataSubrecord, pSubrecord);
+		m_RecordSize = SR_REFRDATA_SUBRECORD_SIZE;
 
-	if (pSubrecord1 != NULL) {
-	  m_Data = pSubrecord1->GetCrdtData();
+		if (pSubrecord1 != NULL)
+			m_Data = pSubrecord1->m_Data;
+		else
+			memset(&m_Data, 0, sizeof(m_Data));
+	
+		return (true);
 	}
-	else {
-	  memset(&m_Data, 0, sizeof(m_Data));
-	}
-	return (true);
-  }
 
-  	/* Create a class instance */
-  static CSrSubrecord* Create (void) { return (new CSrCrdtSubrecord); }
-  virtual CSrSubrecord* CreateV (void) { return new CSrCrdtSubrecord; }
+  		/* Create a class instance */
+	static  CSrSubrecord* Create (void) { return new CSrRefrDataSubrecord; }
+	virtual CSrSubrecord* CreateV (void) { return new CSrRefrDataSubrecord; }
 
-	/* Get class members */
-  srcrdtdata_t& GetCrdtData   (void) { return (m_Data); }
-  virtual byte*	GetData       (void) { return (byte *)(&m_Data); }
+		/* Get class members */
+	srrefrdata_t&  GetRefrData (void) { return (m_Data); }
+	virtual byte*  GetData     (void) { return (byte *)(&m_Data); }
   
-	/* Initialize a new record */
-  void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_CRDT_SUBRECORD_SIZE; }
-     
+		/* Initialize a new record */
+	void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_REFRDATA_SUBRECORD_SIZE; }
+   
 };
 /*===========================================================================
- *		End of Class CSrCrdtSubrecord Definition
+ *		End of Class CSrRefrDataSubrecord Definition
  *=========================================================================*/
 
 
 #endif
 /*===========================================================================
- *		End of File SrCrdtsubrecord.H
+ *		End of File SrAlchdatasubrecord.H
  *=========================================================================*/

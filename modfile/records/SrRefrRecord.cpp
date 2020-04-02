@@ -12,20 +12,23 @@
 #include "srRefrrecord.h"
 
 
+srrefrdata_t CSrRefrRecord::s_NullRefrData;
+
+
 /*===========================================================================
  *
  * Begin Subrecord Creation Array
  *
  *=========================================================================*/
 BEGIN_SRSUBRECCREATE(CSrRefrRecord, CSrIdRecord)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FNAM, CSrByteSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XSCL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XCZA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XRGD, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_NAME, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_NAME, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XTEL, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XRMR, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DATA, CSrRefrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XLRM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XPRM, CSrDataSubrecord::Create)
@@ -35,7 +38,7 @@ BEGIN_SRSUBRECCREATE(CSrRefrRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XHTW, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XLTW, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XPRD, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_XLRT, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_XLRT, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XLIB, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XPPA, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_INAM, CSrDataSubrecord::Create)
@@ -72,11 +75,11 @@ BEGIN_SRSUBRECCREATE(CSrRefrRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XMBP, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XRGB, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XLCN, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XWCN, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_SCHR, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XMRK, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_TNAM, CSrWordSubrecord::Create)
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -89,6 +92,16 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrRefrRecord, CSrIdRecord)
+	ADD_SRFIELDALL("X",				SR_FIELD_LOCATIONX,			0, CSrRefrRecord, FieldLocationX)
+	ADD_SRFIELDALL("Y",				SR_FIELD_LOCATIONY,			0, CSrRefrRecord, FieldLocationY)
+	ADD_SRFIELDALL("Z",				SR_FIELD_LOCATIONZ,			0, CSrRefrRecord, FieldLocationZ)
+	ADD_SRFIELDALL("AngleX",		SR_FIELD_ANGLEX,			0, CSrRefrRecord, FieldAngleX)
+	ADD_SRFIELDALL("AngleY",		SR_FIELD_ANGLEY,			0, CSrRefrRecord, FieldAngleY)
+	ADD_SRFIELDALL("AngleZ",		SR_FIELD_ANGLEZ,			0, CSrRefrRecord, FieldAngleZ)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,			0, CSrRefrRecord, FieldItemName)
+	ADD_SRFIELDALL("MarkerFlags",	SR_FIELD_MARKERFLAGS,		0, CSrRefrRecord, FieldMarkerFlags)
+	ADD_SRFIELDALL("MarkerType",	SR_FIELD_MARKERTYPE,		0, CSrRefrRecord, FieldMarkerType)
+	ADD_SRFIELDALL("MarkerTypeID",	SR_FIELD_MARKERTYPEID,		0, CSrRefrRecord, FieldMarkerTypeID)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -102,6 +115,13 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrRefrRecord::CSrRefrRecord () 
 {
+	m_pLocationRefType = NULL;
+	m_pBaseObject = NULL;
+	m_pReferenceData = NULL;
+	m_pMarkerType = NULL;
+	m_pItemName = NULL;
+	m_pMarker = NULL;
+	m_pMarkerFlags = NULL;
 }
 /*===========================================================================
  *		End of Class CSrRefrRecord Constructor
@@ -115,6 +135,14 @@ CSrRefrRecord::CSrRefrRecord ()
  *=========================================================================*/
 void CSrRefrRecord::Destroy (void) 
 {
+	m_pLocationRefType = NULL;
+	m_pBaseObject = NULL;
+	m_pReferenceData = NULL;
+	m_pItemName = NULL;
+	m_pMarkerType = NULL;
+	m_pMarker = NULL;
+	m_pMarkerFlags = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -145,7 +173,7 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 
 	if (pSubrecord->GetRecordType() == SR_NAME_FNAM)
 	{
-		m_pFnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMarkerFlags = SrCastClass(CSrByteSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XSCL)
 	{
@@ -161,7 +189,7 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAME)
 	{
-		m_pNameData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pBaseObject = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XTEL)
 	{
@@ -173,7 +201,7 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DATA)
 	{
-		m_pDataData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pReferenceData = SrCastClass(CSrRefrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{
@@ -213,7 +241,7 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XLRT)
 	{
-		m_pXlrtData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pLocationRefType = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XLIB)
 	{
@@ -361,7 +389,7 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XWCN)
 	{
@@ -373,11 +401,11 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_XMRK)
 	{
-		m_pXmrkData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMarker = SrCastClass(CSrDataSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_TNAM)
 	{
-		m_pTnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMarkerType = SrCastClass(CSrWordSubrecord, pSubrecord);
 	}
 	else
 	{
@@ -397,22 +425,22 @@ void CSrRefrRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 void CSrRefrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 
-	if (m_pFnamData == pSubrecord)
-		m_pFnamData = NULL;
+	if (m_pMarkerType == pSubrecord)
+		m_pMarkerType = NULL;
 	else if (m_pXsclData == pSubrecord)
 		m_pXsclData = NULL;
 	else if (m_pXczaData == pSubrecord)
 		m_pXczaData = NULL;
 	else if (m_pXrgdData == pSubrecord)
 		m_pXrgdData = NULL;
-	else if (m_pNameData == pSubrecord)
-		m_pNameData = NULL;
+	else if (m_pBaseObject == pSubrecord)
+		m_pBaseObject = NULL;
 	else if (m_pXtelData == pSubrecord)
 		m_pXtelData = NULL;
 	else if (m_pXrmrData == pSubrecord)
 		m_pXrmrData = NULL;
-	else if (m_pDataData == pSubrecord)
-		m_pDataData = NULL;
+	else if (m_pReferenceData == pSubrecord)
+		m_pReferenceData = NULL;
 	else if (m_pVmadData == pSubrecord)
 		m_pVmadData = NULL;
 	else if (m_pXlrmData == pSubrecord)
@@ -431,8 +459,8 @@ void CSrRefrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pXltwData = NULL;
 	else if (m_pXprdData == pSubrecord)
 		m_pXprdData = NULL;
-	else if (m_pXlrtData == pSubrecord)
-		m_pXlrtData = NULL;
+	else if (m_pLocationRefType == pSubrecord)
+		m_pLocationRefType = NULL;
 	else if (m_pXlibData == pSubrecord)
 		m_pXlibData = NULL;
 	else if (m_pXppaData == pSubrecord)
@@ -505,50 +533,20 @@ void CSrRefrRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pXrgbData = NULL;
 	else if (m_pXlcnData == pSubrecord)
 		m_pXlcnData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pXwcnData == pSubrecord)
 		m_pXwcnData = NULL;
 	else if (m_pSchrData == pSubrecord)
 		m_pSchrData = NULL;
-	else if (m_pXmrkData == pSubrecord)
-		m_pXmrkData = NULL;
-	else if (m_pTnamData == pSubrecord)
-		m_pTnamData = NULL;
+	else if (m_pMarker == pSubrecord)
+		m_pMarker = NULL;
+	else if (m_pMarkerFlags == pSubrecord)
+		m_pMarkerFlags = NULL;
 	else
 		CSrIdRecord::OnDeleteSubrecord(pSubrecord);
 
 }
 /*===========================================================================
  *		End of Class Event CSrRefrRecord::OnDeleteSubrecord()
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrRefrRecord Get Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrRefrRecord Get Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrRefrRecord Compare Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrRefrRecord Compare Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrRefrRecord Set Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrRefrRecord Set Field Methods
  *=========================================================================*/

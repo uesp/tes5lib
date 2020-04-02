@@ -26,7 +26,7 @@ BEGIN_SRSUBRECCREATE(CSrLctnRecord, CSrItem1Record)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LCPR, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LCID, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrFormidSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM1, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LCEP, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LCUN, CSrDataSubrecord::Create)
@@ -56,6 +56,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrLctnRecord::CSrLctnRecord () 
 {
+	m_pMapMarker = NULL;
 }
 /*===========================================================================
  *		End of Class CSrLctnRecord Constructor
@@ -69,6 +70,8 @@ CSrLctnRecord::CSrLctnRecord ()
  *=========================================================================*/
 void CSrLctnRecord::Destroy (void) 
 {
+	m_pMapMarker = NULL;
+
 	CSrItem1Record::Destroy();
 }
 /*===========================================================================
@@ -131,7 +134,7 @@ void CSrLctnRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_MNAM)
 	{
-		m_pMnamData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pMapMarker = SrCastClass(CSrFormidSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM1)
 	{
@@ -183,8 +186,8 @@ void CSrLctnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pPnamData = NULL;
 	else if (m_pLcidData == pSubrecord)
 		m_pLcidData = NULL;
-	else if (m_pMnamData == pSubrecord)
-		m_pMnamData = NULL;
+	else if (m_pMapMarker == pSubrecord)
+		m_pMapMarker = NULL;
 	else if (m_pNam1Data == pSubrecord)
 		m_pNam1Data = NULL;
 	else if (m_pLcepData == pSubrecord)
@@ -202,31 +205,3 @@ void CSrLctnRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
  *=========================================================================*/
 
 
-/*===========================================================================
- *
- * Begin CSrLctnRecord Get Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrLctnRecord Get Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrLctnRecord Compare Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrLctnRecord Compare Field Methods
- *=========================================================================*/
-
-
-/*===========================================================================
- *
- * Begin CSrLctnRecord Set Field Methods
- *
- *=========================================================================*/
-/*===========================================================================
- *		End of CSrLctnRecord Set Field Methods
- *=========================================================================*/

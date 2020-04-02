@@ -19,28 +19,40 @@
  * These arrays define what fields to output for various export types.
  *
  *=========================================================================*/
-srrecfieldid_t g_ExteriorTeleportExportFieldList[] = {
+srrecfieldid_t g_ExteriorTeleportExportFieldList[] = 
+{
 	SR_FIELD_FORMID, SR_FIELD_EDITORID, SR_FIELD_RECORDTYPE, SR_FIELD_WORLDSPACE,
 	SR_FIELD_FULLNAME, SR_FIELD_LOCATIONX, SR_FIELD_LOCATIONY, SR_FIELD_LOCATIONZ,
 	SR_FIELD_ANGLEX, SR_FIELD_ANGLEY, SR_FIELD_ANGLEZ, 
 	SR_FIELD_TELEPORTFORMID, SR_FIELD_TELEPORTNAME, 
 	SR_FIELD_TELEPORTLOCX, SR_FIELD_TELEPORTLOCY, SR_FIELD_TELEPORTLOCZ,
 	SR_FIELD_TELEPORTANGLEX, SR_FIELD_TELEPORTANGLEY, SR_FIELD_TELEPORTANGLEZ, 
-	SR_FIELD_NONE };
+	SR_FIELD_NONE 
+};
 
-srrecfieldid_t g_PlantExportFieldList[] = {
+srrecfieldid_t g_PlantExportFieldList[] = 
+{
 	SR_FIELD_FORMID, SR_FIELD_EDITORID, SR_FIELD_RECORDTYPE, SR_FIELD_WORLDSPACE,
 	SR_FIELD_FULLNAME, SR_FIELD_LOCATIONX, SR_FIELD_LOCATIONY, SR_FIELD_LOCATIONZ,
 	SR_FIELD_ANGLEX, SR_FIELD_ANGLEY, SR_FIELD_ANGLEZ, 
 	SR_FIELD_BASEFORMID, SR_FIELD_BASEEDITORID, SR_FIELD_BASENAME,
-	SR_FIELD_NONE };
+	SR_FIELD_NONE 
+};
 
-srrecfieldid_t g_MapMarkerExportFieldList[] = {
-	SR_FIELD_FORMID, SR_FIELD_EDITORID, SR_FIELD_RECORDTYPE, SR_FIELD_WORLDSPACE,
-	SR_FIELD_FULLNAME, SR_FIELD_LOCATIONX, SR_FIELD_LOCATIONY, SR_FIELD_LOCATIONZ,
+srrecfieldid_t g_MapMarkerExportFieldList[] = 
+{
+	SR_FIELD_FORMID, 
+	SR_FIELD_EDITORID,
+	SR_FIELD_RECORDTYPE,
+	SR_FIELD_WORLDSPACE,
+	SR_FIELD_FULLNAME,
+	SR_FIELD_LOCATIONX, SR_FIELD_LOCATIONY, SR_FIELD_LOCATIONZ,
 	SR_FIELD_ANGLEX, SR_FIELD_ANGLEY, SR_FIELD_ANGLEZ, 
-	SR_FIELD_MARKERTYPE, SR_FIELD_MARKERTYPEID,
-	SR_FIELD_NONE };
+	SR_FIELD_MARKERFLAGS,
+	SR_FIELD_MARKERTYPE, 
+	SR_FIELD_MARKERTYPEID,
+	SR_FIELD_NONE 
+};
 /*===========================================================================
  *		End of Export Field Arrays
  *=========================================================================*/
@@ -53,7 +65,8 @@ srrecfieldid_t g_MapMarkerExportFieldList[] = {
  * Holds information on how to export various CSV files.
  *
  *=========================================================================*/
-srexportinfo_t g_ExportCsvExtLocations = {
+srexportinfo_t g_ExportCsvExtLocations = 
+{
 	&SR_NAME_WRLD,
 	SR_FORMID_NULL,
 	true,
@@ -61,7 +74,8 @@ srexportinfo_t g_ExportCsvExtLocations = {
 	g_ExteriorTeleportExportFieldList
 };
 
-srexportinfo_t g_ExportCsvMapMarkers = {
+srexportinfo_t g_ExportCsvMapMarkers = 
+{
 	&SR_NAME_WRLD,
 	SR_FORMID_NULL,
 	true,
@@ -200,6 +214,8 @@ bool SrCsvExportCsvGroup (CSrGroup* pGroup, srcsvinfo_t& CsvInfo, srexportinfo_t
   CSrGroup*       pChildGroup;
   dword		  Index;
   bool            Result;
+
+  SystemLog.Printf("Searching in %d group records for CSV export match...", pGroup->GetNumRecords());
   
   for (Index = 0; Index < pGroup->GetNumRecords(); ++Index) {
     pBaseRecord = pGroup->GetRecord(Index);
@@ -243,7 +259,7 @@ bool SrCsvExport (const SSCHAR* pFilename, CSrEspFile& EspFile, srexportinfo_t& 
   CSrGroup*       pGroup;
   srcsvinfo_t     CsvInfo;
   CCsvFile        CsvFile;
-  int		  GroupPos;
+  int			  GroupPos;
   bool            Result;
 
 	/* Ensure valid input */
@@ -258,14 +274,18 @@ bool SrCsvExport (const SSCHAR* pFilename, CSrEspFile& EspFile, srexportinfo_t& 
   if (!Result) return (false);
 
 	/* Find all records to export */
-  pTypeGroup = EspFile.GetTypeGroup(*ExportInfo.pRecordType);
-  if (pTypeGroup == NULL) return (true);
+  if (EspFile.GetParent())
+	  pTypeGroup = EspFile.GetParent()->GetTopGroup()->GetTypeGroup(*ExportInfo.pRecordType);
+  else
+		pTypeGroup = EspFile.GetTypeGroup(*ExportInfo.pRecordType);
+
+  if (pTypeGroup == NULL) return AddSrGeneralError("Failed to find the top file group for '%4.4s'!", ExportInfo.pRecordType->Name);
 
   pGroup = pTypeGroup->FindFirstGroup(ExportInfo.GroupFormID, GroupPos);
 
   while (pGroup != NULL) {
     Result = SrCsvExportCsvGroup(pGroup, CsvInfo, ExportInfo);
-    if (!Result) return (false);
+    if (!Result) return false;
    
     pGroup = pTypeGroup->FindNextGroup(ExportInfo.GroupFormID, GroupPos);
   }

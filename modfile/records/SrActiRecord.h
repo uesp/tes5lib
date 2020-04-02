@@ -17,7 +17,7 @@
  *
  *=========================================================================*/
 	#include "sritem1record.h"
-	#include "../subrecords/sractidestsubrecord.h"
+	#include "../subrecords/srdestsubrecord.h"
 	#include "../subrecords/srvmadsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
@@ -42,10 +42,10 @@ protected:
 	CSrSubrecord*			m_pFnamData;
 	CSrSubrecord*			m_pDmdsData;
 	CSrSubrecord*			m_pObndData;
-	CSrDwordSubrecord*		m_pPnamData;
+	CSrDwordSubrecord*		m_pColor;
 	CSrFormidSubrecord*		m_pKeyword;
-	CSrActiDestSubrecord*	m_pDestructionData;
-	CSrVmadSubrecord*			m_pVmadData;
+	CSrDestSubrecord*		m_pDestructionData;
+	CSrVmadSubrecord*		m_pVmadData;
 	CSrSubrecord*			m_pModtData;
 	CSrSubrecord*			m_pModsData;
 	CSrSubrecord*			m_pDstdData;
@@ -56,9 +56,10 @@ protected:
 	CSrFormidSubrecord*		m_pUseSound;
 	CSrFormidSubrecord*		m_pWater;
 	CSrFormidSubrecord*		m_pAmbientSound;
+	CSrDwordSubrecord*		m_pPnamData;
 
 
-	static sractidestdata_t s_NullDestData;
+	static srdestdata_t s_NullDestData;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -76,7 +77,7 @@ public:
 	static CSrRecord* Create (void) { return new CSrActiRecord; }
 
 		/* Get class members */
-	sractidestdata_t& GetDestData (void) { return m_pDestructionData ? m_pDestructionData->GetDestData() : s_NullDestData; }
+	srdestdata_t& GetDestData (void) { return m_pDestructionData ? m_pDestructionData->GetDestData() : s_NullDestData; }
   
 
 		/* Initialize a new record */
@@ -86,17 +87,16 @@ public:
 	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
 	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
-
 		/* Begin field method definitions */
 	DECLARE_SRFIELD_MODEL(CSrActiRecord, SR_NAME_MODL)
 	DECLARE_SRFIELD_FULLNAME(CSrActiRecord)
 	DECLARE_SRFIELD_STRING(CSrActiRecord, m_pDestroyedModel, DestroyModel, SR_NAME_DMDL)
 	DECLARE_SRFIELD_STRING(CSrActiRecord, m_pVerb, Verb, SR_NAME_RNAM)
 		
-	DECLARE_SRFIELD_DWORD1(CSrActiRecord, Unknown1, GetDestData().Unknown1, GetDestData().Unknown1)
-	DECLARE_SRFIELD_WORD1(CSrActiRecord, Unknown2, GetDestData().Unknown2, GetDestData().Unknown2)
-	DECLARE_SRFIELD_WORD1(CSrActiRecord, Unknown3, GetDestData().Unknown3, GetDestData().Unknown3)
-	DECLARE_SRFIELD_METHODDWORDF(CSrActiRecord, m_pPnamData, Unknown4, SR_NAME_PNAM, "0x%08X")
+	DECLARE_SRFIELD_DWORD1(CSrActiRecord, Health, GetDestData().Health, GetDestData().Health)
+	//DECLARE_SRFIELD_WORD1(CSrActiRecord, Unknown2, GetDestData().Unknown2, GetDestData().Unknown2)
+	//DECLARE_SRFIELD_WORD1(CSrActiRecord, Unknown3, GetDestData().Unknown3, GetDestData().Unknown3)
+	DECLARE_SRFIELD_METHODDWORD(CSrActiRecord, m_pColor, Color, SR_NAME_PNAM)
 
 	DECLARE_SRFIELD_EDITORID1(CSrActiRecord, AmbientSound, SR_NAME_SNAM)
 	DECLARE_SRFIELD_EDITORID1(CSrActiRecord, UseSound, SR_NAME_VNAM)

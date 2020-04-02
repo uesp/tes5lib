@@ -976,6 +976,13 @@ static srreclistcolinit_t s_WeapListInit[] =
 	{ SR_FIELD_NONE, 0, 0 }
 };
 
+static srreclistcolinit_t s_TreeListInit[] = {
+	{ SR_FIELD_EDITORID,	150,	LVCFMT_LEFT },
+	{ SR_FIELD_FORMID,		5,		LVCFMT_LEFT },
+	{ SR_FIELD_FLAGS,		50,		LVCFMT_CENTER },
+	{ SR_FIELD_NONE, 0, 0 }
+ };
+
 static srreclistcolinit_t s_WoopListInit[] = 
 {
 	{ SR_FIELD_EDITORID,	   150,	LVCFMT_LEFT },
@@ -1075,6 +1082,7 @@ static srreclistinfoinit_t s_ListInit[] =
 	{ &SR_NAME_SOUN, s_SounListInit, &CSrSounRecord::s_FieldMap, SR_FIELD_EDITORID },	
 	{ &SR_NAME_SPEL, s_SpelListInit, &CSrSpelRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_STAT, s_StatListInit, &CSrStatRecord::s_FieldMap, SR_FIELD_EDITORID },
+	{ &SR_NAME_TREE, s_TreeListInit, &CSrTreeRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WEAP, s_WeapListInit, &CSrWeapRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ &SR_NAME_WOOP, s_WoopListInit, &CSrWoopRecord::s_FieldMap, SR_FIELD_EDITORID },
 	{ NULL, NULL, NULL }

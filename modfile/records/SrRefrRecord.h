@@ -16,7 +16,10 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srrefrdatasubrecord.h"
+    #include "../subrecords/srbytesubrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -29,20 +32,20 @@
  *=========================================================================*/
 class CSrRefrRecord : public CSrIdRecord 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrRefrRecord, CSrIdRecord)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrRefrRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pFnamData;
+  	CSrByteSubrecord*		m_pMarkerFlags;
 	CSrSubrecord*		m_pXsclData;
 	CSrSubrecord*		m_pXczaData;
 	CSrSubrecord*		m_pXrgdData;
-	CSrSubrecord*		m_pNameData;
+	CSrFormidSubrecord*	m_pBaseObject;
 	CSrSubrecord*		m_pXtelData;
 	CSrSubrecord*		m_pXrmrData;
-	CSrSubrecord*		m_pDataData;
+	CSrRefrDataSubrecord*		m_pReferenceData;
 	CSrSubrecord*		m_pVmadData;
 	CSrSubrecord*		m_pXlrmData;
 	CSrSubrecord*		m_pXprmData;
@@ -52,7 +55,7 @@ protected:
 	CSrSubrecord*		m_pXhtwData;
 	CSrSubrecord*		m_pXltwData;
 	CSrSubrecord*		m_pXprdData;
-	CSrSubrecord*		m_pXlrtData;
+	CSrFormidSubrecord*		m_pLocationRefType;
 	CSrSubrecord*		m_pXlibData;
 	CSrSubrecord*		m_pXppaData;
 	CSrSubrecord*		m_pInamData;
@@ -89,11 +92,14 @@ protected:
 	CSrSubrecord*		m_pXmbpData;
 	CSrSubrecord*		m_pXrgbData;
 	CSrSubrecord*		m_pXlcnData;
-	CSrSubrecord*		m_pFullData;
+	CSrLStringSubrecord*		m_pItemName;
 	CSrSubrecord*		m_pXwcnData;
 	CSrSubrecord*		m_pSchrData;
-	CSrSubrecord*		m_pXmrkData;
-	CSrSubrecord*		m_pTnamData;
+	CSrSubrecord*		m_pMarker;
+	CSrWordSubrecord*		m_pMarkerType;
+
+
+	static srrefrdata_t s_NullRefrData;
 
 
 
@@ -104,26 +110,43 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrRefrRecord();
-  virtual void Destroy (void);
+		/* Class Constructors/Destructors */
+	CSrRefrRecord();
+	virtual void Destroy (void);
 
     	/* Return a new instance of the class */
-  static CSrRecord* Create (void) { return new CSrRefrRecord; }
+	static CSrRecord* Create (void) { return new CSrRefrRecord; }
 
-	/* Get class members */
-  
+		/* Get class members */
+	srrefrdata_t& GetRefrData (void) { return m_pReferenceData ? m_pReferenceData->GetRefrData() : s_NullRefrData; }
+	const char* GetMarkerType (void) { return GetSrMapMarkerTypeString(GetMarkerTypeID()); }
 
-	/* Initialize a new record */
-  void InitializeNew (void);
+	bool IsMapMarker (void) { return m_pMarker != NULL; }
 
-	/* Called to alert record of a new subrecord being added */
-  virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
-  virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+		/* Initialize a new record */
+	void InitializeNew (void);
+
+		/* Called to alert record of a new subrecord being added */
+	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
+	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+
+		/* Set class members */
+	void SetMarkerType (const char* pString) { int Value = 0; if (GetSrMapMarkerTypeValue(Value, pString)) SetMarkerTypeID(Value); }
 
 
-  /* Begin field method definitions */
+		/* Begin field method definitions */
+	DECLARE_SRFIELD_FLOAT1(CSrRefrRecord, LocationX, GetRefrData().X, GetRefrData().X)
+	DECLARE_SRFIELD_FLOAT1(CSrRefrRecord, LocationY, GetRefrData().Y, GetRefrData().Y)
+	DECLARE_SRFIELD_FLOAT1(CSrRefrRecord, LocationZ, GetRefrData().Z, GetRefrData().Z)
+	DECLARE_SRFIELD_FLOAT1(CSrRefrRecord, AngleX, GetRefrData().rX, GetRefrData().rX)
+	DECLARE_SRFIELD_FLOAT1(CSrRefrRecord, AngleY, GetRefrData().rY, GetRefrData().rY)
+	DECLARE_SRFIELD_FLOAT1(CSrRefrRecord, AngleZ, GetRefrData().rZ, GetRefrData().rZ)
 
+	DECLARE_SRFIELD_ITEMNAME(CSrRefrRecord)
+
+	DECLARE_SRFIELD_METHOD(CSrRefrRecord, MarkerType, GetMarkerType, SetMarkerType)
+	DECLARE_SRFIELD_METHODDWORD(CSrRefrRecord, m_pMarkerType, MarkerTypeID, SR_NAME_TNAM)
+	DECLARE_SRFIELD_METHODDBYTE(CSrRefrRecord, m_pMarkerFlags, MarkerFlags, SR_NAME_FNAM)
 
 };
 /*===========================================================================

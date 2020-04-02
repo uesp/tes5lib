@@ -524,6 +524,7 @@
 	#define SR_FIELD_NODUALCASTMODS		464
 	#define SR_FIELD_SCRIPTALWAYSAPPLIES	465
 	#define SR_FIELD_FORCEEXPLODE			466
+	#define SR_FIELD_MARKERFLAGS			467
 /*===========================================================================
  *		End of Field Types
  *=========================================================================*/

@@ -28,7 +28,9 @@
  *
  *=========================================================================*/
 
-	#define SR_CAMSDATA_SUBRECORD_SIZE	40
+	#define SR_CAMSDATA_SUBRECORD_SIZE		40
+	#define SR_CAMSDATA_SUBRECORD_SIZE2		44
+	#define SR_CAMSDATA_SUBRECORD_MAXSIZE	44
 
 /*===========================================================================
  *		End of Definitions
@@ -54,6 +56,7 @@
 		float	x2;
 		float	y2;
 		float	z2;
+		float	Unknown5;
 	};
 
 #pragma pack(pop)
@@ -80,8 +83,8 @@ protected:
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
-	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_CAMSDATA_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_CAMSDATA_SUBRECORD_SIZE); }
-	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_CAMSDATA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_CAMSDATA_SUBRECORD_SIZE); }
+	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_CAMSDATA_SUBRECORD_MAXSIZE) return File.Read(&m_Data,  m_RecordSize); }
+	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_CAMSDATA_SUBRECORD_MAXSIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -112,23 +115,29 @@ public:
 	virtual bool Copy (CSrSubrecord* pSubrecord) 
 	{
 		CSrCamsDataSubrecord* pSubrecord1 = SrCastClassNull(CSrCamsDataSubrecord, pSubrecord);
-		m_RecordSize = SR_CAMSDATA_SUBRECORD_SIZE;
+		
 
 		if (pSubrecord1 != NULL) 
+		{
 			m_Data = pSubrecord1->GetCamsData();
+			m_RecordSize = pSubrecord1->m_RecordSize;
+		}
 		else
+		{
 			memset(&m_Data, 0, sizeof(m_Data));
+			m_RecordSize = SR_CAMSDATA_SUBRECORD_SIZE;
+		}
 	
 		return (true);
 	}
 
   		/* Create a class instance */
-	static CSrSubrecord* Create (void) { return (new CSrCamsDataSubrecord); }
+	static CSrSubrecord*  Create  (void) { return (new CSrCamsDataSubrecord); }
 	virtual CSrSubrecord* CreateV (void) { return (new CSrCamsDataSubrecord); }
 
 		/* Get class members */
 	srcamsdata_t&  GetCamsData (void) { return (m_Data); }
-	virtual byte*	 GetData     (void) { return (byte *)(&m_Data); }
+	virtual byte*  GetData     (void) { return (byte *)(&m_Data); }
   
 		/* Initialize a new record */
 	void InitializeNew (void) { CSrSubrecord::InitializeNew(); memset(&m_Data, 0, sizeof(m_Data)); m_RecordSize = SR_CAMSDATA_SUBRECORD_SIZE; }

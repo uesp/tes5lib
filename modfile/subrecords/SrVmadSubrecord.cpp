@@ -193,7 +193,8 @@ bool CSrVmadSubrecord::ParseRawData (void)
 
 	if (m_pRawData == NULL || m_RawDataSize == 0) return AddSrGeneralError("CSrVmadSubrecord::ParseRawData() - No raw data to parse!");
 
-	return m_Data.ParseRawData(m_pRawData, Index, m_RawDataSize);
+	m_Data.ParseRawData(m_pRawData, Index, m_RawDataSize);
+	return true;
 }
 
 

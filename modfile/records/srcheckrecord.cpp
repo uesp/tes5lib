@@ -49,15 +49,15 @@ bool IsSrPlantReference (CSrRecord* pRecord, const long UserData) {
  * Checks if the given reference is a marker.
  *
  *=========================================================================*/
-bool IsSrMarkerReference (CSrRecord* pRecord, const long UserData) {
-	/*
-  CSrRefrRecord* pReference;
+bool IsSrMarkerReference (CSrRecord* pRecord, const long UserData) 
+{
+	CSrRefrRecord* pReference;
 
-  pReference = SrCastClassNull(CSrRefrRecord, pRecord);
-  if (pReference == NULL) return (false);
+	pReference = SrCastClassNull(CSrRefrRecord, pRecord);
+	if (pReference == NULL) return (false);
 
-  if (pReference->IsMapMarker()) return (true); */
-  return (false);
+	if (pReference->IsMapMarker()) return (true);
+	return (false);
 }
 /*===========================================================================
  *		End of Function IsSrMarkerReference()

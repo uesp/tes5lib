@@ -28,7 +28,9 @@
  *
  *=========================================================================*/
 
-	#define SR_RACEDATA_SUBRECORD_SIZE	128
+	#define SR_RACEDATA_SUBRECORD_SIZE	  128
+    #define SR_RACEDATA_SUBRECORD_SIZE2   164
+    #define SR_RACEDATA_SUBRECORD_MAXSIZE 164
 
 	#define SR_RACE_MAXSKILLINDEX 7
 
@@ -84,6 +86,8 @@
 		float	Unknown24;		//0.12-1
 		float	Unknown25;		//5-50
 		dword	Unknown26;		//0, 1, or 2
+
+		float	Unknown27[9];	
 	};
 
 #pragma pack(pop)
@@ -111,8 +115,8 @@ protected:
   /*---------- Begin Protected Class Methods --------------------*/
 protected:
 
-	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_RACEDATA_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_RACEDATA_SUBRECORD_SIZE); }
-	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_RACEDATA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_RACEDATA_SUBRECORD_SIZE); }
+	virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_RACEDATA_SUBRECORD_MAXSIZE) return File.Read(&m_Data,  m_RecordSize); }
+	virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_RACEDATA_SUBRECORD_MAXSIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
@@ -124,18 +128,24 @@ public:
 	virtual bool Copy (CSrSubrecord* pSubrecord) 
 	{
 		CSrRaceDataSubrecord* pSubrecord1 = SrCastClassNull(CSrRaceDataSubrecord, pSubrecord);
-		m_RecordSize = SR_RACEDATA_SUBRECORD_SIZE;
+		
 
 		if (pSubrecord1 != NULL) 
+		{
 			m_Data = pSubrecord1->m_Data;
+			m_RecordSize = pSubrecord1->m_RecordSize;
+		}
 		else 
+		{
 			memset(&m_Data, 0, sizeof(m_Data));
+			m_RecordSize = SR_RACEDATA_SUBRECORD_SIZE;
+		}
 
 		return (true);
 	}
 
   		/* Create a class instance */
-	static CSrSubrecord* Create (void) { return (new CSrRaceDataSubrecord); }
+	static CSrSubrecord*  Create  (void) { return (new CSrRaceDataSubrecord); }
 	virtual CSrSubrecord* CreateV (void) { return (new CSrRaceDataSubrecord); }
 
 		/* Get class members */

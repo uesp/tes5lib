@@ -35,19 +35,19 @@ class CSrLctnRecord : public CSrItem1Record
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
-  	CSrSubrecord*		m_pFnamData;
-	CSrSubrecord*		m_pRnamData;
-	CSrSubrecord*		m_pLcsrData;
-	CSrSubrecord*		m_pLcecData;
-	CSrSubrecord*		m_pCnamData;
-	CSrSubrecord*		m_pLcprData;
-	CSrSubrecord*		m_pPnamData;
-	CSrSubrecord*		m_pLcidData;
-	CSrSubrecord*		m_pMnamData;
-	CSrSubrecord*		m_pNam1Data;
-	CSrSubrecord*		m_pLcepData;
-	CSrSubrecord*		m_pLcunData;
-	CSrSubrecord*		m_pNam0Data;
+  	CSrSubrecord*			m_pFnamData;
+	CSrSubrecord*			m_pRnamData;
+	CSrSubrecord*			m_pLcsrData;
+	CSrSubrecord*			m_pLcecData;
+	CSrSubrecord*			m_pCnamData;
+	CSrSubrecord*			m_pLcprData;
+	CSrSubrecord*			m_pPnamData;
+	CSrSubrecord*			m_pLcidData;
+	CSrFormidSubrecord*		m_pMapMarker;
+	CSrSubrecord*			m_pNam1Data;
+	CSrSubrecord*			m_pLcepData;
+	CSrSubrecord*			m_pLcunData;
+	CSrSubrecord*			m_pNam0Data;
 
 
   /*---------- Begin Protected Class Methods --------------------*/
@@ -57,25 +57,27 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrLctnRecord();
-  virtual void Destroy (void);
+		/* Class Constructors/Destructors */
+	CSrLctnRecord();
+	virtual void Destroy (void);
 
-    	/* Return a new instance of the class */
-  static CSrRecord* Create (void) { return new CSrLctnRecord; }
+			/* Return a new instance of the class */
+	static CSrRecord* Create (void) { return new CSrLctnRecord; }
 
-	/* Get class members */
-  
-
-	/* Initialize a new record */
-  void InitializeNew (void);
-
-	/* Called to alert record of a new subrecord being added */
-  virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
-  virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+		/* Get class members */
+	CSrFormidSubrecord* GetMapMarker   (void) { return m_pMapMarker; }
+	srformid_t          GetMapMarkerID (void) { return m_pMapMarker ? m_pMapMarker->GetValue() : SR_FORMID_NULL; }
 
 
-  /* Begin field method definitions */
+		/* Initialize a new record */
+	void InitializeNew (void);
+
+		/* Called to alert record of a new subrecord being added */
+	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
+	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+
+
+		/* Begin field method definitions */
 
 
 };

@@ -482,7 +482,7 @@
 	#define SRCLASS_CSrMgefSnddSubrecord		1036
 	#define SRCLASS_CSrCrdtSubrecord			1037
 	#define SRCLASS_CSrWeapDnamSubrecord		1038
-	#define SRCLASS_CSrActiDestSubrecord		1039
+	#define SRCLASS_CSrDestSubrecord			1039
 	#define SRCLASS_CSrArmaDnamSubrecord		1040
 	#define SRCLASS_CSrSlgmDataSubrecord		1041
 	#define SRCLASS_CSrShouSnamSubrecord		1042
@@ -509,6 +509,7 @@
 	#define SRCLASS_CSrAnamSubrecord			1063
 	#define SRCLASS_CSrVmadSubrecord			1064
 	#define SRCLASS_CSrScrlSpitSubrecord		1065
+	#define SRCLASS_CSrRefrDataSubrecord		1066
   
 /*===========================================================================
  *		End of Class Type Definitions
@@ -826,6 +827,7 @@
 	#define SR_ENCHANTTYPE_ENCHANT	0x06
 	#define SR_ENCHANTTYPE_STAFF	0x0C
 
+	extern const stringvalue_t s_SrMapMarkerTypes[];
 	extern const stringvalue_t s_SrEnchantmentTypes[];
 	extern const stringvalue_t s_SrMagicEffectTypes[];
 	extern const stringvalue_t s_SrMagicSoundTypes[];
@@ -982,6 +984,9 @@
 
 	const SSCHAR* GetSrEnchantmentTypeString (const int Value);
 	bool GetSrEnchantmentTypeValue (int& Value, const SSCHAR* pString);
+
+	const SSCHAR* GetSrMapMarkerTypeString (const int Value);
+	bool GetSrMapMarkerTypeValue (int& Value, const SSCHAR* pString);
 
 /*===========================================================================
  *		End of Type Lookup Function Definitions

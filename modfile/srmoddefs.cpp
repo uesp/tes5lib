@@ -39,6 +39,63 @@ BEGIN_STRINGVALUE(s_SrMagicSchools)
 	ADD_STRINGVALUE( SR_MAGIC_SCHOOL_NONE,			"None")
 END_STRINGVALUE()
 
+BEGIN_STRINGVALUE(s_SrMapMarkerTypes)
+	ADD_STRINGVALUE( 0,		"None")
+	ADD_STRINGVALUE( 1,		"City")
+	ADD_STRINGVALUE( 2,		"Town")
+	ADD_STRINGVALUE( 3,		"Settlement")
+	ADD_STRINGVALUE( 4,		"Cave")
+	ADD_STRINGVALUE( 5,		"Camp")
+	ADD_STRINGVALUE( 6,		"Fort")
+	ADD_STRINGVALUE( 7,		"Nordic Ruins")
+	ADD_STRINGVALUE( 8,		"Dwemer Ruins")
+	ADD_STRINGVALUE( 9,		"Shipwreck")
+	ADD_STRINGVALUE( 10,	"Grove")
+	ADD_STRINGVALUE( 11,	"Landmark")
+	ADD_STRINGVALUE( 12,	"Dragon Lair")
+	ADD_STRINGVALUE( 13,	"Farm")
+	ADD_STRINGVALUE( 14,	"Wood Mill")
+	ADD_STRINGVALUE( 15,	"Mine")
+	ADD_STRINGVALUE( 16,	"Imperial Camp")
+	ADD_STRINGVALUE( 17,	"Stormcloak Camp")
+	ADD_STRINGVALUE( 18,	"Doomstone")
+	ADD_STRINGVALUE( 19,	"Wheat Mill")
+	ADD_STRINGVALUE( 20,	"Smelter")
+	ADD_STRINGVALUE( 21,	"Stable")
+	ADD_STRINGVALUE( 22,	"Imperial Tower")
+	ADD_STRINGVALUE( 23,	"Clearing")
+	ADD_STRINGVALUE( 24,	"Pass")
+	ADD_STRINGVALUE( 25,	"Altar")
+	ADD_STRINGVALUE( 26,	"Rock")
+	ADD_STRINGVALUE( 27,	"Lighthouse")
+	ADD_STRINGVALUE( 28,	"Orc Stronghold")
+	ADD_STRINGVALUE( 29,	"Giant Camp")
+	ADD_STRINGVALUE( 30,	"Shack")
+	ADD_STRINGVALUE( 31,	"Nordic Tower")
+	ADD_STRINGVALUE( 32,	"Nordic Dwelling")
+	ADD_STRINGVALUE( 33,	"Dock")
+	ADD_STRINGVALUE( 34,	"Shrine")
+	ADD_STRINGVALUE( 35,	"Riften Castle")
+	ADD_STRINGVALUE( 36,	"Riften Capitol")
+	ADD_STRINGVALUE( 37,	"Windhelm Castle")
+	ADD_STRINGVALUE( 38,	"Windhelm Capitol")
+	ADD_STRINGVALUE( 39,	"Whiterun Castle")
+	ADD_STRINGVALUE( 40,	"Whiterun Capitol")
+	ADD_STRINGVALUE( 41,	"Solitude Castle")
+	ADD_STRINGVALUE( 42,	"Solitude Capitol")
+	ADD_STRINGVALUE( 43,	"Markarth Castle")
+	ADD_STRINGVALUE( 44,	"Markarth Capitol")
+	ADD_STRINGVALUE( 45,	"Winterhold Castle")
+	ADD_STRINGVALUE( 46,	"Winterhold Capitol")
+	ADD_STRINGVALUE( 47,	"Morthal Castle")
+	ADD_STRINGVALUE( 48,	"Morthal Capitol")
+	ADD_STRINGVALUE( 49,	"Falkreath Castle")
+	ADD_STRINGVALUE( 50,	"Falkreath Capitol")
+	ADD_STRINGVALUE( 51,	"Dawnstar Castle")
+	ADD_STRINGVALUE( 52,	"Dawnstar Capitol")
+END_STRINGVALUE()
+
+
 	/* Note: Same as AV but assumed to be limited in scope */
 BEGIN_STRINGVALUE(s_SrMagicResistTypes)
 	ADD_STRINGVALUE( SR_MAGIC_TYPE_EXTRADMG,	"Damage")
@@ -792,6 +849,7 @@ const SSCHAR* GetSrScriptPropertyTypeString (const int Value) { return s_SrScrip
 const SSCHAR* GetSrSoundVolumeString (const int Value) { return s_SrSoundVolumesMap.FindValue(Value); }
 const SSCHAR* GetSrMagicSoundTypeString (const int Value) { return s_SrMagicSoundTypesMap.FindValue(Value); }
 const SSCHAR* GetSrMagicEffectTypeString (const int Value) { return s_SrMagicEffectTypesMap.FindValue(Value); }
+const SSCHAR* GetSrMapMarkerTypeString (const int Value) { return s_SrMapMarkerTypesMap.FindValue(Value); }
 
 const SSCHAR* GetSrLightTypeFlagString 	(const dword LightFlags) 
 {
@@ -861,6 +919,7 @@ bool GetSrScriptPropertyTypeValue (int& Value, const SSCHAR* pString) { return s
 bool GetSrSoundVolumeValue (int& Value, const SSCHAR* pString) { return s_SrSoundVolumesMap.FindString(Value, pString); }
 bool GetSrMagicSoundTypeValue (int& Value, const SSCHAR* pString) { return s_SrMagicSoundTypesMap.FindString(Value, pString); }
 bool GetSrMagicEffectTypeValue (int& Value, const SSCHAR* pString) { return s_SrMagicEffectTypesMap.FindString(Value, pString); }
+bool GetSrMapMarkerTypeValue (int& Value, const SSCHAR* pString) { return s_SrMapMarkerTypesMap.FindString(Value, pString); }
 
 bool GetSrLightTypeFlagValue  (dword& LightFlags, const SSCHAR* pString) 
 {
@@ -921,6 +980,7 @@ bool SrFixupFormid (srformid_t& OutputFormID, const srformid_t OrigFormID, CSrFo
   {
     AddSrGeneralError("Warning: Modindex of form 0x%08X is not valid (must be 0-%d)!", OrigFormID, FixupArray.GetSize()-1);
     //return (false); //Turn into just a warning?
+	return true;
   }
   
   NewModIndex  = FixupArray[OldModIndex];

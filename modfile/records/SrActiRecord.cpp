@@ -12,7 +12,7 @@
 #include "srActirecord.h"
 
 
-sractidestdata_t CSrActiRecord::s_NullDestData;
+srdestdata_t CSrActiRecord::s_NullDestData;
 
 
 /*===========================================================================
@@ -27,7 +27,7 @@ BEGIN_SRSUBRECCREATE(CSrActiRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_DMDS, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_PNAM, CSrDwordSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_KNAM, CSrFormidSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_DEST, CSrActiDestSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_DEST, CSrDestSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_VMAD, CSrVmadSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODT, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MODS, CSrDataSubrecord::Create)
@@ -54,10 +54,11 @@ BEGIN_SRFIELDMAP(CSrActiRecord, CSrIdRecord)
 	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,		0, CSrActiRecord, FieldItemName)
 	ADD_SRFIELDALL("Model",			SR_FIELD_MODEL,			0, CSrActiRecord, FieldModel)
 	ADD_SRFIELDALL("DestroyModel",	SR_FIELD_DESTROYMODEL,	0, CSrActiRecord, FieldDestroyModel)
-	ADD_SRFIELDALL("Unknown1",		SR_FIELD_UNKNOWN1,		0, CSrActiRecord, FieldUnknown1)
-	ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrActiRecord, FieldUnknown2)
-	ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,		0, CSrActiRecord, FieldUnknown3)
-	ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,		0, CSrActiRecord, FieldUnknown4)
+	ADD_SRFIELDALL("Health",		SR_FIELD_HEALTH,		0, CSrActiRecord, FieldHealth)
+	ADD_SRFIELDALL("Color",			SR_FIELD_COLOR,			0, CSrActiRecord, FieldColor)
+	//ADD_SRFIELDALL("Unknown2",		SR_FIELD_UNKNOWN2,		0, CSrActiRecord, FieldUnknown2)
+	//ADD_SRFIELDALL("Unknown3",		SR_FIELD_UNKNOWN3,		0, CSrActiRecord, FieldUnknown3)
+	//ADD_SRFIELDALL("Unknown4",		SR_FIELD_UNKNOWN4,		0, CSrActiRecord, FieldUnknown4)
 	ADD_SRFIELDALL("AmbientSound",	SR_FIELD_AMBIENTSOUND,	0, CSrActiRecord, FieldAmbientSound)
 	ADD_SRFIELDALL("UseSound",		SR_FIELD_USESOUND,		0, CSrActiRecord, FieldUseSound)
 	ADD_SRFIELDALL("Water",			SR_FIELD_WATER,			0, CSrActiRecord, FieldWater)
@@ -86,6 +87,7 @@ CSrActiRecord::CSrActiRecord ()
 	m_pPnamData = NULL;
 	m_pVerb = NULL;
 	m_pKeyword = NULL;
+	m_pColor = NULL;
 }
 /*===========================================================================
  *		End of Class CSrActiRecord Constructor
@@ -109,6 +111,7 @@ void CSrActiRecord::Destroy (void)
 	m_pPnamData = NULL;
 	m_pVerb = NULL;
 	m_pKeyword = NULL;
+	m_pColor = NULL;
 
 	CSrIdRecord::Destroy();
 }
@@ -163,6 +166,7 @@ void CSrActiRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	else if (pSubrecord->GetRecordType() == SR_NAME_PNAM)
 	{
 		m_pPnamData = SrCastClass(CSrDwordSubrecord, pSubrecord);
+		m_pColor = SrCastClass(CSrDwordSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_KNAM)
 	{
@@ -170,7 +174,7 @@ void CSrActiRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_DEST)
 	{
-		m_pDestructionData = SrCastClass(CSrActiDestSubrecord, pSubrecord);
+		m_pDestructionData = SrCastClass(CSrDestSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_VMAD)
 	{

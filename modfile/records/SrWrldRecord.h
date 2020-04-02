@@ -16,7 +16,8 @@
  * Begin Required Includes
  *
  *=========================================================================*/
-  #include "sridrecord.h"
+	#include "sridrecord.h"
+	#include "../subrecords/srlstringsubrecord.h"
 /*===========================================================================
  *		End of Required Includes
  *=========================================================================*/
@@ -29,9 +30,9 @@
  *=========================================================================*/
 class CSrWrldRecord : public CSrIdRecord 
 {
-  DECLARE_SRSUBRECCREATE()
-  DECLARE_SRFIELDMAP()
-  DECLARE_SRCLASS(CSrWrldRecord, CSrIdRecord)
+	DECLARE_SRSUBRECCREATE()
+	DECLARE_SRFIELDMAP()
+	DECLARE_SRCLASS(CSrWrldRecord, CSrIdRecord)
 
   /*---------- Begin Protected Class Members --------------------*/
 protected:
@@ -40,7 +41,7 @@ protected:
 	CSrSubrecord*		m_pRnamData;
 	CSrSubrecord*		m_pCnamData;
 	CSrSubrecord*		m_pXlcnData;
-	CSrSubrecord*		m_pFullData;
+	CSrLStringSubrecord*		m_pItemName;
 	CSrSubrecord*		m_pNam2Data;
 	CSrSubrecord*		m_pMnamData;
 	CSrSubrecord*		m_pNam3Data;
@@ -69,25 +70,26 @@ protected:
   /*---------- Begin Public Class Methods -----------------------*/
 public:
 
-	/* Class Constructors/Destructors */
-  CSrWrldRecord();
-  virtual void Destroy (void);
+		/* Class Constructors/Destructors */
+	CSrWrldRecord();
+	virtual void Destroy (void);
 
     	/* Return a new instance of the class */
-  static CSrRecord* Create (void) { return new CSrWrldRecord; }
+	static CSrRecord* Create (void) { return new CSrWrldRecord; }
 
-	/* Get class members */
+		/* Get class members */
   
 
-	/* Initialize a new record */
-  void InitializeNew (void);
+		/* Initialize a new record */
+	void InitializeNew (void);
 
-	/* Called to alert record of a new subrecord being added */
-  virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
-  virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
+		/* Called to alert record of a new subrecord being added */
+	virtual void OnAddSubrecord    (CSrSubrecord* pSubrecord);
+	virtual void OnDeleteSubrecord (CSrSubrecord* pSubrecord);
 
 
-  /* Begin field method definitions */
+		/* Begin field method definitions */
+	DECLARE_SRFIELD_ITEMNAME(CSrWrldRecord)
 
 
 };

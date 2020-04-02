@@ -485,6 +485,7 @@ BEGIN_STRINGVALUE(s_SrFields)
 	ADD_STRINGVALUE( SR_FIELD_NODUALCASTMODS,	"NoDualCastMods")
 	ADD_STRINGVALUE( SR_FIELD_SCRIPTALWAYSAPPLIES, "ScriptAlwaysApplies")
 	ADD_STRINGVALUE( SR_FIELD_FORCEEXPLODE		,  "ForceExplode")
+	ADD_STRINGVALUE( SR_FIELD_MARKERFLAGS,		"MarkerFlags")
 END_STRINGVALUE()
 /*===========================================================================
  *		End of Field Text Strings

@@ -23,7 +23,7 @@ BEGIN_SRSUBRECCREATE(CSrWrldRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_RNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_CNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XLCN, CSrDataSubrecord::Create)
-	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrDataSubrecord::Create)
+	DEFINE_SRSUBRECCREATE(SR_NAME_FULL, CSrLStringSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM2, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_MNAM, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_NAM3, CSrDataSubrecord::Create)
@@ -43,7 +43,6 @@ BEGIN_SRSUBRECCREATE(CSrWrldRecord, CSrIdRecord)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XXXX, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_LTMP, CSrDataSubrecord::Create)
 	DEFINE_SRSUBRECCREATE(SR_NAME_XEZN, CSrDataSubrecord::Create)
-
 END_SRSUBRECCREATE()
 /*===========================================================================
  *		End of Subrecord Creation Array
@@ -56,6 +55,7 @@ END_SRSUBRECCREATE()
  *
  *=========================================================================*/
 BEGIN_SRFIELDMAP(CSrWrldRecord, CSrIdRecord)
+	ADD_SRFIELDALL("ItemName",		SR_FIELD_ITEMNAME,			0, CSrWrldRecord, FieldItemName)
 END_SRFIELDMAP()
 /*===========================================================================
  *		End of CObRecord Field Map
@@ -69,6 +69,7 @@ END_SRFIELDMAP()
  *=========================================================================*/
 CSrWrldRecord::CSrWrldRecord () 
 {
+	m_pItemName = NULL;
 }
 /*===========================================================================
  *		End of Class CSrWrldRecord Constructor
@@ -82,6 +83,8 @@ CSrWrldRecord::CSrWrldRecord ()
  *=========================================================================*/
 void CSrWrldRecord::Destroy (void) 
 {
+	m_pItemName = NULL;
+
 	CSrIdRecord::Destroy();
 }
 /*===========================================================================
@@ -136,7 +139,7 @@ void CSrWrldRecord::OnAddSubrecord (CSrSubrecord* pSubrecord) {
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_FULL)
 	{
-		m_pFullData = SrCastClass(CSrDataSubrecord, pSubrecord);
+		m_pItemName = SrCastClass(CSrLStringSubrecord, pSubrecord);
 	}
 	else if (pSubrecord->GetRecordType() == SR_NAME_NAM2)
 	{
@@ -243,8 +246,8 @@ void CSrWrldRecord::OnDeleteSubrecord (CSrSubrecord* pSubrecord) {
 		m_pCnamData = NULL;
 	else if (m_pXlcnData == pSubrecord)
 		m_pXlcnData = NULL;
-	else if (m_pFullData == pSubrecord)
-		m_pFullData = NULL;
+	else if (m_pItemName == pSubrecord)
+		m_pItemName = NULL;
 	else if (m_pNam2Data == pSubrecord)
 		m_pNam2Data = NULL;
 	else if (m_pMnamData == pSubrecord)

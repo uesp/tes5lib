@@ -361,7 +361,6 @@ dword CSrEspFile::Find (srfinddata_t& FindData, CSrCallback* pCallback) {
 CSString* CSrEspFile::FindLocalString (const srlstringid_t ID)
 {
 	return m_StringMap.Lookup(ID);
-	//return m_StringMap[ID];
 }
 /*===========================================================================
  *		End of Class Method CSrEspFile::FindLocalString()
@@ -373,28 +372,30 @@ CSString* CSrEspFile::FindLocalString (const srlstringid_t ID)
  * Class CSrEspFile Method - CSrTypeGroup* GetTypeGroup (Type);
  *
  *=========================================================================*/
-CSrTypeGroup* CSrEspFile::GetTypeGroup (const srrectype_t Type) {
-  CSrBaseRecord* pRecord;
-  CSrGroup*	 pGroup;
-  CSrTypeGroup*	 pTypeGroup;
-  dword		 Index;
+CSrTypeGroup* CSrEspFile::GetTypeGroup (const srrectype_t Type) 
+{
+	CSrBaseRecord*	pRecord;
+	CSrGroup*		 pGroup;
+	CSrTypeGroup*	 pTypeGroup;
+	dword			 Index;
 
-	/* Search all top level groups for a match */
-  for (Index = 0; Index < m_Records.GetNumRecords(); ++Index) {
-    pRecord = m_Records.GetRecords().GetAt(Index);
+		/* Search all top level groups for a match */
+	for (Index = 0; Index < m_Records.GetNumRecords(); ++Index) 
+	{
+		pRecord = m_Records.GetRecords().GetAt(Index);
 
-    if (!pRecord->IsGroup()) continue;
-    pGroup = SrCastClass(CSrGroup, pRecord);
-    if (pGroup == NULL) continue;
-    if (pGroup->GetType() != SR_GROUP_TYPE) continue;
-    pTypeGroup = SrCastClass(CSrTypeGroup, pGroup);
-    if (pTypeGroup == NULL) continue;
+		if (!pRecord->IsGroup()) continue;
+		pGroup = SrCastClass(CSrGroup, pRecord);
+		if (pGroup == NULL) continue;
+		if (pGroup->GetType() != SR_GROUP_TYPE) continue;
+		pTypeGroup = SrCastClass(CSrTypeGroup, pGroup);
+		if (pTypeGroup == NULL) continue;
 
-    if (Type == pTypeGroup->GetContainsType()) return (pTypeGroup);
-   }
+		if (Type == pTypeGroup->GetContainsType()) return (pTypeGroup);
+	}
 
-  return (NULL);
- }
+	return (NULL);
+}
 /*===========================================================================
  *		End of Class Method CSrEspFile::GetTypeGroup()
  *=========================================================================*/

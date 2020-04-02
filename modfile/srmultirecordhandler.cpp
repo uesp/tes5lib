@@ -29,6 +29,7 @@
 #include "srmultirecordhandler.h"
 #include "../common/srtime.h"
 #include "srimport.h"
+#include "srexport.h"
 
 
 /*===========================================================================
@@ -1879,6 +1880,7 @@ bool CSrMultiRecordHandler::Load (srfileloadinfo_t& LoadInfo, CSrCallback* pCall
 
   SrEndTimer(Timer, "Created primary record/group tree in ");
   SrEndTimer(AllTimer, "Loaded and initialized all files in ");
+    
   return (true);
 }
 /*===========================================================================

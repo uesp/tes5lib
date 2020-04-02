@@ -28,7 +28,7 @@
  *
  *=========================================================================*/
 
-	#define SR_DNAM_SUBRECORD_SIZE	8
+	#define SR_DNAM_SUBRECORD_SIZE	12
 
 /*===========================================================================
  *		End of Definitions
@@ -46,6 +46,7 @@
 	{
 		float		Scale;
 		srformid_t	MaterialID;
+		dword		Unknown1;
 	};
 
 #pragma pack(pop)
@@ -73,8 +74,8 @@ protected:
 protected:
 
 	/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_DNAM_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_DNAM_SUBRECORD_SIZE); }
-  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_DNAM_SUBRECORD_SIZE) return File.Write(&m_Data, SR_DNAM_SUBRECORD_SIZE); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_DNAM_SUBRECORD_SIZE) return File.Read(&m_Data,  m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_DNAM_SUBRECORD_SIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/

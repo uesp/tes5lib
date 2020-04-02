@@ -87,8 +87,8 @@
 
 	/* File operators */
 #ifdef _WIN32
-  #define SrFtell64(pFile) _telli64(pFile->_file)
-  #define SrFseek64(pFile, Offset, Flag) _lseeki64(pFile->_file, Offset, Flag)
+  #define SrFtell64(pFile) _telli64(_fileno(pFile))
+  #define SrFseek64(pFile, Offset, Flag) _lseeki64(_fileno(pFile), Offset, Flag)
 #else
   #define SrFtell64(pFile) ftello64(pFile)
   #define SrFseek64(pFile, Offset, Flag) fseeko64(pFile, Offset, Flag)

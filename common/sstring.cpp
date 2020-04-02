@@ -476,21 +476,21 @@ void CSString::Escape (void) {
 
     switch (pOldString[OldIndex]) {
       case ' ':
+	  case '\'':
       case '\n':
       case '\r':
       case '%':
       case '"':
-      case '\'':
       case 0:
         m_pString[NewIndex + 0] = '%';
-	m_pString[NewIndex + 1] = s_HexBytes[(pOldString[OldIndex]) >> 4 & 0x0F];
-	m_pString[NewIndex + 2] = s_HexBytes[pOldString[OldIndex] & 0x0F];
+		m_pString[NewIndex + 1] = s_HexBytes[(pOldString[OldIndex]) >> 4 & 0x0F];
+		m_pString[NewIndex + 2] = s_HexBytes[pOldString[OldIndex] & 0x0F];
         NewIndex += 3;
-	break;
+		break;
       default:
         m_pString[NewIndex] = pOldString[OldIndex];
-	++NewIndex;
-	break;
+		++NewIndex;
+		break;
     }
 
     ++OldIndex; 

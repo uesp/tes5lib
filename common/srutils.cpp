@@ -52,8 +52,13 @@ bool GetSrInstallPath (CSString& OutputBuffer)
 
 	  if (Result != ERROR_SUCCESS)
 	  {
-		AddSrGeneralError("Failed to find Skyrim's install path in the Windows registry!");
-		return (false);
+		Result = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Wow6432Node\\Bethesda Softworks\\Skyrim Special Edition", 0, KEY_READ, &hKey);
+
+		if (Result != ERROR_SUCCESS)
+		{
+			AddSrGeneralError("Failed to find Skyrim's install path in the Windows registry!");
+			return (false);
+		}
 	  }
   }
 

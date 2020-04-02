@@ -29,7 +29,7 @@
  *=========================================================================*/
 
 		/* Standard AMMO-DATA subrecord size in bytes */
-	#define SR_AMMODATA_SUBRECORD_SIZE	16
+	#define SR_AMMODATA_SUBRECORD_SIZE	20
   
 		/* Ammo data flags */
 	#define SR_AMMOFLAG_IGNORERESIST	0x00000001
@@ -54,6 +54,7 @@
 		dword		Flags;
 		float		Damage;
 		dword		Value;
+		dword		Unknown1;
 	};
 
 #pragma pack(pop)
@@ -81,8 +82,8 @@ protected:
 protected:
 
 		/* Input/output the subrecord data */
-  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_AMMODATA_SUBRECORD_SIZE) return File.Read(&m_Data,  SR_AMMODATA_SUBRECORD_SIZE); }
-  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE(SR_AMMODATA_SUBRECORD_SIZE) return File.Write(&m_Data, SR_AMMODATA_SUBRECORD_SIZE); }
+  virtual bool ReadData  (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_AMMODATA_SUBRECORD_SIZE) return File.Read(&m_Data,  m_RecordSize); }
+  virtual bool WriteData (CSrFile& File) { SR_VERIFY_SUBRECORDSIZE_MAX(SR_AMMODATA_SUBRECORD_SIZE) return File.Write(&m_Data, m_RecordSize); }
 
 
   /*---------- Begin Public Class Methods -----------------------*/
